@@ -15,7 +15,7 @@
 // 7. Paste that URL into index.html where it says APPS_SCRIPT_URL
 // ============================================================
 
-const SHEET_ID = 'https://docs.google.com/spreadsheets/d/1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4/edit?gid=0#gid=0'; // Replace this
+const SHEET_ID = '1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4'; // Replace this
 const SHEET_NAME = 'Registrations';
 const FAKE_SHEET = 'Fake_Data';
 
