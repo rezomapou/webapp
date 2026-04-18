@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="ht"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Tablodbò Rezo — RMN</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"><style>:root{--gold:#C8A84B;--forest:#1E4D2B;--earth-dark:#3A2210;--cream:#F7F3EC;--cream-dark:#EDE7D8;--charcoal:#1A1A18;--muted:#6B6455;--border:rgba(90,70,40,0.15);}*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--cream-dark);color:var(--charcoal);font-size:15px;line-height:1.6;}.top-bar{background:var(--earth-dark);padding:12px 2rem;display:flex;justify-content:space-between;align-items:center;}.top-bar a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;}.top-bar a:hover{color:var(--gold);}.top-bar span{font-size:12px;color:rgba(255,255,255,0.35);}nav{background:var(--forest);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}.nav-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:white;}.nav-sub{font-size:12px;color:rgba(255,255,255,0.55);}.refresh-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 16px;border-radius:2px;cursor:pointer;transition:background 0.2s;}.refresh-btn:hover{background:rgba(255,255,255,0.2);}.main{max-width:1200px;margin:0 auto;padding:2rem;}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}.metric-card{background:white;border:1px solid var(--border);border-radius:4px;padding:1.5rem;text-align:center;}.metric-number{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--forest);display:block;line-height:1;margin-bottom:4px;}.metric-label{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}.card{background:white;border:1px solid var(--border);border-radius:4px;padding:1.5rem;}.card-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--charcoal);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}.card-title span{font-size:11px;font-weight:400;color:var(--muted);font-family:'DM Sans',sans-serif;letter-spacing:0.06em;text-transform:uppercase;}.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}.bar-label{font-size:13px;color:var(--muted);min-width:140px;font-weight:400;}.bar-track{flex:1;background:var(--cream-dark);border-radius:2px;height:8px;overflow:hidden;}.bar-fill{height:100%;background:var(--forest);border-radius:2px;transition:width 0.8s ease;}.bar-count{font-size:12px;font-weight:500;color:var(--forest);min-width:28px;text-align:right;}.recent-table{width:100%;border-collapse:collapse;}.recent-table th{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:2px solid var(--border);}.recent-table td{font-size:13px;color:var(--charcoal);padding:10px 12px;border-bottom:1px solid var(--border);}.recent-table tr:last-child td{border-bottom:none;}.badge-fake{font-size:10px;background:#FFF3CD;color:#856404;padding:2px 8px;border-radius:2px;font-weight:500;}.loading{text-align:center;padding:3rem;color:var(--muted);font-size:14px;}.note{font-size:12px;color:var(--muted);font-style:italic;margin-top:1.5rem;padding:1rem;background:white;border-left:3px solid var(--gold);border-radius:0 4px 4px 0;}@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr);}.grid2{grid-template-columns:1fr;}}</style></head><body>
+<div class="top-bar"><a href="index.html">← Retounen sou sit la</a><span id="last-refresh">—</span></div>
+<nav>
+  <div><div class="nav-title">Tablodbò Rezo — RMN</div><div class="nav-sub">Enskripsyon an tan reyèl</div></div>
+  <button class="refresh-btn" onclick="loadData()">⟳ Aktyalize</button>
+</nav>
+<main class="main">
+  <div id="loading" class="loading">Ap chaje done...</div>
+  <div id="content" style="display:none">
+    <div class="metrics">
+      <div class="metric-card"><span class="metric-number" id="m-total">0</span><div class="metric-label">Total Enskri</div></div>
+      <div class="metric-card"><span class="metric-number" id="m-real">0</span><div class="metric-label">Reyèl</div></div>
+      <div class="metric-card"><span class="metric-number" id="m-depts">0</span><div class="metric-label">Depatman Reprezante</div></div>
+      <div class="metric-card"><span class="metric-number" id="m-communes">0</span><div class="metric-label">Komin Reprezante</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Pa Depatman <span>Top 10</span></div>
+        <div id="dept-bars"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Pa Komin <span>Top 10</span></div>
+        <div id="commune-bars"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Dènye Enskripsyon <span>10 dènye</span></div>
+      <table class="recent-table">
+        <thead><tr><th>Non</th><th>Depatman</th><th>Komin</th><th>Lè</th><th>Estati</th></tr></thead>
+        <tbody id="recent-rows"></tbody>
+      </table>
+    </div>
+    <div class="note">Done ak ⚠ FAKE yo se done tès. Yo estoke nan yon fich separe epi pa konte nan analiz reyèl yo. Pou wè sèlman done reyèl, filtre kolòn IS_FAKE = NO nan Google Sheets.</div>
+  </div>
+  <div id="no-config" style="display:none;text-align:center;padding:3rem;">
+    <p style="color:var(--muted);font-size:14px;">Tablodbò a poko konfigire. Ranplase <strong>APPS_SCRIPT_URL</strong> nan fichye <strong>index.html</strong> ak <strong>dashboard.html</strong> yo pou aktive entegrasyon Google Sheets la.</p>
+  </div>
+</main>
+<script>
+const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbyHy_m_nQutpsxV8k2GfN3MncuCcUbru29iTsw6bckNen7MB6ysYccACryo32MVu3wt/exec';
+function fmt(ts){try{const d=new Date(ts);return d.toLocaleDateString('fr-HT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});}catch(e){return ts;}}
+function bars(data,containerId,max){const c=document.getElementById(containerId);c.innerHTML='';const sorted=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,10);sorted.forEach(([k,v])=>{const pct=max>0?Math.round(v/max*100):0;c.innerHTML+=`<div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-count">${v}</div></div>`;});}
+async function loadData(){
+  if(APPS_SCRIPT_URL==='YOUR_APPS_SCRIPT_URL_HERE'){document.getElementById('loading').style.display='none';document.getElementById('no-config').style.display='block';return;}
+  document.getElementById('loading').style.display='block';
+  document.getElementById('content').style.display='none';
+  try{
+    const r=await fetch(APPS_SCRIPT_URL+'?t='+Date.now());
+    const d=await r.json();
+    document.getElementById('m-total').textContent=d.total||0;
+    document.getElementById('m-real').textContent=d.real||d.total||0;
+    document.getElementById('m-depts').textContent=Object.keys(d.by_dept||{}).length;
+    document.getElementById('m-communes').textContent=Object.keys(d.by_commune||{}).length;
+    const maxD=Math.max(...Object.values(d.by_dept||{1:1}));
+    const maxC=Math.max(...Object.values(d.by_commune||{1:1}));
+    bars(d.by_dept||{},    'dept-bars',maxD);
+    bars(d.by_commune||{},'commune-bars',maxC);
+    const tbody=document.getElementById('recent-rows');tbody.innerHTML='';
+    (d.recent||[]).forEach(row=>{tbody.innerHTML+=`<tr><td>${row.name||'—'}</td><td>${row.dept||'—'}</td><td>${row.commune||'—'}</td><td>${fmt(row.time)}</td><td>${row.fake?'<span class="badge-fake">⚠ FAKE</span>':'✓ Reyèl'}</td></tr>`;});
+    document.getElementById('last-refresh').textContent='Dènye aktyalizasyon: '+new Date().toLocaleTimeString('fr-HT');
+    document.getElementById('loading').style.display='none';
+    document.getElementById('content').style.display='block';
+  }catch(e){document.getElementById('loading').innerHTML='Erè koneksyon. Verifye URL Apps Script la.';}}
+loadData();
+setInterval(loadData,60000);
+</script>
+</body></html>
