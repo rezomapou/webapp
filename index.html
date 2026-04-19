@@ -16,7 +16,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charco
 .lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-dark);}
 nav{position:fixed;top:30px;left:0;right:0;z-index:99;background:rgba(247,243,236,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:58px;}
 .nav-brand{display:flex;align-items:center;gap:10px;}
-.nav-brand img{height:36px;width:auto;object-fit:contain;}
+.nav-brand img{height:36px;width:36px;object-fit:contain;background:white;border-radius:50%;padding:3px;}
 .nav-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--forest);}
 .nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;}
 .nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s;}
@@ -37,9 +37,9 @@ h1.hero-title .accent{color:var(--gold);}
 .btn-outline:hover{background:var(--earth);color:white;}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
 .hero-visual{display:flex;flex-direction:column;align-items:center;gap:1.25rem;}
-.hero-visual img{width:220px;height:auto;filter:drop-shadow(0 12px 40px rgba(30,77,43,0.18));animation:rise 1s ease forwards;opacity:0;}
+.hero-visual img{width:160px;height:160px;object-fit:contain;background:white;border-radius:50%;padding:12px;filter:drop-shadow(0 8px 24px rgba(30,77,43,0.2));animation:rise 1s ease forwards;opacity:0;}
 .hero-visual img:nth-child(1){animation-delay:0.1s;}
-.hero-visual img:nth-child(3){animation-delay:0.3s;width:190px;}
+.hero-visual img:nth-child(2){animation-delay:0.2s;}
 .hero-sep{width:1px;height:36px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);}
 @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 .stats{background:var(--earth-dark);padding:2.25rem 2rem;}
@@ -106,7 +106,7 @@ h2.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6
 .suc-share strong{color:var(--charcoal);display:block;margin-bottom:6px;}
 footer{background:var(--charcoal);color:rgba(255,255,255,0.45);padding:3rem 2rem 2rem;}
 .foot-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem;}
-.foot-brand img{height:42px;margin-bottom:1rem;filter:brightness(0) invert(0.6);}
+.foot-brand img{height:42px;margin-bottom:1rem;object-fit:contain;background:white;border-radius:50%;padding:4px;}
 .foot-tag{font-size:13px;line-height:1.75;font-weight:300;}
 .foot-contact{margin-top:0.9rem;font-size:12px;}
 .foot-contact a{color:var(--gold);text-decoration:none;}
@@ -157,8 +157,8 @@ footer{background:var(--charcoal);color:rgba(255,255,255,0.45);padding:3rem 2rem
       </div>
     </div>
     <div class="hero-visual">
-      <img src="rezo_mapou_logo.png" alt="Rezo Mapou">
-      <div class="hero-sep"></div>
+      
+      
     </div>
   </div>
 </section>
@@ -284,7 +284,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,0.45);padding:3rem 2rem
             <select name="location_type"><option value="">—</option><option value="haiti" data-i="loc_ht">Ann Ayiti</option><option value="diaspora" data-i="loc_dia">Dyaspora</option></select>
           </div>
           <div class="fg"><label data-i="forg">Òganizasyon / Antrepriz (opsyonèl)</label><input type="text" name="organisation" placeholder="Nom òg ou oswa antrepriz ou"></div>
-          <div class="fg"><label data-i="flogo">Lyen Logo / Foto Pwofil</label><input type="url" name="logo_url" placeholder="Lyen imaj sou Facebook, site ou, Google Drive..."></div>
+          <div class="fg"><label data-i="flogo">Lyen Logo / Foto Pwofil (opsyonèl)</label><input type="url" name="logo_url" placeholder="Lyen imaj sou Facebook, site ou, Google Drive..."></div>
           <div class="fg"><label data-i="fweb">Site Web (opsyonèl)</label><input type="url" name="website" placeholder="https://..."></div>
           <div class="fsec" data-i="cfs3">Rezo Sosyal</div>
           <div class="frow">
