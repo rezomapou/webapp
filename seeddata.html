@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Seed Data — Rezo Mapou</title>
+<style>
+body{font-family:monospace;background:#1A1A18;color:#C8A84B;padding:2rem;font-size:14px;line-height:1.6;}
+h1{color:#4A9B5F;margin-bottom:0.5rem;font-size:1.2rem;}
+.sub{color:#6B6455;font-size:12px;margin-bottom:2rem;}
+.log{background:#111;border:1px solid #333;border-radius:4px;padding:1.5rem;max-height:60vh;overflow-y:auto;margin-bottom:1.5rem;}
+.ok{color:#4A9B5F;}
+.err{color:#E24B4A;}
+.info{color:#C8A84B;}
+.dim{color:#444;}
+.btn{background:#1E4D2B;color:#C8A84B;border:1px solid #C8A84B;font-family:monospace;font-size:13px;padding:10px 24px;cursor:pointer;border-radius:2px;margin-right:8px;}
+.btn:hover{background:#2D6B3E;}
+.btn:disabled{opacity:0.4;cursor:not-allowed;}
+.progress{margin-top:1rem;font-size:12px;color:#6B6455;}
+a{color:#C8A84B;}
+</style>
+</head>
+<body>
+<h1>⚙ Rezo Mapou — Seed Data Tool</h1>
+<div class="sub">Cet outil envoie des données de test directement au Google Sheet. Ne pas partager cette URL publiquement.</div>
+<div class="log" id="log"><span class="dim">Prêt. Cliquez sur un bouton pour commencer.</span></div>
+<div>
+  <button class="btn" id="btn-s" onclick="seed('sentinelle',20)">▶ 20 Sentinèl</button>
+  <button class="btn" id="btn-c" onclick="seed('coach',5)">▶ 5 Coach</button>
+  <button class="btn" id="btn-all" onclick="seedAll()">▶ Tout (20S + 5C)</button>
+  <button class="btn" onclick="checkSheet()">⟳ Vérifier Sheet</button>
+</div>
+<div class="progress" id="progress"></div>
+<div style="margin-top:2rem;font-size:12px;color:#444;">
+  <a href="index.html">← Retour au site</a> &nbsp;·&nbsp; 
+  <a href="dashboard.html">Tablodbò →</a>
+</div>
+
+<script>
+const URL = 'https://script.google.com/macros/s/AKfycbxVy4bqgPFDj8pxwBttCCf1glc2T2uVoHfjv8AXL0ZEfc3bmMrqp3ZjrtevHEQWRccA/exec';
+
+const HAITI = {
+  ART:["Dessalines","Desdunes","Ennery","Gros-Morne","Marchand Dessalines","Marmelade","Saint-Marc","Verrettes"],
+  CTR:["Hinche","Lascahobas","Mirebalais","Boucan Carré","Thomonde"],
+  GDA:["Jérémie","Dame-Marie","Les Irois","Moron","Roseaux"],
+  NIP:["Anse-à-Veau","Miragoane","Fond des Nègres","Paillant"],
+  NOR:["Cap-Haïtien","Limonade","Milot","Pilate","Trou-du-Nord","Plaisance"],
+  NRE:["Ouanaminthe","Fort-Liberté","Terrier Rouge","Mont-Organisé"],
+  NRO:["Port-de-Paix","Jean Rabel","Bassin Bleu","Môle Saint-Nicolas"],
+  OUE:["Port-au-Prince","Delmas","Carrefour","Pétion-Ville","Cité Soleil","Croix des Bouquets","Léogâne","Arcahaie"],
+  SUD:["Les Cayes","Aquin","Camp Perrin","Cavaillon","Port-Salut"],
+  SDE:["Jacmel","Belle Anse","Cayes-Jacmel","Marigot"]
+};
+
+const DEPT_NAMES = {
+  ART:"Artibonite",CTR:"Centre",GDA:"Grand'Anse",NIP:"Nippes",
+  NOR:"Nord",NRE:"Nord-Est",NRO:"Nord-Ouest",OUE:"Ouest",SUD:"Sud",SDE:"Sud-Est"
+};
+
+const WEIGHTS = {
+  "Port-au-Prince":20,"Delmas":12,"Carrefour":10,"Pétion-Ville":8,
+  "Cité Soleil":7,"Cap-Haïtien":9,"Saint-Marc":5,"Les Cayes":5,
+  "Croix des Bouquets":5,"Léogâne":3,"Ouanaminthe":3,"Hinche":3
+};
+
+const S_NAMES = [
+  ["Marie","Desroches"],["Jean","Baptiste"],["Roseline","Pierre"],["Claude","Mentor"],
+  ["Nadège","Joseph"],["Frantz","Celestin"],["Sophia","Duval"],["Patrick","Lamarre"],
+  ["Kettely","François"],["Dieuseul","Blanc"],["Yanick","Charles"],["Farah","Estimé"],
+  ["Luckson","Dorismond"],["Mireille","Augustin"],["Edwige","Prophète"],
+  ["Roberson","Casimir"],["Guerda","Sainvil"],["Widler","Thermidor"],
+  ["Junie","Beaubrun"],["Kervens","Toussaint"],["Marlène","Lubin"],
+  ["Samson","Dorsainvil"],["Yvelise","Noël"],["Joël","Hyppolite"]
+];
+
+const C_NAMES = [
+  ["Robert","Lafortune"],["Claudine","Thermidor"],["Pierre","Estimé"],
+  ["Danièle","Morisseau"],["Jacques","Célestin"]
+];
+
+const ACTS = ["Machann dlo","Machann manje","Machann legim","Boutik","Machann frèt","Kwafè","Mekanisyen","Machann rad","Epicerie","Machann poul","Machann chabon","Boulanje"];
+const PAYS = ["moncash","natcash","cash","moncash","moncash","natcash"];
+
+function weightedLoc() {
+  const pool = [];
+  Object.entries(HAITI).forEach(([code, communes]) => {
+    communes.forEach(c => {
+      const w = WEIGHTS[c] || 1;
+      for (let i = 0; i < w; i++) pool.push({code, commune: c});
+    });
+  });
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function makeSentinelle(i) {
+  const loc = weightedLoc();
+  const n = S_NAMES[i % S_NAMES.length];
+  return {
+    type: 'sentinelle',
+    prenom: n[0], nom: n[1],
+    email: `s${i}.${Date.now()}@rmn-seed.net`,
+    telephone: `+509${Math.floor(30000000 + Math.random()*9999999)}`,
+    whatsapp: '',
+    departement: DEPT_NAMES[loc.code],
+    commune: loc.commune,
+    zone: '',
+    activite: ACTS[Math.floor(Math.random() * ACTS.length)],
+    video: '',
+    facebook: '', instagram: '', tiktok: '', youtube: '',
+    paiement: PAYS[Math.floor(Math.random() * PAYS.length)],
+    message: '',
+    langue: 'ht',
+    source: 'seedtool',
+    _fake: 'true'
+  };
+}
+
+function makeCoach(i) {
+  const n = C_NAMES[i % C_NAMES.length];
+  const diaspora = i % 3 === 0;
+  return {
+    type: 'coach',
+    prenom: n[0], nom: n[1],
+    email: `c${i}.${Date.now()}@rmn-seed.net`,
+    telephone: diaspora ? `+1305${Math.floor(1000000+Math.random()*9000000)}` : `+509${Math.floor(30000000+Math.random()*9999999)}`,
+    whatsapp: '',
+    location_type: diaspora ? 'diaspora' : 'haiti',
+    organisation: diaspora ? 'Diaspora Supporter' : '',
+    logo_url: '', website: '',
+    facebook: '', instagram: '', tiktok: '', youtube: '',
+    message: 'Seed data — test coach',
+    langue: 'ht',
+    source: 'seedtool',
+    _fake: 'true'
+  };
+}
+
+const log = document.getElementById('log');
+const prog = document.getElementById('progress');
+
+function addLog(msg, cls='info') {
+  const line = document.createElement('div');
+  line.className = cls;
+  line.textContent = new Date().toLocaleTimeString() + ' — ' + msg;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+
+async function sendOne(data) {
+  const p = new URLSearchParams();
+  Object.entries(data).forEach(([k,v]) => p.append(k, String(v)));
+  await fetch(URL, {method:'POST', body:p, mode:'no-cors'});
+}
+
+async function seed(type, count) {
+  const btns = document.querySelectorAll('.btn');
+  btns.forEach(b => b.disabled = true);
+  addLog(`Envoi de ${count} ${type}(s)...`, 'info');
+  
+  for (let i = 0; i < count; i++) {
+    try {
+      const data = type === 'sentinelle' ? makeSentinelle(i) : makeCoach(i);
+      await sendOne(data);
+      addLog(`✓ ${type} ${i+1}/${count} — ${data.prenom} ${data.nom} (${data.commune||data.location_type})`, 'ok');
+      prog.textContent = `${i+1} / ${count} envoyé(s)`;
+      await new Promise(r => setTimeout(r, 600));
+    } catch(e) {
+      addLog(`✗ Erreur ${i+1}: ${e.message}`, 'err');
+    }
+  }
+  
+  addLog(`✅ Terminé — ${count} ${type}(s) envoyé(s). Vérifiez le Google Sheet.`, 'ok');
+  prog.textContent = '';
+  btns.forEach(b => b.disabled = false);
+  
+  // Auto-check after seeding
+  await new Promise(r => setTimeout(r, 2000));
+  checkSheet();
+}
+
+async function seedAll() {
+  await seed('sentinelle', 20);
+  await seed('coach', 5);
+}
+
+async function checkSheet() {
+  addLog('Vérification du Sheet...', 'dim');
+  try {
+    const r = await fetch(URL + '?t=' + Date.now());
+    const d = await r.json();
+    addLog(`Sheet: ${d.sentinelles||0} sentinèl · ${d.coaches||0} coach`, 
+           (d.sentinelles > 0 || d.coaches > 0) ? 'ok' : 'err');
+    if (d.sentinelles === 0 && d.coaches === 0) {
+      addLog('⚠ Sheet vide — les données ne parviennent pas au script.', 'err');
+      addLog('→ Vérifiez que le script v3 est bien déployé (Deploy → Manage → New version)', 'err');
+    }
+  } catch(e) {
+    addLog('Erreur de connexion au sheet: ' + e.message, 'err');
+  }
+}
+
+// Auto-check on load
+checkSheet();
+</script>
+</body>
+</html>
