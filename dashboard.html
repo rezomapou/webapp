@@ -21,7 +21,7 @@
   </div>
 </main>
 <script>
-const URL='https://script.google.com/macros/s/AKfycbzWaijHjCrFrMOcGF2AOtzUP1oWqQKeT57l_YXwVtEjPEvFlsSVYG9EPGuj-Jfe40aV/execc';
+const URL='https://script.google.com/macros/s/AKfycbzWaijHjCrFrMOcGF2AOtzUP1oWqQKeT57l_YXwVtEjPEvFlsSVYG9EPGuj-Jfe40aV/exec';
 function bars(data,id,max){const c=document.getElementById(id);c.innerHTML='';const sorted=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,10);if(!sorted.length){c.innerHTML='<p style="font-size:13px;color:var(--muted)">Pa gen done pou kounye a.</p>';return;}sorted.forEach(([k,v])=>{const pct=max>0?Math.round(v/max*100):0;c.innerHTML+=`<div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-count">${v}</div></div>`;});}
 async function loadData(){
   document.getElementById('loading').style.display='block';
