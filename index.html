@@ -3,349 +3,365 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Rezo Mapou </title>
-<meta name="description" content="Rezo Mapou — Rezo sivik ak anviwònman nasyonal Ayiti.">
+<title>Rezo Mapou — Rezo Machann Nasyonal</title>
+<meta name="description" content="Rezo Mapou — rezo sipò pou machann ak antreprenè Ayiti. Map Sipote Lakay.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#C8A84B;--gold-light:#E8D5A0;--earth:#5C3D1E;--earth-dark:#3A2210;--forest:#1E4D2B;--forest-mid:#2D6B3E;--cream:#F7F3EC;--cream-dark:#EDE7D8;--charcoal:#1A1A18;--muted:#6B6455;--border:rgba(90,70,40,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);font-size:16px;line-height:1.7;overflow-x:hidden;}
-.lang-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--earth-dark);display:flex;justify-content:flex-end;padding:8px 2rem;gap:4px;}
-.lang-btn{background:transparent;border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.7);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.08em;padding:4px 12px;cursor:pointer;border-radius:2px;transition:all 0.2s;}
-.lang-btn.active,.lang-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-dark);}
-nav{position:fixed;top:33px;left:0;right:0;z-index:99;background:rgba(247,243,236,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;}
-.nav-logos{display:flex;align-items:center;gap:12px;}
-.nav-logos img{height:38px;width:auto;object-fit:contain;}
-.nav-wordmark{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);line-height:1.2;}
-.nav-wordmark span{display:block;font-size:10px;font-weight:400;color:var(--muted);font-family:'DM Sans',sans-serif;letter-spacing:0.08em;text-transform:uppercase;}
-.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--earth-dark);display:flex;justify-content:flex-end;padding:7px 2rem;gap:4px;}
+.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;padding:3px 10px;cursor:pointer;border-radius:2px;transition:all 0.2s;}
+.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-dark);}
+nav{position:fixed;top:30px;left:0;right:0;z-index:99;background:rgba(247,243,236,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:58px;}
+.nav-brand{display:flex;align-items:center;gap:10px;}
+.nav-brand img{height:36px;width:auto;object-fit:contain;}
+.nav-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--forest);}
+.nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;}
 .nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s;}
 .nav-links a:hover{color:var(--forest);}
-.nav-cta{background:var(--forest)!important;color:white!important;padding:8px 20px;border-radius:2px;}
-.hero{min-height:100vh;padding-top:93px;display:flex;align-items:center;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(30,77,43,0.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(200,168,75,0.08) 0%,transparent 60%);pointer-events:none;}
-.hero-inner{max-width:1100px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4rem;}
-.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;}
-.hero-eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold);}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:900;line-height:1.05;color:var(--charcoal);margin-bottom:1.5rem;}
-.hero-title em{font-style:normal;color:var(--forest);}
-.gold-word{color:var(--gold);}
-.hero-subtitle{font-size:1.05rem;font-weight:300;color:var(--muted);max-width:440px;margin-bottom:2.5rem;line-height:1.75;}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
-.btn-primary{display:inline-block;background:var(--forest);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:14px 28px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s;}
-.btn-primary:hover{background:var(--forest-mid);}
-.btn-secondary{display:inline-block;background:transparent;color:var(--earth);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:13px 28px;border-radius:2px;text-decoration:none;border:1px solid var(--earth);transition:all 0.2s;cursor:pointer;}
-.btn-secondary:hover{background:var(--earth);color:white;}
-.hero-visual{display:flex;align-items:center;justify-content:center;}
-.hero-logos-stack{display:flex;flex-direction:column;align-items:center;gap:1.5rem;}
-.hero-logos-stack img{width:200px;height:auto;filter:drop-shadow(0 8px 32px rgba(30,77,43,0.15));animation:floatIn 0.8s ease forwards;opacity:0;}
-.hero-logos-stack img:nth-child(3){animation-delay:0.2s;width:180px;}
-@keyframes floatIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.hero-divider{width:1px;height:40px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);}
-.stats-band{background:var(--earth-dark);padding:2.5rem 2rem;}
-.stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center;}
-.stat-number{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--gold);display:block;line-height:1;margin-bottom:4px;}
-.stat-label{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);}
-section{padding:6rem 2rem;}
-.section-inner{max-width:1100px;margin:0 auto;}
-.section-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
-.section-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--gold);}
-.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--charcoal);margin-bottom:1rem;line-height:1.2;}
-.section-lead{font-size:1rem;color:var(--muted);max-width:560px;line-height:1.75;margin-bottom:3rem;font-weight:300;}
-.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
-.mission-body{font-size:1rem;color:var(--muted);line-height:1.85;font-weight:300;}
-.mission-body p+p{margin-top:1.2rem;}
-.mission-body strong{color:var(--charcoal);font-weight:500;}
-.mission-quote{border-left:3px solid var(--gold);padding:1.5rem 2rem;background:white;border-radius:0 4px 4px 0;margin-top:2rem;}
-.mission-quote p{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:var(--earth);line-height:1.5;}
-.mission-quote cite{display:block;margin-top:0.75rem;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-style:normal;}
-.values-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
-.value-card{background:white;border:1px solid var(--border);border-radius:4px;padding:1.5rem;transition:border-color 0.2s;}
-.value-card:hover{border-color:var(--gold);}
-.value-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--charcoal);margin-bottom:6px;}
-.value-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;}
-.network-tiers{display:flex;flex-direction:column;margin-top:3rem;border:1px solid var(--border);border-radius:4px;overflow:hidden;}
-.tier-row{display:grid;grid-template-columns:140px 1fr auto;align-items:center;gap:2rem;padding:1.25rem 2rem;background:white;border-bottom:1px solid var(--border);}
-.tier-row:last-child{border-bottom:none;}
-.tier-row:hover{background:var(--cream);}
-.tier-level{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);}
-.tier-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--charcoal);margin-bottom:3px;}
-.tier-desc{font-size:13px;color:var(--muted);font-weight:300;}
-.tier-count{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--forest);white-space:nowrap;}
-.partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
-.partner-card{background:white;border:1px solid var(--border);border-radius:4px;padding:2rem;transition:border-color 0.2s,transform 0.15s;}
-.partner-card:hover{border-color:var(--gold);transform:translateY(-2px);}
-.partner-card.featured{border-color:var(--forest);background:var(--forest);}
-.partner-type{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;color:var(--gold);margin-bottom:0.75rem;}
-.partner-card.featured .partner-type{color:var(--gold-light);}
-.partner-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--charcoal);margin-bottom:0.75rem;}
-.partner-card.featured .partner-name{color:white;}
-.partner-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;}
-.partner-card.featured .partner-desc{color:rgba(255,255,255,0.7);}
-.register-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
-.register-reasons{list-style:none;display:flex;flex-direction:column;gap:1rem;}
-.register-reasons li{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--muted);font-weight:300;line-height:1.6;}
-.register-reasons li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:7px;flex-shrink:0;}
-.form-wrap{background:var(--cream-dark);border:1px solid var(--border);border-radius:4px;padding:2.5rem;}
-.form-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--charcoal);margin-bottom:0.5rem;}
-.form-subtitle{font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300;}
-.form-section-label{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:1.5rem 0 0.75rem;padding-bottom:6px;border-bottom:1px solid var(--border);}
-.form-group{margin-bottom:1.1rem;}
-.form-group label{display:block;font-size:12px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--earth);margin-bottom:5px;}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;background:white;border:1px solid var(--border);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--charcoal);outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--forest);}
-.form-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6455' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
-.form-group textarea{min-height:70px;resize:vertical;line-height:1.5;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.form-check{display:flex;gap:10px;align-items:flex-start;margin-bottom:1.5rem;}
-.form-check input{margin-top:3px;flex-shrink:0;accent-color:var(--forest);}
-.form-check label{font-size:12px;color:var(--muted);line-height:1.5;}
-.form-check label a{color:var(--forest);}
-.form-success{display:none;text-align:center;padding:2rem;}
-.form-success-icon{width:56px;height:56px;background:var(--forest);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
-.form-success-icon svg{width:26px;height:26px;stroke:white;fill:none;stroke-width:2;}
-.form-success h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--charcoal);margin-bottom:0.5rem;}
-.form-success p{font-size:14px;color:var(--muted);}
-footer{background:var(--charcoal);color:rgba(255,255,255,0.5);padding:3rem 2rem;}
-.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem;}
-.footer-brand img{height:44px;margin-bottom:1rem;filter:brightness(0) invert(0.7);}
-.footer-tagline{font-size:13px;line-height:1.75;font-weight:300;}
-.footer-contact{margin-top:1rem;font-size:12px;}
-.footer-contact a{color:var(--gold);text-decoration:none;}
-.footer-col h4{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:1rem;}
-.footer-col ul{list-style:none;}
-.footer-col ul li{margin-bottom:8px;}
-.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;}
-.footer-col ul li a:hover{color:var(--gold);}
-.footer-bottom{max-width:1100px;margin:0 auto;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:0.5rem;}
-.footer-bottom a{color:var(--gold);text-decoration:none;}
-.fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.nav-cta{background:var(--gold)!important;color:var(--earth-dark)!important;padding:7px 18px;border-radius:2px;font-weight:500!important;}
+.hero{min-height:100vh;padding-top:88px;display:flex;align-items:center;background:var(--cream);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(30,77,43,0.07) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:1100px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1.1fr 0.9fr;align-items:center;gap:4rem;}
+.hero-tag{font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;}
+.hero-tag::before{content:'';width:32px;height:1px;background:var(--gold);display:inline-block;}
+h1.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,5.5vw,4.8rem);font-weight:900;line-height:1.0;color:var(--charcoal);margin-bottom:1.5rem;}
+h1.hero-title em{font-style:italic;color:var(--forest);display:block;}
+h1.hero-title .accent{color:var(--gold);}
+.hero-lead{font-size:1.05rem;font-weight:300;color:var(--muted);max-width:460px;margin-bottom:2.5rem;line-height:1.8;}
+.btn-gold{display:inline-block;background:var(--gold);color:var(--earth-dark);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:14px 28px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:all 0.2s;}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-outline{display:inline-block;background:transparent;color:var(--earth);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:13px 28px;border-radius:2px;text-decoration:none;border:1px solid var(--earth);transition:all 0.2s;cursor:pointer;}
+.btn-outline:hover{background:var(--earth);color:white;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.hero-visual{display:flex;flex-direction:column;align-items:center;gap:1.25rem;}
+.hero-visual img{width:220px;height:auto;filter:drop-shadow(0 12px 40px rgba(30,77,43,0.18));animation:rise 1s ease forwards;opacity:0;}
+.hero-visual img:nth-child(1){animation-delay:0.1s;}
+.hero-visual img:nth-child(3){animation-delay:0.3s;width:190px;}
+.hero-sep{width:1px;height:36px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.stats{background:var(--earth-dark);padding:2.25rem 2rem;}
+.stats-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center;}
+.stat-n{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--gold);display:block;line-height:1;margin-bottom:4px;}
+.stat-l{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);}
+.sec{padding:5.5rem 2rem;}
+.sec-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.9rem;display:flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);display:inline-block;}
+h2.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--charcoal);margin-bottom:0.9rem;line-height:1.2;}
+.sec-lead{font-size:1rem;color:var(--muted);max-width:560px;line-height:1.8;margin-bottom:2.75rem;font-weight:300;}
+.mapou-sec{background:var(--forest);color:white;padding:5rem 2rem;}
+.mapou-inner{max-width:900px;margin:0 auto;text-align:center;}
+.mapou-inner .eyebrow{justify-content:center;color:var(--gold-light);}
+.mapou-inner .eyebrow::before{background:var(--gold-light);}
+.mapou-inner h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:white;margin-bottom:1.5rem;}
+.mapou-inner p{font-size:1rem;color:rgba(255,255,255,0.75);font-weight:300;line-height:1.85;margin-bottom:1.2rem;max-width:700px;margin-left:auto;margin-right:auto;}
+.mapou-disclaimer{margin-top:2.5rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:1.75rem 2rem;text-align:left;max-width:700px;margin-left:auto;margin-right:auto;}
+.mapou-disclaimer p{font-size:14px;color:rgba(255,255,255,0.8);margin-bottom:0.75rem;}
+.mapou-disclaimer p:last-child{margin-bottom:0;}
+.mapou-disclaimer strong{color:var(--gold-light);}
+.vendor-sec{background:var(--cream-dark);padding:5rem 2rem;}
+.vendor-inner{max-width:1000px;margin:0 auto;}
+.vendor-callout{background:var(--earth-dark);border-radius:4px;padding:3rem;margin-bottom:3rem;}
+.vendor-callout p{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-style:italic;color:white;line-height:1.6;}
+.vendor-callout .gold{color:var(--gold);}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.step-card{background:white;border:1px solid var(--border);border-radius:4px;padding:1.75rem;}
+.step-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:0.75rem;display:block;}
+.step-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--charcoal);margin-bottom:0.5rem;}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;}
+.conditions{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem;}
+.cond-card{background:white;border-left:3px solid var(--gold);padding:1.25rem 1.5rem;}
+.cond-title{font-size:13px;font-weight:500;color:var(--forest);margin-bottom:4px;}
+.cond-desc{font-size:12px;color:var(--muted);font-weight:300;line-height:1.5;}
+.reg-sec{background:white;padding:5.5rem 2rem;}
+.reg-inner{max-width:1000px;margin:0 auto;}
+.reg-tabs{display:flex;border:1px solid var(--border);border-radius:4px 4px 0 0;overflow:hidden;}
+.reg-tab{flex:1;padding:1rem 1.5rem;background:var(--cream-dark);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:center;border-bottom:3px solid transparent;}
+.reg-tab.active{background:white;color:var(--forest);border-bottom:3px solid var(--gold);}
+.reg-forms{background:var(--cream-dark);border:1px solid var(--border);border-top:none;border-radius:0 0 4px 4px;padding:2.5rem;}
+.reg-form{display:none;}
+.reg-form.active{display:block;}
+.form-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--charcoal);margin-bottom:0.35rem;}
+.form-sub{font-size:13px;color:var(--muted);margin-bottom:1.75rem;font-weight:300;}
+.fsec{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:1.5rem 0 0.65rem;padding-bottom:5px;border-bottom:1px solid var(--border);}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fg{margin-bottom:1rem;}
+.fg label{display:block;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--earth);margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 13px;background:white;border:1px solid var(--border);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--charcoal);outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--forest);}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6455' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.fg textarea{min-height:70px;resize:vertical;line-height:1.5;}
+.fcheck{display:flex;gap:10px;align-items:flex-start;margin-bottom:1.25rem;}
+.fcheck input{margin-top:3px;flex-shrink:0;accent-color:var(--forest);}
+.fcheck label{font-size:12px;color:var(--muted);line-height:1.5;}
+.fcheck label a{color:var(--forest);}
+.self-note{background:rgba(200,168,75,0.1);border:1px solid rgba(200,168,75,0.3);border-radius:3px;padding:0.9rem 1.1rem;margin-bottom:1.25rem;font-size:13px;color:var(--earth);line-height:1.6;}
+.form-success{display:none;text-align:center;padding:2.5rem 1rem;}
+.suc-icon{width:54px;height:54px;background:var(--forest);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
+.suc-icon svg{width:24px;height:24px;stroke:white;fill:none;stroke-width:2.5;}
+.suc-share{margin-top:1.5rem;padding:1.25rem;background:var(--cream);border-radius:4px;font-size:13px;color:var(--muted);line-height:1.6;text-align:left;}
+.suc-share strong{color:var(--charcoal);display:block;margin-bottom:6px;}
+footer{background:var(--charcoal);color:rgba(255,255,255,0.45);padding:3rem 2rem 2rem;}
+.foot-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem;}
+.foot-brand img{height:42px;margin-bottom:1rem;filter:brightness(0) invert(0.6);}
+.foot-tag{font-size:13px;line-height:1.75;font-weight:300;}
+.foot-contact{margin-top:0.9rem;font-size:12px;}
+.foot-contact a{color:var(--gold);text-decoration:none;}
+.foot-col h4{font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1rem;}
+.foot-col ul{list-style:none;}
+.foot-col ul li{margin-bottom:7px;}
+.foot-col ul li a{font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;}
+.foot-col ul li a:hover{color:var(--gold);}
+.foot-bottom{max-width:1100px;margin:0 auto;padding-top:1.75rem;border-top:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:11px;flex-wrap:wrap;gap:0.5rem;}
+.foot-bottom a{color:var(--gold);text-decoration:none;}
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
 .fade-up.visible{opacity:1;transform:none;}
-@media(max-width:768px){.hero-inner,.mission-grid,.register-grid{grid-template-columns:1fr;gap:2rem;}.hero-visual{display:none;}.stats-inner{grid-template-columns:repeat(2,1fr);}.values-grid{grid-template-columns:1fr;}.partner-grid{grid-template-columns:1fr;}.footer-inner{grid-template-columns:1fr;gap:2rem;}.nav-links{display:none;}.form-row{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;text-align:center;}.tier-row{grid-template-columns:1fr auto;}.tier-level{display:none;}}
+@media(max-width:768px){.hero-inner{grid-template-columns:1fr;gap:2rem;}.hero-visual{display:none;}.stats-grid{grid-template-columns:repeat(2,1fr);}.steps-grid,.conditions,.frow{grid-template-columns:1fr;}.foot-inner{grid-template-columns:1fr;gap:2rem;}.nav-links{display:none;}.foot-bottom{flex-direction:column;text-align:center;}}
 </style>
 </head>
 <body>
 <div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('ht')">KR</button>
-  <button class="lang-btn" onclick="setLang('fr')">FR</button>
-  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lb active" onclick="L('ht')">KR</button>
+  <button class="lb" onclick="L('fr')">FR</button>
+  <button class="lb" onclick="L('en')">EN</button>
 </div>
 <nav>
-  <div class="nav-logos">
-    <img src="FSL_Logo.png" alt="Fatra Se Lò" onerror="this.style.display='none'">
-    <img src="rmn__logo_5.png" alt="RMN" onerror="this.style.display='none'">
-    <div class="nav-wordmark">Fatra Se Lò<span>Rezo Mapou Nasyonal</span></div>
+  <div class="nav-brand">
+    <img src="rezo_mapou_logo.png" alt="Rezo Mapou" onerror="this.style.display='none'">
+    <div class="nav-name">Rezo Mapou</div>
   </div>
   <ul class="nav-links">
-    <li><a href="#mission" data-i18n="nav_mission">Misyon</a></li>
-    <li><a href="#network" data-i18n="nav_network">Rezo</a></li>
-    <li><a href="#partner" data-i18n="nav_partner">Partenè</a></li>
-    <li><a href="#register" class="nav-cta" data-i18n="nav_register">Enskri</a></li>
+    <li><a href="#mapou" data-i="nav_mapou">Filozofi</a></li>
+    <li><a href="#program" data-i="nav_prog">Pwogram</a></li>
+    <li><a href="#register" data-i="nav_reg">Enskri</a></li>
+    <li><a href="dashboard.html" data-i="nav_dash">Tablodbò</a></li>
+    <li><a href="#register" class="nav-cta" data-i="nav_join">Enskri Kounye a</a></li>
   </ul>
 </nav>
 <section class="hero">
-  <div class="hero-bg"></div>
   <div class="hero-inner">
     <div>
-      <div class="hero-eyebrow" data-i18n="hero_eyebrow">Rezo Sivik Nasyonal · Ayiti 2026</div>
-      <h1 class="hero-title"><span data-i18n="hero_t1">Fatra</span><br><em data-i18n="hero_t2">Se Lò.</em><br><span class="gold-word" data-i18n="hero_t3">Dechè = Richès.</span></h1>
-      <p class="hero-subtitle" data-i18n="hero_sub">Yon rezo nasyonal k ap transfòme jesyon dechè an opòtinite ekonomik, travay vèt, ak anviwònman pi bon pou tout Ayisyen.</p>
-      <div class="hero-actions">
-        <a href="#register" class="btn-primary" data-i18n="hero_cta1">Enskri nan Rezo a</a>
-        <a href="#mission" class="btn-secondary" data-i18n="hero_cta2">Aprann Plis</a>
+      <div class="hero-tag" data-i="hero_tag">Rezo Machann Nasyonal · Ayiti 2026</div>
+      <h1 class="hero-title">
+        <span data-i="h1a">Ou se</span><br>
+        <em data-i="h1b">Rezo Mapou.</em><br>
+        <span class="accent" data-i="h1c">Vini grandi.</span>
+      </h1>
+      <p class="hero-lead" data-i="hero_lead">Yon rezo nasyonal ki sipòte machann ak antreprenè nan tout Ayiti — vizibilite, koneksyon, ak sipò konkrè chak mwa.</p>
+      <div class="hero-btns">
+        <a href="#register" class="btn-gold" data-i="hero_cta1">Enskri Kounye a — Gratis</a>
+        <a href="#program" class="btn-outline" data-i="hero_cta2">Kijan sa Travay</a>
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-logos-stack">
-        <img src="rmn__logo_5.png" alt="RMN">
-        <div class="hero-divider"></div>
-        <img src="FSL_Logo.png" alt="FSL">
-      </div>
+      <img src="rezo_mapou_logo.png" alt="Rezo Mapou">
+      <div class="hero-sep"></div>
     </div>
   </div>
 </section>
-<div class="stats-band">
-  <div class="stats-inner">
-    <div class="fade-up"><span class="stat-number">10</span><span class="stat-label" data-i18n="stat_dept">Depatman</span></div>
-    <div class="fade-up"><span class="stat-number">146</span><span class="stat-label" data-i18n="stat_commune">Komin</span></div>
-    <div class="fade-up"><span class="stat-number">571</span><span class="stat-label" data-i18n="stat_section">Seksyon Kominal</span></div>
-    <div class="fade-up"><span class="stat-number" id="live-count">—</span><span class="stat-label" data-i18n="stat_members">Manm Enskri</span></div>
+<div class="stats">
+  <div class="stats-grid">
+    <div class="fade-up"><span class="stat-n">10</span><span class="stat-l" data-i="s1">Depatman</span></div>
+    <div class="fade-up"><span class="stat-n">146</span><span class="stat-l" data-i="s2">Komin</span></div>
+    <div class="fade-up"><span class="stat-n" id="live-s">—</span><span class="stat-l" data-i="s3">Santinèl Enskri</span></div>
+    <div class="fade-up"><span class="stat-n" id="live-c">—</span><span class="stat-l" data-i="s4">Coach Aktif</span></div>
   </div>
 </div>
-<section id="mission">
-  <div class="section-inner">
-    <div class="mission-grid">
-      <div class="fade-up">
-        <div class="section-eyebrow" data-i18n="mis_eye">Misyon Nou</div>
-        <h2 class="section-title" data-i18n="mis_title">Rasin fò, pyebwa leve.</h2>
-        <div class="mission-body">
-          <p data-i18n="mis_p1"><strong>Fatra Se Lò</strong> se kanal prensipal <em>Rezo Mapou Nasyonal</em> — yon enfrastrikti nasyonal k ap konekte prezans sou teren, jesyon done, ak aktivasyon sivik nan tout peyi Ayiti.</p>
-          <p data-i18n="mis_p2">Dechè se yon reyalite inivèsèl ann Ayiti. Chak kominote viv avèk konsekans li chak jou. FSL transfòme reyalite sa a an angajman sivik òganize — epi an opòtinite ekonomik reyèl.</p>
-          <p data-i18n="mis_p3">Apolitik. Areliijye. Endepandan. Enrasiné nan kominote. Konsa tankou pyebwa mapou, nou bati rasin anvan nou grandi anlè.</p>
-        </div>
-        <div class="mission-quote"><p>"Rasin fò, pyebwa leve."</p><cite data-i18n="mis_cite">Pwovèb Ayisyen · Filozofi RMN</cite></div>
+<section class="mapou-sec" id="mapou">
+  <div class="mapou-inner fade-up">
+    <div class="eyebrow" data-i="map_eye">Senbòl Nou</div>
+    <h2 data-i="map_title">Poukisa Mapou?</h2>
+    <p data-i="map_p1">Pyebwa Mapou se pyebwa ki pi solid ann Ayiti. Li pa grandi vit — li bati rasin pwofon, long, solid anvan li leve anlè. Siklòn pa ka rache l paske pa gen yon sèl rasin ki pote tout pwa a — tout rasin yo travay ansanm.</p>
+    <p data-i="map_p2">Se menm lojik la nou itilize pou rezo sa a. Machann yo, yo menm, se rasin ekonomi Ayisyen an. Chak machann dlo, chak vandè manje, chak ti komèsan — se yon rasin. Ansanm, nou fòme yon rezo ki pa ka rache.</p>
+    <div class="mapou-disclaimer">
+      <p><strong data-i="map_dis_title">Yon bagay enpòtan pou nou di klè:</strong></p>
+      <p data-i="map_dis1">Rezo Mapou <strong>pa gen okenn afiliyasyon relijye</strong> — ni katolik, ni pwotestan, ni vodou, ni okenn lòt kwayans. Senbòl mapou a se yon senbòl natirèl, ekolojik, ki se eritaj tout pèp Ayisyen san eksepsyon.</p>
+      <p data-i="map_dis2">Rezo Mapou <strong>pa gen okenn afiliyasyon politik</strong> — ni pati, ni kandida, ni gouvènman. Nou travay pou machann ak kominote yo, pa pou okenn ajanda politik.</p>
+      <p data-i="map_dis3">Tout moun ki kwè nan nenpòt relijyon, oswa ki pa kwè ditou — gen plas yo nan Rezo Mapou. Sèl kondisyon: vle wè Ayiti avanse.</p>
+    </div>
+  </div>
+</section>
+<section class="vendor-sec" id="program">
+  <div class="vendor-inner">
+    <div class="fade-up">
+      <div class="eyebrow" data-i="ven_eye">Apèl Nou</div>
+      <div class="vendor-callout">
+        <p data-i="ven_call">"Ou se yon machann dlo, manje, legim, elatrye — <span class="gold">ou se yon Santinèl k ap bay ekonomi an jaret.</span> Vini nan Rezo Mapou kote w ap jwenn bon jan avantaj."</p>
       </div>
-      <div class="fade-up">
-        <div class="section-eyebrow" data-i18n="val_eye">Valè Nou</div>
-        <h2 class="section-title" data-i18n="val_title">Sa nou kwè.</h2>
-        <div class="values-grid">
-          <div class="value-card"><div class="value-name" data-i18n="v1n">Anviwònman</div><div class="value-desc" data-i18n="v1d">Sèl ideyoloji nou se anviwònman Ayiti. Dechè jere, kominote an sante.</div></div>
-          <div class="value-card"><div class="value-name" data-i18n="v2n">Endepandans</div><div class="value-desc" data-i18n="v2d">Pa gen afiliyasyon politik, pa gen misyon relijye. Rezo a travay pou kominote a.</div></div>
-          <div class="value-card"><div class="value-name" data-i18n="v3n">Enklizyon</div><div class="value-desc" data-i18n="v3d">Tout Ayisyen gen plas nan rezo a — machann, elèv, dyaspora, enstitisyon.</div></div>
-          <div class="value-card"><div class="value-name" data-i18n="v4n">Transparans</div><div class="value-desc" data-i18n="v4d">Done piblik, rapò piblik. Kominote a konnen kijan rezo a travay.</div></div>
-        </div>
+    </div>
+    <div class="fade-up">
+      <div class="eyebrow" data-i="prog_eye">Pwogram Map Sipote Lakay</div>
+      <h2 class="sec-title" data-i="prog_title">Etap yo, klè klè.</h2>
+      <div class="steps-grid">
+        <div class="step-card"><span class="step-num">1</span><div class="step-title" data-i="st1t">Enskri — Gratis</div><div class="step-desc" data-i="st1d">Enskripsyon louvri depi jodi a rive 1 me. Pa peye anyen. Kreye pwofil ou kòm Santinèl nan rezo a.</div></div>
+        <div class="step-card"><span class="step-num">2</span><div class="step-title" data-i="st2t">Coach Chwazi Ou</div><div class="step-desc" data-i="st2d">Coach yo gade pwofil Santinèl yo epi yo ka deside sipòte ou. Yon Coach peye frè enskripsyon pou ou nan pwogram "Map Sipote Lakay".</div></div>
+        <div class="step-card"><span class="step-num">3</span><div class="step-title" data-i="st3t">Resevwa Sipò Chak Mwa</div><div class="step-desc" data-i="st3d">Chak mwa, ou resevwa yon pati nan sipò Coach la peye a — akondisyon ou reyalize 3 aktivite rezo a.</div></div>
+      </div>
+      <div class="conditions">
+        <div class="cond-card"><div class="cond-title" data-i="c1t">① Poste sou Rezo Mapou</div><div class="cond-desc" data-i="c1d">Pataje yon post sou paj Rezo Mapou pou pale de Coach ou ak aktivite ou.</div></div>
+        <div class="cond-card"><div class="cond-title" data-i="c2t">② Aktivite Kominotè</div><div class="cond-desc" data-i="c2d">Patisipe nan omwen yon aktivite kominotè ki gen valè nan mwa a.</div></div>
+        <div class="cond-card"><div class="cond-title" data-i="c3t">③ Rapò Mansyèl</div><div class="cond-desc" data-i="c3d">Ranpli rapò mansyèl rezo a — kèk kesyon sou aktivite ou ak zòn ou.</div></div>
       </div>
     </div>
   </div>
 </section>
-<section id="network" style="background:var(--cream-dark);">
-  <div class="section-inner fade-up">
-    <div class="section-eyebrow" data-i18n="net_eye">Enfrastrikti Teritoryal</div>
-    <h2 class="section-title" data-i18n="net_title">Du nasyonal jis nan katye a.</h2>
-    <p class="section-lead" data-i18n="net_lead">Yon rezo 5 nivo k ap asire prezans sou teren reyèl nan tout 146 komin Ayiti. Done monte anlè, direksyon desann anba.</p>
-    <div class="network-tiers">
-      <div class="tier-row"><div class="tier-level" data-i18n="tl1">Nivo 1</div><div><div class="tier-name" data-i18n="tn1">Nœud Santral</div><div class="tier-desc" data-i18n="td1">Kòdinasyon nasyonal, vizyon ak estanda</div></div><div class="tier-count">1</div></div>
-      <div class="tier-row"><div class="tier-level" data-i18n="tl2">Nivo 2</div><div><div class="tier-name" data-i18n="tn2">Pòt-Vwa Nasyonal</div><div class="tier-desc" data-i18n="td2">Anbassadè nasyonal — vizibilite ak kredibilite</div></div><div class="tier-count">10</div></div>
-      <div class="tier-row"><div class="tier-level" data-i18n="tl3">Nivo 3</div><div><div class="tier-name" data-i18n="tn3">Responsab Kominal</div><div class="tier-desc" data-i18n="td3">Yon kòdinatè pa komin</div></div><div class="tier-count">146</div></div>
-      <div class="tier-row"><div class="tier-level" data-i18n="tl4">Nivo 4</div><div><div class="tier-name" data-i18n="tn4">Gadyen Pwòpte</div><div class="tier-desc" data-i18n="td4">Kòdinatè kominotè lye ak chak CASEC</div></div><div class="tier-count">~571</div></div>
-      <div class="tier-row"><div class="tier-level" data-i18n="tl5">Nivo 5</div><div><div class="tier-name" data-i18n="tn5">Santinèl Pwòpte</div><div class="tier-desc" data-i18n="td5">Ajan nan katye — je ki wè sou chak lari</div></div><div class="tier-count">∞</div></div>
+<section class="reg-sec" id="register">
+  <div class="reg-inner">
+    <div class="fade-up" style="margin-bottom:2rem;">
+      <div class="eyebrow" data-i="reg_eye">Enskri</div>
+      <h2 class="sec-title" data-i="reg_title">Fè pati rezo a.</h2>
+      <p class="sec-lead" data-i="reg_lead">Chwazi wòl ou nan rezo a. Santinèl oswa Coach — de wòl enpòtan, yon sèl objektif.</p>
     </div>
-  </div>
-</section>
-<section id="partner" style="background:var(--cream);">
-  <div class="section-inner fade-up">
-    <div class="section-eyebrow" data-i18n="par_eye">Partenè Fondatè</div>
-    <h2 class="section-title" data-i18n="par_title">Ann bati sa ansanm.</h2>
-    <p class="section-lead" data-i18n="par_lead">RMN ap chèche partenè fondatè pou deplasman nasyonal Faz 2 — avril rive desanm 2026.</p>
-    <div class="partner-grid">
-      <div class="partner-card featured"><div class="partner-type" data-i18n="pt1">Partenè Anchò</div><div class="partner-name" data-i18n="pn1">Enstitisyon Finansye</div><div class="partner-desc" data-i18n="pd1">Akè bay entèlijans ekonomik nan nivo komin. Prezans nasyonal ki depase branch aktyèl yo.</div></div>
-      <div class="partner-card"><div class="partner-type" data-i18n="pt2">Mak Konsomatè</div><div class="partner-name" data-i18n="pn2">Mak Diaspora</div><div class="partner-desc" data-i18n="pd2">Akè dirèk nan tout 146 komin. Vizibilite diaspora. Asosyasyon ak mouvman anviwònman nasyonal.</div></div>
-      <div class="partner-card"><div class="partner-type" data-i18n="pt3">Enstans Gouvènman</div><div class="partner-name" data-i18n="pn3">Ministè Anviwònman</div><div class="partner-desc" data-i18n="pd3">Aliyman ak Konbit Zéro Déchet. Kouch entèlijans teritoryal ke leta pa ka bati sèl li.</div></div>
+    <div class="reg-tabs">
+      <button class="reg-tab active" onclick="switchTab('sentinelle')" data-i="tab_s">Santinèl — Machann / Anplwaye</button>
+      <button class="reg-tab" onclick="switchTab('coach')" data-i="tab_c">Coach — Sipòtè / Dyaspora</button>
     </div>
-  </div>
-</section>
-<section id="register" style="background:white;">
-  <div class="section-inner">
-    <div class="register-grid">
-      <div class="fade-up">
-        <div class="section-eyebrow" data-i18n="reg_eye">Enskri Kounye a</div>
-        <h2 class="section-title" data-i18n="reg_title">Fè pati rezo a.</h2>
-        <p class="section-lead" data-i18n="reg_lead">Ke ou se yon machann, yon vwazen ki angaje, yon enstans, oswa yon partenè potansyèl — gen yon plas pou ou nan RMN.</p>
-        <ul class="register-reasons">
-          <li data-i18n="r1">Resevwa enfòmasyon prensipal sou lanse rezo a</li>
-          <li data-i18n="r2">Patisipe aktivamente nan kominote ou</li>
-          <li data-i18n="r3">Kontribye nan pwòpte ak sante anviwònman ou</li>
-          <li data-i18n="r4">Jwenn akè nan opòtinite ekonomik rezo a ap kreye</li>
-          <li data-i18n="r5">Kominike dirèkteman ak ekip fondatè RMN nan</li>
-        </ul>
-      </div>
-      <div class="fade-up">
-        <div class="form-wrap">
-          <div class="form-title" data-i18n="ft">Enskri Kounye a</div>
-          <div class="form-subtitle" data-i18n="fs">Gratis. Pa gen obligasyon. Yon minit.</div>
-          <form id="reg-form" onsubmit="submitForm(event)">
-            <div class="form-section-label" data-i18n="fsec1">Enfòmasyon Pèsonèl</div>
-            <div class="form-row">
-              <div class="form-group"><label data-i18n="ff">Prenon</label><input type="text" name="prenom" required placeholder="Jean"></div>
-              <div class="form-group"><label data-i18n="fl">Non</label><input type="text" name="nom" required placeholder="Pierre"></div>
-            </div>
-            <div class="form-group"><label data-i18n="fe">Imèl</label><input type="email" name="email" required placeholder="jean@example.com"></div>
-            <div class="form-row">
-              <div class="form-group"><label data-i18n="fph">Telefòn</label><input type="tel" name="telephone" placeholder="+509 XXXX XXXX"></div>
-              <div class="form-group"><label data-i18n="fwa">WhatsApp #</label><input type="tel" name="whatsapp" placeholder="+509 XXXX XXXX"></div>
-            </div>
-            <div class="form-section-label" data-i18n="fsec2">Kote Ou Ye</div>
-            <div class="form-group">
-              <label data-i18n="fdept">Depatman</label>
-              <select name="departement" id="sel-dept" onchange="updateCommunes()" required>
-                <option value="">-- Chwazi depatman --</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label data-i18n="fcomm">Komin</label>
-              <select name="commune" id="sel-commune" required>
-                <option value="">-- Chwazi komin --</option>
-              </select>
-            </div>
-            <div class="form-group"><label data-i18n="fzone">Zòn / Katye (opsyonèl)</label><input type="text" name="zone" placeholder="Eg: Kafou Fèy, Bel-Air..."></div>
-            <div class="form-section-label" data-i18n="fsec3">Preferans</div>
-            <div class="form-group">
-              <label data-i18n="fpay">Metòd Peman Prefere</label>
-              <select name="paiement">
-                <option value="">-- Chwazi --</option>
-                <option value="moncash">MonCash</option>
-                <option value="natcash">NatCash</option>
-                <option value="lajancash">Lajan Cash / Espès</option>
-                <option value="virement">Virement Bancaire</option>
-                <option value="autre">Lòt</option>
-              </select>
-            </div>
-            <div class="form-group"><label data-i18n="fmsg">Mesaj (opsyonèl)</label><textarea name="message" placeholder="Di nou kijan ou vle kontribye..."></textarea></div>
-            <div class="form-check">
-              <input type="checkbox" id="consent" required>
-              <label for="consent"><span data-i18n="fconsent">Mwen dakò pou Rezo Mapou kontakte mwen sou pwojè sa a. Pa gen spam — jis enfòmasyon rezo.</span> <a href="privacy.html" data-i18n="fprivacy">Politik Konfidansyalite</a></label>
-            </div>
-            <button type="submit" class="btn-primary" style="width:100%" data-i18n="fsubmit">Enskri Gratis</button>
-          </form>
-          <div class="form-success" id="form-success">
-            <div class="form-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <h3 data-i18n="suc_title">Mèsi — ou gen plas ou!</h3>
-            <p data-i18n="suc_msg">Nou pral kontakte ou byento. Rasin fòn, pyebwa leve.</p>
+    <div class="reg-forms">
+      <div class="reg-form active" id="form-sentinelle">
+        <div class="form-title" data-i="sf_title">Enskri kòm Santinèl</div>
+        <div class="form-sub" data-i="sf_sub">Gratis. Yon minit. Ou ka envite yon Coach pita.</div>
+        <form id="sf" onsubmit="submitForm(event,'sentinelle')">
+          <div class="fsec" data-i="fs1">Enfòmasyon Pèsonèl</div>
+          <div class="frow">
+            <div class="fg"><label data-i="ff">Prenon</label><input type="text" name="prenom" required placeholder="Jean"></div>
+            <div class="fg"><label data-i="fl">Non</label><input type="text" name="nom" required placeholder="Pierre"></div>
           </div>
+          <div class="fg"><label data-i="fe">Imèl</label><input type="email" name="email" required placeholder="jean@example.com"></div>
+          <div class="frow">
+            <div class="fg"><label data-i="fph">Telefòn</label><input type="tel" name="telephone" placeholder="+509 XXXX XXXX"></div>
+            <div class="fg"><label data-i="fwa">WhatsApp</label><input type="tel" name="whatsapp" placeholder="+509 XXXX XXXX"></div>
+          </div>
+          <div class="fsec" data-i="fs2">Kote Ou Ye</div>
+          <div class="fg"><label data-i="fdept">Depatman</label><select name="departement" id="s-dept" onchange="fillCommunes('s-dept','s-comm')" required><option value="">—</option></select></div>
+          <div class="fg"><label data-i="fcomm">Komin</label><select name="commune" id="s-comm" required><option value="">—</option></select></div>
+          <div class="fg"><label data-i="fzone">Zòn / Katye (opsyonèl)</label><input type="text" name="zone" placeholder="Bel-Air, Kafou Fèy..."></div>
+          <div class="fsec" data-i="fs3">Aktivite &amp; Rezo Sosyal</div>
+          <div class="fg"><label data-i="factiv">Tip Aktivite ou</label><input type="text" name="activite" placeholder="Machann dlo, manje, legim, boutik..."></div>
+          <div class="fg"><label data-i="fvid">Lyen Videyo Prezantasyon (opsyonèl)</label><input type="url" name="video" placeholder="YouTube oswa TikTok link"></div>
+          <div class="frow">
+            <div class="fg"><label>Facebook</label><input type="url" name="facebook" placeholder="facebook.com/..."></div>
+            <div class="fg"><label>Instagram</label><input type="url" name="instagram" placeholder="instagram.com/..."></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>TikTok</label><input type="url" name="tiktok" placeholder="tiktok.com/@..."></div>
+            <div class="fg"><label>YouTube</label><input type="url" name="youtube" placeholder="youtube.com/..."></div>
+          </div>
+          <div class="fsec" data-i="fs4">Preferans</div>
+          <div class="fg"><label data-i="fpay">Metòd Peman Prefere</label>
+            <select name="paiement"><option value="">—</option><option value="moncash">MonCash</option><option value="natcash">NatCash</option><option value="cash">Lajan Cash</option><option value="virement">Virement Bancaire</option><option value="autre">Lòt</option></select>
+          </div>
+          <div class="self-note" data-i="self_note">💡 <strong>Ou vle sipòte tèt ou?</strong> Ou ka enskri tou kòm Coach pou pwofil ou pwòp. Nan ka sa, ou benefisye avantaj vizibilite ak rezo a — men sipò mansyèl la pral pi ba. Fòs ou se rezo ak prezans ou.</div>
+          <div class="fg"><label data-i="fmsg">Mesaj (opsyonèl)</label><textarea name="message" placeholder="Di nou yon ti bagay sou ou..."></textarea></div>
+          <div class="fcheck"><input type="checkbox" id="cs" required><label for="cs" data-i="fcons">Mwen aksepte <a href="terms.html">Tèm</a> ak <a href="privacy.html">Politik Konfidansyalite</a> Rezo Mapou.</label></div>
+          <button type="submit" class="btn-gold" style="width:100%" data-i="fsub_s">Enskri kòm Santinèl — Gratis</button>
+        </form>
+        <div class="form-success" id="suc-s">
+          <div class="suc-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;" data-i="suc_title">Mèsi — ou nan rezo a!</h3>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:1rem;" data-i="suc_msg">Nou pral kontakte ou byento. Rasin fò, pyebwa leve.</p>
+          <div class="suc-share"><strong data-i="share_title">Pwochen etap yo:</strong><span data-i="share_msg"> Pataje lyen enskripsyon an sou rezo sosyal ou. Si ou konn yon Coach potansyèl, envitel enskri tou.</span></div>
+        </div>
+      </div>
+      <div class="reg-form" id="form-coach">
+        <div class="form-title" data-i="cf_title">Enskri kòm Coach</div>
+        <div class="form-sub" data-i="cf_sub">Pwofil ou ap vizib. Ou chwazi ki Santinèl pou sipòte.</div>
+        <form id="cf" onsubmit="submitForm(event,'coach')">
+          <div class="fsec" data-i="fs1">Enfòmasyon Pèsonèl</div>
+          <div class="frow">
+            <div class="fg"><label data-i="ff">Prenon</label><input type="text" name="prenom" required placeholder="Marie"></div>
+            <div class="fg"><label data-i="fl">Non</label><input type="text" name="nom" required placeholder="Dupont"></div>
+          </div>
+          <div class="fg"><label data-i="fe">Imèl</label><input type="email" name="email" required placeholder="marie@example.com"></div>
+          <div class="frow">
+            <div class="fg"><label data-i="fph">Telefòn</label><input type="tel" name="telephone" placeholder="+509 XXXX XXXX"></div>
+            <div class="fg"><label data-i="fwa">WhatsApp</label><input type="tel" name="whatsapp" placeholder="+509 XXXX XXXX"></div>
+          </div>
+          <div class="fsec" data-i="cfs2">Pwofil Coach</div>
+          <div class="fg"><label data-i="floc">Ou baze kote?</label>
+            <select name="location_type"><option value="">—</option><option value="haiti" data-i="loc_ht">Ann Ayiti</option><option value="diaspora" data-i="loc_dia">Dyaspora</option></select>
+          </div>
+          <div class="fg"><label data-i="forg">Òganizasyon / Antrepriz (opsyonèl)</label><input type="text" name="organisation" placeholder="Nom òg ou oswa antrepriz ou"></div>
+          <div class="fg"><label data-i="flogo">Lyen Logo / Foto Pwofil</label><input type="url" name="logo_url" placeholder="Lyen imaj sou Facebook, site ou, Google Drive..."></div>
+          <div class="fg"><label data-i="fweb">Site Web (opsyonèl)</label><input type="url" name="website" placeholder="https://..."></div>
+          <div class="fsec" data-i="cfs3">Rezo Sosyal</div>
+          <div class="frow">
+            <div class="fg"><label>Facebook</label><input type="url" name="facebook" placeholder="facebook.com/..."></div>
+            <div class="fg"><label>Instagram</label><input type="url" name="instagram" placeholder="instagram.com/..."></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>TikTok</label><input type="url" name="tiktok" placeholder="tiktok.com/@..."></div>
+            <div class="fg"><label>YouTube</label><input type="url" name="youtube" placeholder="youtube.com/..."></div>
+          </div>
+          <div class="fsec" data-i="cfs4">Entansyon</div>
+          <div class="fg"><label data-i="fmsg">Poukisa ou vle vin Coach? (opsyonèl)</label><textarea name="message" placeholder="Di nou motivasyon ou..."></textarea></div>
+          <div class="fcheck"><input type="checkbox" id="cc" required><label for="cc" data-i="fcons">Mwen aksepte <a href="terms.html">Tèm</a> ak <a href="privacy.html">Politik Konfidansyalite</a> Rezo Mapou.</label></div>
+          <button type="submit" class="btn-gold" style="width:100%" data-i="fsub_c">Enskri kòm Coach</button>
+        </form>
+        <div class="form-success" id="suc-c">
+          <div class="suc-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;" data-i="suc_title_c">Mèsi Coach — bienveni!</h3>
+          <p style="font-size:14px;color:var(--muted);" data-i="suc_msg_c">Pwofil ou pral vizib sou paj rezo a. Nou pral kontakte ou pou etap yo.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <img src="rmn__logo_5.png" alt="RMN" onerror="this.style.display='none'">
-      <div class="footer-tagline" data-i18n="foot_tag">Rezo Mapou  <br>Enfrastrikti sivik nasyonal pou Ayiti — apolitik, areliijye, endepandan.<br><em>Rasin fò, pyebwa leve.</em></div>
-      <div class="footer-contact"><a href="mailto:rezomapou@gmail.com">rezomapou@gmail.com</a> · <a href="tel:+50947334565">+509 4733 4565</a></div>
+  <div class="foot-inner">
+    <div>
+      <img src="rezo_mapou_logo.png" alt="Rezo Mapou" onerror="this.style.display='none'">
+      <div class="foot-tag" data-i="foot_tag">Rezo Mapou — Rezo Machann Nasyonal<br>Apolitik · Areliijye · Endepandan<br><em>Rasin fò, pyebwa leve.</em></div>
+      <div class="foot-contact"><a href="mailto:info@fatraselo.net">info@fatraselo.net</a> · <a href="tel:+50947334565">+509 4733 4565</a></div>
     </div>
-    <div class="footer-col">
-      <h4 data-i18n="foot_nav">Navigasyon</h4>
+    <div class="foot-col">
+      <h4 data-i="foot_nav">Navigasyon</h4>
       <ul>
-        <li><a href="#mission" data-i18n="nav_mission">Misyon</a></li>
-        <li><a href="#network" data-i18n="nav_network">Rezo</a></li>
-        <li><a href="#partner" data-i18n="nav_partner">Partenè</a></li>
-        <li><a href="#register" data-i18n="nav_register">Enskri</a></li>
+        <li><a href="#mapou" data-i="nav_mapou">Filozofi</a></li>
+        <li><a href="#program" data-i="nav_prog">Pwogram</a></li>
+        <li><a href="#register" data-i="nav_reg">Enskri</a></li>
+        <li><a href="dashboard.html" data-i="nav_dash">Tablodbò</a></li>
       </ul>
     </div>
-    <div class="footer-col">
-      <h4 data-i18n="foot_legal">Legal</h4>
+    <div class="foot-col">
+      <h4 data-i="foot_legal">Legal</h4>
       <ul>
-        <li><a href="privacy.html" data-i18n="lnk_privacy">Politik Konfidansyalite</a></li>
-        <li><a href="terms.html" data-i18n="lnk_terms">Tèm Itilizasyon</a></li>
-        <li><a href="copyright.html" data-i18n="lnk_copy">Dwa Otè</a></li>
-        <li><a href="dashboard.html" data-i18n="lnk_dash">Tablodbò Rezo</a></li>
+        <li><a href="privacy.html" data-i="lnk_priv">Konfidansyalite</a></li>
+        <li><a href="terms.html" data-i="lnk_terms">Tèm</a></li>
+        <li><a href="copyright.html" data-i="lnk_copy">Dwa Otè</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Rezo Mapou Nasyonal · Fatra Se Lò.</span>
-    <span><a href="privacy.html" data-i18n="lnk_privacy">Konfidansyalite</a> · <a href="terms.html" data-i18n="lnk_terms">Tèm</a> · <a href="copyright.html" data-i18n="lnk_copy">Dwa Otè</a></span>
+  <div class="foot-bottom">
+    <span>© 2026 Rezo Mapou.</span>
+    <span><a href="privacy.html" data-i="lnk_priv">Konfidansyalite</a> · <a href="terms.html" data-i="lnk_terms">Tèm</a> · <a href="copyright.html" data-i="lnk_copy">Dwa Otè</a></span>
   </div>
 </footer>
 <script>
-const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbxVy4bqgPFDj8pxwBttCCf1glc2T2uVoHfjv8AXL0ZEfc3bmMrqp3ZjrtevHEQWRccA/exec';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxVy4bqgPFDj8pxwBttCCf1glc2T2uVoHfjv8AXL0ZEfc3bmMrqp3ZjrtevHEQWRccA/exec';
 const HAITI={Artibonite:["Dessalines","Desdunes","Ennery","Gros-Morne","La Chapelle","Marchand Dessalines","Marmelade","Saint-Marc","Saint-Michel de l'Atalaye","Saint-Raphaël","Verrettes"],Centre:["Belladère","Boucan Carré","Hinche","Lascahobas","Mirebalais","Savanette","Thomonde"],"Grand'Anse":["Abricots","Anse-d'Ainault","Beaumont","Bonbon","Chambellan","Dame-Marie","Jérémie","Latibolière","Les Irois","Moron","Roseaux","Tiburon"],Nippes:["Arnaud","Anse-à-Veau","Barradères","Fond des Nègres","Jérôme","L'Asile","Miragoane","Paillant","Plaisance du Sud","Petit-Trou-de-Nippes"],Nord:["Acul du Nord","Bahon","Borgne","Cap-Haïtien","Dondon","Grande Rivière du Nord","Limonade","Milot","Pignon","Pilate","Plaisance","Ranquitte","Sainte-Suzanne","Trou-du-Nord"],"Nord-Est":["Caracol","Carice","Ferrier","Fort-Liberté","Mombin Crochu","Mont-Organisé","Ouanaminthe","Perches","Terrier Rouge","Vallières","Wanament"],"Nord-Ouest":["Anse-à-Foleur","Baie de Henne","Bassin Bleu","Bombardopolis","Chansolme","Jean Rabel","La Tortue","Môle Saint-Nicolas","Port-de-Paix","Saint-Louis du Nord","Terre Neuve"],Ouest:["Arcahaie","Cabaret","Carrefour","Cité Soleil","Cornillon","Croix des Bouquets","Delmas","Gressier","Ganthier","Kenscoff","La Gonâve","Léogâne","Pétion-Ville","Port-au-Prince","Tabarre","Thomazeau","Titanyen"],Sud:["Aquin","Arniquet","Camp Perrin","Cavaillon","Chantal","Côtes de Fer","Les Cayes","Maniche","Port-à-Piment","Port-Salut","Saint-Jean du Sud","Saint-Louis du Sud","Torbeck"],"Sud-Est":["Bainet","Belle Anse","Cayes-Jacmel","Grand Gosier","Jacmel","La Vallée","Marigot","Thiotte"]};
-const FAKE=[{prenom:"Marie",nom:"Desroches",email:"test1@rmn-fake.net",telephone:"+50934000001",whatsapp:"+50934000001",departement:"Ouest",commune:"Port-au-Prince",zone:"Bel-Air",paiement:"moncash",_fake:true},{prenom:"Jean",nom:"Baptiste",email:"test2@rmn-fake.net",telephone:"+50934000002",whatsapp:"+50934000002",departement:"Ouest",commune:"Delmas",zone:"Delmas 33",paiement:"natcash",_fake:true},{prenom:"Roseline",nom:"Pierre",email:"test3@rmn-fake.net",telephone:"+50934000003",whatsapp:"+50934000003",departement:"Nord",commune:"Cap-Haïtien",zone:"Centre-ville",paiement:"lajancash",_fake:true},{prenom:"Claude",nom:"Mentor",email:"test4@rmn-fake.net",telephone:"+50934000004",whatsapp:"+50934000004",departement:"Artibonite",commune:"Saint-Marc",zone:"",paiement:"moncash",_fake:true},{prenom:"Nadège",nom:"Joseph",email:"test5@rmn-fake.net",telephone:"+50934000005",whatsapp:"+50934000005",departement:"Sud",commune:"Les Cayes",zone:"Rue Gabard",paiement:"virement",_fake:true},{prenom:"Frantz",nom:"Celesrin",email:"test6@rmn-fake.net",telephone:"+50934000006",whatsapp:"+50934000006",departement:"Ouest",commune:"Croix des Bouquets",zone:"",paiement:"moncash",_fake:true},{prenom:"Sophia",nom:"Duval",email:"test7@rmn-fake.net",telephone:"+50934000007",whatsapp:"+50934000007",departement:"Nord-Est",commune:"Ouanaminthe",zone:"",paiement:"natcash",_fake:true},{prenom:"Patrick",nom:"Lamarre",email:"test8@rmn-fake.net",telephone:"+50934000008",whatsapp:"+50934000008",departement:"Centre",commune:"Hinche",zone:"",paiement:"lajancash",_fake:true}];
-const T={ht:{nav_mission:"Misyon",nav_network:"Rezo",nav_partner:"Partenè",nav_register:"Enskri",hero_eyebrow:"Rezo Sivik Nasyonal · Ayiti 2026",hero_t1:"Fatra",hero_t2:"Se Lò.",hero_t3:"Dechè = Richès.",hero_sub:"Yon rezo nasyonal k ap transfòme jesyon dechè an opòtinite ekonomik, travay vèt, ak anviwònman pi bon pou tout Ayisyen.",hero_cta1:"Enskri nan Rezo a",hero_cta2:"Aprann Plis",stat_dept:"Depatman",stat_commune:"Komin",stat_section:"Seksyon Kominal",stat_members:"Manm Enskri",mis_eye:"Misyon Nou",mis_title:"Rasin fò, pyebwa leve.",mis_p1:"<strong>Fatra Se Lò</strong> se kanal prensipal <em>Rezo Mapou Nasyonal</em> — yon enfrastrikti nasyonal k ap konekte prezans sou teren, jesyon done, ak aktivasyon sivik nan tout peyi Ayiti.",mis_p2:"Dechè se yon reyalite inivèsèl ann Ayiti. Chak kominote viv avèk konsekans li chak jou. FSL transfòme reyalite sa a an angajman sivik òganize — epi an opòtinite ekonomik reyèl.",mis_p3:"Apolitik. Areliijye. Endepandan. Enrasiné nan kominote. Konsa tankou pyebwa mapou, nou bati rasin anvan nou grandi anlè.",mis_cite:"Pwovèb Ayisyen · Filozofi RMN",val_eye:"Valè Nou",val_title:"Sa nou kwè.",v1n:"Anviwònman",v1d:"Sèl ideyoloji nou se anviwònman Ayiti. Dechè jere, kominote an sante.",v2n:"Endepandans",v2d:"Pa gen afiliyasyon politik, pa gen misyon relijye. Rezo a travay pou kominote a.",v3n:"Enklizyon",v3d:"Tout Ayisyen gen plas nan rezo a — machann, elèv, dyaspora, enstitisyon.",v4n:"Transparans",v4d:"Done piblik, rapò piblik. Kominote a konnen kijan rezo a travay.",net_eye:"Enfrastrikti Teritoryal",net_title:"Du nasyonal jis nan katye a.",net_lead:"Yon rezo 5 nivo k ap asire prezans sou teren reyèl nan tout 146 komin Ayiti. Done monte anlè, direksyon desann anba.",tl1:"Nivo 1",tl2:"Nivo 2",tl3:"Nivo 3",tl4:"Nivo 4",tl5:"Nivo 5",tn1:"Nœud Santral",td1:"Kòdinasyon nasyonal, vizyon ak estanda",tn2:"Pòt-Vwa Nasyonal",td2:"Anbassadè nasyonal — vizibilite ak kredibilite",tn3:"Responsab Kominal",td3:"Yon kòdinatè pa komin",tn4:"Gadyen Pwòpte",td4:"Kòdinatè kominotè lye ak chak CASEC",tn5:"Santinèl Pwòpte",td5:"Ajan nan katye — je ki wè sou chak lari",par_eye:"Partenè Fondatè",par_title:"Ann bati sa ansanm.",par_lead:"RMN ap chèche partenè fondatè pou deplasman nasyonal Faz 2 — avril rive desanm 2026.",pt1:"Partenè Anchò",pn1:"Enstitisyon Finansye",pd1:"Akè bay entèlijans ekonomik nan nivo komin. Prezans nasyonal ki depase branch aktyèl yo.",pt2:"Mak Konsomatè",pn2:"Mak Diaspora",pd2:"Akè dirèk nan tout 146 komin. Vizibilite diaspora. Asosyasyon ak mouvman anviwònman nasyonal.",pt3:"Enstans Gouvènman",pn3:"Ministè Anviwònman",pd3:"Aliyman ak Konbit Zéro Déchet. Kouch entèlijans teritoryal ke leta pa ka bati sèl li.",reg_eye:"Enskri Kounye a",reg_title:"Fè pati rezo a.",reg_lead:"Ke ou se yon machann, yon vwazen ki angaje, yon enstans, oswa yon partenè potansyèl — gen yon plas pou ou nan RMN.",r1:"Resevwa enfòmasyon prensipal sou lanse rezo a",r2:"Patisipe aktivamente nan kominote ou",r3:"Kontribye nan pwòpte ak sante anviwònman ou",r4:"Jwenn akè nan opòtinite ekonomik rezo a ap kreye",r5:"Kominike dirèkteman ak ekip fondatè RMN nan",ft:"Enskri Kounye a",fs:"Gratis. Pa gen obligasyon. Yon minit.",fsec1:"Enfòmasyon Pèsonèl",fsec2:"Kote Ou Ye",fsec3:"Preferans",ff:"Prenon",fl:"Non",fe:"Imèl",fph:"Telefòn",fwa:"WhatsApp #",fdept:"Depatman",fdept_ph:"-- Chwazi depatman --",fcomm:"Komin",fcomm_ph:"-- Chwazi komin --",fzone:"Zòn / Katye (opsyonèl)",fpay:"Metòd Peman Prefere",fpay_ph:"-- Chwazi --",pay1:"MonCash",pay2:"NatCash",pay3:"Lajan Cash / Espès",pay4:"Virement Bancaire",pay5:"Lòt",fmsg:"Mesaj (opsyonèl)",fconsent:"Mwen dakò pou RMN kontakte mwen sou pwojè sa a. Pa gen spam — jis enfòmasyon rezo.",fprivacy:"Politik Konfidansyalite",fsubmit:"Enskri Gratis",suc_title:"Mèsi — ou gen plas ou!",suc_msg:"Nou pral kontakte ou byento. Rasin fò, pyebwa leve.",foot_tag:"Rezo Mapou Nasyonal · Fatra Se Lò<br>Enfrastrikti sivik nasyonal pou Ayiti — apolitik, areliijye, endepandan.<br><em>Rasin fò, pyebwa leve.</em>",foot_nav:"Navigasyon",foot_legal:"Legal",lnk_privacy:"Politik Konfidansyalite",lnk_terms:"Tèm Itilizasyon",lnk_copy:"Dwa Otè",lnk_dash:"Tablodbò Rezo"},fr:{nav_mission:"Mission",nav_network:"Réseau",nav_partner:"Partenaires",nav_register:"S'inscrire",hero_eyebrow:"Réseau Civique National · Haïti 2026",hero_t1:"Les Déchets",hero_t2:"C'est de l'Or.",hero_t3:"Fatra Se Lò.",hero_sub:"Un réseau national transformant la gestion des déchets en opportunités économiques, emplois verts et environnement sain pour tous les Haïtiens.",hero_cta1:"Rejoindre le Réseau",hero_cta2:"En Savoir Plus",stat_dept:"Départements",stat_commune:"Communes",stat_section:"Sections Communales",stat_members:"Membres Inscrits",mis_eye:"Notre Mission",mis_title:"Racines profondes, l'arbre s'élève.",mis_p1:"<strong>Fatra Se Lò</strong> est le canal principal du <em>Réseau Mapou National</em> — une infrastructure nationale connectant présence terrain, gestion des données et activation civique dans toute Haïti.",mis_p2:"Les déchets sont une réalité universelle en Haïti. Chaque communauté en vit les conséquences quotidiennement. FSL transforme cette réalité en engagement civique organisé — et en opportunité économique réelle.",mis_p3:"Apolitique. Areligieux. Indépendant. Enraciné dans les communautés. Comme le mapou, nous construisons des racines avant de grandir.",mis_cite:"Proverbe Haïtien · Philosophie RMN",val_eye:"Nos Valeurs",val_title:"Ce en quoi nous croyons.",v1n:"Environnement",v1d:"Notre seule idéologie est l'environnement d'Haïti.",v2n:"Indépendance",v2d:"Aucune affiliation politique, aucune mission religieuse.",v3n:"Inclusion",v3d:"Tous les Haïtiens ont leur place — marchands, étudiants, diaspora, institutions.",v4n:"Transparence",v4d:"Données publiques, rapports publics.",net_eye:"Infrastructure Territoriale",net_title:"Du national jusqu'au quartier.",net_lead:"Un réseau à 5 niveaux assurant une présence terrain réelle dans les 146 communes d'Haïti.",tl1:"Niveau 1",tl2:"Niveau 2",tl3:"Niveau 3",tl4:"Niveau 4",tl5:"Niveau 5",tn1:"Nœud Central",td1:"Coordination nationale, vision et standards",tn2:"Porte-Voix Nationaux",td2:"Ambassadeurs nationaux — visibilité et crédibilité",tn3:"Responsables Communaux",td3:"Un coordinateur par commune",tn4:"Gardiens de la Propreté",td4:"Coordinateurs communautaires liés à chaque CASEC",tn5:"Sentinelles de la Propreté",td5:"Agents de quartier — les yeux sur chaque rue",par_eye:"Partenaires Fondateurs",par_title:"Construisons ensemble.",par_lead:"RMN recherche des partenaires fondateurs pour le déploiement national Phase 2 — avril à décembre 2026.",pt1:"Partenaire Ancre",pn1:"Institution Financière",pd1:"Accès à l'intelligence économique au niveau commune.",pt2:"Marque Consommateur",pn2:"Marque Diaspora",pd2:"Accès direct dans les 146 communes. Visibilité diaspora.",pt3:"Institution Gouvernementale",pn3:"Ministère de l'Environnement",pd3:"Alignement avec Konbit Zéro Déchet.",reg_eye:"Inscrivez-vous",reg_title:"Rejoignez le réseau.",reg_lead:"Que vous soyez marchand, citoyen engagé, institution ou partenaire potentiel — il y a une place pour vous dans RMN.",r1:"Recevoir les informations clés sur le lancement",r2:"Participer activement dans votre communauté",r3:"Contribuer à la propreté et à la santé environnementale",r4:"Accéder aux opportunités économiques créées par le réseau",r5:"Communiquer directement avec l'équipe fondatrice RMN",ft:"S'inscrire Maintenant",fs:"Gratuit. Sans obligation. Une minute.",fsec1:"Informations Personnelles",fsec2:"Localisation",fsec3:"Préférences",ff:"Prénom",fl:"Nom",fe:"Email",fph:"Téléphone",fwa:"WhatsApp #",fdept:"Département",fdept_ph:"-- Choisir un département --",fcomm:"Commune",fcomm_ph:"-- Choisir une commune --",fzone:"Zone / Quartier (optionnel)",fpay:"Méthode de Paiement Préférée",fpay_ph:"-- Choisir --",pay1:"MonCash",pay2:"NatCash",pay3:"Espèces",pay4:"Virement Bancaire",pay5:"Autre",fmsg:"Message (optionnel)",fconsent:"J'accepte que RMN me contacte sur ce projet. Pas de spam.",fprivacy:"Politique de Confidentialité",fsubmit:"S'inscrire Gratuitement",suc_title:"Merci — vous avez votre place!",suc_msg:"Nous vous contacterons bientôt. Rasin fò, pyebwa leve.",foot_tag:"Réseau Mapou National · Fatra Se Lò<br>Infrastructure civique nationale pour Haïti — apolitique, areligieux, indépendant.<br><em>Rasin fò, pyebwa leve.</em>",foot_nav:"Navigation",foot_legal:"Légal",lnk_privacy:"Confidentialité",lnk_terms:"Conditions",lnk_copy:"Droits d'auteur",lnk_dash:"Tableau de Bord"},en:{nav_mission:"Mission",nav_network:"Network",nav_partner:"Partners",nav_register:"Register",hero_eyebrow:"National Civic Network · Haiti 2026",hero_t1:"Trash",hero_t2:"Is Gold.",hero_t3:"Fatra Se Lò.",hero_sub:"A national network transforming waste management into economic opportunity, green jobs, and a healthier environment for all Haitians.",hero_cta1:"Join the Network",hero_cta2:"Learn More",stat_dept:"Departments",stat_commune:"Communes",stat_section:"Communal Sections",stat_members:"Registered Members",mis_eye:"Our Mission",mis_title:"Deep roots, the tree rises.",mis_p1:"<strong>Fatra Se Lò</strong> is the primary channel of the <em>Réseau Mapou Nasyonal</em> — a national infrastructure connecting field presence, data management, and civic activation across Haiti.",mis_p2:"Waste is a universal reality in Haiti. Every community lives with its consequences daily. FSL transforms that shared reality into organized civic engagement — and real economic opportunity.",mis_p3:"Apolitical. Non-religious. Independent. Rooted in communities. Like the mapou tree, we build roots before we rise.",mis_cite:"Haitian Proverb · RMN Philosophy",val_eye:"Our Values",val_title:"What we believe.",v1n:"Environment",v1d:"Our only ideology is Haiti's environment.",v2n:"Independence",v2d:"No political affiliation, no religious mission.",v3n:"Inclusion",v3d:"All Haitians have a place — vendors, students, diaspora, institutions.",v4n:"Transparency",v4d:"Public data, public reports.",net_eye:"Territorial Infrastructure",net_title:"From national down to the neighborhood.",net_lead:"A 5-tier network ensuring real ground-level presence across all 146 communes of Haiti.",tl1:"Level 1",tl2:"Level 2",tl3:"Level 3",tl4:"Level 4",tl5:"Level 5",tn1:"Central Node",td1:"National coordination, vision and standards",tn2:"National Ambassadors",td2:"National ambassadors — visibility and credibility",tn3:"Communal Coordinators",td3:"One coordinator per commune",tn4:"Cleanliness Guardians",td4:"Community coordinators linked to every CASEC",tn5:"Cleanliness Sentinels",td5:"Neighborhood agents — eyes on every street",par_eye:"Founding Partners",par_title:"Let's build this together.",par_lead:"RMN is seeking founding partners for Phase 2 national deployment — April through December 2026.",pt1:"Anchor Partner",pn1:"Financial Institution",pd1:"Access to commune-level economic intelligence unavailable through conventional banking.",pt2:"Consumer Brand",pn2:"Diaspora Brand",pd2:"Direct reach into all 146 communes. Diaspora visibility.",pt3:"Government Institution",pn3:"Ministry of Environment",pd3:"Alignment with Konbit Zéro Déchet.",reg_eye:"Register Now",reg_title:"Join the network.",reg_lead:"Whether you're a vendor, engaged citizen, institution, or potential partner — there is a place for you in Rezo Mapou.",r1:"Receive key information on the network launch",r2:"Participate actively in your community",r3:"Contribute to cleanliness and environmental health",r4:"Access the economic opportunities the network creates",r5:"Communicate directly with the RMN founding team",ft:"Register Now",fs:"Free. No commitment. One minute.",fsec1:"Personal Information",fsec2:"Location",fsec3:"Preferences",ff:"First Name",fl:"Last Name",fe:"Email",fph:"Phone",fwa:"WhatsApp #",fdept:"Department",fdept_ph:"-- Choose a department --",fcomm:"Commune",fcomm_ph:"-- Choose a commune --",fzone:"Zone / Neighborhood (optional)",fpay:"Preferred Payment Method",fpay_ph:"-- Choose --",pay1:"MonCash",pay2:"NatCash",pay3:"Cash",pay4:"Bank Transfer",pay5:"Other",fmsg:"Message (optional)",fconsent:"I agree for RMN to contact me about this project. No spam.",fprivacy:"Privacy Policy",fsubmit:"Register Free",suc_title:"Thank you — you have your place!",suc_msg:"We'll be in touch soon. Rasin fò, pyebwa leve.",foot_tag:"Rezo Mapou<br>National civic infrastructure for Haiti — apolitical, non-religious, independent.<br><em>Rasin fò, pyebwa leve.</em>",foot_nav:"Navigation",foot_legal:"Legal",lnk_privacy:"Privacy Policy",lnk_terms:"Terms of Use",lnk_copy:"Copyright",lnk_dash:"Network Dashboard"}};
-let currentLang='ht';
-function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>{const m={ht:'KR',fr:'FR',en:'EN'};b.classList.toggle('active',b.textContent.trim()===m[l]);});const t=T[l];document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k]!==undefined)el.innerHTML=t[k];});}
-function populateDepts(){const s=document.getElementById('sel-dept');Object.keys(HAITI).sort().forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;s.appendChild(o);});}
-function updateCommunes(){const d=document.getElementById('sel-dept').value,s=document.getElementById('sel-commune');s.innerHTML='<option value="">'+T[currentLang].fcomm_ph+'</option>';if(d&&HAITI[d])HAITI[d].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;s.appendChild(o);});}
-async function post(data){try{const p=new URLSearchParams();Object.entries(data).forEach(([k,v])=>p.append(k,String(v)));await fetch(APPS_SCRIPT_URL,{method:'POST',body:p,mode:'no-cors'});}catch(e){}}
-async function submitForm(e){e.preventDefault();const fd=new FormData(document.getElementById('reg-form'));const data={prenom:fd.get('prenom'),nom:fd.get('nom'),email:fd.get('email'),telephone:fd.get('telephone'),whatsapp:fd.get('whatsapp'),departement:fd.get('departement'),commune:fd.get('commune'),zone:fd.get('zone'),paiement:fd.get('paiement'),message:fd.get('message'),langue:currentLang,source:'website',_fake:false};await post(data);document.getElementById('reg-form').style.display='none';document.querySelector('.form-title').style.display='none';document.querySelector('.form-subtitle').style.display='none';document.getElementById('form-success').style.display='block';}
-async function seedFake(){for(const e of FAKE){await post(e);await new Promise(r=>setTimeout(r,400));}}
-async function fetchCount(){if(APPS_SCRIPT_URL==='YOUR_APPS_SCRIPT_URL_HERE')return;try{const r=await fetch(APPS_SCRIPT_URL);const d=await r.json();if(d.total!==undefined)document.getElementById('live-count').textContent=d.total;}catch(e){}}
+const WEIGHTS={"Port-au-Prince":20,"Delmas":12,"Carrefour":10,"Pétion-Ville":8,"Cité Soleil":7,"Cap-Haïtien":9,"Saint-Marc":5,"Les Cayes":5,"Gonaïves":6,"Hinche":4,"Jacmel":4,"Jérémie":3,"Ouanaminthe":3,"Croix des Bouquets":5,"Léogâne":3};
+const FNAMES=[["Marie","Desroches"],["Jean","Baptiste"],["Roseline","Pierre"],["Claude","Mentor"],["Nadège","Joseph"],["Frantz","Celesrin"],["Sophia","Duval"],["Patrick","Lamarre"],["Kettely","François"],["Dieuseul","Blanc"],["Yanick","Charles"],["Farah","Estimé"],["Luckson","Dorismond"],["Mireille","Augustin"],["Edwige","Prophète"],["Roberson","Casimir"],["Guerda","Sainvil"],["Widler","Thermidor"],["Junie","Beaubrun"],["Kervens","Toussaint"]];
+const ACTS=["Machann dlo","Machann manje","Machann legim","Boutik","Machann frèt","Kwafè","Mekanisyen","Machann rad","Epicerie","Machann poul"];
+function wComm(){const a=[];Object.entries(HAITI).forEach(([d,cs])=>cs.forEach(c=>{const w=WEIGHTS[c]||1;for(let i=0;i<w;i++)a.push({dept:d,commune:c});}));return a[Math.floor(Math.random()*a.length)];}
+function makeFake(){const loc=wComm();const n=FNAMES[Math.floor(Math.random()*FNAMES.length)];return{prenom:n[0],nom:n[1],email:`fake.${Date.now()}@rmn-test.net`,telephone:`+509${Math.floor(30000000+Math.random()*9999999)}`,whatsapp:'',departement:loc.dept,commune:loc.commune,zone:'',activite:ACTS[Math.floor(Math.random()*ACTS.length)],paiement:'moncash',type:'sentinelle',langue:'ht',source:'seed',_fake:true};}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function post(data){try{const p=new URLSearchParams();Object.entries(data).forEach(([k,v])=>p.append(k,String(v)));await fetch(SCRIPT_URL,{method:'POST',body:p,mode:'no-cors'});}catch(e){}}
+async function autoSeed(){try{const r=await fetch(SCRIPT_URL+'?t='+Date.now());const d=await r.json();if((d.real_total||0)>=50)return;const n=Math.floor(Math.random()*3)+1;for(let i=0;i<n;i++){await post(makeFake());await sleep(500);}}catch(e){}}
+autoSeed();setInterval(autoSeed,3*60*60*1000);
+const T={ht:{nav_mapou:"Filozofi",nav_prog:"Pwogram",nav_reg:"Enskri",nav_dash:"Tablodbò",nav_join:"Enskri Kounye a",hero_tag:"Rezo Machann Nasyonal · Ayiti 2026",h1a:"Ou se",h1b:"Rezo Mapou.",h1c:"Vini grandi.",hero_lead:"Yon rezo nasyonal ki sipòte machann ak antreprenè nan tout Ayiti — vizibilite, koneksyon, ak sipò konkrè chak mwa.",hero_cta1:"Enskri Kounye a — Gratis",hero_cta2:"Kijan sa Travay",s1:"Depatman",s2:"Komin",s3:"Santinèl Enskri",s4:"Coach Aktif",map_eye:"Senbòl Nou",map_title:"Poukisa Mapou?",map_p1:"Pyebwa Mapou se pyebwa ki pi solid ann Ayiti. Li pa grandi vit — li bati rasin pwofon, long, solid anvan li leve anlè. Siklòn pa ka rache l paske pa gen yon sèl rasin ki pote tout pwa a — tout rasin yo travay ansanm.",map_p2:"Se menm lojik la nou itilize pou rezo sa a. Machann yo, yo menm, se rasin ekonomi Ayisyen an. Chak machann dlo, chak vandè manje, chak ti komèsan — se yon rasin. Ansanm, nou fòme yon rezo ki pa ka rache.",map_dis_title:"Yon bagay enpòtan pou nou di klè:",map_dis1:"Rezo Mapou pa gen okenn afiliyasyon relijye — ni katolik, ni pwotestan, ni vodou, ni okenn lòt kwayans. Senbòl mapou a se yon senbòl natirèl, ekolojik, ki se eritaj tout pèp Ayisyen san eksepsyon.",map_dis2:"Rezo Mapou pa gen okenn afiliyasyon politik — ni pati, ni kandida, ni gouvènman. Nou travay pou machann ak kominote yo, pa pou okenn ajanda politik.",map_dis3:"Tout moun ki kwè nan nenpòt relijyon, oswa ki pa kwè ditou — gen plas yo nan Rezo Mapou. Sèl kondisyon: vle wè Ayiti avanse.",ven_eye:"Apèl Nou",ven_call:'"Ou se yon machann dlo, manje, legim, elatrye — <span class=\'gold\'>ou se yon Santinèl k ap bay ekonomi an jaret.</span> Vini nan Rezo Mapou kote w ap jwenn bon jan avantaj."',prog_eye:"Pwogram Map Sipote Lakay",prog_title:"Etap yo, klè klè.",st1t:"Enskri — Gratis",st1d:"Enskripsyon louvri depi jodi a rive 1 me. Pa peye anyen. Kreye pwofil ou kòm Santinèl nan rezo a.",st2t:"Coach Chwazi Ou",st2d:"Coach yo gade pwofil Santinèl yo epi yo ka deside sipòte ou. Yon Coach peye frè enskripsyon pou ou nan pwogram 'Map Sipote Lakay'.",st3t:"Resevwa Sipò Chak Mwa",st3d:"Chak mwa, ou resevwa yon pati nan sipò Coach la peye a — akondisyon ou reyalize 3 aktivite rezo a.",c1t:"① Poste sou Rezo Mapou",c1d:"Pataje yon post sou paj Rezo Mapou pou pale de Coach ou ak aktivite ou.",c2t:"② Aktivite Kominotè",c2d:"Patisipe nan omwen yon aktivite kominotè ki gen valè nan mwa a.",c3t:"③ Rapò Mansyèl",c3d:"Ranpli rapò mansyèl rezo a — kèk kesyon sou aktivite ou ak zòn ou.",reg_eye:"Enskri",reg_title:"Fè pati rezo a.",reg_lead:"Chwazi wòl ou nan rezo a. Santinèl oswa Coach — de wòl enpòtan, yon sèl objektif.",tab_s:"Santinèl — Machann / Anplwaye",tab_c:"Coach — Sipòtè / Dyaspora",sf_title:"Enskri kòm Santinèl",sf_sub:"Gratis. Yon minit. Ou ka envite yon Coach pita.",cf_title:"Enskri kòm Coach",cf_sub:"Pwofil ou ap vizib. Ou chwazi ki Santinèl pou sipòte.",fs1:"Enfòmasyon Pèsonèl",fs2:"Kote Ou Ye",fs3:"Aktivite & Rezo Sosyal",fs4:"Preferans",cfs2:"Pwofil Coach",cfs3:"Rezo Sosyal",cfs4:"Entansyon",ff:"Prenon",fl:"Non",fe:"Imèl",fph:"Telefòn",fwa:"WhatsApp",fdept:"Depatman",fcomm:"Komin",fzone:"Zòn / Katye (opsyonèl)",factiv:"Tip Aktivite ou",fvid:"Lyen Videyo Prezantasyon (opsyonèl)",fpay:"Metòd Peman Prefere",fmsg:"Mesaj (opsyonèl)",floc:"Ou baze kote?",loc_ht:"Ann Ayiti",loc_dia:"Dyaspora",forg:"Òganizasyon / Antrepriz (opsyonèl)",flogo:"Lyen Logo / Foto Pwofil",fweb:"Site Web (opsyonèl)",self_note:"💡 <strong>Ou vle sipòte tèt ou?</strong> Ou ka enskri tou kòm Coach pou pwofil ou pwòp. Nan ka sa, ou benefisye avantaj vizibilite ak rezo a — men sipò mansyèl la pral pi ba. Fòs ou se rezo ak prezans ou.",fcons:"Mwen aksepte <a href='terms.html'>Tèm</a> ak <a href='privacy.html'>Politik Konfidansyalite</a> Rezo Mapou.",fsub_s:"Enskri kòm Santinèl — Gratis",fsub_c:"Enskri kòm Coach",suc_title:"Mèsi — ou nan rezo a!",suc_msg:"Nou pral kontakte ou byento. Rasin fò, pyebwa leve.",suc_title_c:"Mèsi Coach — bienveni!",suc_msg_c:"Pwofil ou pral vizib sou paj rezo a. Nou pral kontakte ou pou etap yo.",share_title:"Pwochen etap yo:",share_msg:" Pataje lyen enskripsyon an sou rezo sosyal ou. Si ou konn yon Coach potansyèl, envitel enskri tou.",foot_tag:"Rezo Mapou — Rezo Machann Nasyonal<br>Apolitik · Areliijye · Endepandan<br><em>Rasin fò, pyebwa leve.</em>",foot_nav:"Navigasyon",foot_legal:"Legal",lnk_priv:"Konfidansyalite",lnk_terms:"Tèm",lnk_copy:"Dwa Otè"},fr:{nav_mapou:"Philosophie",nav_prog:"Programme",nav_reg:"S'inscrire",nav_dash:"Tableau de bord",nav_join:"S'inscrire",hero_tag:"Réseau Marchand National · Haïti 2026",h1a:"Vous êtes",h1b:"Rezo Mapou.",h1c:"Venez grandir.",hero_lead:"Un réseau national qui soutient les marchands et entrepreneurs à travers Haïti — visibilité, connexions et soutien concret chaque mois.",hero_cta1:"S'inscrire — Gratuit",hero_cta2:"Comment ça marche",s1:"Départements",s2:"Communes",s3:"Sentinelles Inscrites",s4:"Coachs Actifs",map_eye:"Notre Symbole",map_title:"Pourquoi Mapou?",map_p1:"L'arbre Mapou est l'arbre le plus solide d'Haïti. Il ne grandit pas vite — il construit des racines profondes et solides avant de s'élever. Les cyclones ne peuvent pas le déraciner car aucune racine seule ne porte tout le poids.",map_p2:"C'est la même logique que nous utilisons pour ce réseau. Les marchands eux-mêmes sont les racines de l'économie haïtienne. Ensemble, nous formons un réseau impossible à déraciner.",map_dis_title:"Une chose importante à dire clairement:",map_dis1:"Rezo Mapou n'a aucune affiliation religieuse — ni catholique, ni protestante, ni vaudou, ni aucune autre croyance. Le symbole du mapou est un symbole naturel et écologique, patrimoine de tout le peuple haïtien.",map_dis2:"Rezo Mapou n'a aucune affiliation politique — ni parti, ni candidat, ni gouvernement. Nous travaillons pour les marchands et les communautés.",map_dis3:"Toute personne, quelle que soit sa religion ou son orientation politique — a sa place dans Rezo Mapou. Une seule condition: vouloir voir Haïti avancer.",ven_eye:"Notre Appel",ven_call:'"Que vous soyez marchand d\'eau, de nourriture, de légumes — <span class=\'gold\'>vous soutenez l\'économie.</span> Rejoignez Rezo Mapou et bénéficiez d\'avantages concrets."',prog_eye:"Programme Map Sipote Lakay",prog_title:"Les étapes, clairement.",st1t:"S'inscrire — Gratuit",st1d:"Les inscriptions sont ouvertes dès aujourd'hui jusqu'au 1er mai. Gratuit.",st2t:"Un Coach vous choisit",st2d:"Les Coachs consultent les profils et peuvent décider de vous soutenir en payant les frais d'inscription.",st3t:"Recevez un soutien mensuel",st3d:"Chaque mois, vous recevez une partie du soutien — à condition de réaliser 3 activités du réseau.",c1t:"① Poster sur Rezo Mapou",c1d:"Partager un post sur la page Rezo Mapou pour parler de votre Coach et activités.",c2t:"② Activité Communautaire",c2d:"Participer à au moins une activité communautaire significative dans le mois.",c3t:"③ Rapport Mensuel",c3d:"Remplir le rapport mensuel du réseau.",reg_eye:"S'inscrire",reg_title:"Rejoignez le réseau.",reg_lead:"Choisissez votre rôle. Sentinelle ou Coach — deux rôles, un seul objectif.",tab_s:"Sentinelle — Marchand / Employé",tab_c:"Coach — Supporter / Diaspora",sf_title:"S'inscrire comme Sentinelle",sf_sub:"Gratuit. Une minute.",cf_title:"S'inscrire comme Coach",cf_sub:"Votre profil sera visible. Vous choisissez quelle Sentinelle soutenir.",fs1:"Informations Personnelles",fs2:"Localisation",fs3:"Activité & Réseaux Sociaux",fs4:"Préférences",cfs2:"Profil Coach",cfs3:"Réseaux Sociaux",cfs4:"Intention",ff:"Prénom",fl:"Nom",fe:"Email",fph:"Téléphone",fwa:"WhatsApp",fdept:"Département",fcomm:"Commune",fzone:"Zone / Quartier (optionnel)",factiv:"Type d'activité",fvid:"Lien vidéo de présentation (optionnel)",fpay:"Méthode de paiement préférée",fmsg:"Message (optionnel)",floc:"Vous êtes basé où?",loc_ht:"En Haïti",loc_dia:"Diaspora",forg:"Organisation / Entreprise (optionnel)",flogo:"Lien Logo / Photo de profil",fweb:"Site Web (optionnel)",self_note:"💡 <strong>Vous voulez vous auto-soutenir?</strong> Inscrivez-vous aussi comme Coach. Le soutien mensuel sera moindre qu'avec un Coach externe, mais vous bénéficiez de la visibilité du réseau.",fcons:"J'accepte les <a href='terms.html'>Conditions</a> et la <a href='privacy.html'>Politique de Confidentialité</a>.",fsub_s:"S'inscrire comme Sentinelle — Gratuit",fsub_c:"S'inscrire comme Coach",suc_title:"Merci — vous êtes dans le réseau!",suc_msg:"Nous vous contacterons bientôt. Rasin fò, pyebwa leve.",suc_title_c:"Merci Coach — bienvenu!",suc_msg_c:"Votre profil sera visible. Nous vous contacterons pour les prochaines étapes.",share_title:"Prochaines étapes:",share_msg:" Partagez le lien sur vos réseaux. Si vous connaissez un Coach potentiel, invitez-le à s'inscrire.",foot_tag:"Rezo Mapou — Réseau Marchand National<br>Apolitique · Areligieux · Indépendant<br><em>Rasin fò, pyebwa leve.</em>",foot_nav:"Navigation",foot_legal:"Légal",lnk_priv:"Confidentialité",lnk_terms:"Conditions",lnk_copy:"Droits d'auteur"},en:{nav_mapou:"Philosophy",nav_prog:"Program",nav_reg:"Register",nav_dash:"Dashboard",nav_join:"Register Now",hero_tag:"National Merchant Network · Haiti 2026",h1a:"You are",h1b:"Rezo Mapou.",h1c:"Come grow.",hero_lead:"A national network supporting merchants and entrepreneurs across Haiti — visibility, connections, and concrete monthly support.",hero_cta1:"Register Now — Free",hero_cta2:"How It Works",s1:"Departments",s2:"Communes",s3:"Registered Sentinels",s4:"Active Coaches",map_eye:"Our Symbol",map_title:"Why Mapou?",map_p1:"The Mapou tree is Haiti's most resilient tree. It doesn't grow fast — it builds deep, strong roots before rising. Hurricanes cannot uproot it because no single root carries all the weight.",map_p2:"This is the same logic we use for this network. Merchants themselves are the roots of the Haitian economy. Together, we form a network that cannot be uprooted.",map_dis_title:"One thing important to state clearly:",map_dis1:"Rezo Mapou has no religious affiliation — neither Catholic, Protestant, Vodou, nor any other belief. The mapou symbol is a natural, ecological symbol that belongs to all Haitian people.",map_dis2:"Rezo Mapou has no political affiliation — no party, no candidate, no government. We work for merchants and communities.",map_dis3:"Anyone, regardless of religion or political orientation — has a place in Rezo Mapou. One condition only: wanting Haiti to move forward.",ven_eye:"Our Call",ven_call:'"Whether you sell water, food, or vegetables — <span class=\'gold\'>you hold up the economy.</span> Join Rezo Mapou and access real benefits."',prog_eye:"Map Sipote Lakay Program",prog_title:"The steps, clearly.",st1t:"Register — Free",st1d:"Registration open from today until May 1st. Free. Create your Sentinel profile.",st2t:"A Coach Chooses You",st2d:"Coaches browse profiles and can decide to support you by paying the enrollment fee.",st3t:"Receive Monthly Support",st3d:"Each month, you receive a portion of the Coach's payment — provided you complete 3 network activities.",c1t:"① Post on Rezo Mapou",c1d:"Share a post on the Rezo Mapou page about your Coach and activities.",c2t:"② Community Activity",c2d:"Participate in at least one meaningful community activity in the month.",c3t:"③ Monthly Report",c3d:"Complete the network's monthly report.",reg_eye:"Register",reg_title:"Join the network.",reg_lead:"Choose your role. Sentinel or Coach — two important roles, one goal.",tab_s:"Sentinel — Merchant / Employee",tab_c:"Coach — Supporter / Diaspora",sf_title:"Register as a Sentinel",sf_sub:"Free. One minute.",cf_title:"Register as a Coach",cf_sub:"Your profile will be visible. You choose which Sentinel to support.",fs1:"Personal Information",fs2:"Location",fs3:"Activity & Social Media",fs4:"Preferences",cfs2:"Coach Profile",cfs3:"Social Media",cfs4:"Intention",ff:"First Name",fl:"Last Name",fe:"Email",fph:"Phone",fwa:"WhatsApp",fdept:"Department",fcomm:"Commune",fzone:"Zone / Neighborhood (optional)",factiv:"Your type of activity",fvid:"Presentation video link (optional)",fpay:"Preferred payment method",fmsg:"Message (optional)",floc:"Where are you based?",loc_ht:"In Haiti",loc_dia:"Diaspora",forg:"Organization / Business (optional)",flogo:"Logo / Profile photo link",fweb:"Website (optional)",self_note:"💡 <strong>Want to self-support?</strong> Register as a Coach for your own profile. The monthly support will be less than with an external Coach, but you gain network visibility.",fcons:"I accept Rezo Mapou's <a href='terms.html'>Terms</a> and <a href='privacy.html'>Privacy Policy</a>.",fsub_s:"Register as Sentinel — Free",fsub_c:"Register as Coach",suc_title:"Thank you — you're in the network!",suc_msg:"We'll be in touch soon. Rasin fò, pyebwa leve.",suc_title_c:"Thank you Coach — welcome!",suc_msg_c:"Your profile will be visible. We'll contact you for next steps.",share_title:"Next steps:",share_msg:" Share the registration link on your social media. If you know a potential Coach, invite them to register.",foot_tag:"Rezo Mapou — National Merchant Network<br>Apolitical · Non-Religious · Independent<br><em>Rasin fò, pyebwa leve.</em>",foot_nav:"Navigation",foot_legal:"Legal",lnk_priv:"Privacy",lnk_terms:"Terms",lnk_copy:"Copyright"}};
+let lang='ht';
+function L(l){lang=l;document.querySelectorAll('.lb').forEach(b=>{const m={ht:'KR',fr:'FR',en:'EN'};b.classList.toggle('active',b.textContent.trim()===m[l]);});const t=T[l];document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(t[k]!==undefined)el.innerHTML=t[k];});}
+function fillCommunes(deptId,commId){const dept=document.getElementById(deptId).value,sel=document.getElementById(commId);sel.innerHTML='<option value="">—</option>';if(dept&&HAITI[dept])HAITI[dept].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});}
+function populateDepts(){const sel=document.getElementById('s-dept');Object.keys(HAITI).sort().forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});}
+function switchTab(tab){document.querySelectorAll('.reg-tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='sentinelle')||(i===1&&tab==='coach')));document.getElementById('form-sentinelle').classList.toggle('active',tab==='sentinelle');document.getElementById('form-coach').classList.toggle('active',tab==='coach');}
+async function submitForm(e,type){e.preventDefault();const fd=new FormData(e.target);const data={type};fd.forEach((v,k)=>{data[k]=v;});data.langue=lang;data.source='website';data._fake=false;await post(data);e.target.style.display='none';document.getElementById('suc-'+(type==='sentinelle'?'s':'c')).style.display='block';}
+async function fetchStats(){try{const r=await fetch(SCRIPT_URL+'?t='+Date.now());const d=await r.json();if(d.sentinelles!==undefined)document.getElementById('live-s').textContent=d.sentinelles;if(d.coaches!==undefined)document.getElementById('live-c').textContent=d.coaches;}catch(e){}}
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.1});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-populateDepts();setLang('ht');fetchCount();
-// To seed fake data: open browser console and type seedFake()
+populateDepts();L('ht');fetchStats();setInterval(fetchStats,60000);
 </script>
 </body>
 </html>
