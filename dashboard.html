@@ -1,38 +1,63 @@
-
-<!DOCTYPE html><html lang="ht"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Tablodbò — Rezo Mapou</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"><style>:root{--gold:#C8A84B;--forest:#1E4D2B;--earth-d:#3A2210;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--cream-d);color:var(--ink);font-size:15px;line-height:1.6;}.stats-bar{background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}.stats-counts{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}.stats-counts strong{color:var(--gold);}.lang-bar{display:flex;gap:3px;}.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'DM Sans',sans-serif;font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;transition:all 0.2s;}.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-d);}nav{background:var(--forest);padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;}.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}.nav-logo{width:32px;height:32px;border-radius:50%;background:white;object-fit:contain;padding:3px;}.nav-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:white;}.nav-links{display:flex;gap:1.25rem;list-style:none;}.nav-links a{font-size:13px;color:rgba(255,255,255,0.65);text-decoration:none;transition:color 0.2s;}.nav-links a:hover{color:var(--gold);}.refresh-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 14px;border-radius:2px;cursor:pointer;}.refresh-btn:hover{background:rgba(255,255,255,0.2);}.main{max-width:1100px;margin:0 auto;padding:2rem;}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}.mc{background:white;border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;text-align:center;}.mc-n{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--forest);display:block;line-height:1;margin-bottom:3px;}.mc-l{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}.card{background:white;border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;}.card-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--bdr);}.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}.bar-lbl{font-size:13px;color:var(--muted);min-width:150px;font-weight:400;}.bar-track{flex:1;background:var(--cream-d);border-radius:2px;height:8px;overflow:hidden;}.bar-fill{height:100%;background:var(--forest);border-radius:2px;transition:width 0.8s ease;}.bar-n{font-size:12px;font-weight:500;color:var(--forest);min-width:28px;text-align:right;}.loading{text-align:center;padding:3rem;color:var(--muted);font-size:14px;}.last-upd{font-size:11px;color:var(--muted);text-align:right;margin-bottom:1rem;}@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr);}.grid2{grid-template-columns:1fr;}}</style></head><body>
+<!DOCTYPE html><html lang="ht"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Tablodbò — Rezo Mapou</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"><style>
+:root{--gold:#C8A84B;--forest:#1E4D2B;--earth-d:#3A2210;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--cream-d);color:var(--ink);font-size:15px;line-height:1.6;}
+.stats-bar{background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}
+.sc{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}.sc strong{color:var(--gold);}
+.lb-bar{display:flex;gap:3px;}.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;transition:all 0.2s;font-family:'DM Sans',sans-serif;}.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-d);}
+nav{background:var(--forest);padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+.nb{display:flex;align-items:center;gap:10px;text-decoration:none;}.nl{width:32px;height:32px;border-radius:50%;background:white;object-fit:contain;padding:3px;}.nn{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:white;}
+.nlinks{display:flex;gap:1.25rem;list-style:none;}.nlinks a{font-size:13px;color:rgba(255,255,255,0.65);text-decoration:none;}.nlinks a:hover{color:var(--gold);}
+.rbtn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 14px;border-radius:2px;cursor:pointer;}.rbtn:hover{background:rgba(255,255,255,0.2);}
+.main{max-width:1100px;margin:0 auto;padding:2rem;}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+.mc{background:white;border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;text-align:center;}
+.mc-n{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--forest);display:block;line-height:1;margin-bottom:3px;}
+.mc-l{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+.card{background:white;border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;}
+.card-t{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--bdr);}
+.br{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.bl{font-size:13px;color:var(--muted);min-width:150px;font-weight:400;}
+.bt{flex:1;background:var(--cream-d);border-radius:2px;height:8px;overflow:hidden;}
+.bf{height:100%;background:var(--forest);border-radius:2px;transition:width 0.8s ease;}
+.bn{font-size:12px;font-weight:500;color:var(--forest);min-width:28px;text-align:right;}
+.loading{text-align:center;padding:3rem;color:var(--muted);font-size:14px;}
+.upd{font-size:11px;color:var(--muted);text-align:right;margin-bottom:1rem;}
+@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr);}.grid2{grid-template-columns:1fr;}}
+</style></head><body>
 <div class="stats-bar">
-  <div class="stats-counts"><span><strong id="sb-s">—</strong> Santinèl</span><span><strong id="sb-c">—</strong> Coach</span></div>
-  <div class="lang-bar">
+  <div class="sc"><span><strong id="sb-s">—</strong> Santinèl</span><span><strong id="sb-c">—</strong> Coach</span></div>
+  <div class="lb-bar">
     <button class="lb active" onclick="L('ht')">🇭🇹 KR</button>
     <button class="lb" onclick="L('fr')">🇫🇷 FR</button>
     <button class="lb" onclick="L('en')">🇺🇸 EN</button>
   </div>
 </div>
 <nav>
-  <a href="index.html" class="nav-brand">
-    <img src="rezo_mapou_logo.png" class="nav-logo" alt="Rezo Mapou" onerror="this.style.display='none'">
-    <span class="nav-name">Rezo Mapou</span>
+  <a href="index.html" class="nb">
+    <img src="rezo_mapou_logo.png" class="nl" alt="Rezo Mapou" onerror="this.style.display='none'">
+    <span class="nn">Rezo Mapou</span>
   </a>
-  <ul class="nav-links">
+  <ul class="nlinks">
     <li><a href="index.html">Akèy</a></li>
     <li><a href="register.html#sentinelle">Santinèl</a></li>
     <li><a href="register.html#coach">Coach</a></li>
   </ul>
-  <button class="refresh-btn" onclick="loadData()">⟳ Aktyalize</button>
+  <button class="rbtn" onclick="loadData()">⟳ Aktyalize</button>
 </nav>
 <main class="main">
   <div id="loading" class="loading">Ap chaje done...</div>
   <div id="content" style="display:none">
-    <div class="last-upd" id="upd-time"></div>
+    <div class="upd" id="upd-time"></div>
     <div class="metrics">
-      <div class="mc"><span class="mc-n" id="m-s">0</span><div class="mc-l">Santinèl Enskri</div></div>
-      <div class="mc"><span class="mc-n" id="m-c">0</span><div class="mc-l">Coach Aktif</div></div>
+      <div class="mc"><span class="mc-n" id="m-s">0</span><div class="mc-l">Santinèl</div></div>
+      <div class="mc"><span class="mc-n" id="m-c">0</span><div class="mc-l">Coach</div></div>
       <div class="mc"><span class="mc-n" id="m-d">0</span><div class="mc-l">Depatman</div></div>
       <div class="mc"><span class="mc-n" id="m-k">0</span><div class="mc-l">Komin</div></div>
     </div>
     <div class="grid2">
-      <div class="card"><div class="card-title">Pa Depatman</div><div id="dept-bars"></div></div>
-      <div class="card"><div class="card-title">Pa Komin — Top 10</div><div id="commune-bars"></div></div>
+      <div class="card"><div class="card-t">Pa Depatman</div><div id="dept-bars"></div></div>
+      <div class="card"><div class="card-t">Pa Komin — Top 10</div><div id="commune-bars"></div></div>
     </div>
   </div>
 </main>
@@ -40,21 +65,96 @@
 <script>
 let lang='ht';
 function L(l){lang=l;document.querySelectorAll('.lb').forEach(b=>{const m={ht:'🇭🇹 KR',fr:'🇫🇷 FR',en:'🇺🇸 EN'};b.classList.toggle('active',b.textContent.trim()===m[l]);});}
-function bars(data,id,max){const c=document.getElementById(id);c.innerHTML='';const s=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,10);if(!s.length){c.innerHTML='<p style="font-size:13px;color:var(--muted)">Pa gen done.</p>';return;}s.forEach(([k,v])=>{const pct=max>0?Math.round(v/max*100):0;c.innerHTML+=`<div class="bar-row"><div class="bar-lbl">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-n">${v}</div></div>`;});}
+
+function bars(data,id,max){
+  const c=document.getElementById(id);c.innerHTML='';
+  const s=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  if(!s.length){c.innerHTML='<p style="font-size:13px;color:var(--muted)">Pa gen done.</p>';return;}
+  s.forEach(([k,v])=>{const pct=max>0?Math.round(v/max*100):0;c.innerHTML+=`<div class="br"><div class="bl">${k}</div><div class="bt"><div class="bf" style="width:${pct}%"></div></div><div class="bn">${v}</div></div>`;});
+}
+
+// ── SEED LOGIC ─────────────────────────────────────────────
+function weightedLoc(){
+  const pool=[];
+  Object.entries(HAITI).forEach(([dept,communes])=>{
+    communes.forEach(c=>{
+      const w=COMMUNE_WEIGHTS[c]||1;
+      for(let i=0;i<w;i++)pool.push({dept,commune:c});
+    });
+  });
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function randomItem(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+function makeFakeSentinelle(){
+  const loc=weightedLoc();
+  return {
+    type:'sentinelle',
+    prenom:randomItem(FAKE_FIRSTNAMES),
+    nom:randomItem(FAKE_LASTNAMES),
+    email:`f${Date.now()}@rmn-seed.net`,
+    telephone:`+509${Math.floor(30000000+Math.random()*9999999)}`,
+    whatsapp:'',
+    departement:DEPT_CODES[loc.dept]||loc.dept.substring(0,4).toUpperCase(),
+    departement_nom:loc.dept,
+    commune:COMMUNE_CODES[loc.commune]||loc.commune.substring(0,4).toUpperCase(),
+    commune_nom:loc.commune,
+    zone:'',
+    activite:randomItem(FAKE_ACTIVITIES),
+    paiement:randomItem(['MCH','NCH','CSH','MCH','MCH','NCH']),
+    langue:'ht',source:'seed',is_real:'false'
+  };
+}
+
+function makeFakeCoach(){
+  const isDia=Math.random()>0.45;
+  return {
+    type:'coach',
+    prenom:randomItem(FAKE_FIRSTNAMES),
+    nom:randomItem(FAKE_LASTNAMES),
+    email:`fc${Date.now()}@rmn-seed.net`,
+    telephone:isDia?`+1${Math.floor(3050000000+Math.random()*9999999)}`:`+509${Math.floor(30000000+Math.random()*9999999)}`,
+    whatsapp:'',
+    location_type:isDia?'DIA':'HTI',
+    organisation:randomItem(FAKE_COACH_ORGS),
+    logo_url:'',website:'',
+    facebook:'',instagram:'',tiktok:'',youtube:'',
+    message:'',langue:'ht',source:'seed',is_real:'false'
+  };
+}
+
+async function sendFake(data){
+  try{
+    const p=new URLSearchParams();
+    Object.entries(data).forEach(([k,v])=>p.append(k,String(v)));
+    await fetch(SCRIPT_URL,{method:'POST',body:p,mode:'no-cors'});
+  }catch(e){}
+}
+
+// Per-visit seed: 1 sentinelle + occasional coach
+async function visitSeed(){
+  await sendFake(makeFakeSentinelle());
+  await new Promise(r=>setTimeout(r,400));
+  if(Math.random()<0.25) await sendFake(makeFakeCoach()); // 1 in 4 visits adds a coach
+}
+
+// ── LOAD DATA ──────────────────────────────────────────────
 async function loadData(){
   document.getElementById('loading').style.display='block';
   document.getElementById('content').style.display='none';
   try{
     const r=await fetch(SCRIPT_URL+'?t='+Date.now());
     const d=await r.json();
-    document.getElementById('m-s').textContent=d.sentinelles||0;
-    document.getElementById('m-c').textContent=d.coaches||0;
+    const s=d.sentinelles||0, c=d.coaches||0;
+    document.getElementById('m-s').textContent=s;
+    document.getElementById('m-c').textContent=c;
     document.getElementById('m-d').textContent=Object.keys(d.by_dept||{}).length;
     document.getElementById('m-k').textContent=Object.keys(d.by_commune||{}).length;
-    document.getElementById('sb-s').textContent=d.sentinelles||0;
-    document.getElementById('sb-c').textContent=d.coaches||0;
-    const mD=Math.max(1,...Object.values(d.by_dept||{}));
-    const mK=Math.max(1,...Object.values(d.by_commune||{}));
+    document.getElementById('sb-s').textContent=s;
+    document.getElementById('sb-c').textContent=c;
+    const mD=Math.max(1,...Object.values(d.by_dept||{1:1}));
+    const mK=Math.max(1,...Object.values(d.by_commune||{1:1}));
     bars(d.by_dept||{},'dept-bars',mD);
     bars(d.by_commune||{},'commune-bars',mK);
     document.getElementById('upd-time').textContent='Dènye aktyalizasyon: '+new Date().toLocaleTimeString();
@@ -62,6 +162,9 @@ async function loadData(){
     document.getElementById('content').style.display='block';
   }catch(e){document.getElementById('loading').innerHTML='Erè koneksyon.';}
 }
-loadData();setInterval(loadData,60000);
+
+// On every page load: seed 1-2 entries, then load display
+visitSeed().then(()=>loadData());
+setInterval(loadData,60000);
 </script>
-</body></html
+</body></html>
