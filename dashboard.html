@@ -37,7 +37,7 @@
   </div>
 </main>
 <script>
-const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbyRf8JFHM92e6Zfysz4UAE41k1Wg7jzPPIuceklPQhkgZDsWEX49EVltcpoV_DNLKea/exec';
+const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbxVy4bqgPFDj8pxwBttCCf1glc2T2uVoHfjv8AXL0ZEfc3bmMrqp3ZjrtevHEQWRccA/exec';
 function fmt(ts){try{const d=new Date(ts);return d.toLocaleDateString('fr-HT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});}catch(e){return ts;}}
 function bars(data,containerId,max){const c=document.getElementById(containerId);c.innerHTML='';const sorted=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,10);sorted.forEach(([k,v])=>{const pct=max>0?Math.round(v/max*100):0;c.innerHTML+=`<div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-count">${v}</div></div>`;});}
 async function loadData(){
