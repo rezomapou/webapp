@@ -371,4 +371,25 @@ const HAITI = {
   "Sud-Est":["Bainet","Belle Anse","Cayes-Jacmel","Grand Gosier","Jacmel","La Vallée","Marigot","Thiotte"]
 };
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzZ-7lHjzYLPAaGCSPQKZXMivufv6TnCVERc0P8CtM1n2kWl9iR4GL8JUD4Tw10dB8/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVy4bqgPFDj8pxwBttCCf1glc2T2uVoHfjv8AXL0ZEfc3bmMrqp3ZjrtevHEQWRccA/exec';
+
+// ============================================================
+// CONFIG — Edit here to change backend settings
+// ============================================================
+const SHEET_ID = '1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4';
+
+// ============================================================
+// FAKE DATA POOLS — used by seeddata and dashboard auto-seed
+// ============================================================
+const FAKE_FIRSTNAMES = ["Marie","Jean","Roseline","Claude","Nadège","Frantz","Sophia","Patrick","Kettely","Dieuseul","Yanick","Farah","Luckson","Mireille","Edwige","Roberson","Guerda","Widler","Junie","Kervens","Marlène","Samson","Yvelise","Joël","Carline","Renald","Gisèle","Hervé","Lunise","Dieudonne"];
+const FAKE_LASTNAMES = ["Desroches","Baptiste","Pierre","Mentor","Joseph","Celestin","Duval","Lamarre","François","Blanc","Charles","Estimé","Dorismond","Augustin","Prophète","Casimir","Sainvil","Thermidor","Beaubrun","Toussaint","Lubin","Dorsainvil","Noël","Hyppolite","Lafortune","Morisseau","Belizaire","Volcy","Cadet","Dorcé"];
+const FAKE_ACTIVITIES = ["Machann dlo","Machann manje","Machann legim","Boutik","Machann frèt","Kwafè","Mekanisyen","Machann rad","Epicerie","Machann poul","Machann chabon","Boulanje","Machann fritay","Machann ji","Tèlkominikasyon"];
+const FAKE_COACH_ORGS = ["","","","Diaspora Haiti","Association Ayisyen","","","Haiti Forward","","Haitian Business Network","","",""];
+
+// Commune population weights for realistic distribution
+const COMMUNE_WEIGHTS = {
+  "Port-au-Prince":22,"Delmas":14,"Carrefour":11,"Pétion-Ville":9,"Cité Soleil":8,
+  "Cap-Haïtien":10,"Saint-Marc":6,"Les Cayes":6,"Gonaïves":7,"Hinche":4,
+  "Jacmel":5,"Jérémie":4,"Ouanaminthe":4,"Croix des Bouquets":6,"Léogâne":4,
+  "Arcahaie":3,"Tabarre":5,"Mirebalais":3
+};
