@@ -100,10 +100,10 @@ function makeFakeSentinelle(){
     email: `f${Date.now()}@rmn-seed.net`,
     telephone: `+509${Math.floor(30000000+Math.random()*9999999)}`,
     whatsapp: '',
-    departement: dCode,           // Uses PTPR, ARTB, etc.
-    departement_nom: loc.dept,    // Uses Port-au-Prince, Artibonite, etc.
-    commune: cCode,               // Uses DSSL, MRDS, etc.
+    departement_nom: loc.dept,
+    departement: DEPT_CODES[loc.dept] || "", // Use strict mapping
     commune_nom: loc.commune,
+    commune: COMMUNE_CODES[loc.commune] || "", // Use strict mapping
     zone: '',
     activite: randomItem(FAKE_ACTIVITIES),
     paiement: randomItem(['MCH','NCH','CSH','MCH','MCH','NCH']),
