@@ -89,24 +89,36 @@ function randomItem(arr){return arr[Math.floor(Math.random()*arr.length)];}
 
 function makeFakeSentinelle(){
   const loc = weightedLoc();
-  // Ensure we use the exact mapping from strings.js
-  const dCode = DEPT_CODES[loc.dept] || ""; 
-  const cCode = COMMUNE_CODES[loc.commune] || "";
+  
+  // 1. Get names first
+  const dName = loc.dept;
+  const cName = loc.commune;
+
+  // 2. Look up codes with a "Safe Fallback"
+  // If DEPT_CODES doesn't have the key, it uses the first 4 letters 
+  // This prevents sending an empty string which can break the Sheet append
+  const dCode = (typeof DEPT_CODES !== 'undefined' && DEPT_CODES[dName]) 
+                ? DEPT_CODES[dName] 
+                : dName.substring(0, 4).toUpperCase();
+
+  const cCode = (typeof COMMUNE_CODES !== 'undefined' && COMMUNE_CODES[cName]) 
+                ? COMMUNE_CODES[cName] 
+                : cName.substring(0, 4).toUpperCase();
 
   return {
     type: 'sentinelle',
     prenom: randomItem(FAKE_FIRSTNAMES),
     nom: randomItem(FAKE_LASTNAMES),
-    email: `f${Date.now()}@rmn-seed.net`,
+    email: `f${Date.now()}${Math.floor(Math.random()*100)}@rmn-seed.net`,
     telephone: `+509${Math.floor(30000000+Math.random()*9999999)}`,
     whatsapp: '',
-    departement_nom: loc.dept,
-    departement: DEPT_CODES[loc.dept] || "", // Use strict mapping
-    commune_nom: loc.commune,
-    commune: COMMUNE_CODES[loc.commune] || "", // Use strict mapping
-    zone: '',
+    departement: dCode,           // Example: PTPR
+    departement_nom: dName,       // Example: Ouest
+    commune: cCode,               // Example: PTPR
+    commune_nom: cName,           // Example: Port-au-Prince
+    zone: 'Zòn Seeding',
     activite: randomItem(FAKE_ACTIVITIES),
-    paiement: randomItem(['MCH','NCH','CSH','MCH','MCH','NCH']),
+    paiement: randomItem(['MCH','NCH','CSH']),
     langue: 'ht',
     source: 'seed',
     is_real: 'false'
