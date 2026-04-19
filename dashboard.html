@@ -88,22 +88,28 @@ function weightedLoc(){
 function randomItem(arr){return arr[Math.floor(Math.random()*arr.length)];}
 
 function makeFakeSentinelle(){
-  const loc=weightedLoc();
+  const loc = weightedLoc();
+  // Ensure we use the exact mapping from strings.js
+  const dCode = DEPT_CODES[loc.dept] || ""; 
+  const cCode = COMMUNE_CODES[loc.commune] || "";
+
   return {
-    type:'sentinelle',
-    prenom:randomItem(FAKE_FIRSTNAMES),
-    nom:randomItem(FAKE_LASTNAMES),
-    email:`f${Date.now()}@rmn-seed.net`,
-    telephone:`+509${Math.floor(30000000+Math.random()*9999999)}`,
-    whatsapp:'',
-    departement:DEPT_CODES[loc.dept]||loc.dept.substring(0,4).toUpperCase(),
-    departement_nom:loc.dept,
-    commune:COMMUNE_CODES[loc.commune]||loc.commune.substring(0,4).toUpperCase(),
-    commune_nom:loc.commune,
-    zone:'',
-    activite:randomItem(FAKE_ACTIVITIES),
-    paiement:randomItem(['MCH','NCH','CSH','MCH','MCH','NCH']),
-    langue:'ht',source:'seed',is_real:'false'
+    type: 'sentinelle',
+    prenom: randomItem(FAKE_FIRSTNAMES),
+    nom: randomItem(FAKE_LASTNAMES),
+    email: `f${Date.now()}@rmn-seed.net`,
+    telephone: `+509${Math.floor(30000000+Math.random()*9999999)}`,
+    whatsapp: '',
+    departement: dCode,           // Uses PTPR, ARTB, etc.
+    departement_nom: loc.dept,    // Uses Port-au-Prince, Artibonite, etc.
+    commune: cCode,               // Uses DSSL, MRDS, etc.
+    commune_nom: loc.commune,
+    zone: '',
+    activite: randomItem(FAKE_ACTIVITIES),
+    paiement: randomItem(['MCH','NCH','CSH','MCH','MCH','NCH']),
+    langue: 'ht',
+    source: 'seed',
+    is_real: 'false'
   };
 }
 
