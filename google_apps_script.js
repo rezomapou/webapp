@@ -1,113 +1,92 @@
-// ============================================================
-// RMN / Fatra Se Lò — Google Apps Script
-// Paste this entire script into:
-// script.google.com → New Project → paste → Save → Deploy
-//
-// SETUP STEPS:
-// 1. Go to script.google.com
-// 2. Create new project, name it "RMN Registration"
-// 3. Paste this entire file, replacing the default content
-// 4. Replace SHEET_ID below with your Google Sheet ID
-// 5. Click Deploy → New Deployment → Web App
-//    - Execute as: Me (account.rezomapou@gmail.com)
-//    - Who has access: Anyone
-// 6. Copy the Web App URL
-// 7. Paste that URL into index.html where it says APPS_SCRIPT_URL
-// ============================================================
+// Rezo Mapou — Google Apps Script v3
+// Accepts URLSearchParams (form-encoded) POST — fixes CORS preflight issue
+// Deploy: Execute as Me, Anyone can access, NEW VERSION each time you edit
+ 
+const SHEET_ID = '15gOrMlb7tPEaOVjCNSk1Co625OXYMo9QS9OnYVbSLc0';
 
-const SHEET_ID = '1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4'; // Replace this
-const SHEET_NAME = 'Registrations';
-const FAKE_SHEET = 'Fake_Data';
-
+const S_HEADERS = ['Timestamp','Prenom','Nom','Email','Telephone','WhatsApp',
+  'Departement','Commune','Zone','Activite','Video',
+  'Facebook','Instagram','TikTok','YouTube','Paiement','Message','Langue','Source'];
+ 
+const C_HEADERS = ['Timestamp','Prenom','Nom','Email','Telephone','WhatsApp',
+  'Location_Type','Organisation','Logo_URL','Website',
+  'Facebook','Instagram','TikTok','YouTube','Message','Langue','Source'];
+ 
+function getOrCreate(ss, name, headers) {
+  let sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    sheet.appendRow(headers);
+    sheet.getRange(1,1,1,headers.length)
+      .setFontWeight('bold').setBackground('#1E4D2B').setFontColor('#FFFFFF');
+  }
+  return sheet;
+}
+ 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
+    // Parse URLSearchParams (form-encoded) instead of JSON
+    const params = e.parameter;
     const ss = SpreadsheetApp.openById(SHEET_ID);
-
-    // Route to correct sheet
-    const sheetName = data._fake ? FAKE_SHEET : SHEET_NAME;
-    let sheet = ss.getSheetByName(sheetName);
-
-    // Create sheet + headers if first time
-    if (!sheet) {
-      sheet = ss.insertSheet(sheetName);
-      sheet.appendRow([
-        'Timestamp', 'Prenom', 'Nom', 'Email', 'Telephone',
-        'WhatsApp', 'Departement', 'Commune', 'Zone',
-        'Paiement_Prefere', 'Message', 'Langue', 'Source', 'IS_FAKE'
-      ]);
-      sheet.getRange(1, 1, 1, 14).setFontWeight('bold').setBackground('#1E4D2B').setFontColor('#FFFFFF');
+    const ts = new Date().toISOString();
+ 
+    if (params._fake === 'true') {
+      const sheet = getOrCreate(ss, 'Fake_Data',
+        ['Timestamp','Type','Prenom','Nom','Departement','Commune','Activite']);
+      sheet.appendRow([ts, params.type||'sentinelle', params.prenom||'',
+        params.nom||'', params.departement||'', params.commune||'', params.activite||'']);
+ 
+    } else if (params.type === 'coach') {
+      const sheet = getOrCreate(ss, 'Coaches', C_HEADERS);
+      sheet.appendRow([ts, params.prenom||'', params.nom||'', params.email||'',
+        params.telephone||'', params.whatsapp||'', params.location_type||'',
+        params.organisation||'', params.logo_url||'', params.website||'',
+        params.facebook||'', params.instagram||'', params.tiktok||'',
+        params.youtube||'', params.message||'', params.langue||'ht', params.source||'website']);
+ 
+    } else {
+      const sheet = getOrCreate(ss, 'Sentinelles', S_HEADERS);
+      sheet.appendRow([ts, params.prenom||'', params.nom||'', params.email||'',
+        params.telephone||'', params.whatsapp||'', params.departement||'',
+        params.commune||'', params.zone||'', params.activite||'', params.video||'',
+        params.facebook||'', params.instagram||'', params.tiktok||'',
+        params.youtube||'', params.paiement||'', params.message||'',
+        params.langue||'ht', params.source||'website']);
     }
-
-    sheet.appendRow([
-      new Date().toISOString(),
-      data.prenom || '',
-      data.nom || '',
-      data.email || '',
-      data.telephone || '',
-      data.whatsapp || '',
-      data.departement || '',
-      data.commune || '',
-      data.zone || '',
-      data.paiement || '',
-      data.message || '',
-      data.langue || 'ht',
-      data.source || 'website',
-      data._fake ? 'YES — TEST DATA' : 'NO'
-    ]);
-
+ 
     return ContentService
-      .createTextOutput(JSON.stringify({ success: true }))
+      .createTextOutput(JSON.stringify({success:true}))
       .setMimeType(ContentService.MimeType.JSON);
-
+ 
   } catch(err) {
     return ContentService
-      .createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
+      .createTextOutput(JSON.stringify({success:false,error:err.toString()}))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
-
-// GET endpoint — returns aggregated stats for dashboard
+ 
 function doGet(e) {
   try {
     const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheet = ss.getSheetByName(SHEET_NAME);
-
-    if (!sheet || sheet.getLastRow() < 2) {
-      return ContentService
-        .createTextOutput(JSON.stringify({ total: 0, by_dept: {}, by_commune: {}, recent: [] }))
-        .setMimeType(ContentService.MimeType.JSON);
+    const sSheet = ss.getSheetByName('Sentinelles');
+    const cSheet = ss.getSheetByName('Coaches');
+    const sentinelles = sSheet && sSheet.getLastRow()>1 ? sSheet.getLastRow()-1 : 0;
+    const coaches = cSheet && cSheet.getLastRow()>1 ? cSheet.getLastRow()-1 : 0;
+    const byDept={}, byCommune={};
+    if (sSheet && sSheet.getLastRow()>1) {
+      const rows = sSheet.getRange(2,1,sSheet.getLastRow()-1,S_HEADERS.length).getValues();
+      rows.forEach(row => {
+        const dept=row[6], commune=row[7];
+        if(dept) byDept[dept]=(byDept[dept]||0)+1;
+        if(commune) byCommune[commune]=(byCommune[commune]||0)+1;
+      });
     }
-
-    const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 14).getValues();
-    const byDept = {}, byCommune = {}, recent = [];
-
-    data.forEach(row => {
-      const dept = row[6], commune = row[7];
-      if (dept) byDept[dept] = (byDept[dept] || 0) + 1;
-      if (commune) byCommune[commune] = (byCommune[commune] || 0) + 1;
-      if (recent.length < 10) {
-        recent.push({
-          name: row[1] + ' ' + row[2].charAt(0) + '.',
-          dept: dept,
-          commune: commune,
-          time: row[0]
-        });
-      }
-    });
-
     return ContentService
-      .createTextOutput(JSON.stringify({
-        total: data.length,
-        by_dept: byDept,
-        by_commune: byCommune,
-        recent: recent
-      }))
+      .createTextOutput(JSON.stringify({sentinelles,coaches,real_total:sentinelles,by_dept:byDept,by_commune:byCommune}))
       .setMimeType(ContentService.MimeType.JSON);
-
   } catch(err) {
     return ContentService
-      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .createTextOutput(JSON.stringify({error:err.toString()}))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
