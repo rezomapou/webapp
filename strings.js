@@ -371,4 +371,4 @@ const HAITI = {
   "Sud-Est":["Bainet","Belle Anse","Cayes-Jacmel","Grand Gosier","Jacmel","La Vallée","Marigot","Thiotte"]
 };
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVy4bqgPFDj8pxwBttCCf1glc2T2uVoHfjv8AXL0ZEfc3bmMrqp3ZjrtevHEQWRccA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzZ-7lHjzYLPAaGCSPQKZXMivufv6TnCVERc0P8CtM1n2kWl9iR4GL8JUD4Tw10dB8/exec';
