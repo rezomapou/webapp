@@ -371,7 +371,7 @@ const HAITI = {
   "Sud-Est":["Bainet","Belle Anse","Cayes-Jacmel","Grand Gosier","Jacmel","La Vallée","Marigot","Thiotte"]
 };
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzZ-7lHjzYLPAaGCSPQKZXMivufv6TnCVERc0P8CtM1n2kWl9iR4GL8JUD4Tw10dB8/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjQ88JjQ2Dlexl8cBZbwRpi1jI_eZVcKba_-Kynv_HMlO0leHDpaZFrp-Ml2pO6_ZC/exec';
 
 // ============================================================
 // CONFIG — Edit here to change backend settings
