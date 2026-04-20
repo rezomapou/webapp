@@ -1,97 +1,336 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Enskri — Rezo Mapou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C8A84B;--gold-l:#E8D5A0;--earth:#5C3D1E;--earth-d:#3A2210;--forest:#1E4D2B;--forest-m:#2D6B3E;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream-d);color:var(--ink);font-size:16px;line-height:1.7;}
+.stats-bar{position:fixed;top:0;left:0;right:0;z-index:101;background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}
+.stats-counts{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}
+.stats-counts strong{color:var(--gold);}
+.lang-bar{display:flex;gap:3px;}
+.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'DM Sans',sans-serif;font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;transition:all 0.2s;display:flex;align-items:center;gap:4px;}
+.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-d);}
+nav{position:fixed;top:30px;left:0;right:0;z-index:100;background:rgba(247,243,236,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo{width:34px;height:34px;border-radius:50%;background:white;object-fit:contain;padding:3px;}
+.nav-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);}
+.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active-nav{color:var(--forest);}
+.nav-cta{background:var(--gold)!important;color:var(--earth-d)!important;padding:6px 16px;border-radius:2px;font-weight:500!important;}
+
+.page-wrap{max-width:760px;margin:0 auto;padding:6rem 2rem 4rem;}
+.page-header{text-align:center;margin-bottom:3rem;}
+.page-eye{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--ink);margin-bottom:0.5rem;}
+.page-sub{font-size:14px;color:var(--muted);font-weight:300;}
+
+/* TABS */
+.form-tabs{display:flex;border-radius:4px 4px 0 0;overflow:hidden;border:1px solid var(--bdr);border-bottom:none;}
+.ftab{flex:1;padding:1rem 1.5rem;background:var(--cream-d);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:center;border-bottom:3px solid transparent;}
+.ftab.active{background:white;color:var(--forest);border-bottom-color:var(--gold);}
+
+/* FORM */
+.form-body{background:white;border:1px solid var(--bdr);border-top:none;border-radius:0 0 4px 4px;padding:2.5rem;}
+.form-panel{display:none;}
+.form-panel.active{display:block;}
+.f-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem;}
+.f-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;font-weight:300;}
+.fsec{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:1.75rem 0 0.75rem;padding-bottom:5px;border-bottom:1px solid var(--bdr);}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fg{margin-bottom:0.9rem;}
+.fg-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;}
+.fg label{font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--earth);}
+.fg-hint{font-size:11px;color:var(--muted);font-style:italic;font-weight:300;}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 13px;background:var(--cream);border:1px solid var(--bdr);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--forest);background:white;}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6455' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.fg textarea{min-height:70px;resize:vertical;line-height:1.5;}
+.self-note{background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);border-radius:3px;padding:0.9rem 1.1rem;margin:0.5rem 0 1.25rem;font-size:13px;color:var(--earth);line-height:1.6;}
+.fcheck{display:flex;gap:10px;align-items:flex-start;margin:1.25rem 0;}
+.fcheck input{margin-top:3px;flex-shrink:0;accent-color:var(--forest);}
+.fcheck label{font-size:12px;color:var(--muted);line-height:1.5;}
+.fcheck label a{color:var(--forest);}
+.btn-gold{width:100%;background:var(--gold);color:var(--earth-d);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;padding:14px;border-radius:2px;border:none;cursor:pointer;transition:background 0.2s;}
+.btn-gold:hover{background:var(--gold-l);}
+.form-success{display:none;text-align:center;padding:3rem 1rem;}
+.suc-icon{width:56px;height:56px;background:var(--forest);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
+.suc-icon svg{width:26px;height:26px;stroke:white;fill:none;stroke-width:2.5;}
+.suc-h{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;}
+.suc-p{font-size:14px;color:var(--muted);margin-bottom:1.25rem;}
+.suc-share{background:var(--cream-d);border-radius:4px;padding:1.25rem;font-size:13px;color:var(--muted);text-align:left;line-height:1.6;}
+.suc-share strong{color:var(--ink);display:block;margin-bottom:5px;}
+
+footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2rem;text-align:center;font-size:12px;margin-top:2rem;}
+footer a{color:var(--gold);text-decoration:none;margin:0 0.4rem;}
+@media(max-width:600px){.frow{grid-template-columns:1fr;}.nav-links{display:none;}.page-wrap{padding:5.5rem 1rem 3rem;}}
+</style>
+</head>
+<body>
+<div class="stats-bar">
+  <div class="stats-counts">
+    <span><strong id="sb-s">—</strong> <span data-s="stats_sentinelles">Santinèl</span></span>
+    <span><strong id="sb-c">—</strong> <span data-s="stats_coaches">Coach</span></span>
+  </div>
+  <div class="lang-bar">
+    <button class="lb active" onclick="L('ht')">🇭🇹 KR</button>
+    <button class="lb" onclick="L('fr')">🇫🇷 FR</button>
+    <button class="lb" onclick="L('en')">🇺🇸 EN</button>
+  </div>
+</div>
+<nav>
+  <a href="index.html" class="nav-brand">
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="Rezo Mapou" onerror="this.style.display='none'">
+    <span class="nav-name">Rezo Mapou</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-s="nav_home">Akèy</a></li>
+    <li><a href="index.html#program" data-s="nav_program">Pwogram</a></li>
+    <li><a href="register.html#sentinelle" class="active-nav" data-s="nav_sentinelle">Santinèl</a></li>
+    <li><a href="register.html#coach" data-s="nav_coach">Coach</a></li>
+    <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-eye" data-s="nav_join">Enskri</div>
+    <h1 class="page-title">Rezo Mapou</h1>
+    <p class="page-sub" data-s="prog_lead">3 etap senp. Yon sipò reyèl chak mwa.</p>
+  </div>
+
+  <div class="form-tabs">
+    <button class="ftab active" id="tab-s" onclick="switchTab('sentinelle')" data-s="nav_sentinelle">🌿 Santinèl</button>
+    <button class="ftab" id="tab-c" onclick="switchTab('coach')" data-s="nav_coach">⭐ Coach</button>
+  </div>
+
+  <div class="form-body">
+    <!-- SENTINELLE -->
+    <div class="form-panel active" id="panel-sentinelle">
+      <div class="f-title" data-s="s_title">Enskri kòm Santinèl</div>
+      <div class="f-sub" data-s="s_sub">Gratis. Yon minit. Ou ka envite yon Coach pita.</div>
+      <form id="form-s" onsubmit="submitForm(event,'sentinelle')">
+        <div class="fsec" data-s="s_sec1">Enfòmasyon Pèsonèl</div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label data-s="f_prenom">Prenon</label></div><input type="text" name="prenom" required autocomplete="given-name" placeholder="Jean"></div>
+          <div class="fg"><div class="fg-top"><label data-s="f_nom">Non</label></div><input type="text" name="nom" required autocomplete="family-name" placeholder="Pierre"></div>
+        </div>
+        <div class="fg"><div class="fg-top"><label data-s="f_email">Imèl</label></div><input type="email" name="email" required autocomplete="email" placeholder="jean@example.com"></div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label data-s="f_phone">Telefòn</label><span class="fg-hint" data-s="f_phone_hint">Nimewo ou</span></div><input type="tel" name="telephone" autocomplete="tel" placeholder="+509 XXXX XXXX"></div>
+          <div class="fg"><div class="fg-top"><label data-s="f_whatsapp">WhatsApp</label><span class="fg-hint" data-s="f_whatsapp_hint">Si diferan</span></div><input type="tel" name="whatsapp" autocomplete="tel" placeholder="+509 XXXX XXXX"></div>
+        </div>
+
+        <div class="fsec" data-s="s_sec2">Kote Ou Ye</div>
+        <div class="fg">
+          <div class="fg-top"><label data-s="f_dept">Depatman</label></div>
+          <select name="departement" id="s-dept" onchange="fillCommunes('s-dept','s-comm')" required>
+            <option value="" data-s="f_dept_ph">— Chwazi depatman —</option>
+          </select>
+        </div>
+        <div class="fg">
+          <div class="fg-top"><label data-s="f_commune">Komin</label></div>
+          <select name="commune" id="s-comm" required>
+            <option value="" data-s="f_commune_ph">— Chwazi komin —</option>
+          </select>
+        </div>
+        <div class="fg"><div class="fg-top"><label data-s="f_zone">Zòn / Katye</label><span class="fg-hint" data-s="f_zone_hint">Kote ou travay la</span></div><input type="text" name="zone" placeholder="Bel-Air, Kafou Fèy..."></div>
+
+        <div class="fsec" data-s="s_sec3">Aktivite &amp; Rezo Sosyal</div>
+        <div class="fg"><div class="fg-top"><label data-s="f_activite">Tip Aktivite</label><span class="fg-hint" data-s="f_activite_hint">Machann dlo, boutik...</span></div><input type="text" name="activite" placeholder="Machann dlo, manje, legim..."></div>
+        <div class="fg"><div class="fg-top"><label data-s="f_video">Videyo (opsyonèl)</label><span class="fg-hint" data-s="f_video_hint">YouTube oswa TikTok</span></div><input type="text" name="video" placeholder="https://youtube.com/..."></div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label>Facebook</label></div><input type="text" name="facebook" autocomplete="off" placeholder="facebook.com/..."></div>
+          <div class="fg"><div class="fg-top"><label>Instagram</label></div><input type="text" name="instagram" autocomplete="off" placeholder="instagram.com/..."></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label>TikTok</label></div><input type="text" name="tiktok" autocomplete="off" placeholder="tiktok.com/@..."></div>
+          <div class="fg"><div class="fg-top"><label>YouTube</label></div><input type="text" name="youtube" autocomplete="off" placeholder="youtube.com/..."></div>
+        </div>
+
+        <div class="fsec" data-s="s_sec4">Preferans</div>
+        <div class="fg">
+          <div class="fg-top"><label data-s="f_payment">Metòd Peman</label><span class="fg-hint" data-s="f_payment_hint">Koman ou vle resevwa kado pa w?</span></div>
+          <select name="paiement">
+            <option value="">—</option>
+            <option value="MCH" data-s="pay_moncash">MonCash</option>
+            <option value="NCH" data-s="pay_natcash">NatCash</option>
+            <option value="CSH" data-s="pay_cash">Lajan Cash</option>
+            <option value="VIR" data-s="pay_virement">Virement Bancaire</option>
+            <option value="OTR" data-s="pay_autre">Lòt</option>
+          </select>
+        </div>
+        
+        <div class="fg"><div class="fg-top"><label data-s="f_message">Mesaj (opsyonèl)</label></div><textarea name="message" placeholder="Di nou yon ti bagay sou ou..."></textarea></div>
+        <div class="fcheck"><input type="checkbox" id="cons-s" required><label for="cons-s"><span data-s="f_consent">Mwen aksepte </span><a href="terms.html" data-s="lnk_terms">Tèm</a> &amp; <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>.</label></div>
+        <button type="submit" class="btn-gold" data-s="f_submit_s">Enskri kòm Santinèl — Gratis</button>
+      </form>
+      <div class="form-success" id="suc-s">
+        <div class="suc-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="suc-h" data-s="suc_s_title">Mèsi — ou nan rezo a!</div>
+        <p class="suc-p" data-s="suc_s_msg">Nou pral kontakte ou byento.</p>
+        <div class="suc-share"><strong data-s="nav_join">Pwochen etap:</strong><span data-s="suc_s_share"> Pataje lyen enskripsyon an.</span></div>
+      </div>
+    </div>
+
+    <!-- COACH -->
+    <div class="form-panel" id="panel-coach">
+      <div class="f-title" data-s="c_title">Enskri kòm Coach</div>
+      <div class="f-sub" data-s="c_sub">Pwofil ou ap vizib. Ou chwazi ki Santinèl pou sipòte.</div>
+      <form id="form-c" onsubmit="submitForm(event,'coach')">
+        <div class="fsec" data-s="c_sec1">Enfòmasyon Pèsonèl</div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label data-s="f_prenom">Prenon</label></div><input type="text" name="prenom" required autocomplete="given-name" placeholder="Marie"></div>
+          <div class="fg"><div class="fg-top"><label data-s="f_nom">Non</label></div><input type="text" name="nom" required autocomplete="family-name" placeholder="Dupont"></div>
+        </div>
+        <div class="fg"><div class="fg-top"><label data-s="f_email">Imèl</label></div><input type="email" name="email" required autocomplete="email" placeholder="marie@example.com"></div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label data-s="f_phone">Telefòn</label></div><input type="tel" name="telephone" autocomplete="tel" placeholder="+509 / +1..."></div>
+          <div class="fg"><div class="fg-top"><label data-s="f_whatsapp">WhatsApp</label></div><input type="tel" name="whatsapp" autocomplete="tel" placeholder="+509 / +1..."></div>
+        </div>
+
+        <div class="fsec" data-s="c_sec2">Pwofil Coach</div>
+        <div class="fg">
+          <div class="fg-top"><label data-s="f_location">Ou baze kote?</label></div>
+          <select name="location_type">
+            <option value="">—</option>
+            <option value="HTI" data-s="loc_haiti">Ann Ayiti</option>
+            <option value="DIA" data-s="loc_diaspora">Dyaspora</option>
+          </select>
+        </div>
+        <div class="fg"><div class="fg-top"><label data-s="f_org">Òganizasyon</label><span class="fg-hint" data-s="f_org_hint">Opsyonèl</span></div><input type="text" name="organisation" autocomplete="organization" placeholder="Antrepriz, ONG, enstitisyon..."></div>
+        <div class="fg"><div class="fg-top"><label data-s="f_logo">Logo / Foto</label><span class="fg-hint" data-s="f_logo_hint">Opsyonèl — lyen imaj</span></div><input type="text" name="logo_url" autocomplete="off" placeholder="https://..."></div>
+        <div class="fg"><div class="fg-top"><label data-s="f_website">Site Web</label><span class="fg-hint" data-s="f_website_hint">Opsyonèl</span></div><input type="text" name="website" autocomplete="url" placeholder="https://..."></div>
+
+        <div class="fsec" data-s="c_sec3">Rezo Sosyal</div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label>Facebook</label></div><input type="text" name="facebook" autocomplete="off" placeholder="facebook.com/..."></div>
+          <div class="fg"><div class="fg-top"><label>Instagram</label></div><input type="text" name="instagram" autocomplete="off" placeholder="instagram.com/..."></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><div class="fg-top"><label>TikTok</label></div><input type="text" name="tiktok" autocomplete="off" placeholder="tiktok.com/@..."></div>
+          <div class="fg"><div class="fg-top"><label>YouTube</label></div><input type="text" name="youtube" autocomplete="off" placeholder="youtube.com/..."></div>
+        </div>
+
+        <div class="fsec" data-s="c_sec4">Motivasyon</div>
+        <div class="fg"><div class="fg-top"><label data-s="f_message_c">Poukisa ou vle vin Coach?</label><span class="fg-hint" data-s="f_message_c_hint">Opsyonèl</span></div><textarea name="message" placeholder="Di nou motivasyon ou..."></textarea></div>
+        <div class="fcheck"><input type="checkbox" id="cons-c" required><label for="cons-c"><span data-s="f_consent">Mwen aksepte </span><a href="terms.html" data-s="lnk_terms">Tèm</a> &amp; <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>.</label></div>
+        <button type="submit" class="btn-gold" data-s="f_submit_c">Enskri kòm Coach</button>
+      </form>
+      <div class="form-success" id="suc-c">
+        <div class="suc-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="suc-h" data-s="suc_c_title">Mèsi Coach — bienveni!</div>
+        <p class="suc-p" data-s="suc_c_msg">Pwofil ou pral vizib sou sit la.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 Rezo Mapou · <a href="index.html" data-s="nav_home">Akèy</a> · <a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a> · <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>
+</footer>
+
 <script src="strings.js"></script>
 <script>
-let lang = 'ht';
-const SCRIPT_URL = "YOUR_SCRIPT_URL_HERE"; // PASTE YOUR URL HERE
-
-// 1. POPULATE DEPARTMENTS (Fixed Logic)
-function populateDepts() {
-  const sDept = document.getElementById('s-dept');
-  if (!sDept) return;
-  
-  // Check if HAITI data exists in strings.js or global scope
-  if (typeof HAITI !== 'undefined') {
-    sDept.innerHTML = '<option value="">— Chwazi Depatman —</option>';
-    Object.keys(HAITI).sort().forEach(d => {
-      let o = document.createElement('option');
-      o.value = d;
-      o.textContent = d;
-      sDept.appendChild(o);
-    });
-    console.log("Departments loaded successfully.");
-  } else {
-    console.error("HAITI data object not found. Check if strings.js is loaded.");
-  }
+let lang='ht';
+function L(l){
+  lang=l;
+  document.querySelectorAll('.lb').forEach(b=>{
+    const m={ht:'🇭🇹 KR',fr:'🇫🇷 FR',en:'🇺🇸 EN'};
+    b.classList.toggle('active',b.textContent.trim()===m[l]);
+  });
+  const t=STRINGS[l];
+  document.querySelectorAll('[data-s]').forEach(el=>{
+    const k=el.getAttribute('data-s');
+    if(t[k])el.innerHTML=t[k];
+  });
 }
 
-// 2. FILL COMMUNES (Fixed Logic)
-function fillCommunes(deptId, commId) {
-  const dept = document.getElementById(deptId).value;
-  const sel = document.getElementById(commId);
-  sel.innerHTML = '<option value="">— Chwazi Komin —</option>';
-  
-  if (dept && typeof HAITI !== 'undefined' && HAITI[dept]) {
-    HAITI[dept].sort().forEach(c => {
-      let o = document.createElement('option');
-      o.value = c;
-      o.textContent = c;
+function fillCommunes(deptId,commId){
+  const dept=document.getElementById(deptId).value;
+  const sel=document.getElementById(commId);
+  sel.innerHTML='<option value="">—</option>';
+  if(dept&&HAITI[dept]){
+    HAITI[dept].sort().forEach(c=>{
+      const o=document.createElement('option');
+      o.value=c;
+      o.dataset.code=COMMUNE_CODES[c]||c.substring(0,4).toUpperCase();
+      o.textContent=c;
       sel.appendChild(o);
     });
   }
 }
 
-function switchTab(tab) {
-  document.getElementById('tab-s').classList.toggle('active', tab === 'sentinelle');
-  document.getElementById('tab-c').classList.toggle('active', tab === 'coach');
-  document.getElementById('panel-sentinelle').classList.toggle('active', tab === 'sentinelle');
-  document.getElementById('panel-coach').classList.toggle('active', tab === 'coach');
+function populateDepts(){
+  const sel=document.getElementById('s-dept');
+  Object.keys(HAITI).sort().forEach(d=>{
+    const o=document.createElement('option');
+    o.value=d;
+    o.textContent=d;
+    sel.appendChild(o);
+  });
 }
 
-async function submitForm(e, type) {
+function switchTab(tab){
+  document.querySelectorAll('.ftab').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='sentinelle')||(i===1&&tab==='coach')));
+  document.getElementById('panel-sentinelle').classList.toggle('active',tab==='sentinelle');
+  document.getElementById('panel-coach').classList.toggle('active',tab==='coach');
+  history.replaceState(null,'','#'+tab);
+}
+
+async function post(data){
+  try{
+    const p=new URLSearchParams();
+    Object.entries(data).forEach(([k,v])=>p.append(k,String(v)));
+    await fetch(SCRIPT_URL,{method:'POST',body:p,mode:'no-cors'});
+  }catch(e){}
+}
+
+async function submitForm(e,type){
   e.preventDefault();
-  const btn = e.target.querySelector('button');
-  btn.disabled = true;
-  btn.innerText = "Ap voye...";
-
-  const fd = new FormData(e.target);
-  const data = { type, langue: lang, source: 'website', is_real: 'true' };
-  fd.forEach((v, k) => { data[k] = v; });
-
-  // Add the Dept/Commune names explicitly for the Sheet
-  if (type === 'sentinelle') {
-      data.departement_nom = document.getElementById('s-dept').value;
-      data.commune_nom = document.getElementById('s-comm').value;
+  const fd=new FormData(e.target);
+  const data={type};
+  fd.forEach((v,k)=>{data[k]=v;});
+  if(type==='sentinelle'){
+    const deptSel=document.getElementById('s-dept');
+    const deptName=deptSel.value;
+    data.departement_nom=deptName;
+    data.departement=DEPT_CODES[deptName]||deptName.substring(0,4).toUpperCase();
+    const commSel=document.getElementById('s-comm');
+    const commOpt=commSel.options[commSel.selectedIndex];
+    data.commune_nom=commOpt?.value||'';
+    data.commune=commOpt?.dataset?.code||commOpt?.value?.substring(0,4).toUpperCase()||'';
   }
-
-  const params = new URLSearchParams();
-  Object.entries(data).forEach(([k, v]) => params.append(k, v));
-
-  try {
-    // We use a GET-style approach to avoid CORS issues with Apps Script
-    await fetch(SCRIPT_URL + "?" + params.toString(), { method: 'POST', mode: 'no-cors' });
-    e.target.style.display = 'none';
-    document.getElementById('suc-' + (type === 'coach' ? 'c' : 's')).style.display = 'block';
-  } catch (err) {
-    alert("Erè nan koneksyon an.");
-    btn.disabled = false;
-    btn.innerText = "Eseye ankò";
-  }
+  data.langue=lang;
+  data.source='website';
+  data.is_real='true';
+  await post(data);
+  e.target.style.display='none';
+  document.getElementById('suc-'+type[0]).style.display='block';
 }
 
-async function fetchStats() {
-  try {
-    const r = await fetch(SCRIPT_URL);
-    const d = await r.json();
-    if(d.sentinelles !== undefined) document.getElementById('sb-s').innerText = d.sentinelles;
-    if(d.coaches !== undefined) document.getElementById('sb-c').innerText = d.coaches;
-  } catch (e) {
-    console.log("Stats update failed (standard for no-cors mode)");
-  }
+async function fetchStats(){
+  try{
+    const r=await fetch(SCRIPT_URL+'?t='+Date.now());
+    const d=await r.json();
+    document.getElementById('sb-s').textContent=d.sentinelles||0;
+    document.getElementById('sb-c').textContent=d.coaches||0;
+  }catch(e){}
 }
 
-// INITIALIZE
-window.addEventListener('load', () => {
-  // Give strings.js a tiny moment to register the HAITI object
-  setTimeout(populateDepts, 100);
+// Handle anchor on load
+window.addEventListener('load',()=>{
+  populateDepts();
+  L('ht');
   fetchStats();
+  if(location.hash==='#coach') switchTab('coach');
 });
 </script>
+</body>
+</html>
