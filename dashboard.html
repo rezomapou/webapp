@@ -166,8 +166,7 @@ async function loadData(){
   await new Promise(r => setTimeout(r, 1000));
   
   // Now fetch the stats
-  const r = await fetch(SCRIPT_URL + '?t=' + Date.now());
-    
+      
   document.getElementById('loading').style.display='block';
   document.getElementById('content').style.display='none';
   try{
