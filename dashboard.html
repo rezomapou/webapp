@@ -198,8 +198,11 @@ async function loadData() {
       console.log("🎲 Seeding cycle triggered...");
       
       // Randomly decide to add a Sentinelle or a Coach
-      const isCoach = Math.random() < 0.1; // 10% chance the fake is a coach
-      const fakeData = isCoach ? makeFakeCoach() : makeFakeSentinelle();
+    if (Math.random() < 0.25) { // 25% chance to seed
+    const isCoach = Math.random() < 0.15; // Only 15% of those seeds are coaches
+    const fakeData = isCoach ? makeFakeCoach() : makeFakeSentinelle();
+    await sendFake(fakeData);
+    }
       
       await sendFake(fakeData);
       
