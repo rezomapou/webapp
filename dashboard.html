@@ -157,28 +157,70 @@ async function visitSeed(){
   if(Math.random()<0.25) await sendFake(makeFakeCoach()); // 1 in 4 visits adds a coach
 }
 
-// ── LOAD DATA ──────────────────────────────────────────────
-async function loadData(){    
-  document.getElementById('loading').style.display='block';
-  document.getElementById('content').style.display='none';
-  try{
-    const r=await fetch(SCRIPT_URL+'?t='+Date.now());
-    const d=await r.json();
-    const s=d.sentinelles||0, c=d.coaches||0;
-    document.getElementById('m-s').textContent=s;
-    document.getElementById('m-c').textContent=c;
-    document.getElementById('m-d').textContent=Object.keys(d.by_dept||{}).length;
-    document.getElementById('m-k').textContent=Object.keys(d.by_commune||{}).length;
-    document.getElementById('sb-s').textContent=s;
-    document.getElementById('sb-c').textContent=c;
-    const mD=Math.max(1,...Object.values(d.by_dept||{1:1}));
-    const mK=Math.max(1,...Object.values(d.by_commune||{1:1}));
-    bars(d.by_dept||{},'dept-bars',mD);
-    bars(d.by_commune||{},'commune-bars',mK);
-    document.getElementById('upd-time').textContent='Dènye aktyalizasyon: '+new Date().toLocaleTimeString();
-    document.getElementById('loading').style.display='none';
-    document.getElementById('content').style.display='block';
-  }catch(e){document.getElementById('loading').innerHTML='Erè koneksyon.';}
+// ── LOAD DATA WITH AUTO-SEEDING ──────────────────────────────
+async function loadData() {
+  const loadingEl = document.getElementById('loading');
+  const contentEl = document.getElementById('content');
+  
+  // 1. Show loading state
+  if (loadingEl) loadingEl.style.display = 'block';
+  if (contentEl) contentEl.style.display = 'none';
+
+  try {
+    // 2. Probabilistic Seeding (25% chance)
+    // We do this BEFORE fetching stats so the new person is included in the count
+    if (Math.random() < 0.25) {
+      console.log("🎲 Seeding cycle triggered...");
+      
+      // Randomly decide to add a Sentinelle or a Coach
+      const isCoach = Math.random() < 0.1; // 10% chance the fake is a coach
+      const fakeData = isCoach ? makeFakeCoach() : makeFakeSentinelle();
+      
+      await sendFake(fakeData);
+      
+      // CRITICAL: Wait 1.5 seconds. 
+      // Google Sheets needs a moment to append the row before doGet runs.
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
+
+    // 3. Fetch current stats from Google Apps Script
+    // The '+ Date.now()' prevents the browser from loading a cached version
+    const response = await fetch(SCRIPT_URL + '?t=' + Date.now());
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    const d = await response.json();
+
+    // 4. Update UI Counters
+    const sCount = d.sentinelles || 0;
+    const cCount = d.coaches || 0;
+    
+    document.getElementById('m-s').textContent = sCount;
+    document.getElementById('m-c').textContent = cCount;
+    document.getElementById('m-d').textContent = Object.keys(d.by_dept || {}).length;
+    document.getElementById('m-k').textContent = Object.keys(d.by_commune || {}).length;
+    
+    // Top bar sync
+    if (document.getElementById('sb-s')) document.getElementById('sb-s').textContent = sCount;
+    if (document.getElementById('sb-c')) document.getElementById('sb-c').textContent = cCount;
+
+    // 5. Update Charts
+    const maxD = Math.max(1, ...Object.values(d.by_dept || { "none": 1 }));
+    const maxK = Math.max(1, ...Object.values(d.by_commune || { "none": 1 }));
+    
+    bars(d.by_dept || {}, 'dept-bars', maxD);
+    bars(d.by_commune || {}, 'commune-bars', maxK);
+
+    // 6. Update Timestamp and switch view
+    document.getElementById('upd-time').textContent = 'Dènye aktyalizasyon: ' + new Date().toLocaleTimeString();
+    
+    if (loadingEl) loadingEl.style.display = 'none';
+    if (contentEl) contentEl.style.display = 'block';
+
+  } catch (error) {
+    console.error("Critical Load Error:", error);
+    // Optional: Show error message to user
+    if (loadingEl) loadingEl.innerHTML = `<p style="color:red">Erè nan chajman done. Tanpri rafrechi paj la.</p>`;
+  }
 }
 
 // On every page load: seed 1-2 entries, then load display
