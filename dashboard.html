@@ -125,20 +125,45 @@ function makeFakeSentinelle(){
   };
 }
 
-function makeFakeCoach(){
-  const isDia=Math.random()>0.45;
+// ── GENERATE FAKE COACH DATA ──────────────────────────────
+function makeFakeCoach() {
+  // 1. Pick a location (Coaches use the same weights for realism)
+  const loc = weightedLoc();
+  const dName = loc.dept;
+  
+  // 2. Determine Organization name
+  // Some coaches might be individuals (empty string), others from the pool
+  const orgName = (typeof FAKE_COACH_ORGS !== 'undefined') 
+                  ? randomItem(FAKE_COACH_ORGS) 
+                  : "";
+
   return {
-    type:'coach',
-    prenom:randomItem(FAKE_FIRSTNAMES),
-    nom:randomItem(FAKE_LASTNAMES),
-    email:`fc${Date.now()}@rmn-seed.net`,
-    telephone:isDia?`+1${Math.floor(3050000000+Math.random()*9999999)}`:`+509${Math.floor(30000000+Math.random()*9999999)}`,
-    whatsapp:'',
-    location_type:isDia?'DIA':'HTI',
-    organisation:randomItem(FAKE_COACH_ORGS),
-    logo_url:'',website:'',
-    facebook:'',instagram:'',tiktok:'',youtube:'',
-    message:'',langue:'ht',source:'seed',is_real:'false'
+    type: 'coach',
+    prenom: randomItem(FAKE_FIRSTNAMES),
+    nom: randomItem(FAKE_LASTNAMES),
+    email: `c${Date.now()}@rmn-seed.net`,
+    telephone: `+509${Math.floor(30000000 + Math.random() * 9999999)}`,
+    whatsapp: (Math.random() > 0.5) ? `+509${Math.floor(30000000 + Math.random() * 9999999)}` : '',
+    
+    // Coaches use 'location_type' or 'location_code' depending on your script version
+    // We send the Dept Code here (e.g., "OUE", "ART")
+    location_code: DEPT_CODES[dName] || dName.substring(0, 4).toUpperCase(),
+    organisation: orgName,
+    
+    // Optional fields
+    logo_url: orgName ? `https://via.placeholder.com/150?text=${orgName.substring(0,1)}` : '',
+    website: orgName ? `www.${orgName.toLowerCase().replace(/\s/g, '')}.ht` : '',
+    
+    // Socials (randomly filled)
+    facebook: (Math.random() > 0.7) ? 'facebook.com/fakecoach' : '',
+    instagram: '',
+    tiktok: '',
+    youtube: '',
+    
+    message: "Mwen vle sipòte rezo a kòm yon coach volontè.",
+    langue: 'ht',
+    source: 'seed_auto',
+    is_real: 'false'
   };
 }
 
