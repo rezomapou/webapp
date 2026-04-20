@@ -1,205 +1,97 @@
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Enskri — Rezo Mapou</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{--gold:#C8A84B;--gold-l:#E8D5A0;--earth:#5C3D1E;--earth-d:#3A2210;--forest:#1E4D2B;--forest-m:#2D6B3E;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}
-*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--cream-d);color:var(--ink);font-size:16px;line-height:1.7;}
-
-/* Header & Stats */
-.stats-bar{position:fixed;top:0;left:0;right:0;z-index:101;background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}
-.stats-counts{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}
-.stats-counts strong{color:var(--gold);}
-.lang-bar{display:flex;gap:3px;}
-.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;}
-.lb.active{background:var(--gold);color:var(--earth-d);}
-
-nav{position:fixed;top:30px;left:0;right:0;z-index:100;background:rgba(247,243,236,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
-.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.nav-logo{width:34px;height:34px;border-radius:50%;background:white;object-fit:contain;padding:3px;}
-.nav-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);}
-
-/* Layout */
-.page-wrap{max-width:760px;margin:0 auto;padding:6rem 2rem 4rem;}
-.page-header{text-align:center;margin-bottom:3rem;}
-.page-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--ink);}
-
-/* TABS */
-.form-tabs{display:flex;border-radius:4px 4px 0 0;overflow:hidden;border:1px solid var(--bdr);border-bottom:none;}
-.ftab{flex:1;padding:1rem;background:var(--cream-d);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;}
-.ftab.active{background:white;color:var(--forest);border-bottom-color:var(--gold);}
-
-/* FORM */
-.form-body{background:white;border:1px solid var(--bdr);border-top:none;border-radius:0 0 4px 4px;padding:2.5rem;}
-.form-panel{display:none;}
-.form-panel.active{display:block;}
-.fsec{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:1.75rem 0 0.75rem;padding-bottom:5px;border-bottom:1px solid var(--bdr);}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.fg{margin-bottom:0.9rem;}
-.fg label{display:block;font-size:11px;font-weight:500;text-transform:uppercase;color:var(--earth);margin-bottom:5px;}
-.fg input, .fg select, .fg textarea{width:100%;padding:10px 13px;background:var(--cream);border:1px solid var(--bdr);border-radius:2px;font-family:inherit;font-size:14px;color:var(--ink);outline:none;}
-.fg input:focus{border-color:var(--forest);background:white;}
-
-.btn-gold{width:100%;background:var(--gold);color:var(--earth-d);font-size:15px;font-weight:500;padding:14px;border-radius:2px;border:none;cursor:pointer;transition:all 0.2s;margin-top:1rem;}
-.btn-gold:hover{background:var(--gold-l);}
-
-.form-success{display:none;text-align:center;padding:3rem 1rem;}
-.hidden-spam{display:none !important; visibility:hidden !important;}
-
-footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2rem;text-align:center;font-size:12px;margin-top:2rem;}
-
-@media(max-width:600px){.frow{grid-template-columns:1fr;}}
-</style>
-</head>
-<body>
-
-<div class="stats-bar">
-  <div class="stats-counts">
-    <span><strong id="sb-s">—</strong> <span data-s="stats_sentinelles">Santinèl</span></span>
-    <span><strong id="sb-c">—</strong> <span data-s="stats_coaches">Coach</span></span>
-  </div>
-  <div class="lang-bar">
-    <button class="lb active" onclick="L('ht')">🇭🇹 KR</button>
-    <button class="lb" onclick="L('fr')">🇫🇷 FR</button>
-    <button class="lb" onclick="L('en')">🇺🇸 EN</button>
-  </div>
-</div>
-
-<nav>
-  <a href="index.html" class="nav-brand">
-    <img src="rezo_mapou_logo.png" class="nav-logo" alt="Rezo Mapou">
-    <span class="nav-name">Rezo Mapou</span>
-  </a>
-</nav>
-
-<div class="page-wrap">
-  <div class="page-header">
-    <h1 class="page-title">Rezo Mapou</h1>
-    <p class="page-sub">Antre nan mouvman an.</p>
-  </div>
-
-  <div class="form-tabs">
-    <button class="ftab active" id="tab-s" onclick="switchTab('sentinelle')">🌿 Santinèl</button>
-    <button class="ftab" id="tab-c" onclick="switchTab('coach')">⭐ Coach</button>
-  </div>
-
-  <div class="form-body">
-    <div class="form-panel active" id="panel-sentinelle">
-      <form id="form-s" onsubmit="submitForm(event,'sentinelle')">
-        <div class="hidden-spam"><input type="text" name="website_url" tabindex="-1" autocomplete="off"></div>
-
-        <div class="fsec">Enfòmasyon Pèsonèl</div>
-        <div class="frow">
-          <div class="fg"><label>Prenon</label><input type="text" name="prenom" required placeholder="Jean"></div>
-          <div class="fg"><label>Non</label><input type="text" name="nom" required placeholder="Pierre"></div>
-        </div>
-        <div class="fg"><label>Imèl</label><input type="email" name="email" required placeholder="jean@mail.com"></div>
-        <div class="frow">
-          <div class="fg"><label>Telefòn</label><input type="tel" name="telephone" required placeholder="+509"></div>
-          <div class="fg"><label>WhatsApp</label><input type="tel" name="whatsapp" placeholder="+509"></div>
-        </div>
-
-        <div class="fsec">Kote Ou Ye</div>
-        <div class="fg"><select name="departement" id="s-dept" onchange="fillCommunes('s-dept','s-comm')" required><option value="">— Depatman —</option></select></div>
-        <div class="fg"><select name="commune" id="s-comm" required><option value="">— Komin —</option></select></div>
-        
-        <button type="submit" class="btn-gold">Enskri kòm Santinèl</button>
-      </form>
-      <div class="form-success" id="suc-s">Mèsi! Done ou yo anrejistre.</div>
-    </div>
-
-    <div class="form-panel" id="panel-coach">
-      <form id="form-c" onsubmit="submitForm(event,'coach')">
-        <div class="hidden-spam"><input type="text" name="website_url" tabindex="-1" autocomplete="off"></div>
-
-        <div class="fsec">Enfòmasyon Pèsonèl</div>
-        <div class="frow">
-          <div class="fg"><label>Prenon</label><input type="text" name="prenom" required placeholder="Marie"></div>
-          <div class="fg"><label>Non</label><input type="text" name="nom" required placeholder="Jean"></div>
-        </div>
-        <div class="fg"><label>Imèl</label><input type="email" name="email" required placeholder="marie@mail.com"></div>
-        <div class="fg"><label>Òganizasyon</label><input type="text" name="organisation" placeholder="Non konpayi ou"></div>
-
-        <button type="submit" class="btn-gold">Enskri kòm Coach</button>
-      </form>
-      <div class="form-success" id="suc-c">Mèsi Coach! Pwofil ou anrejistre.</div>
-    </div>
-  </div>
-</div>
-
-<footer>© 2026 Rezo Mapou</footer>
-
 <script src="strings.js"></script>
 <script>
-let lang='ht';
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpNInO3NCOK8O2w8R_fFv_nS8E5pG9tO9E7A/exec"; // UPDATE THIS
+let lang = 'ht';
+const SCRIPT_URL = "YOUR_SCRIPT_URL_HERE"; // PASTE YOUR URL HERE
 
-function switchTab(tab){
-  document.getElementById('tab-s').classList.toggle('active', tab==='sentinelle');
-  document.getElementById('tab-c').classList.toggle('active', tab==='coach');
-  document.getElementById('panel-sentinelle').classList.toggle('active', tab==='sentinelle');
-  document.getElementById('panel-coach').classList.toggle('active', tab==='coach');
+// 1. POPULATE DEPARTMENTS (Fixed Logic)
+function populateDepts() {
+  const sDept = document.getElementById('s-dept');
+  if (!sDept) return;
+  
+  // Check if HAITI data exists in strings.js or global scope
+  if (typeof HAITI !== 'undefined') {
+    sDept.innerHTML = '<option value="">— Chwazi Depatman —</option>';
+    Object.keys(HAITI).sort().forEach(d => {
+      let o = document.createElement('option');
+      o.value = d;
+      o.textContent = d;
+      sDept.appendChild(o);
+    });
+    console.log("Departments loaded successfully.");
+  } else {
+    console.error("HAITI data object not found. Check if strings.js is loaded.");
+  }
 }
 
-function fillCommunes(deptId, commId){
+// 2. FILL COMMUNES (Fixed Logic)
+function fillCommunes(deptId, commId) {
   const dept = document.getElementById(deptId).value;
   const sel = document.getElementById(commId);
-  sel.innerHTML = '<option value="">—</option>';
-  if(dept && typeof HAITI !== 'undefined' && HAITI[dept]){
-    HAITI[dept].forEach(c => {
+  sel.innerHTML = '<option value="">— Chwazi Komin —</option>';
+  
+  if (dept && typeof HAITI !== 'undefined' && HAITI[dept]) {
+    HAITI[dept].sort().forEach(c => {
       let o = document.createElement('option');
-      o.value = c; o.textContent = c; sel.appendChild(o);
+      o.value = c;
+      o.textContent = c;
+      sel.appendChild(o);
     });
   }
 }
 
-async function submitForm(e, type){
+function switchTab(tab) {
+  document.getElementById('tab-s').classList.toggle('active', tab === 'sentinelle');
+  document.getElementById('tab-c').classList.toggle('active', tab === 'coach');
+  document.getElementById('panel-sentinelle').classList.toggle('active', tab === 'sentinelle');
+  document.getElementById('panel-coach').classList.toggle('active', tab === 'coach');
+}
+
+async function submitForm(e, type) {
   e.preventDefault();
   const btn = e.target.querySelector('button');
-  btn.disabled = true; btn.innerText = "Ap voye...";
+  btn.disabled = true;
+  btn.innerText = "Ap voye...";
 
   const fd = new FormData(e.target);
   const data = { type, langue: lang, source: 'website', is_real: 'true' };
   fd.forEach((v, k) => { data[k] = v; });
 
+  // Add the Dept/Commune names explicitly for the Sheet
+  if (type === 'sentinelle') {
+      data.departement_nom = document.getElementById('s-dept').value;
+      data.commune_nom = document.getElementById('s-comm').value;
+  }
+
   const params = new URLSearchParams();
-  Object.entries(data).forEach(([k,v]) => params.append(k,v));
+  Object.entries(data).forEach(([k, v]) => params.append(k, v));
 
   try {
+    // We use a GET-style approach to avoid CORS issues with Apps Script
     await fetch(SCRIPT_URL + "?" + params.toString(), { method: 'POST', mode: 'no-cors' });
     e.target.style.display = 'none';
     document.getElementById('suc-' + (type === 'coach' ? 'c' : 's')).style.display = 'block';
-  } catch(err) {
-    alert("Erè");
-    btn.disabled = false; btn.innerText = "Voye ankò";
+  } catch (err) {
+    alert("Erè nan koneksyon an.");
+    btn.disabled = false;
+    btn.innerText = "Eseye ankò";
   }
 }
 
-async function fetchStats(){
+async function fetchStats() {
   try {
     const r = await fetch(SCRIPT_URL);
     const d = await r.json();
-    document.getElementById('sb-s').innerText = d.sentinelles || 0;
-    document.getElementById('sb-c').innerText = d.coaches || 0;
-  } catch(e){}
+    if(d.sentinelles !== undefined) document.getElementById('sb-s').innerText = d.sentinelles;
+    if(d.coaches !== undefined) document.getElementById('sb-c').innerText = d.coaches;
+  } catch (e) {
+    console.log("Stats update failed (standard for no-cors mode)");
+  }
 }
 
+// INITIALIZE
 window.addEventListener('load', () => {
-  // Populate Departments if HAITI object exists
-  const sDept = document.getElementById('s-dept');
-  if(typeof HAITI !== 'undefined'){
-    Object.keys(HAITI).sort().forEach(d => {
-      let o = document.createElement('option');
-      o.value = d; o.textContent = d; sDept.appendChild(o);
-    });
-  }
+  // Give strings.js a tiny moment to register the HAITI object
+  setTimeout(populateDepts, 100);
   fetchStats();
 });
 </script>
-</body>
-</html>
