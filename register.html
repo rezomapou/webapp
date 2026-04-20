@@ -10,51 +10,54 @@
 :root{--gold:#C8A84B;--gold-l:#E8D5A0;--earth:#5C3D1E;--earth-d:#3A2210;--forest:#1E4D2B;--forest-m:#2D6B3E;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--cream-d);color:var(--ink);font-size:16px;line-height:1.7;}
+
+/* Header & Stats */
 .stats-bar{position:fixed;top:0;left:0;right:0;z-index:101;background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}
 .stats-counts{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}
 .stats-counts strong{color:var(--gold);}
 .lang-bar{display:flex;gap:3px;}
-.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'DM Sans',sans-serif;font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;transition:all 0.2s;display:flex;align-items:center;gap:4px;}
-.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-d);}
+.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;}
+.lb.active{background:var(--gold);color:var(--earth-d);}
+
 nav{position:fixed;top:30px;left:0;right:0;z-index:100;background:rgba(247,243,236,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
 .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
 .nav-logo{width:34px;height:34px;border-radius:50%;background:white;object-fit:contain;padding:3px;}
 .nav-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);}
-.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;}
-.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-.nav-links a:hover,.nav-links a.active-nav{color:var(--forest);}
-.nav-cta{background:var(--gold)!important;color:var(--earth-d)!important;padding:6px 16px;border-radius:2px;font-weight:500!important;}
 
+/* Layout */
 .page-wrap{max-width:760px;margin:0 auto;padding:6rem 2rem 4rem;}
 .page-header{text-align:center;margin-bottom:3rem;}
-.page-eye{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;}
-.page-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--ink);margin-bottom:0.5rem;}
-.page-sub{font-size:14px;color:var(--muted);font-weight:300;}
+.page-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--ink);}
 
 /* TABS */
 .form-tabs{display:flex;border-radius:4px 4px 0 0;overflow:hidden;border:1px solid var(--bdr);border-bottom:none;}
-.ftab{flex:1;padding:1rem 1.5rem;background:var(--cream-d);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:center;border-bottom:3px solid transparent;}
+.ftab{flex:1;padding:1rem;background:var(--cream-d);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;}
 .ftab.active{background:white;color:var(--forest);border-bottom-color:var(--gold);}
 
 /* FORM */
 .form-body{background:white;border:1px solid var(--bdr);border-top:none;border-radius:0 0 4px 4px;padding:2.5rem;}
 .form-panel{display:none;}
 .form-panel.active{display:block;}
-.f-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem;}
-.f-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;font-weight:300;}
 .fsec{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:1.75rem 0 0.75rem;padding-bottom:5px;border-bottom:1px solid var(--bdr);}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .fg{margin-bottom:0.9rem;}
-.fg label{font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--earth);}
-.fg-hint{font-size:11px;color:var(--muted);font-style:italic;font-weight:300;}
-.fg input,.fg select,.fg textarea{width:100%;padding:9px 13px;background:var(--cream);border:1px solid var(--bdr);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;}
-.btn-gold{width:100%;background:var(--gold);color:var(--earth-d);font-size:15px;font-weight:500;padding:14px;border-radius:2px;border:none;cursor:pointer;margin-top:1rem;}
-.form-success{display:none;text-align:center;padding:3rem 1rem;}
+.fg label{display:block;font-size:11px;font-weight:500;text-transform:uppercase;color:var(--earth);margin-bottom:5px;}
+.fg input, .fg select, .fg textarea{width:100%;padding:10px 13px;background:var(--cream);border:1px solid var(--bdr);border-radius:2px;font-family:inherit;font-size:14px;color:var(--ink);outline:none;}
+.fg input:focus{border-color:var(--forest);background:white;}
 
-footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2rem;text-align:center;font-size:12px;}
+.btn-gold{width:100%;background:var(--gold);color:var(--earth-d);font-size:15px;font-weight:500;padding:14px;border-radius:2px;border:none;cursor:pointer;transition:all 0.2s;margin-top:1rem;}
+.btn-gold:hover{background:var(--gold-l);}
+
+.form-success{display:none;text-align:center;padding:3rem 1rem;}
+.hidden-spam{display:none !important; visibility:hidden !important;}
+
+footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2rem;text-align:center;font-size:12px;margin-top:2rem;}
+
+@media(max-width:600px){.frow{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
+
 <div class="stats-bar">
   <div class="stats-counts">
     <span><strong id="sb-s">—</strong> <span data-s="stats_sentinelles">Santinèl</span></span>
@@ -66,6 +69,7 @@ footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2rem;text-align
     <button class="lb" onclick="L('en')">🇺🇸 EN</button>
   </div>
 </div>
+
 <nav>
   <a href="index.html" class="nav-brand">
     <img src="rezo_mapou_logo.png" class="nav-logo" alt="Rezo Mapou">
@@ -75,123 +79,126 @@ footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2rem;text-align
 
 <div class="page-wrap">
   <div class="page-header">
-    <div class="page-eye" data-s="nav_join">Enskri</div>
     <h1 class="page-title">Rezo Mapou</h1>
+    <p class="page-sub">Antre nan mouvman an.</p>
   </div>
 
   <div class="form-tabs">
-    <button class="ftab active" id="tab-s" onclick="switchTab('sentinelle')" data-s="nav_sentinelle">🌿 Santinèl</button>
-    <button class="ftab" id="tab-c" onclick="switchTab('coach')" data-s="nav_coach">⭐ Coach</button>
+    <button class="ftab active" id="tab-s" onclick="switchTab('sentinelle')">🌿 Santinèl</button>
+    <button class="ftab" id="tab-c" onclick="switchTab('coach')">⭐ Coach</button>
   </div>
 
   <div class="form-body">
     <div class="form-panel active" id="panel-sentinelle">
       <form id="form-s" onsubmit="submitForm(event,'sentinelle')">
-        <div style="display:none !important;"><input type="text" name="website_url" tabindex="-1" autocomplete="off"></div>
-        
+        <div class="hidden-spam"><input type="text" name="website_url" tabindex="-1" autocomplete="off"></div>
+
         <div class="fsec">Enfòmasyon Pèsonèl</div>
         <div class="frow">
-          <div class="fg"><label data-s="f_prenom">Prenon</label><input type="text" name="prenom" required></div>
-          <div class="fg"><label data-s="f_nom">Non</label><input type="text" name="nom" required></div>
+          <div class="fg"><label>Prenon</label><input type="text" name="prenom" required placeholder="Jean"></div>
+          <div class="fg"><label>Non</label><input type="text" name="nom" required placeholder="Pierre"></div>
         </div>
-        <div class="fg"><label data-s="f_email">Imèl</label><input type="email" name="email" required></div>
+        <div class="fg"><label>Imèl</label><input type="email" name="email" required placeholder="jean@mail.com"></div>
         <div class="frow">
-          <div class="fg"><label data-s="f_phone">Telefòn</label><input type="tel" name="telephone" required></div>
-          <div class="fg"><label data-s="f_whatsapp">WhatsApp</label><input type="tel" name="whatsapp"></div>
+          <div class="fg"><label>Telefòn</label><input type="tel" name="telephone" required placeholder="+509"></div>
+          <div class="fg"><label>WhatsApp</label><input type="tel" name="whatsapp" placeholder="+509"></div>
         </div>
 
         <div class="fsec">Kote Ou Ye</div>
         <div class="fg"><select name="departement" id="s-dept" onchange="fillCommunes('s-dept','s-comm')" required><option value="">— Depatman —</option></select></div>
         <div class="fg"><select name="commune" id="s-comm" required><option value="">— Komin —</option></select></div>
-        <div class="fg"><label data-s="f_zone">Zòn</label><input type="text" name="zone"></div>
-
-        <button type="submit" class="btn-gold" data-s="f_submit_s">Enskri kòm Santinèl</button>
+        
+        <button type="submit" class="btn-gold">Enskri kòm Santinèl</button>
       </form>
-      <div class="form-success" id="suc-s">Mèsi! Ou nan rezo a.</div>
+      <div class="form-success" id="suc-s">Mèsi! Done ou yo anrejistre.</div>
     </div>
 
     <div class="form-panel" id="panel-coach">
       <form id="form-c" onsubmit="submitForm(event,'coach')">
-        <div style="display:none !important;"><input type="text" name="website_url" tabindex="-1" autocomplete="off"></div>
-        
+        <div class="hidden-spam"><input type="text" name="website_url" tabindex="-1" autocomplete="off"></div>
+
         <div class="fsec">Enfòmasyon Pèsonèl</div>
         <div class="frow">
-          <div class="fg"><label data-s="f_prenom">Prenon</label><input type="text" name="prenom" required></div>
-          <div class="fg"><label data-s="f_nom">Non</label><input type="text" name="nom" required></div>
+          <div class="fg"><label>Prenon</label><input type="text" name="prenom" required placeholder="Marie"></div>
+          <div class="fg"><label>Non</label><input type="text" name="nom" required placeholder="Jean"></div>
         </div>
-        <div class="fg"><label data-s="f_email">Imèl</label><input type="email" name="email" required></div>
-        <div class="fg"><label data-s="f_org">Òganizasyon</label><input type="text" name="organisation"></div>
+        <div class="fg"><label>Imèl</label><input type="email" name="email" required placeholder="marie@mail.com"></div>
+        <div class="fg"><label>Òganizasyon</label><input type="text" name="organisation" placeholder="Non konpayi ou"></div>
 
-        <button type="submit" class="btn-gold" data-s="f_submit_c">Enskri kòm Coach</button>
+        <button type="submit" class="btn-gold">Enskri kòm Coach</button>
       </form>
       <div class="form-success" id="suc-c">Mèsi Coach! Pwofil ou anrejistre.</div>
     </div>
   </div>
 </div>
 
+<footer>© 2026 Rezo Mapou</footer>
+
 <script src="strings.js"></script>
 <script>
 let lang='ht';
-const SCRIPT_URL = "POZE_URL_LA_ISIT"; // Update this!
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpNInO3NCOK8O2w8R_fFv_nS8E5pG9tO9E7A/exec"; // UPDATE THIS
 
-function fillCommunes(deptId,commId){
-  const dept=document.getElementById(deptId).value;
-  const sel=document.getElementById(commId);
-  sel.innerHTML='<option value="">—</option>';
-  if(dept&&HAITI[dept]){
-    HAITI[dept].sort().forEach(c=>{
-      const o=document.createElement('option');
-      o.value=c;
-      o.textContent=c;
-      sel.appendChild(o);
+function switchTab(tab){
+  document.getElementById('tab-s').classList.toggle('active', tab==='sentinelle');
+  document.getElementById('tab-c').classList.toggle('active', tab==='coach');
+  document.getElementById('panel-sentinelle').classList.toggle('active', tab==='sentinelle');
+  document.getElementById('panel-coach').classList.toggle('active', tab==='coach');
+}
+
+function fillCommunes(deptId, commId){
+  const dept = document.getElementById(deptId).value;
+  const sel = document.getElementById(commId);
+  sel.innerHTML = '<option value="">—</option>';
+  if(dept && typeof HAITI !== 'undefined' && HAITI[dept]){
+    HAITI[dept].forEach(c => {
+      let o = document.createElement('option');
+      o.value = c; o.textContent = c; sel.appendChild(o);
     });
   }
 }
 
-function populateDepts(){
-  const sel=document.getElementById('s-dept');
-  if(!sel) return;
-  Object.keys(HAITI).sort().forEach(d=>{
-    const o=document.createElement('option');
-    o.value=d;
-    o.textContent=d;
-    sel.appendChild(o);
-  });
-}
-
-function switchTab(tab){
-  document.querySelectorAll('.ftab').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='sentinelle')||(i===1&&tab==='coach')));
-  document.getElementById('panel-sentinelle').classList.toggle('active',tab==='sentinelle');
-  document.getElementById('panel-coach').classList.toggle('active',tab==='coach');
-}
-
-async function submitForm(e,type){
+async function submitForm(e, type){
   e.preventDefault();
-  const fd=new FormData(e.target);
-  const data={type};
-  fd.forEach((v,k)=>{data[k]=v;});
-  
-  // Add metadata
-  data.langue=lang;
-  data.source='website';
-  data.is_real='true';
+  const btn = e.target.querySelector('button');
+  btn.disabled = true; btn.innerText = "Ap voye...";
 
-  // Build params for GET-style POST (matching your previous post function)
-  const p=new URLSearchParams();
-  Object.entries(data).forEach(([k,v])=>p.append(k,String(v)));
+  const fd = new FormData(e.target);
+  const data = { type, langue: lang, source: 'website', is_real: 'true' };
+  fd.forEach((v, k) => { data[k] = v; });
+
+  const params = new URLSearchParams();
+  Object.entries(data).forEach(([k,v]) => params.append(k,v));
 
   try {
-    await fetch(SCRIPT_URL,{method:'POST',body:p,mode:'no-cors'});
-    e.target.style.display='none';
-    document.getElementById('suc-'+(type==='coach'?'c':'s')).style.display='block';
+    await fetch(SCRIPT_URL + "?" + params.toString(), { method: 'POST', mode: 'no-cors' });
+    e.target.style.display = 'none';
+    document.getElementById('suc-' + (type === 'coach' ? 'c' : 's')).style.display = 'block';
   } catch(err) {
-    alert("Erè nan voye done yo.");
+    alert("Erè");
+    btn.disabled = false; btn.innerText = "Voye ankò";
   }
 }
 
-window.addEventListener('load',()=>{
-  populateDepts();
-  if(location.hash==='#coach') switchTab('coach');
+async function fetchStats(){
+  try {
+    const r = await fetch(SCRIPT_URL);
+    const d = await r.json();
+    document.getElementById('sb-s').innerText = d.sentinelles || 0;
+    document.getElementById('sb-c').innerText = d.coaches || 0;
+  } catch(e){}
+}
+
+window.addEventListener('load', () => {
+  // Populate Departments if HAITI object exists
+  const sDept = document.getElementById('s-dept');
+  if(typeof HAITI !== 'undefined'){
+    Object.keys(HAITI).sort().forEach(d => {
+      let o = document.createElement('option');
+      o.value = d; o.textContent = d; sDept.appendChild(o);
+    });
+  }
+  fetchStats();
 });
 </script>
 </body>
