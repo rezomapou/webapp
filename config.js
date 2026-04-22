@@ -5,8 +5,9 @@
  */
 const CONFIG = {
 
-  SS_ID: "YOUR_NEW_SPREADSHEET_ID_HERE",
-
+  SS_ID: "1dt48qNMzdTO81VjzK-X-EqVopKdodAN0nMudPLNP4rw",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyEbpXOPhMAyRQVnTBRnMFZb2k5ZG4E0Gq2_-UnJuXnRh2VuuTmFo8Q5A_FynrzBW7n/exec",
+ 
   TABS: {
     RAW:         "RAW_Registrations",
     MEMBERS:     "GS_Members",
