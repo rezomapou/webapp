@@ -371,12 +371,12 @@ const HAITI = {
   "Sud-Est":["Bainet","Belle Anse","Cayes-Jacmel","Grand Gosier","Jacmel","La Vallée","Marigot","Thiotte"]
 };
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjQ88JjQ2Dlexl8cBZbwRpi1jI_eZVcKba_-Kynv_HMlO0leHDpaZFrp-Ml2pO6_ZC/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEbpXOPhMAyRQVnTBRnMFZb2k5ZG4E0Gq2_-UnJuXnRh2VuuTmFo8Q5A_FynrzBW7n/exec'; // Update after redeploying pipeline.gs
 
 // ============================================================
 // CONFIG — Edit here to change backend settings
 // ============================================================
-const SHEET_ID = '15gOrMlb7tPEaOVjCNSk1Co625OXYMo9QS9OnYVbSLc0';
+const SHEET_ID = '1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4';
 
 // ============================================================
 // FAKE DATA POOLS — used by seeddata and dashboard auto-seed
