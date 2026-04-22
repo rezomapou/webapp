@@ -300,6 +300,23 @@ function switchTab(tab){
   history.replaceState(null,'','#'+tab);
 }
 
+// ── E.164 PHONE NORMALIZATION ──────────────────────────────
+function toE164(raw, defaultCC) {
+  if (!raw) return '';
+  let cleaned = raw.toString().replace(/[\s\-\(\)\+\.]/g, '');
+  if (!cleaned || isNaN(cleaned)) return raw; // return as-is if unparseable
+  if (cleaned.length === 8) cleaned = (defaultCC || '509') + cleaned;
+  return '+' + cleaned;
+}
+
+function validatePhone(raw, mustBe509) {
+  const e164 = toE164(raw);
+  if (!e164.startsWith('+')) return { valid: false, e164: '', msg: 'Fòma nimewo a pa bon. Egz: +50937012345' };
+  if (mustBe509 && !e164.startsWith('+509')) return { valid: false, e164: '', msg: 'Santinèl dwe gen nimewo Ayiti (+509).' };
+  if (e164.length < 10) return { valid: false, e164: '', msg: 'Nimewo a twò kout.' };
+  return { valid: true, e164 };
+}
+
 async function post(data){
   try{
     const p=new URLSearchParams();
@@ -349,34 +366,63 @@ function checkSpam(type){
 async function submitForm(e,type){
   e.preventDefault();
   const shortType = type==='sentinelle' ? 's' : 'c';
+
+  // Anti-spam checks
   const spam = checkSpam(shortType);
-  if(spam === 'captcha') return; // show error, stop
+  if(spam === 'captcha') return;
   if(spam !== null){
-    // Honeypot or time check — silently pretend success (don't alert bots)
     e.target.style.display='none';
     document.getElementById('suc-'+shortType).style.display='block';
     return;
   }
-  const fd=new FormData(e.target);
-  const data={type};
-  fd.forEach((v,k)=>{
-    // Skip honeypot field
-    if(k==='website_url') return;
-    data[k]=v;
-  });
-  if(type==='sentinelle'){
-    const deptSel=document.getElementById('s-dept');
-    const deptName=deptSel.value;
-    data.departement_nom=deptName;
-    data.departement=DEPT_CODES[deptName]||deptName.substring(0,4).toUpperCase();
-    const commSel=document.getElementById('s-comm');
-    const commOpt=commSel.options[commSel.selectedIndex];
-    data.commune_nom=commOpt?.value||'';
-    data.commune=commOpt?.dataset?.code||commOpt?.value?.substring(0,4).toUpperCase()||'';
+
+  const fd  = new FormData(e.target);
+  const data = {type};
+  fd.forEach((v,k)=>{ if(k!=='website_url') data[k]=v; });
+
+  // ── Phone E.164 normalization ──
+  const isSentinelle = (type==='sentinelle');
+  const rawPhone     = data.telephone || data.whatsapp || '';
+  const phoneCheck   = validatePhone(rawPhone, isSentinelle); // sentinelles must be +509
+
+  if(!phoneCheck.valid){
+    // Show error below phone field
+    let errEl = document.getElementById('phone-err-'+shortType);
+    if(!errEl){
+      errEl = document.createElement('div');
+      errEl.id = 'phone-err-'+shortType;
+      errEl.style.cssText = 'font-size:12px;color:#c0392b;margin-top:4px;';
+      const phoneInput = e.target.querySelector('[name="telephone"]');
+      if(phoneInput) phoneInput.parentNode.appendChild(errEl);
+    }
+    errEl.textContent = phoneCheck.msg;
+    return;
   }
-  data.langue=lang;
-  data.source='website';
-  data.is_real='true';
+
+  // Normalize both phone fields to E.164
+  data.telephone = phoneCheck.e164;
+  if(data.whatsapp) data.whatsapp = toE164(data.whatsapp, '509');
+
+  // ── Dept / Commune codes ──
+  if(isSentinelle){
+    const deptSel  = document.getElementById('s-dept');
+    const deptName = deptSel.value;
+    data.departement_nom = deptName;
+    data.departement     = DEPT_CODES[deptName] || deptName.substring(0,4).toUpperCase();
+    const commSel  = document.getElementById('s-comm');
+    const commOpt  = commSel.options[commSel.selectedIndex];
+    data.commune_nom = commOpt?.value || '';
+    data.commune     = commOpt?.dataset?.code || commOpt?.value?.substring(0,4).toUpperCase() || '';
+    data.is_in_haiti = 'true'; // sentinelles are always in Haiti
+  } else {
+    // Coach: Is_In_Haiti based on location_type
+    data.is_in_haiti = (data.location_type === 'HTI') ? 'true' : 'false';
+  }
+
+  data.langue   = lang;
+  data.source   = 'website';
+  data.is_real  = 'true';
+
   await post(data);
   e.target.style.display='none';
   document.getElementById('suc-'+shortType).style.display='block';
