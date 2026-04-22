@@ -168,6 +168,14 @@ footer a{color:var(--gold);text-decoration:none;margin:0 0.4rem;}
         </div>
         
         <div class="fg"><div class="fg-top"><label data-s="f_message">Mesaj (opsyonèl)</label></div><textarea name="message" placeholder="Di nou yon ti bagay sou ou..."></textarea></div>
+        <!-- HONEYPOT: hidden, bots fill it, humans don't see it -->
+        <input type="text" name="website_url" id="hp-s" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;opacity:0;">
+        <!-- CAPTCHA -->
+        <div class="fg" id="captcha-s-wrap">
+          <div class="fg-top"><label id="captcha-s-q" style="font-size:13px;color:var(--forest);font-weight:500;text-transform:none;letter-spacing:0;"></label></div>
+          <input type="text" id="captcha-s-ans" autocomplete="off" placeholder="Repons ou..." style="max-width:180px;" required>
+          <div id="captcha-s-err" style="font-size:12px;color:#c0392b;margin-top:4px;display:none;">Repons lan pa kòrèk. Eseye ankò.</div>
+        </div>
         <div class="fcheck"><input type="checkbox" id="cons-s" required><label for="cons-s"><span data-s="f_consent">Mwen aksepte </span><a href="terms.html" data-s="lnk_terms">Tèm</a> &amp; <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>.</label></div>
         <button type="submit" class="btn-gold" data-s="f_submit_s">Enskri kòm Santinèl — Gratis</button>
       </form>
@@ -220,6 +228,14 @@ footer a{color:var(--gold);text-decoration:none;margin:0 0.4rem;}
 
         <div class="fsec" data-s="c_sec4">Motivasyon</div>
         <div class="fg"><div class="fg-top"><label data-s="f_message_c">Poukisa ou vle vin Coach?</label><span class="fg-hint" data-s="f_message_c_hint">Opsyonèl</span></div><textarea name="message" placeholder="Di nou motivasyon ou..."></textarea></div>
+        <!-- HONEYPOT -->
+        <input type="text" name="website_url" id="hp-c" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;opacity:0;">
+        <!-- CAPTCHA -->
+        <div class="fg" id="captcha-c-wrap">
+          <div class="fg-top"><label id="captcha-c-q" style="font-size:13px;color:var(--forest);font-weight:500;text-transform:none;letter-spacing:0;"></label></div>
+          <input type="text" id="captcha-c-ans" autocomplete="off" placeholder="Repons ou..." style="max-width:180px;" required>
+          <div id="captcha-c-err" style="font-size:12px;color:#c0392b;margin-top:4px;display:none;">Repons lan pa kòrèk. Eseye ankò.</div>
+        </div>
         <div class="fcheck"><input type="checkbox" id="cons-c" required><label for="cons-c"><span data-s="f_consent">Mwen aksepte </span><a href="terms.html" data-s="lnk_terms">Tèm</a> &amp; <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>.</label></div>
         <button type="submit" class="btn-gold" data-s="f_submit_c">Enskri kòm Coach</button>
       </form>
@@ -292,11 +308,62 @@ async function post(data){
   }catch(e){}
 }
 
+// ── ANTI-SPAM ──────────────────────────────────────────────
+const CAPTCHAS = [
+  {q:"Konbyen se 3 + 4 ?", a:7},
+  {q:"Konbyen se 5 + 2 ?", a:7},
+  {q:"Konbyen se 6 - 1 ?", a:5},
+  {q:"Konbyen se 2 + 8 ?", a:10},
+  {q:"Konbyen se 9 - 3 ?", a:6},
+  {q:"Konbyen se 4 + 4 ?", a:8},
+  {q:"Konbyen se 10 - 4 ?", a:6},
+  {q:"Konbyen se 3 × 3 ?", a:9},
+];
+
+const captchaS = CAPTCHAS[Math.floor(Math.random()*CAPTCHAS.length)];
+const captchaC = CAPTCHAS[Math.floor(Math.random()*CAPTCHAS.length)];
+const formLoadTime = Date.now();
+
+function initCaptchas(){
+  document.getElementById('captcha-s-q').textContent = captchaS.q;
+  document.getElementById('captcha-c-q').textContent = captchaC.q;
+}
+
+function checkSpam(type){
+  // 1. Time check — submitted in less than 3 seconds = likely bot
+  if(Date.now() - formLoadTime < 3000) return 'fast';
+  // 2. Honeypot check — if filled = bot
+  const hp = document.getElementById('hp-'+type).value;
+  if(hp && hp.length > 0) return 'honeypot';
+  // 3. Captcha check
+  const captcha = type==='s' ? captchaS : captchaC;
+  const ans = parseInt(document.getElementById('captcha-'+type+'-ans').value.trim());
+  if(isNaN(ans) || ans !== captcha.a){
+    document.getElementById('captcha-'+type+'-err').style.display='block';
+    return 'captcha';
+  }
+  document.getElementById('captcha-'+type+'-err').style.display='none';
+  return null;
+}
+
 async function submitForm(e,type){
   e.preventDefault();
+  const shortType = type==='sentinelle' ? 's' : 'c';
+  const spam = checkSpam(shortType);
+  if(spam === 'captcha') return; // show error, stop
+  if(spam !== null){
+    // Honeypot or time check — silently pretend success (don't alert bots)
+    e.target.style.display='none';
+    document.getElementById('suc-'+shortType).style.display='block';
+    return;
+  }
   const fd=new FormData(e.target);
   const data={type};
-  fd.forEach((v,k)=>{data[k]=v;});
+  fd.forEach((v,k)=>{
+    // Skip honeypot field
+    if(k==='website_url') return;
+    data[k]=v;
+  });
   if(type==='sentinelle'){
     const deptSel=document.getElementById('s-dept');
     const deptName=deptSel.value;
@@ -312,7 +379,7 @@ async function submitForm(e,type){
   data.is_real='true';
   await post(data);
   e.target.style.display='none';
-  document.getElementById('suc-'+type[0]).style.display='block';
+  document.getElementById('suc-'+shortType).style.display='block';
 }
 
 async function fetchStats(){
@@ -329,6 +396,7 @@ window.addEventListener('load',()=>{
   populateDepts();
   L('ht');
   fetchStats();
+  initCaptchas();
   if(location.hash==='#coach') switchTab('coach');
 });
 </script>
