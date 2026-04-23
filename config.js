@@ -4,10 +4,17 @@
  * SS_ID: paste your new Google Sheet ID here after creating it.
  */
 const CONFIG = {
+// ============================================================
+// config.js — Rezo Mapou environment settings
+// Edit ONLY this file when redeploying or changing backends
+// DO NOT commit this file with sensitive data to a public repo
+// ============================================================
 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEbpXOPhMAyRQVnTBRnMFZb2k5ZG4E0Gq2_-UnJuXnRh2VuuTmFo8Q5A_FynrzBW7n/exec';
+const SHEET_ID   = '1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4';
+const ENV        = 'production'; // 'production' or 'dev'
  
-  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyEbpXOPhMAyRQVnTBRnMFZb2k5ZG4E0Gq2_-UnJuXnRh2VuuTmFo8Q5A_FynrzBW7n/exec",
- 
+  
   TABS: {
     RAW:         "RAW_Registrations",
     MEMBERS:     "GS_Members",
