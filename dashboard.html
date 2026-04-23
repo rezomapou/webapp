@@ -26,7 +26,7 @@ nav{background:var(--forest);padding:0.9rem 2rem;display:flex;align-items:center
 @media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr);}.grid2{grid-template-columns:1fr;}}
 </style></head><body>
 <div class="stats-bar">
-  <div class="sc"><span><strong id="sb-s">—</strong> Santinèl</span><span><strong id="sb-c">—</strong> Coach</span></div>
+  <div class="sc"><span><strong id="sb-s">—</strong> <span id="sb-s-lbl">Santinèl</span></span><span><strong id="sb-c">—</strong> <span id="sb-c-lbl">Coach</span></span></div>
   <div class="lb-bar">
     <button class="lb active" onclick="L('ht')">🇭🇹 KR</button>
     <button class="lb" onclick="L('fr')">🇫🇷 FR</button>
@@ -50,22 +50,48 @@ nav{background:var(--forest);padding:0.9rem 2rem;display:flex;align-items:center
   <div id="content" style="display:none">
     <div class="upd" id="upd-time"></div>
     <div class="metrics">
-      <div class="mc"><span class="mc-n" id="m-s">0</span><div class="mc-l">Santinèl</div></div>
-      <div class="mc"><span class="mc-n" id="m-c">0</span><div class="mc-l">Coach</div></div>
-      <div class="mc"><span class="mc-n" id="m-d">0</span><div class="mc-l">Depatman</div></div>
-      <div class="mc"><span class="mc-n" id="m-k">0</span><div class="mc-l">Komin</div></div>
+      <div class="mc"><span class="mc-n" id="m-s">0</span><div class="mc-l" id="s-lbl">Santinèl</div></div>
+      <div class="mc"><span class="mc-n" id="m-c">0</span><div class="mc-l" id="c-lbl">Coach</div></div>
+      <div class="mc"><span class="mc-n" id="m-d">0</span><div class="mc-l" id="d-lbl">Depatman</div></div>
+      <div class="mc"><span class="mc-n" id="m-k">0</span><div class="mc-l" id="k-lbl">Komin</div></div>
     </div>
     <div class="grid2">
-      <div class="card"><div class="card-t">Pa Depatman</div><div id="dept-bars"></div></div>
-      <div class="card"><div class="card-t">Pa Komin — Top 10</div><div id="commune-bars"></div></div>
+      <div class="card"><div class="card-t" id="dept-title">Pa Depatman</div><div id="dept-bars"></div></div>
+      <div class="card"><div class="card-t" id="comm-title">Pa Komin — Top 10</div><div id="commune-bars"></div></div>
     </div>
   </div>
 </main>
-<script src="strings.js"></script>
 <script src="config.js"></script>
+<script src="strings.js"></script>
 <script>
 let lang='ht';
-function L(l){lang=l;document.querySelectorAll('.lb').forEach(b=>{const m={ht:'🇭🇹 KR',fr:'🇫🇷 FR',en:'🇺🇸 EN'};b.classList.toggle('active',b.textContent.trim()===m[l]);});}
+function L(l){
+  lang=l;
+  // Update language button states
+  document.querySelectorAll('.lb').forEach(b=>{
+    const m={ht:'🇭🇹 KR',fr:'🇫🇷 FR',en:'🇺🇸 EN'};
+    b.classList.toggle('active',b.textContent.trim()===m[l]);
+  });
+  // Translate all elements with data-s attribute
+  const t=STRINGS[l]||STRINGS['ht'];
+  document.querySelectorAll('[data-s]').forEach(el=>{
+    const k=el.getAttribute('data-s');
+    if(t[k]) el.textContent=t[k];
+  });
+  // Update metric labels
+  const labels={
+    ht:{s:'Santinèl',c:'Coach',d:'Depatman',k:'Komin',dept_chart:'Pa Depatman',comm_chart:'Pa Komin — Top 10'},
+    fr:{s:'Sentinelles',c:'Coaches',d:'Départements',k:'Communes',dept_chart:'Par Département',comm_chart:'Par Commune — Top 10'},
+    en:{s:'Sentinels',c:'Coaches',d:'Departments',k:'Communes',dept_chart:'By Department',comm_chart:'By Commune — Top 10'}
+  };
+  const lb=labels[l]||labels['ht'];
+  const els={
+    's-lbl':lb.s,'c-lbl':lb.c,'d-lbl':lb.d,'k-lbl':lb.k,
+    'dept-title':lb.dept_chart,'comm-title':lb.comm_chart,
+    'sb-s-lbl':lb.s,'sb-c-lbl':lb.c
+  };
+  Object.entries(els).forEach(([id,txt])=>{const el=document.getElementById(id);if(el)el.textContent=txt;});
+}
 
 function bars(data,id,max){
   const c=document.getElementById(id);c.innerHTML='';
@@ -108,8 +134,7 @@ function makeFakeSentinelle(){
 
   return {
     type: 'sentinelle',
-    prenom: randomItem(FAKE_FIRSTNAMES),
-    nom: randomItem(FAKE_LASTNAMES),
+    ...randomHaitianName(),
     email: `f${Date.now()}${Math.floor(Math.random()*100)}@rmn-seed.net`,
     telephone: `+509${Math.floor(30000000+Math.random()*9999999)}`,
     whatsapp: '',
@@ -140,8 +165,7 @@ function makeFakeCoach() {
 
   return {
     type: 'coach',
-    prenom: randomItem(FAKE_FIRSTNAMES),
-    nom: randomItem(FAKE_LASTNAMES),
+    ...randomHaitianName(),
     email: `c${Date.now()}@rmn-seed.net`,
     telephone: `+509${Math.floor(30000000 + Math.random() * 9999999)}`,
     whatsapp: (Math.random() > 0.5) ? `+509${Math.floor(30000000 + Math.random() * 9999999)}` : '',
@@ -176,84 +200,50 @@ async function sendFake(data){
   }catch(e){}
 }
 
-// Per-visit seed: 1 sentinelle + occasional coach
-async function visitSeed(){
-  await sendFake(makeFakeSentinelle());
-  await new Promise(r=>setTimeout(r,400));
-  if(Math.random()<0.25) await sendFake(makeFakeCoach()); // 1 in 4 visits adds a coach
-}
-
-// ── LOAD DATA WITH AUTO-SEEDING ──────────────────────────────
+// ── LOAD DATA ────────────────────────────────────────────────
 async function loadData() {
   const loadingEl = document.getElementById('loading');
   const contentEl = document.getElementById('content');
-  
-  // 1. Show loading state
-  if (loadingEl) loadingEl.style.display = 'block';
-  if (contentEl) contentEl.style.display = 'none';
-
+  if(loadingEl) loadingEl.style.display = 'block';
+  if(contentEl) contentEl.style.display = 'none';
   try {
-    // 2. Probabilistic Seeding (25% chance)
-    // We do this BEFORE fetching stats so the new person is included in the count
-    if (Math.random() < 0.25) {
-      console.log("🎲 Seeding cycle triggered...");
-      
-      // Randomly decide to add a Sentinelle or a Coach
-    if (Math.random() < 0.25) { // 25% chance to seed
-    const isCoach = Math.random() < 0.15; // Only 15% of those seeds are coaches
-    const fakeData = isCoach ? makeFakeCoach() : makeFakeSentinelle();
-    await sendFake(fakeData);
-    }
-      
-      await sendFake(fakeData);
-      
-      // CRITICAL: Wait 1.5 seconds. 
-      // Google Sheets needs a moment to append the row before doGet runs.
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    }
-
-    // 3. Fetch current stats from Google Apps Script
-    // The '+ Date.now()' prevents the browser from loading a cached version
     const response = await fetch(SCRIPT_URL + '?t=' + Date.now());
-    if (!response.ok) throw new Error('Network response was not ok');
-    
+    if(!response.ok) throw new Error('Network error');
     const d = await response.json();
-
-    // 4. Update UI Counters
     const sCount = d.sentinelles || 0;
-    const cCount = d.coaches || 0;
-    
+    const cCount = d.coaches     || 0;
     document.getElementById('m-s').textContent = sCount;
     document.getElementById('m-c').textContent = cCount;
-    document.getElementById('m-d').textContent = Object.keys(d.by_dept || {}).length;
+    document.getElementById('m-d').textContent = Object.keys(d.by_dept    || {}).length;
     document.getElementById('m-k').textContent = Object.keys(d.by_commune || {}).length;
-    
-    // Top bar sync
-    if (document.getElementById('sb-s')) document.getElementById('sb-s').textContent = sCount;
-    if (document.getElementById('sb-c')) document.getElementById('sb-c').textContent = cCount;
-
-    // 5. Update Charts
-    const maxD = Math.max(1, ...Object.values(d.by_dept || { "none": 1 }));
-    const maxK = Math.max(1, ...Object.values(d.by_commune || { "none": 1 }));
-    
-    bars(d.by_dept || {}, 'dept-bars', maxD);
+    if(document.getElementById('sb-s')) document.getElementById('sb-s').textContent = sCount;
+    if(document.getElementById('sb-c')) document.getElementById('sb-c').textContent = cCount;
+    const maxD = Math.max(1,...Object.values(d.by_dept    || {1:1}));
+    const maxK = Math.max(1,...Object.values(d.by_commune || {1:1}));
+    bars(d.by_dept    || {}, 'dept-bars',    maxD);
     bars(d.by_commune || {}, 'commune-bars', maxK);
-
-    // 6. Update Timestamp and switch view
     document.getElementById('upd-time').textContent = 'Dènye aktyalizasyon: ' + new Date().toLocaleTimeString();
-    
-    if (loadingEl) loadingEl.style.display = 'none';
-    if (contentEl) contentEl.style.display = 'block';
-
-  } catch (error) {
-    console.error("Critical Load Error:", error);
-    // Optional: Show error message to user
-    if (loadingEl) loadingEl.innerHTML = `<p style="color:red">Erè nan chajman done. Tanpri rafrechi paj la.</p>`;
+    if(loadingEl) loadingEl.style.display = 'none';
+    if(contentEl) contentEl.style.display = 'block';
+  } catch(err) {
+    console.error('Load error:', err);
+    if(loadingEl) loadingEl.innerHTML = '<p style="color:#c0392b;font-size:13px;">Erè koneksyon. Tanpri rafrechi.</p>';
   }
 }
 
-// On every page load: seed 1-2 entries, then load display
-visitSeed().then(()=>loadData());
-setInterval(loadData,60000);
+// ── AUTO-SEED: runs on every page load ───────────────────────
+// visitSeed fires once per load; 25% chance adds 1 sentinelle, 
+// 15% of those also adds a coach. Sheet needs ~1.5s to append
+// before doGet returns the new count, hence the delay.
+async function visitSeed() {
+  if(Math.random() >= 0.25) return; // 75% of visits: skip
+  const isCoach = Math.random() < 0.15;
+  await sendFake(isCoach ? makeFakeCoach() : makeFakeSentinelle());
+  await new Promise(r => setTimeout(r, 1500));
+}
+
+// Init
+visitSeed().then(() => loadData());
+setInterval(loadData, 60000);
 </script>
 </body></html>
