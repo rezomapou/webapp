@@ -371,20 +371,92 @@ const HAITI = {
   "Sud-Est":["Bainet","Belle Anse","Cayes-Jacmel","Grand Gosier","Jacmel","La Vallée","Marigot","Thiotte"]
 };
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEbpXOPhMAyRQVnTBRnMFZb2k5ZG4E0Gq2_-UnJuXnRh2VuuTmFo8Q5A_FynrzBW7n/exec'; // Update after redeploying pipeline.gs
+// (moved to config.js)
 
 // ============================================================
 // CONFIG — Edit here to change backend settings
 // ============================================================
-const SHEET_ID = '1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4';
+// (moved to config.js)
 
 // ============================================================
 // FAKE DATA POOLS — used by seeddata and dashboard auto-seed
 // ============================================================
-const FAKE_FIRSTNAMES = ["Marie","Jean","Roseline","Claude","Nadège","Frantz","Sophia","Patrick","Kettely","Dieuseul","Yanick","Farah","Luckson","Mireille","Edwige","Roberson","Guerda","Widler","Junie","Kervens","Marlène","Samson","Yvelise","Joël","Carline","Renald","Gisèle","Hervé","Lunise","Dieudonne"];
-const FAKE_LASTNAMES = ["Desroches","Baptiste","Pierre","Mentor","Joseph","Celestin","Duval","Lamarre","François","Blanc","Charles","Estimé","Dorismond","Augustin","Prophète","Casimir","Sainvil","Thermidor","Beaubrun","Toussaint","Lubin","Dorsainvil","Noël","Hyppolite","Lafortune","Morisseau","Belizaire","Volcy","Cadet","Dorcé"];
-const FAKE_ACTIVITIES = ["Machann dlo","Machann manje","Machann legim","Boutik","Machann frèt","Kwafè","Mekanisyen","Machann rad","Epicerie","Machann poul","Machann chabon","Boulanje","Machann fritay","Machann ji","Tèlkominikasyon"];
-const FAKE_COACH_ORGS = ["","","","Diaspora Haiti","Association Ayisyen","","","Haiti Forward","","Haitian Business Network","","",""];
+// ── FEMALE FIRST NAMES (70 authentic Haitian names) ─────────────────────
+const FAKE_FIRSTNAMES_F = [
+  "Marie","Roseline","Nadège","Sophia","Kettely","Farah","Mireille","Edwige","Guerda",
+  "Junie","Marlène","Yvelise","Carline","Gisèle","Lunise","Claudine","Danièle","Micheline",
+  "Lourdes","Carmelle","Solange","Géraldine","Nathalie","Josiane","Magalie","Yanick","Manoucheka",
+  "Dieulita","Rosemide","Maudeline","Wideline","Gesline","Kensia","Djoudeline","Mirlène",
+  "Jocelyne","Franciose","Guerdine","Ruthnie","Edeline","Nerlande","Rosemitha","Dieusine",
+  "Myrlène","Lucianne","Yolanda","Ketline","Marilène","Lovely","Célanie","Nadine","Fleurette",
+  "Berline","Gina","Adeline","Christelle","Wisline","Rosaline","Emmanuella","Luce","Joëlle",
+  "Daphney","Gaëlle","Fabiola","Priscilla","Angeline","Venise","Florette","Marceline","Ange"
+];
+
+// ── MALE FIRST NAMES (70 authentic Haitian names) ────────────────────────
+const FAKE_FIRSTNAMES_M = [
+  "Jean","Claude","Frantz","Patrick","Dieuseul","Luckson","Roberson","Widler","Kervens",
+  "Samson","Joël","Renald","Hervé","Dieudonne","Lionel","Guerlain","Wesly","Kenson",
+  "Djimy","Nerlson","Wadson","Gérald","Wilner","Fednard","Edens","Reginald","Jocelyn",
+  "Roosvelt","Mackenson","Ricot","Stevenson","Guèdson","Franckly","Wilfrid","Dieumaitre",
+  "Nesly","Roodmy","Andremane","Wisly","Garry","Jhony","Enock","Danrold","Phito",
+  "Chesnel","Cliford","Ansy","Guerby","Mercius","Roobenson","Juslain","Précius",
+  "Wilderson","Elphège","Oriol","Manès","Antenor","Dumé","Occident","Théophile",
+  "Valcin","Wenders","Kerby","Walky","Guichard","Stéphano","Yvon","Elie","Rigaud"
+];
+
+// ── FAMILY NAMES (100 authentic Haitian surnames) ────────────────────────
+const FAKE_LASTNAMES = [
+  "Desroches","Baptiste","Pierre","Mentor","Joseph","Celestin","Duval","Lamarre","François",
+  "Blanc","Charles","Estimé","Dorismond","Augustin","Prophète","Casimir","Sainvil","Thermidor",
+  "Beaubrun","Toussaint","Lubin","Dorsainvil","Noël","Hyppolite","Lafortune","Morisseau",
+  "Belizaire","Volcy","Cadet","Dorcé","Alexis","Étienne","Janvier","Philogène","Présumé",
+  "Duvivier","Napoléon","Bazile","Désir","Lindor","Moïse","Jeanty","Bertrand","Métellus",
+  "Chéry","Vernet","Lafleur","Compas","Solage","Dérivois","Décossard","Jeannot","Lapierre",
+  "Dorival","Fonrose","Vilnord","Belony","Dossous","Renéus","Labranche","Bijou","Dieugrand",
+  "Valcourt","Altidor","Désulmé","Bonhomme","Décimus","Mervilus","Sainristil","Gédéon",
+  "Lafrance","Léger","Romelus","Compère","Délice","Osias","Cajuste","Démosthène","Délicieux",
+  "Chatelain","Brutus","Vilfranco","Mesidor","Dautruche","Philidor","Prévilmé","Cantave",
+  "Mondésir","Guerrier","Aristide","Debrosse","Bordes","Caséus","Dalexis","Gaspard",
+  "Laguerre","Monpoint","Cyprien","Fleurant","Sainvilus","Cenatus","Rouzier"
+];
+
+const FAKE_ACTIVITIES = [
+  "Machann dlo","Machann manje","Machann legim","Boutik","Machann frèt","Kwafè",
+  "Mekanisyen","Machann rad","Epicerie","Machann poul","Machann chabon","Boulanje",
+  "Machann fritay","Machann ji","Tèlkominikasyon","Machann pwason","Koutirye",
+  "Machann soulye","Fòjon","Chapantye","Machann fig","Machann pen","Estetisyen",
+  "Machann dous","Plonbye","Elektrisyen","Machann kokoye","Machann kann"
+];
+
+const FAKE_COACH_ORGS = [
+  "","","","Diaspora Haiti","Association Ayisyen","","","Haiti Forward","",
+  "Haitian Business Network","","","","Haiti Solidarity","","Ayiti Pou Ayisyen",""
+];
+
+// ── SESSION-LEVEL DEDUP — no repeated names within a session ─────────────
+const _usedNames = new Set();
+
+function randomHaitianName() {
+  const isFemale = Math.random() < 0.52;
+  const firstPool = isFemale ? FAKE_FIRSTNAMES_F : FAKE_FIRSTNAMES_M;
+  let attempts = 0;
+  while (attempts < 40) {
+    const first = firstPool[Math.floor(Math.random() * firstPool.length)];
+    const last  = FAKE_LASTNAMES[Math.floor(Math.random() * FAKE_LASTNAMES.length)];
+    const key   = first + "|" + last;
+    if (!_usedNames.has(key)) {
+      _usedNames.add(key);
+      return { prenom: first, nom: last };
+    }
+    attempts++;
+  }
+  _usedNames.clear();
+  const first = firstPool[Math.floor(Math.random() * firstPool.length)];
+  const last  = FAKE_LASTNAMES[Math.floor(Math.random() * FAKE_LASTNAMES.length)];
+  return { prenom: first, nom: last };
+}
+
 
 // Commune population weights for realistic distribution
 const COMMUNE_WEIGHTS = {
