@@ -7,7 +7,7 @@
 const STRINGS = {
   ht: {
     // Navigation
-    nav_home: "Akèy",
+    nav_home: "Akèyy",
     nav_program: "Pwogram",
     nav_sentinelle: "Santinèl",
     nav_coach: "Coach",
