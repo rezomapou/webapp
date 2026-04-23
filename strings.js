@@ -7,7 +7,7 @@
 const STRINGS = {
   ht: {
     // Navigation
-    nav_home: "Akèyy",
+    nav_home: "Akèy",
     nav_program: "Pwogram",
     nav_sentinelle: "Santinèl",
     nav_coach: "Coach",
@@ -23,7 +23,7 @@ const STRINGS = {
     hero_tag: "Rezo Machann Nasyonal · Ayiti 2026",
     hero_t1: "Ou se",
     hero_t2: "Rezo Mapou.",
-    hero_t3: "Vini grandi.",
+    hero_t3: "Vini grandi ave nou.",
     hero_lead: "Yon rezo nasyonal ki sipòte machann ak antreprenè nan tout Ayiti — vizibilite, koneksyon, ak sipò konkrè chak mwa.",
     hero_cta_s: "Enskri kòm Santinèl",
     hero_cta_c: "Enskri kòm Coach",
@@ -164,7 +164,7 @@ const STRINGS = {
     hero_tag: "Réseau Marchand National · Haïti 2026",
     hero_t1: "Vous êtes",
     hero_t2: "Rezo Mapou.",
-    hero_t3: "Venez grandir.",
+    hero_t3: "Venez grandir avec nous.",
     hero_lead: "Un réseau national qui soutient les marchands et entrepreneurs à travers Haïti — visibilité, connexions et soutien concret chaque mois.",
     hero_cta_s: "S'inscrire comme Sentinelle",
     hero_cta_c: "S'inscrire comme Coach",
@@ -250,7 +250,7 @@ const STRINGS = {
     nav_coach: "Coach", nav_dashboard: "Dashboard", nav_join: "Register",
     stats_sentinelles: "Sentinels", stats_coaches: "Coaches", stats_loading: "...",
     hero_tag: "National Merchant Network · Haiti 2026",
-    hero_t1: "You are", hero_t2: "Rezo Mapou.", hero_t3: "Come grow.",
+    hero_t1: "You are", hero_t2: "Rezo Mapou.", hero_t3: "Come grow with us.",
     hero_lead: "A national network supporting merchants and entrepreneurs across Haiti — visibility, connections, and concrete monthly support.",
     hero_cta_s: "Register as Sentinel", hero_cta_c: "Register as Coach", hero_cta_more: "How It Works",
     map_eye: "Our Symbol", map_title: "Why Mapou?",
