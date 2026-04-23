@@ -10,7 +10,7 @@ const CONFIG = {
 // DO NOT commit this file with sensitive data to a public repo
 // ============================================================
 
-const ENV        = 'production'; // 'production' or 'dev'
+ENV        = 'production'; // 'production' or 'dev'
 const SHEET_ID   = '1JIsrzuxMn5al6f4ph9TossMtHZufBFxnDylNfL00_w4';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEbpXOPhMAyRQVnTBRnMFZb2k5ZG4E0Gq2_-UnJuXnRh2VuuTmFo8Q5A_FynrzBW7n/exec';
   
