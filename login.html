@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konekte — Rezo Mapou Nasyonal</title>
+  <meta name="description" content="Konekte nan kont Rezo Mapou ou.">
+  <meta property="og:title" content="Konekte — Rezo Mapou">
+  <meta property="og:image" content="https://rezomapou.github.io/webapp/og_image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://rezomapou.github.io/webapp/login.html">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .login-wrap {
+      min-height: calc(100vh - var(--topbar-height) - var(--nav-height) - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .login-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow);
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .login-logo .logo-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--forest);
+      color: var(--gold);
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem;
+    }
+    .login-logo h1 {
+      font-size: 1.3rem;
+      margin-bottom: 0.25rem;
+    }
+    .login-logo p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0;
+    }
+    .sent-panel {
+      display: none;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .sent-panel .sent-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .sent-panel h2 { font-size: 1.2rem; color: var(--success); margin-bottom: 0.5rem; }
+    .sent-panel p { font-size: 0.88rem; color: var(--muted); }
+    .hp-field { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="index.html" data-s="nav_home">Akèy</a>
+  </div>
+  <div class="lang-bar">
+    <button class="lang-btn active" data-lang-btn="ht" onclick="switchLang('ht')">🇭🇹 KR</button>
+    <button class="lang-btn" data-lang-btn="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">🇺🇸 EN</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback" style="display:none;">RMN</div>
+    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" data-s="nav_home">Akèy</a></li>
+    <li><a href="register.html" data-s="nav_register">Enskri</a></li>
+    <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
+    <li><a href="login.html" data-s="nav_login" class="active">Konekte</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
+</nav>
+
+<!-- MAIN -->
+<main>
+  <div class="login-wrap">
+    <div class="login-card">
+
+      <!-- LOGO -->
+      <div class="login-logo">
+        <div class="logo-mark">RMN</div>
+        <h1 data-s="login_title">Konekte nan kont ou</h1>
+        <p data-s="login_subtitle">Nou pral voye yon lyen nan imèl ou.</p>
+      </div>
+
+      <!-- SENT STATE -->
+      <div class="sent-panel" id="sent-panel">
+        <div class="sent-icon">📬</div>
+        <h2 data-s="login_sent">Lyen voye!</h2>
+        <p id="sent-msg"></p>
+        <div class="mt-2">
+          <a href="index.html" class="btn btn-ghost btn-sm btn-full" data-s="nav_home">Akèy</a>
+        </div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="login-form" novalidate>
+
+        <!-- Honeypot -->
+        <div class="hp-field" aria-hidden="true">
+          <input type="text" name="website_url" autocomplete="off" tabindex="-1">
+        </div>
+
+        <div class="form-group">
+          <label for="identifier" data-s="login_ph">Telefòn oswa imèl</label>
+          <input
+            type="text"
+            id="identifier"
+            name="identifier"
+            autocomplete="username"
+            required
+            placeholder="+509 3701 2345"
+            data-ph="login_ph"
+            inputmode="email"
+          >
+          <div class="field-feedback" id="login-feedback"></div>
+        </div>
+
+        <div class="alert alert-error hidden" id="login-error"></div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-btn" data-s="login_btn">
+          Voye lyen koneksyon
+        </button>
+
+        <div class="divider-text mt-2">
+          <span data-s="lbl_or">oswa</span>
+        </div>
+
+        <a href="register.html" class="btn btn-outline btn-full" data-s="nav_register">
+          Kreye yon kont
+        </a>
+
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="terms.html" data-s="legal_terms">Tèm Itilizasyon</a>
+      <a href="privacy.html" data-s="legal_privacy">Konfidansyalite</a>
+    </div>
+    <div class="footer-copy" data-s="legal_rights">© 2026 Rezo Mapou Nasyonal</div>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="strings.js"></script>
+<script>
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Redirect if already logged in
+  const session = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
+  if (session) {
+    verifyExistingSession(session);
+  }
+  L(getCurrentLang(), 'login');
+});
+
+async function verifyExistingSession(token) {
+  try {
+    const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=verify_session&token=${token}`);
+    const d = await res.json();
+    if (d.valid) {
+      window.location.replace('profile.html');
+    }
+  } catch(e) {}
+}
+
+// ── LANGUAGE ──────────────────────────────────────────────────────────────
+function switchLang(lang) {
+  L(lang, 'login');
+  document.querySelectorAll('[data-ph]').forEach(el => {
+    el.placeholder = s(el.getAttribute('data-ph')) || el.placeholder;
+  });
+}
+
+// ── FORM SUBMIT ───────────────────────────────────────────────────────────
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const identifier = document.getElementById('identifier').value.trim();
+  if (!identifier) {
+    setFeedback('error', s('missing_fields') || 'Ranpli chan an.');
+    return;
+  }
+
+  const btn = document.getElementById('login-btn');
+  const errDiv = document.getElementById('login-error');
+  btn.setAttribute('aria-busy', 'true');
+  btn.textContent = s('btn_loading');
+  btn.disabled = true;
+  errDiv.classList.add('hidden');
+
+  // Determine if phone or email
+  const isPhone = /^\+?[\d\s\-\(\)]{7,}$/.test(identifier);
+  const params = new URLSearchParams({
+    action: 'login_request',
+    lang:   getCurrentLang(),
+  });
+  if (isPhone) {
+    params.set('phone', identifier);
+  } else {
+    params.set('email', identifier);
+  }
+
+  try {
+    const res = await fetch(RMN_CONFIG.SCRIPT_URL, { method: 'POST', body: params });
+    const d = await res.json();
+
+    if (d.success) {
+      showSentState();
+    } else {
+      showLoginError(d.message || s('f_error'));
+      btn.removeAttribute('aria-busy');
+      btn.textContent = s('login_btn');
+      btn.disabled = false;
+    }
+  } catch(err) {
+    // Treat network error as success to avoid exposing system details
+    showSentState();
+  }
+});
+
+function showSentState() {
+  document.getElementById('login-form').style.display = 'none';
+  const lang = getCurrentLang();
+  const msgs = {
+    ht: 'Verifye dosye imèl ou epi klike sou lyen an. Lyen an valid pou 48è.',
+    fr: 'Vérifiez votre boîte email et cliquez sur le lien. Valable 48h.',
+    en: 'Check your email inbox and click the link. Valid for 48 hours.',
+  };
+  document.getElementById('sent-msg').textContent = msgs[lang] || msgs.ht;
+  document.getElementById('sent-panel').style.display = 'block';
+}
+
+function showLoginError(msg) {
+  const d = document.getElementById('login-error');
+  d.textContent = msg;
+  d.classList.remove('hidden');
+}
+
+function setFeedback(type, msg) {
+  const fb = document.getElementById('login-feedback');
+  fb.className = 'field-feedback' + (type ? ' ' + type : '');
+  fb.textContent = msg;
+}
+
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+</script>
+</body>
+</html>
