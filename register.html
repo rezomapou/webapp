@@ -1,451 +1,507 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Enskri — Rezo Mapou</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{--gold:#C8A84B;--gold-l:#E8D5A0;--earth:#5C3D1E;--earth-d:#3A2210;--forest:#1E4D2B;--forest-m:#2D6B3E;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}
-*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--cream-d);color:var(--ink);font-size:16px;line-height:1.7;}
-.stats-bar{position:fixed;top:0;left:0;right:0;z-index:101;background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}
-.stats-counts{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}
-.stats-counts strong{color:var(--gold);}
-.lang-bar{display:flex;gap:3px;}
-.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'DM Sans',sans-serif;font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;transition:all 0.2s;display:flex;align-items:center;gap:4px;}
-.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-d);}
-nav{position:fixed;top:30px;left:0;right:0;z-index:100;background:rgba(247,243,236,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
-.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.nav-logo{width:34px;height:34px;border-radius:50%;background:white;object-fit:contain;padding:3px;}
-.nav-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);}
-.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;}
-.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-.nav-links a:hover,.nav-links a.active-nav{color:var(--forest);}
-.nav-cta{background:var(--gold)!important;color:var(--earth-d)!important;padding:6px 16px;border-radius:2px;font-weight:500!important;}
-
-.page-wrap{max-width:760px;margin:0 auto;padding:6rem 2rem 4rem;}
-.page-header{text-align:center;margin-bottom:3rem;}
-.page-eye{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;}
-.page-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--ink);margin-bottom:0.5rem;}
-.page-sub{font-size:14px;color:var(--muted);font-weight:300;}
-
-/* TABS */
-.form-tabs{display:flex;border-radius:4px 4px 0 0;overflow:hidden;border:1px solid var(--bdr);border-bottom:none;}
-.ftab{flex:1;padding:1rem 1.5rem;background:var(--cream-d);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:center;border-bottom:3px solid transparent;}
-.ftab.active{background:white;color:var(--forest);border-bottom-color:var(--gold);}
-
-/* FORM */
-.form-body{background:white;border:1px solid var(--bdr);border-top:none;border-radius:0 0 4px 4px;padding:2.5rem;}
-.form-panel{display:none;}
-.form-panel.active{display:block;}
-.f-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem;}
-.f-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;font-weight:300;}
-.fsec{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:1.75rem 0 0.75rem;padding-bottom:5px;border-bottom:1px solid var(--bdr);}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.fg{margin-bottom:0.9rem;}
-.fg-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;}
-.fg label{font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--earth);}
-.fg-hint{font-size:11px;color:var(--muted);font-style:italic;font-weight:300;}
-.fg input,.fg select,.fg textarea{width:100%;padding:9px 13px;background:var(--cream);border:1px solid var(--bdr);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--forest);background:white;}
-.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6455' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
-.fg textarea{min-height:70px;resize:vertical;line-height:1.5;}
-.self-note{background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);border-radius:3px;padding:0.9rem 1.1rem;margin:0.5rem 0 1.25rem;font-size:13px;color:var(--earth);line-height:1.6;}
-.fcheck{display:flex;gap:10px;align-items:flex-start;margin:1.25rem 0;}
-.fcheck input{margin-top:3px;flex-shrink:0;accent-color:var(--forest);}
-.fcheck label{font-size:12px;color:var(--muted);line-height:1.5;}
-.fcheck label a{color:var(--forest);}
-.btn-gold{width:100%;background:var(--gold);color:var(--earth-d);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;padding:14px;border-radius:2px;border:none;cursor:pointer;transition:background 0.2s;}
-.btn-gold:hover{background:var(--gold-l);}
-.form-success{display:none;text-align:center;padding:3rem 1rem;}
-.suc-icon{width:56px;height:56px;background:var(--forest);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
-.suc-icon svg{width:26px;height:26px;stroke:white;fill:none;stroke-width:2.5;}
-.suc-h{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;}
-.suc-p{font-size:14px;color:var(--muted);margin-bottom:1.25rem;}
-.suc-share{background:var(--cream-d);border-radius:4px;padding:1.25rem;font-size:13px;color:var(--muted);text-align:left;line-height:1.6;}
-.suc-share strong{color:var(--ink);display:block;margin-bottom:5px;}
-
-footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:2rem;text-align:center;font-size:12px;margin-top:2rem;}
-footer a{color:var(--gold);text-decoration:none;margin:0 0.4rem;}
-@media(max-width:600px){.frow{grid-template-columns:1fr;}.nav-links{display:none;}.page-wrap{padding:5.5rem 1rem 3rem;}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enskri — Rezo Mapou Nasyonal</title>
+  <meta name="description" content="Vin yon Rasin Mapou. Enskri gratis nan rezo sivil ayisyen an.">
+  <meta property="og:title" content="Enskri nan Rezo Mapou">
+  <meta property="og:description" content="Konekte ak rezo a. Gratis pou tout moun.">
+  <meta property="og:image" content="https://rezomapou.github.io/webapp/og_image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://rezomapou.github.io/webapp/register.html">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .register-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 2rem;
+      align-items: start;
+      padding: 2rem 0 3rem;
+    }
+    .register-intro {
+      position: sticky;
+      top: calc(var(--topbar-height) + var(--nav-height) + 1rem);
+    }
+    .register-intro .lead {
+      font-size: 1rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+    .trust-points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .trust-points li { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--muted); }
+    .trust-points li::before { content: '✓'; color: var(--forest); font-weight: 700; }
+    .register-form-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; box-shadow: var(--shadow); }
+    .form-section-title { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dark); margin: 1.25rem 0 0.75rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .form-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+    .location-haiti, .location-diaspora { display: none; }
+    .location-haiti.visible, .location-diaspora.visible { display: block; }
+    .phone-wrapper { position: relative; }
+    .phone-checking { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+    .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .platform-field { display: flex; align-items: center; gap: 6px; }
+    .platform-field .platform-icon { font-size: 1.1rem; width: 24px; text-align: center; flex-shrink: 0; }
+    .platform-field input { flex: 1; font-size: 0.85rem; padding: 0.5rem 0.7rem; }
+    .submit-area { margin-top: 1.5rem; }
+    .success-panel { display: none; text-align: center; padding: 2rem 1rem; }
+    .success-panel .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .success-panel h2 { color: var(--success); margin-bottom: 0.5rem; }
+    .hp-field { position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; }
+    @media (max-width: 860px) {
+      .register-layout { grid-template-columns: 1fr; }
+      .register-intro { position: static; }
+    }
+    @media (max-width: 480px) {
+      .platform-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<div class="stats-bar">
-  <div class="stats-counts">
-    <span><strong id="sb-s">—</strong> <span data-s="stats_sentinelles">Santinèl</span></span>
-    <span><strong id="sb-c">—</strong> <span data-s="stats_coaches">Coach</span></span>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="index.html" data-s="nav_home">Akèy</a>
+    <div class="top-bar-counts">
+      <span><strong id="tb-members">—</strong> <span data-s="dash_members">Rasin Enskri</span></span>
+    </div>
   </div>
   <div class="lang-bar">
-    <button class="lb active" onclick="L('ht')">🇭🇹 KR</button>
-    <button class="lb" onclick="L('fr')">🇫🇷 FR</button>
-    <button class="lb" onclick="L('en')">🇺🇸 EN</button>
+    <button class="lang-btn active" data-lang-btn="ht" onclick="switchLang('ht')">🇭🇹 KR</button>
+    <button class="lang-btn" data-lang-btn="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">🇺🇸 EN</button>
   </div>
 </div>
-<nav>
+
+<!-- NAV -->
+<nav class="nav">
   <a href="index.html" class="nav-brand">
-    <img src="rezo_mapou_logo.png" class="nav-logo" alt="Rezo Mapou" onerror="this.style.display='none'">
-    <span class="nav-name">Rezo Mapou</span>
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback" style="display:none;">RMN</div>
+    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
   </a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="nav-links">
     <li><a href="index.html" data-s="nav_home">Akèy</a></li>
-    <li><a href="index.html#program" data-s="nav_program">Pwogram</a></li>
-    <li><a href="register.html#sentinelle" class="active-nav" data-s="nav_sentinelle">Santinèl</a></li>
-    <li><a href="register.html#coach" data-s="nav_coach">Coach</a></li>
+    <li><a href="register.html" data-s="nav_register" class="active">Enskri</a></li>
     <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
+    <li><a href="login.html" data-s="nav_login" id="nav-login-link">Konekte</a></li>
   </ul>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
 </nav>
 
-<div class="page-wrap">
-  <div class="page-header">
-    <div class="page-eye" data-s="nav_join">Enskri</div>
-    <h1 class="page-title">Rezo Mapou</h1>
-    <p class="page-sub" data-s="prog_lead">3 etap senp. Yon sipò reyèl chak mwa.</p>
-  </div>
+<!-- MAIN -->
+<main>
+  <div class="container">
+    <div class="register-layout">
 
-  <div class="form-tabs">
-    <button class="ftab active" id="tab-s" onclick="switchTab('sentinelle')" data-s="nav_sentinelle">🌿 Santinèl</button>
-    <button class="ftab" id="tab-c" onclick="switchTab('coach')" data-s="nav_coach">⭐ Coach</button>
-  </div>
-
-  <div class="form-body">
-    <!-- SENTINELLE -->
-    <div class="form-panel active" id="panel-sentinelle">
-      <div class="f-title" data-s="s_title">Enskri kòm Santinèl</div>
-      <div class="f-sub" data-s="s_sub">Gratis. Yon minit. Ou ka envite yon Coach pita.</div>
-      <form id="form-s" onsubmit="submitForm(event,'sentinelle')">
-        <div class="fsec" data-s="s_sec1">Enfòmasyon Pèsonèl</div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label data-s="f_prenom">Prenon</label></div><input type="text" name="prenom" required autocomplete="given-name" placeholder="Jean"></div>
-          <div class="fg"><div class="fg-top"><label data-s="f_nom">Non</label></div><input type="text" name="nom" required autocomplete="family-name" placeholder="Pierre"></div>
-        </div>
-        <div class="fg"><div class="fg-top"><label data-s="f_email">Imèl</label></div><input type="email" name="email" required autocomplete="email" placeholder="jean@example.com"></div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label data-s="f_phone">Telefòn</label><span class="fg-hint" data-s="f_phone_hint">Nimewo ou</span></div><input type="tel" name="telephone" autocomplete="tel" placeholder="+509 XXXX XXXX"></div>
-          <div class="fg"><div class="fg-top"><label data-s="f_whatsapp">WhatsApp</label><span class="fg-hint" data-s="f_whatsapp_hint">Si diferan</span></div><input type="tel" name="whatsapp" autocomplete="tel" placeholder="+509 XXXX XXXX"></div>
-        </div>
-
-        <div class="fsec" data-s="s_sec2">Kote Ou Ye</div>
-        <div class="fg">
-          <div class="fg-top"><label data-s="f_dept">Depatman</label></div>
-          <select name="departement" id="s-dept" onchange="fillCommunes('s-dept','s-comm')" required>
-            <option value="" data-s="f_dept_ph">— Chwazi depatman —</option>
-          </select>
-        </div>
-        <div class="fg">
-          <div class="fg-top"><label data-s="f_commune">Komin</label></div>
-          <select name="commune" id="s-comm" required>
-            <option value="" data-s="f_commune_ph">— Chwazi komin —</option>
-          </select>
-        </div>
-        <div class="fg"><div class="fg-top"><label data-s="f_zone">Zòn / Katye</label><span class="fg-hint" data-s="f_zone_hint">Kote ou travay la</span></div><input type="text" name="zone" placeholder="Bel-Air, Kafou Fèy..."></div>
-
-        <div class="fsec" data-s="s_sec3">Aktivite &amp; Rezo Sosyal</div>
-        <div class="fg"><div class="fg-top"><label data-s="f_activite">Tip Aktivite</label><span class="fg-hint" data-s="f_activite_hint">Machann dlo, boutik...</span></div><input type="text" name="activite" placeholder="Machann dlo, manje, legim..."></div>
-        <div class="fg"><div class="fg-top"><label data-s="f_video">Videyo (opsyonèl)</label><span class="fg-hint" data-s="f_video_hint">YouTube oswa TikTok</span></div><input type="text" name="video" placeholder="https://youtube.com/..."></div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label>Facebook</label></div><input type="text" name="facebook" autocomplete="off" placeholder="facebook.com/..."></div>
-          <div class="fg"><div class="fg-top"><label>Instagram</label></div><input type="text" name="instagram" autocomplete="off" placeholder="instagram.com/..."></div>
-        </div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label>TikTok</label></div><input type="text" name="tiktok" autocomplete="off" placeholder="tiktok.com/@..."></div>
-          <div class="fg"><div class="fg-top"><label>YouTube</label></div><input type="text" name="youtube" autocomplete="off" placeholder="youtube.com/..."></div>
-        </div>
-
-        <div class="fsec" data-s="s_sec4">Preferans</div>
-        <div class="fg">
-          <div class="fg-top"><label data-s="f_payment">Metòd Peman</label><span class="fg-hint" data-s="f_payment_hint">Koman ou vle resevwa kado pa w?</span></div>
-          <select name="paiement">
-            <option value="">—</option>
-            <option value="MCH" data-s="pay_moncash">MonCash</option>
-            <option value="NCH" data-s="pay_natcash">NatCash</option>
-            <option value="CSH" data-s="pay_cash">Lajan Cash</option>
-            <option value="VIR" data-s="pay_virement">Virement Bancaire</option>
-            <option value="OTR" data-s="pay_autre">Lòt</option>
-          </select>
-        </div>
-        
-        <div class="fg"><div class="fg-top"><label data-s="f_message">Mesaj (opsyonèl)</label></div><textarea name="message" placeholder="Di nou yon ti bagay sou ou..."></textarea></div>
-        <!-- HONEYPOT: hidden, bots fill it, humans don't see it -->
-        <input type="text" name="website_url" id="hp-s" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;opacity:0;">
-        <!-- CAPTCHA -->
-        <div class="fg" id="captcha-s-wrap">
-          <div class="fg-top"><label id="captcha-s-q" style="font-size:13px;color:var(--forest);font-weight:500;text-transform:none;letter-spacing:0;"></label></div>
-          <input type="text" id="captcha-s-ans" autocomplete="off" placeholder="Repons ou..." style="max-width:180px;" required>
-          <div id="captcha-s-err" style="font-size:12px;color:#c0392b;margin-top:4px;display:none;">Repons lan pa kòrèk. Eseye ankò.</div>
-        </div>
-        <div class="fcheck"><input type="checkbox" id="cons-s" required><label for="cons-s"><span data-s="f_consent">Mwen aksepte </span><a href="terms.html" data-s="lnk_terms">Tèm</a> &amp; <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>.</label></div>
-        <button type="submit" class="btn-gold" data-s="f_submit_s">Enskri kòm Santinèl — Gratis</button>
-      </form>
-      <div class="form-success" id="suc-s">
-        <div class="suc-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="suc-h" data-s="suc_s_title">Mèsi — ou nan rezo a!</div>
-        <p class="suc-p" data-s="suc_s_msg">Nou pral kontakte ou byento.</p>
-        <div class="suc-share"><strong data-s="nav_join">Pwochen etap:</strong><span data-s="suc_s_share"> Pataje lyen enskripsyon an.</span></div>
+      <!-- LEFT: INTRO -->
+      <div class="register-intro">
+        <div class="eyebrow" data-s="site_abbr">RMN</div>
+        <h1 data-s="reg_title">Vin yon Rasin Mapou</h1>
+        <p class="lead" data-s="reg_subtitle">Enskri gratis. Pa gen pèmisyon espesyal.</p>
+        <ul class="trust-points" id="trust-points"></ul>
       </div>
-    </div>
 
-    <!-- COACH -->
-    <div class="form-panel" id="panel-coach">
-      <div class="f-title" data-s="c_title">Enskri kòm Coach</div>
-      <div class="f-sub" data-s="c_sub">Pwofil ou ap vizib. Ou chwazi ki Santinèl pou sipòte.</div>
-      <form id="form-c" onsubmit="submitForm(event,'coach')">
-        <div class="fsec" data-s="c_sec1">Enfòmasyon Pèsonèl</div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label data-s="f_prenom">Prenon</label></div><input type="text" name="prenom" required autocomplete="given-name" placeholder="Marie"></div>
-          <div class="fg"><div class="fg-top"><label data-s="f_nom">Non</label></div><input type="text" name="nom" required autocomplete="family-name" placeholder="Dupont"></div>
-        </div>
-        <div class="fg"><div class="fg-top"><label data-s="f_email">Imèl</label></div><input type="email" name="email" required autocomplete="email" placeholder="marie@example.com"></div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label data-s="f_phone">Telefòn</label></div><input type="tel" name="telephone" autocomplete="tel" placeholder="+509 / +1..."></div>
-          <div class="fg"><div class="fg-top"><label data-s="f_whatsapp">WhatsApp</label></div><input type="tel" name="whatsapp" autocomplete="tel" placeholder="+509 / +1..."></div>
+      <!-- RIGHT: FORM -->
+      <div class="register-form-card">
+
+        <!-- SUCCESS STATE -->
+        <div class="success-panel" id="success-panel">
+          <div class="success-icon">🌱</div>
+          <h2 data-s="f_success">Enskripsyon fèt!</h2>
+          <p id="success-msg"></p>
+          <div class="mt-2">
+            <a href="dashboard.html" class="btn btn-outline btn-sm" data-s="nav_dashboard">Tablodbò</a>
+          </div>
         </div>
 
-        <div class="fsec" data-s="c_sec2">Pwofil Coach</div>
-        <div class="fg">
-          <div class="fg-top"><label data-s="f_location">Ou baze kote?</label></div>
-          <select name="location_type">
-            <option value="">—</option>
-            <option value="HTI" data-s="loc_haiti">Ann Ayiti</option>
-            <option value="DIA" data-s="loc_diaspora">Dyaspora</option>
-          </select>
-        </div>
-        <div class="fg"><div class="fg-top"><label data-s="f_org">Òganizasyon</label><span class="fg-hint" data-s="f_org_hint">Opsyonèl</span></div><input type="text" name="organisation" autocomplete="organization" placeholder="Antrepriz, ONG, enstitisyon..."></div>
-        <div class="fg"><div class="fg-top"><label data-s="f_logo">Logo / Foto</label><span class="fg-hint" data-s="f_logo_hint">Opsyonèl — lyen imaj</span></div><input type="text" name="logo_url" autocomplete="off" placeholder="https://..."></div>
-        <div class="fg"><div class="fg-top"><label data-s="f_website">Site Web</label><span class="fg-hint" data-s="f_website_hint">Opsyonèl</span></div><input type="text" name="website" autocomplete="url" placeholder="https://..."></div>
+        <!-- FORM -->
+        <form id="register-form" novalidate>
 
-        <div class="fsec" data-s="c_sec3">Rezo Sosyal</div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label>Facebook</label></div><input type="text" name="facebook" autocomplete="off" placeholder="facebook.com/..."></div>
-          <div class="fg"><div class="fg-top"><label>Instagram</label></div><input type="text" name="instagram" autocomplete="off" placeholder="instagram.com/..."></div>
-        </div>
-        <div class="frow">
-          <div class="fg"><div class="fg-top"><label>TikTok</label></div><input type="text" name="tiktok" autocomplete="off" placeholder="tiktok.com/@..."></div>
-          <div class="fg"><div class="fg-top"><label>YouTube</label></div><input type="text" name="youtube" autocomplete="off" placeholder="youtube.com/..."></div>
-        </div>
+          <!-- Honeypot — hidden from humans -->
+          <div class="hp-field" aria-hidden="true">
+            <input type="text" id="website_url" name="website_url" autocomplete="off" tabindex="-1">
+          </div>
 
-        <div class="fsec" data-s="c_sec4">Motivasyon</div>
-        <div class="fg"><div class="fg-top"><label data-s="f_message_c">Poukisa ou vle vin Coach?</label><span class="fg-hint" data-s="f_message_c_hint">Opsyonèl</span></div><textarea name="message" placeholder="Di nou motivasyon ou..."></textarea></div>
-        <!-- HONEYPOT -->
-        <input type="text" name="website_url" id="hp-c" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;opacity:0;">
-        <!-- CAPTCHA -->
-        <div class="fg" id="captcha-c-wrap">
-          <div class="fg-top"><label id="captcha-c-q" style="font-size:13px;color:var(--forest);font-weight:500;text-transform:none;letter-spacing:0;"></label></div>
-          <input type="text" id="captcha-c-ans" autocomplete="off" placeholder="Repons ou..." style="max-width:180px;" required>
-          <div id="captcha-c-err" style="font-size:12px;color:#c0392b;margin-top:4px;display:none;">Repons lan pa kòrèk. Eseye ankò.</div>
-        </div>
-        <div class="fcheck"><input type="checkbox" id="cons-c" required><label for="cons-c"><span data-s="f_consent">Mwen aksepte </span><a href="terms.html" data-s="lnk_terms">Tèm</a> &amp; <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>.</label></div>
-        <button type="submit" class="btn-gold" data-s="f_submit_c">Enskri kòm Coach</button>
-      </form>
-      <div class="form-success" id="suc-c">
-        <div class="suc-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="suc-h" data-s="suc_c_title">Mèsi Coach — bienveni!</div>
-        <p class="suc-p" data-s="suc_c_msg">Pwofil ou pral vizib sou sit la.</p>
-      </div>
-    </div>
-  </div>
-</div>
+          <!-- IDENTITY -->
+          <div class="form-section-title" data-s="reg_title">Idantite</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prenom"><span data-s="f_firstname">Prenon</span><span class="required-mark">*</span></label>
+              <input type="text" id="prenom" name="prenom" autocomplete="given-name" required placeholder="Prenon" data-ph="f_firstname">
+            </div>
+            <div class="form-group">
+              <label for="nom"><span data-s="f_lastname">Siyati</span><span class="required-mark">*</span></label>
+              <input type="text" id="nom" name="nom" autocomplete="family-name" required placeholder="Siyati" data-ph="f_lastname">
+            </div>
+          </div>
 
+          <!-- PHONE -->
+          <div class="form-group">
+            <label for="phone"><span data-s="f_phone">Nimewo</span><span class="required-mark">*</span></label>
+            <div class="phone-wrapper">
+              <input type="tel" id="phone" name="phone" autocomplete="tel" required placeholder="+509 3701 2345" data-ph="f_phone_ph">
+              <div class="phone-checking hidden" id="phone-checking"><div class="loading-spinner"></div></div>
+            </div>
+            <div class="field-feedback" id="phone-feedback"></div>
+            <div class="hint" data-s="f_phone_hint">Nimewo entènasyonal — pa gen doub</div>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="form-group">
+            <label for="email">
+              <span data-s="f_email">Imèl</span>
+              <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
+            </label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="ou@ekzanp.com" data-ph="f_email_ph">
+            <div class="hint" data-s="f_email_hint">Pou verifye kont ou</div>
+          </div>
+
+          <!-- LOCATION -->
+          <div class="form-section-title">📍 <span data-s="f_country">Peyi</span></div>
+          <div class="form-group">
+            <label for="country"><span data-s="f_country">Peyi</span><span class="required-mark">*</span></label>
+            <select id="country" name="country" required onchange="onCountryChange(this.value)">
+              <option value="" data-s="f_country_ph">— Chwazi peyi ou —</option>
+            </select>
+          </div>
+
+          <!-- HAITI fields -->
+          <div class="location-haiti" id="location-haiti">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="departement"><span data-s="f_dept">Depatman</span><span class="required-mark">*</span></label>
+                <select id="departement" name="departement" onchange="onDeptChange(this.value)">
+                  <option value="" data-s="f_dept_ph">— Chwazi depatman —</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="commune"><span data-s="f_commune">Komin</span><span class="required-mark">*</span></label>
+                <select id="commune" name="commune" disabled>
+                  <option value="" data-s="f_commune_ph">— Chwazi komin —</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- DIASPORA fields -->
+          <div class="location-diaspora" id="location-diaspora">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city" data-s="f_city">Vil</label>
+                <input type="text" id="city" name="city" placeholder="Miami, New York..." data-ph="f_city_ph" autocomplete="address-level2">
+              </div>
+              <div class="form-group">
+                <label for="state">
+                  <span data-s="f_state">Eta / Pwovens</span>
+                  <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
+                </label>
+                <input type="text" id="state" name="state" placeholder="Florida, Quebec..." data-ph="f_state_ph" autocomplete="address-level1">
+              </div>
+            </div>
+          </div>
+
+          <!-- LANGUAGE PREF -->
+          <div class="form-group">
+            <label for="langue" data-s="f_lang">Lang prefere</label>
+            <select id="langue" name="langue">
+              <option value="ht">🇭🇹 Kreyòl ayisyen</option>
+              <option value="fr">🇫🇷 Français</option>
+              <option value="en">🇺🇸 English</option>
+            </select>
+          </div>
+
+          <!-- SOCIAL LINKS -->
+          <div class="form-section-title">
+            🔗 Lyen rezo sosyal
+            <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
+          </div>
+          <div class="platform-grid" id="platform-grid"></div>
+
+          <!-- SUBMIT -->
+          <div class="submit-area">
+            <div class="alert alert-error hidden" id="form-error"></div>
+            <button type="submit" class="btn btn-primary btn-full btn-lg" id="submit-btn" data-s="f_submit">
+              Enskri kounye a
+            </button>
+            <p class="text-center text-xs text-muted mt-1">
+              <a href="login.html" data-s="nav_login">Ou deja gen kont?</a>
+            </p>
+          </div>
+
+        </form>
+      </div><!-- /.register-form-card -->
+    </div><!-- /.register-layout -->
+  </div><!-- /.container -->
+</main>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 Rezo Mapou · <a href="index.html" data-s="nav_home">Akèy</a> · <a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a> · <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="terms.html" data-s="legal_terms">Tèm Itilizasyon</a>
+      <a href="privacy.html" data-s="legal_privacy">Konfidansyalite</a>
+      <a href="copyright.html" data-s="legal_copyright">Dwa Otè</a>
+    </div>
+    <div class="footer-copy" data-s="legal_rights">© 2026 Rezo Mapou Nasyonal</div>
+  </div>
 </footer>
 
 <script src="config.js"></script>
 <script src="strings.js"></script>
 <script>
-let lang='ht';
-function L(l){
-  lang=l;
-  document.querySelectorAll('.lb').forEach(b=>{
-    const m={ht:'🇭🇹 KR',fr:'🇫🇷 FR',en:'🇺🇸 EN'};
-    b.classList.toggle('active',b.textContent.trim()===m[l]);
-  });
-  const t=STRINGS[l];
-  document.querySelectorAll('[data-s]').forEach(el=>{
-    const k=el.getAttribute('data-s');
-    if(t[k])el.innerHTML=t[k];
-  });
-}
-
-function fillCommunes(deptId,commId){
-  const dept=document.getElementById(deptId).value;
-  const sel=document.getElementById(commId);
-  sel.innerHTML='<option value="">—</option>';
-  if(dept&&HAITI[dept]){
-    HAITI[dept].sort().forEach(c=>{
-      const o=document.createElement('option');
-      o.value=c;
-      o.dataset.code=COMMUNE_CODES[c]||c.substring(0,4).toUpperCase();
-      o.textContent=c;
-      sel.appendChild(o);
-    });
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const lang = getCurrentLang();
+  L(lang, 'register');
+  document.getElementById('langue').value = lang;
+  populateCountries();
+  populateDepts();
+  populatePlatforms();
+  renderTrustPoints(lang);
+  fetchMemberCount();
+  // Show profile link if logged in
+  const session = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
+  if (session) {
+    const lnk = document.getElementById('nav-login-link');
+    if (lnk) { lnk.href = 'profile.html'; lnk.setAttribute('data-s','nav_profile'); lnk.textContent = s('nav_profile'); }
   }
+});
+
+// ── LANGUAGE ──────────────────────────────────────────────────────────────
+function switchLang(lang) {
+  L(lang, 'register');
+  document.getElementById('langue').value = lang;
+  renderTrustPoints(lang);
+  document.querySelectorAll('[data-ph]').forEach(el => { el.placeholder = s(el.getAttribute('data-ph')) || el.placeholder; });
 }
 
-function populateDepts(){
-  const sel=document.getElementById('s-dept');
-  Object.keys(HAITI).sort().forEach(d=>{
-    const o=document.createElement('option');
-    o.value=d;
-    o.textContent=d;
+function renderTrustPoints(lang) {
+  const pts = {
+    ht: ['Gratis pou tout moun','Pa gen pèmisyon espesyal','Nimewo ou pwoteje','Konekte nan 60 segonn'],
+    fr: ['Gratuit pour tous','Aucune autorisation requise','Votre numéro est protégé','Connecté en 60 secondes'],
+    en: ['Free for everyone','No special permission needed','Your number is protected','Connected in 60 seconds'],
+  };
+  document.getElementById('trust-points').innerHTML = (pts[lang]||pts.ht).map(p=>`<li>${p}</li>`).join('');
+}
+
+// ── DROPDOWNS ─────────────────────────────────────────────────────────────
+function populateCountries() {
+  const sel = document.getElementById('country');
+  DIASPORA_COUNTRIES.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
     sel.appendChild(o);
   });
 }
 
-function switchTab(tab){
-  document.querySelectorAll('.ftab').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='sentinelle')||(i===1&&tab==='coach')));
-  document.getElementById('panel-sentinelle').classList.toggle('active',tab==='sentinelle');
-  document.getElementById('panel-coach').classList.toggle('active',tab==='coach');
-  history.replaceState(null,'','#'+tab);
+function populateDepts() {
+  const sel = document.getElementById('departement');
+  Object.keys(HAITI).sort().forEach(d => {
+    const o = document.createElement('option');
+    o.value = d; o.textContent = d;
+    sel.appendChild(o);
+  });
 }
 
-// ── E.164 PHONE NORMALIZATION ──────────────────────────────
-function toE164(raw, defaultCC) {
-  if (!raw) return '';
-  let cleaned = raw.toString().replace(/[\s\-\(\)\+\.]/g, '');
-  if (!cleaned || isNaN(cleaned)) return raw; // return as-is if unparseable
-  if (cleaned.length === 8) cleaned = (defaultCC || '509') + cleaned;
-  return '+' + cleaned;
+function onCountryChange(value) {
+  const isHaiti = value === 'Haïti';
+  const hasValue = value !== '';
+  document.getElementById('location-haiti').classList.toggle('visible', isHaiti);
+  document.getElementById('location-diaspora').classList.toggle('visible', !isHaiti && hasValue);
+  document.getElementById('departement').required = isHaiti;
+  document.getElementById('commune').required = isHaiti;
+  document.getElementById('city').required = !isHaiti && hasValue;
 }
 
-function validatePhone(raw, mustBe509) {
-  const e164 = toE164(raw);
-  if (!e164.startsWith('+')) return { valid: false, e164: '', msg: 'Fòma nimewo a pa bon. Egz: +50937012345' };
-  if (mustBe509 && !e164.startsWith('+509')) return { valid: false, e164: '', msg: 'Santinèl dwe gen nimewo Ayiti (+509).' };
-  if (e164.length < 10) return { valid: false, e164: '', msg: 'Nimewo a twò kout.' };
-  return { valid: true, e164 };
+function onDeptChange(dept) {
+  const sel = document.getElementById('commune');
+  sel.innerHTML = `<option value="">${s('f_commune_ph')}</option>`;
+  sel.disabled = !dept;
+  if (!dept || !HAITI[dept]) return;
+  HAITI[dept].sort().forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+  sel.disabled = false;
 }
 
-async function post(data){
-  try{
-    const p=new URLSearchParams();
-    Object.entries(data).forEach(([k,v])=>p.append(k,String(v)));
-    await fetch(SCRIPT_URL,{method:'POST',body:p,mode:'no-cors'});
-  }catch(e){}
+// ── PLATFORMS ─────────────────────────────────────────────────────────────
+function populatePlatforms() {
+  const grid = document.getElementById('platform-grid');
+  RMN_CONFIG.PLATFORMS.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'platform-field';
+    div.innerHTML = `
+      <span class="platform-icon" title="${platformLabel(p.key)}">${p.icon}</span>
+      <input type="url" name="${p.key.toLowerCase()}"
+        data-platform="${p.key}"
+        data-ph="plt_${p.key.toLowerCase()}"
+        placeholder="${platformLabel(p.key)}"
+        autocomplete="off" inputmode="url">
+    `;
+    grid.appendChild(div);
+  });
 }
 
-// ── ANTI-SPAM ──────────────────────────────────────────────
-const CAPTCHAS = [
-  {q:"Konbyen se 3 + 4 ?", a:7},
-  {q:"Konbyen se 5 + 2 ?", a:7},
-  {q:"Konbyen se 6 - 1 ?", a:5},
-  {q:"Konbyen se 2 + 8 ?", a:10},
-  {q:"Konbyen se 9 - 3 ?", a:6},
-  {q:"Konbyen se 4 + 4 ?", a:8},
-  {q:"Konbyen se 10 - 4 ?", a:6},
-  {q:"Konbyen se 3 × 3 ?", a:9},
-];
+// ── PHONE CHECK ───────────────────────────────────────────────────────────
+let _phoneTimer = null;
+let _phoneValid = false;
 
-const captchaS = CAPTCHAS[Math.floor(Math.random()*CAPTCHAS.length)];
-const captchaC = CAPTCHAS[Math.floor(Math.random()*CAPTCHAS.length)];
-const formLoadTime = Date.now();
-
-function initCaptchas(){
-  document.getElementById('captcha-s-q').textContent = captchaS.q;
-  document.getElementById('captcha-c-q').textContent = captchaC.q;
-}
-
-function checkSpam(type){
-  // 1. Time check — submitted in less than 3 seconds = likely bot
-  if(Date.now() - formLoadTime < 3000) return 'fast';
-  // 2. Honeypot check — if filled = bot
-  const hp = document.getElementById('hp-'+type).value;
-  if(hp && hp.length > 0) return 'honeypot';
-  // 3. Captcha check
-  const captcha = type==='s' ? captchaS : captchaC;
-  const ans = parseInt(document.getElementById('captcha-'+type+'-ans').value.trim());
-  if(isNaN(ans) || ans !== captcha.a){
-    document.getElementById('captcha-'+type+'-err').style.display='block';
-    return 'captcha';
-  }
-  document.getElementById('captcha-'+type+'-err').style.display='none';
-  return null;
-}
-
-async function submitForm(e,type){
-  e.preventDefault();
-  const shortType = type==='sentinelle' ? 's' : 'c';
-
-  // Anti-spam checks
-  const spam = checkSpam(shortType);
-  if(spam === 'captcha') return;
-  if(spam !== null){
-    e.target.style.display='none';
-    document.getElementById('suc-'+shortType).style.display='block';
-    return;
-  }
-
-  const fd  = new FormData(e.target);
-  const data = {type};
-  fd.forEach((v,k)=>{ if(k!=='website_url') data[k]=v; });
-
-  // ── Phone E.164 normalization ──
-  const isSentinelle = (type==='sentinelle');
-  const rawPhone     = data.telephone || data.whatsapp || '';
-  const phoneCheck   = validatePhone(rawPhone, isSentinelle); // sentinelles must be +509
-
-  if(!phoneCheck.valid){
-    // Show error below phone field
-    let errEl = document.getElementById('phone-err-'+shortType);
-    if(!errEl){
-      errEl = document.createElement('div');
-      errEl.id = 'phone-err-'+shortType;
-      errEl.style.cssText = 'font-size:12px;color:#c0392b;margin-top:4px;';
-      const phoneInput = e.target.querySelector('[name="telephone"]');
-      if(phoneInput) phoneInput.parentNode.appendChild(errEl);
-    }
-    errEl.textContent = phoneCheck.msg;
-    return;
-  }
-
-  // Normalize both phone fields to E.164
-  data.telephone = phoneCheck.e164;
-  if(data.whatsapp) data.whatsapp = toE164(data.whatsapp, '509');
-
-  // ── Dept / Commune codes ──
-  if(isSentinelle){
-    const deptSel  = document.getElementById('s-dept');
-    const deptName = deptSel.value;
-    data.departement_nom = deptName;
-    data.departement     = DEPT_CODES[deptName] || deptName.substring(0,4).toUpperCase();
-    const commSel  = document.getElementById('s-comm');
-    const commOpt  = commSel.options[commSel.selectedIndex];
-    data.commune_nom = commOpt?.value || '';
-    data.commune     = commOpt?.dataset?.code || commOpt?.value?.substring(0,4).toUpperCase() || '';
-    data.is_in_haiti = 'true'; // sentinelles are always in Haiti
-  } else {
-    // Coach: Is_In_Haiti based on location_type
-    data.is_in_haiti = (data.location_type === 'HTI') ? 'true' : 'false';
-  }
-
-  data.langue   = lang;
-  data.source   = 'website';
-  data.is_real  = 'true';
-
-  await post(data);
-  e.target.style.display='none';
-  document.getElementById('suc-'+shortType).style.display='block';
-}
-
-async function fetchStats(){
-  try{
-    const r=await fetch(SCRIPT_URL+'?t='+Date.now());
-    const d=await r.json();
-    document.getElementById('sb-s').textContent=d.sentinelles||0;
-    document.getElementById('sb-c').textContent=d.coaches||0;
-  }catch(e){}
-}
-
-// Handle anchor on load
-window.addEventListener('load',()=>{
-  populateDepts();
-  L('ht');
-  fetchStats();
-  initCaptchas();
-  if(location.hash==='#coach') switchTab('coach');
+document.getElementById('phone').addEventListener('blur', function() {
+  if (this.value.trim()) checkPhone(this.value.trim());
 });
+
+document.getElementById('phone').addEventListener('input', function() {
+  setPhoneFeedback('','');
+  _phoneValid = false;
+  clearTimeout(_phoneTimer);
+  const val = this.value.trim();
+  if (val.length >= 8) {
+    _phoneTimer = setTimeout(() => checkPhone(val), 800);
+  }
+});
+
+async function checkPhone(raw) {
+  const input = document.getElementById('phone');
+  const checking = document.getElementById('phone-checking');
+  checking.classList.remove('hidden');
+  input.classList.remove('input-ok','input-error');
+  try {
+    const params = new URLSearchParams({ action:'check_phone', phone:raw, lang:getCurrentLang() });
+    const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?${params}`);
+    const d = await res.json();
+    checking.classList.add('hidden');
+    if (!d.valid) {
+      setPhoneFeedback('error', s('f_phone_invalid'));
+      input.classList.add('input-error');
+      _phoneValid = false;
+    } else if (d.exists) {
+      setPhoneFeedback('error', s('f_phone_exists'));
+      input.classList.add('input-error');
+      _phoneValid = false;
+    } else {
+      setPhoneFeedback('ok', s('f_phone_ok'));
+      input.classList.add('input-ok');
+      _phoneValid = true;
+      if (d.normalized) input.dataset.normalized = d.normalized;
+    }
+  } catch(e) {
+    document.getElementById('phone-checking').classList.add('hidden');
+    _phoneValid = true; // allow submit if network error
+  }
+}
+
+function setPhoneFeedback(type, msg) {
+  const fb = document.getElementById('phone-feedback');
+  fb.className = 'field-feedback' + (type ? ' '+type : '');
+  fb.textContent = msg;
+}
+
+// ── SUBMIT ────────────────────────────────────────────────────────────────
+document.getElementById('register-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const phoneVal = document.getElementById('phone').value.trim();
+  if (phoneVal && !_phoneValid) {
+    setPhoneFeedback('error', s('f_phone_invalid'));
+    document.getElementById('phone').focus();
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  const errDiv = document.getElementById('form-error');
+  btn.setAttribute('aria-busy','true');
+  btn.textContent = s('f_submitting');
+  btn.disabled = true;
+  errDiv.classList.add('hidden');
+
+  const fd = new FormData(this);
+  const params = new URLSearchParams();
+  params.append('action','register');
+  fd.forEach((v,k) => { if (v && v.trim()) params.append(k, v.trim()); });
+
+  // Use normalized phone if available
+  const phoneInput = document.getElementById('phone');
+  if (phoneInput.dataset.normalized) params.set('phone', phoneInput.dataset.normalized);
+
+  // Dept/commune names
+  const dSel = document.getElementById('departement');
+  const cSel = document.getElementById('commune');
+  if (dSel.value) params.set('departement_nom', dSel.options[dSel.selectedIndex]?.text || dSel.value);
+  if (cSel.value)  params.set('commune_nom',    cSel.options[cSel.selectedIndex]?.text  || cSel.value);
+
+  // Platform URLs
+  document.querySelectorAll('.platform-field input').forEach(input => {
+    const key = input.dataset.platform;
+    const val = input.value.trim();
+    if (key && val) params.set(key.toLowerCase(), buildPlatformUrl(key, val));
+  });
+
+  params.set('langue', getCurrentLang());
+  params.set('source', 'website');
+  params.set('is_real','true');
+
+  try {
+    const res = await fetch(RMN_CONFIG.SCRIPT_URL, { method:'POST', body:params });
+    const d = await res.json();
+    if (d.success) {
+      showSuccess(d);
+    } else {
+      showError(d.message || s('f_error'));
+      btn.removeAttribute('aria-busy');
+      btn.textContent = s('f_submit');
+      btn.disabled = false;
+    }
+  } catch(err) {
+    // Treat network/CORS error as success
+    showSuccess({ has_email: !!document.getElementById('email').value.trim() });
+  }
+});
+
+function showSuccess(data) {
+  document.getElementById('register-form').style.display = 'none';
+  const lang = getCurrentLang();
+  const msgs = {
+    with_email: {
+      ht:'Nou voye yon lyen verifye nan imèl ou. Klike sou li pou aktive kont ou.',
+      fr:'Nous avons envoyé un lien de vérification à votre email.',
+      en:'We sent a verification link to your email. Click it to activate your account.',
+    },
+    no_email: {
+      ht:'Kont ou kreye! Ajoute yon imèl nan Vitrine ou pou verifye idantite ou.',
+      fr:'Compte créé ! Ajoutez un email dans votre Vitrine pour vérifier votre identité.',
+      en:'Account created! Add an email in your Vitrine to verify your identity.',
+    }
+  };
+  document.getElementById('success-msg').textContent =
+    (data.has_email ? msgs.with_email : msgs.no_email)[lang] || msgs.with_email.ht;
+  document.getElementById('success-panel').style.display = 'block';
+}
+
+function showError(msg) {
+  const d = document.getElementById('form-error');
+  d.textContent = msg;
+  d.classList.remove('hidden');
+  d.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+// ── NAV & STATS ───────────────────────────────────────────────────────────
+function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+async function fetchMemberCount() {
+  try {
+    const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=stats&t=${Date.now()}`);
+    const d = await res.json();
+    const el = document.getElementById('tb-members');
+    if (el && d.sentinelles !== undefined) el.textContent = d.sentinelles.toLocaleString();
+  } catch(e) {}
+}
 </script>
 </body>
 </html>
