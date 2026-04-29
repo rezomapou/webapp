@@ -1,387 +1,1039 @@
 // ============================================================
-// Rezo Mapou — Fichier de traductions (strings.js)
-// Éditez ce fichier pour modifier tous les textes du site
-// Langues: ht (Kreyòl), fr (Français), en (English)
+// strings.js — Rezo Mapou Nasyonal — Frontend Strings
+// ALL UI text, SEO metadata, data references live here.
+// NO hard values in any HTML file — reference by key only.
+// Loaded after config.js on every page.
 // ============================================================
 
-const STRINGS = {
+// ── HAITI DEPARTMENTS & COMMUNES ─────────────────────────────────────────
+
+const HAITI = {
+  "Artibonite": [
+    "Dessalines","Desdunes","Ennery","Gros-Morne","La Chapelle",
+    "Marchand Dessalines","Marmelade","Petite-Rivière-de-l'Artibonite",
+    "Saint-Marc","Saint-Michel-de-l'Atalaye","Saint-Raphaël","Verrettes"
+  ],
+  "Centre": [
+    "Belladère","Boucan Carré","Hinche","Lascahobas","Mirebalais",
+    "Savanette","Thomassique","Thomonde"
+  ],
+  "Grand'Anse": [
+    "Abricots","Anse-d'Hainault","Beaumont","Chambellan","Corail",
+    "Dame-Marie","Jérémie","Les Irois","Moron","Roseaux","Pestel","Tiburon"
+  ],
+  "Nippes": [
+    "Arnaud","Anse-à-Veau","Baradères","Fond des Nègres","Grande Caille",
+    "L'Asile","Miragoane","Paillant","Petit-Trou-de-Nippes","Plaisance-du-Sud"
+  ],
+  "Nord": [
+    "Acul-du-Nord","Bahon","Borgne","Cap-Haïtien","Dondon","Grande Rivière du Nord",
+    "Limonade","Milot","Pignon","Pilate","Plaine-du-Nord","Plaisance",
+    "Ranquitte","Saint-Raphaël","Trou-du-Nord"
+  ],
+  "Nord-Est": [
+    "Capotille","Carice","Ferrier","Fort-Liberté","Mombin-Crochu",
+    "Mont-Organisé","Ouanaminthe","Sainte-Suzanne","Terrier Rouge","Vallières"
+  ],
+  "Nord-Ouest": [
+    "Anse-à-Foleur","Baie-de-Henne","Bassin Bleu","Bombardopolis",
+    "Jean Rabel","La Tortue","Môle Saint-Nicolas","Port-de-Paix","Saint-Louis-du-Nord"
+  ],
+  "Ouest": [
+    "Anse-à-Galets","Arcahaie","Cabaret","Carrefour","Cornillon/Grand-Bois",
+    "Côte-de-Fer","Croix-des-Bouquets","Delmas","Fonds Verrettes","Ganthier",
+    "Grand-Goâve","Kenscoff","Léogâne","Pétion-Ville","Port-au-Prince",
+    "Gressier","Thomazeau","Cité Soleil"
+  ],
+  "Sud": [
+    "Aquin","Arniquet","Camp-Perrin","Cavaillon","Chantal","Chardonnieres",
+    "Côteaux","Les Cayes","Les Anglais","Les Côteaux","Maniche","Port-à-Piment",
+    "Port-Salut","Roche-à-Bateau","Saint-Jean-du-Sud","Saint-Louis-du-Sud",
+    "Torbeck","Tiburon"
+  ],
+  "Sud-Est": [
+    "Anse-à-Pitres","Bainet","Belle Anse","Cayes-Jacmel","Grand-Gosier",
+    "Jacmel","La Vallée","Marigot","Thiotte"
+  ],
+};
+
+// ── COMMUNE POPULATION WEIGHTS ────────────────────────────────────────────
+// Used by seed data and member scroll algorithm.
+// Higher = more likely to appear in generated data.
+
+const COMMUNE_WEIGHTS = {
+  // Ouest — highest density
+  "Port-au-Prince":       22,
+  "Delmas":               16,
+  "Carrefour":            12,
+  "Cité Soleil":           8,
+  "Pétion-Ville":          9,
+  "Croix-des-Bouquets":    6,
+  "Léogâne":               5,
+  "Arcahaie":              3,
+  "Cabaret":               3,
+  "Gressier":              2,
+  "Grand-Goâve":           3,
+  "Kenscoff":              2,
+  "Thomazeau":             1,
+  "Cornillon/Grand-Bois":  1,
+  "Anse-à-Galets":         1,
+  "Ganthier":              1,
+  "Fonds Verrettes":       1,
+  "Côte-de-Fer":           1,
+
+  // Nord
+  "Cap-Haïtien":          11,
+  "Limonade":              3,
+  "Milot":                 2,
+  "Pilate":                2,
+  "Trou-du-Nord":          3,
+  "Plaisance":             2,
+  "Acul-du-Nord":          2,
+  "Borgne":                1,
+  "Dondon":                1,
+  "Grande Rivière du Nord":2,
+  "Plaine-du-Nord":        1,
+  "Ranquitte":             1,
+  "Pignon":                2,
+  "Bahon":                 1,
+  "Saint-Raphaël":         2,
+
+  // Artibonite
+  "Saint-Marc":            6,
+  "Gonaïves":              7,
+  "Verrettes":             3,
+  "Marchand Dessalines":   2,
+  "Dessalines":            2,
+  "Gros-Morne":            2,
+  "Marmelade":             1,
+  "Ennery":                1,
+  "Desdunes":              1,
+  "La Chapelle":           1,
+  "Petite-Rivière-de-l'Artibonite": 2,
+  "Saint-Michel-de-l'Atalaye":      1,
+
+  // Sud
+  "Les Cayes":             6,
+  "Aquin":                 3,
+  "Camp-Perrin":           2,
+  "Cavaillon":             2,
+  "Port-Salut":            2,
+  "Torbeck":               1,
+  "Chantal":               1,
+  "Maniche":               1,
+
+  // Sud-Est
+  "Jacmel":                5,
+  "Belle Anse":            2,
+  "Cayes-Jacmel":          2,
+  "Marigot":               2,
+  "Bainet":                1,
+  "Grand-Gosier":          1,
+  "La Vallée":             1,
+  "Thiotte":               1,
+  "Anse-à-Pitres":         1,
+
+  // Centre
+  "Hinche":                4,
+  "Mirebalais":            3,
+  "Lascahobas":            2,
+  "Boucan Carré":          1,
+  "Belladère":             1,
+  "Thomonde":              1,
+  "Thomassique":           1,
+  "Savanette":             1,
+
+  // Nord-Est
+  "Ouanaminthe":           4,
+  "Fort-Liberté":          2,
+  "Terrier Rouge":         2,
+  "Mont-Organisé":         1,
+  "Capotille":             1,
+  "Carice":                1,
+  "Ferrier":               1,
+  "Mombin-Crochu":         1,
+  "Sainte-Suzanne":        1,
+  "Vallières":             1,
+
+  // Nord-Ouest
+  "Port-de-Paix":          4,
+  "Jean Rabel":            2,
+  "Bassin Bleu":           1,
+  "Môle Saint-Nicolas":    1,
+  "Anse-à-Foleur":         1,
+  "Baie-de-Henne":         1,
+  "Bombardopolis":         1,
+  "La Tortue":             1,
+  "Saint-Louis-du-Nord":   1,
+
+  // Grand'Anse
+  "Jérémie":               4,
+  "Dame-Marie":            2,
+  "Corail":                2,
+  "Roseaux":               1,
+  "Moron":                 1,
+  "Les Irois":             1,
+  "Abricots":              1,
+  "Anse-d'Hainault":       1,
+  "Beaumont":              1,
+  "Chambellan":            1,
+  "Pestel":                1,
+  "Tiburon":               1,
+
+  // Nippes
+  "Miragoane":             4,
+  "Anse-à-Veau":           3,
+  "Fond des Nègres":       2,
+  "Paillant":              1,
+  "Arnaud":                1,
+  "Baradères":             1,
+  "Grande Caille":         1,
+  "L'Asile":               1,
+  "Petit-Trou-de-Nippes":  1,
+  "Plaisance-du-Sud":      1,
+};
+
+// ── DIASPORA COUNTRIES ────────────────────────────────────────────────────
+// Ordered by Haitian diaspora population size.
+
+const DIASPORA_COUNTRIES = [
+  "Haïti",
+  "États-Unis / USA",
+  "Canada",
+  "France",
+  "République Dominicaine",
+  "Brésil",
+  "Chili",
+  "Bahamas",
+  "Guadeloupe",
+  "Martinique",
+  "Guyane française",
+  "Belgique",
+  "Suisse",
+  "Royaume-Uni",
+  "Mexique",
+  "Cuba",
+  "Jamaïque",
+  "Autre / Other",
+];
+
+// ── DEPT CODES ────────────────────────────────────────────────────────────
+
+const DEPT_CODES = {
+  "Artibonite": "ART",
+  "Centre":     "CTR",
+  "Grand'Anse": "GDA",
+  "Nippes":     "NIP",
+  "Nord":       "NOR",
+  "Nord-Est":   "NRE",
+  "Nord-Ouest": "NRO",
+  "Ouest":      "OUE",
+  "Sud":        "SUD",
+  "Sud-Est":    "SDE",
+};
+
+// ── SEO METADATA ──────────────────────────────────────────────────────────
+// Applied dynamically on every page load.
+// Static fallbacks with same values must exist in each HTML <head>.
+
+const SEO = {
   ht: {
-    // Navigation
-    nav_home: "Akèy",
-    nav_program: "Pwogram",
-    nav_sentinelle: "Santinèl",
-    nav_coach: "Coach",
-    nav_dashboard: "Tablodbò",
-    nav_join: "Enskri",
-
-    // Stats bar
-    stats_sentinelles: "Santinèl",
-    stats_coaches: "Coach",
-    stats_loading: "...",
-
-    // Hero
-    hero_tag: "Rezo Machann Nasyonal · Ayiti 2026",
-    hero_t1: "Ou se",
-    hero_t2: "Rezo Mapou.",
-    hero_t3: "Vini grandi ave nou.",
-    hero_lead: "Yon rezo nasyonal ki sipòte machann ak antreprenè nan tout Ayiti — vizibilite, koneksyon, ak sipò konkrè chak mwa.",
-    hero_cta_s: "Enskri kòm Santinèl",
-    hero_cta_c: "Enskri kòm Coach",
-    hero_cta_more: "Kijan sa Travay",
-
-    // Mapou section
-    map_eye: "Senbòl Nou",
-    map_title: "Poukisa Mapou?",
-    map_p1: "Pyebwa Mapou se pyebwa ki pi solid ann Ayiti. Li pa grandi vit — li bati rasin pwofon anvan li leve anlè. Siklòn pa ka rache l paske pa gen yon sèl rasin ki pote tout pwa a.",
-    map_p2: "Machann yo se rasin ekonomi Ayisyen an. Chak machann dlo, chak vandè manje, chak ti komèsan — se yon rasin. Ansanm, nou fòme yon rezo ki pa ka rache.",
-    map_dis_title: "Yon bagay enpòtan pou nou di klè:",
-    map_dis1: "Rezo Mapou pa gen okenn afiliyasyon relijye — ni katolik, ni pwotestan, ni vodou, ni okenn lòt kwayans. Senbòl mapou a se eritaj tout pèp Ayisyen san eksepsyon.",
-    map_dis2: "Rezo Mapou pa gen okenn afiliyasyon politik — ni pati, ni kandida, ni gouvènman. Nou travay pou machann ak kominote yo sèlman.",
-    map_dis3: "Tout moun — kèlkeswa relijyon oswa politik yo — gen plas nan Rezo Mapou. Sèl kondisyon: vle wè Ayiti avanse.",
-
-    // Programme
-    prog_eye: "Pwogram Nou",
-    prog_title: "Map Sipote Lakay",
-    prog_lead: "3 etap senp. Yon sipò reyèl chak mwa.",
-    step1_title: "Enskri — Gratis",
-    step1_desc: "Kreye pwofil ou kòm Santinèl. Pa peye anyen. Enskripsyon louvri jiska 1 me.",
-    step2_title: "Coach Chwazi Ou",
-    step2_desc: "Coach yo gade pwofil ou epi deside sipòte ou. Yo peye frè enskripsyon pwogram nan pou ou.",
-    step3_title: "Resevwa Sipò Chak Mwa",
-    step3_desc: "Chak mwa ou resevwa sipò — akondisyon ou reyalize 3 aktivite rezo a.",
-    cond1_title: "① Poste sou Rezo Mapou",
-    cond1_desc: "Pataje yon post sou paj nou pou pale de Coach ou ak aktivite ou.",
-    cond2_title: "② Aktivite Kominotè",
-    cond2_desc: "Patisipe nan omwen yon aktivite kominotè ki gen valè nan mwa a.",
-    cond3_title: "③ Rapò Mansyèl",
-    cond3_desc: "Ranpli rapò mansyèl rezo a sou aktivite ou ak zòn ou.",
-
-    // CTA section
-    cta_eye: "Apèl Nou",
-    cta_quote: "Ou se yon machann dlo, manje, legim — ou se yon Santinèl k ap bay ekonomi an jaret. Vini nan Rezo Mapou.",
-    cta_s: "Enskri kòm Santinèl — Gratis",
-    cta_c: "Enskri kòm Coach",
-
-    // Forms - common
-    f_prenom: "Prenon",
-    f_nom: "Non",
-    f_email: "Imèl",
-    f_phone: "Telefòn",
-    f_phone_hint: "Nimewo telefòn ou",
-    f_whatsapp: "WhatsApp",
-    f_whatsapp_hint: "Si diferan ak telefòn ou",
-    f_dept: "Depatman",
-    f_dept_ph: "— Chwazi depatman —",
-    f_commune: "Komin",
-    f_commune_ph: "— Chwazi komin —",
-    f_zone: "Zòn / Katye",
-    f_zone_hint: "Kote egzakteman ou travay la",
-    f_message: "Mesaj (opsyonèl)",
-    f_consent: "Mwen aksepte Tèm ak Politik Konfidansyalite Rezo Mapou.",
-    f_submit_s: "Enskri kòm Santinèl — Gratis",
-    f_submit_c: "Enskri kòm Coach",
-
-    // Sentinelle form
-    s_title: "Enskri kòm Santinèl",
-    s_sub: "Gratis. Yon minit. Ou ka envite yon Coach pita.",
-    s_sec1: "Enfòmasyon Pèsonèl",
-    s_sec2: "Kote Ou Ye",
-    s_sec3: "Aktivite & Rezo Sosyal",
-    s_sec4: "Preferans",
-    f_activite: "Tip Aktivite",
-    f_activite_hint: "Egz: Machann dlo, boutik, kwafè...",
-    f_video: "Lyen Videyo (opsyonèl)",
-    f_video_hint: "YouTube oswa TikTok — prezante tèt ou",
-    f_payment: "Metòd Peman Prefere",
-    f_payment_hint: "Koman ou vle resevwa kado pa w la?",
-    pay_moncash: "MonCash",
-    pay_natcash: "NatCash",
-    pay_cash: "Lajan Cash",
-    pay_virement: "Virement Bancaire",
-    pay_autre: "Lòt",
-    self_note: "💡 Ou vle sipòte tèt ou? Ou ka enskri tou kòm Coach. Sipò mansyèl la pral pi ba — men ou benefisye tout avantaj vizibilite rezo a.",
-
-    // Coach form
-    c_title: "Enskri kòm Coach",
-    c_sub: "Pwofil ou ap vizib. Ou chwazi ki Santinèl pou sipòte.",
-    c_sec1: "Enfòmasyon Pèsonèl",
-    c_sec2: "Pwofil Coach",
-    c_sec3: "Rezo Sosyal",
-    c_sec4: "Motivasyon",
-    f_location: "Ou baze kote?",
-    loc_haiti: "Ann Ayiti",
-    loc_diaspora: "Dyaspora",
-    f_org: "Òganizasyon / Antrepriz",
-    f_org_hint: "Opsyonèl — si ou reprezante yon enstitisyon",
-    f_logo: "Lyen Logo / Foto Pwofil",
-    f_logo_hint: "Opsyonèl — Facebook, Google Drive...",
-    f_website: "Site Web",
-    f_website_hint: "Opsyonèl",
-    f_message_c: "Poukisa ou vle vin Coach?",
-    f_message_c_hint: "Opsyonèl — di nou motivasyon ou",
-
-    // Success messages
-    suc_s_title: "Mèsi — ou nan rezo a!",
-    suc_s_msg: "Nou pral kontakte ou byento. Rasin fò, pyebwa leve.",
-    suc_s_share: "Pataje lyen enskripsyon an sou rezo sosyal ou. Si ou konn yon Coach, envitel enskri.",
-    suc_c_title: "Mèsi Coach — bienveni!",
-    suc_c_msg: "Pwofil ou pral vizib sou sit la. Nou pral kontakte ou pou etap yo.",
-
-    // Footer
-    foot_tagline: "Rezo Machann Nasyonal · Ayiti",
-    foot_motto: "Rasin fò, pyebwa leve.",
-    foot_nav: "Navigasyon",
-    foot_legal: "Legal",
-    lnk_privacy: "Konfidansyalite",
-    lnk_terms: "Tèm",
-    lnk_copyright: "Dwa Otè",
-
-    // Dashboard
-    dash_title: "Tablodbò Rezo Mapou",
-    dash_sub: "Enskripsyon an tan reyèl",
-    dash_sentinelles: "Santinèl Enskri",
-    dash_coaches: "Coach Aktif",
-    dash_depts: "Depatman",
-    dash_communes: "Komin",
-    dash_by_dept: "Pa Depatman",
-    dash_by_commune: "Pa Komin (Top 10)",
-    dash_refresh: "Aktyalize",
-    dash_loading: "Ap chaje done...",
-    dash_empty: "Pa gen done pou kounye a.",
-    dash_error: "Erè koneksyon.",
+    home: {
+      title:       "Rezo Mapou Nasyonal — Rasin Ayiti",
+      description: "Rezo sivil ayisyen ki konekte machann, pwofesè, anplwaye ak dyaspora nan yon sèl enfrastrikti konfyans.",
+      og_title:    "Rezo Mapou Nasyonal",
+      og_desc:     "Jwenn rezo a. Vin yon Rasin Mapou.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    register: {
+      title:       "Enskri — Rezo Mapou Nasyonal",
+      description: "Vin yon Rasin Mapou. Enskri gratis nan rezo sivil ayisyen an.",
+      og_title:    "Enskri nan Rezo Mapou",
+      og_desc:     "Konekte ak rezo a. Gratis pou tout moun.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    dashboard: {
+      title:       "Tablodbò — Rezo Mapou Nasyonal",
+      description: "Wè kwasans rezo a an tan reyèl — manm, depatman, komin.",
+      og_title:    "Tablodbò Rezo Mapou",
+      og_desc:     "Rezo a ap grandi chak jou.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    profile: {
+      title:       "Vitrine — Rezo Mapou Nasyonal",
+      description: "Vitrine pèsonèl ou nan Rezo Mapou Nasyonal.",
+      og_title:    "Vitrine Rezo Mapou",
+      og_desc:     "Wè pwofil manm nan rezo a.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    links: {
+      title:       "Lyen — Rezo Mapou Nasyonal",
+      description: "Jwenn lyen yon manm Rezo Mapou.",
+      og_title:    "Lyen Manm Rezo Mapou",
+      og_desc:     "Konekte ak manm sa a.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    directory: {
+      title:       "Anyè — Rezo Mapou Nasyonal",
+      description: "Chèche manm Rezo Mapou pa komin, aktivite oswa nivo konfyans.",
+      og_title:    "Anyè Rezo Mapou",
+      og_desc:     "Jwenn Rasin Mapou nan zòn ou.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    login: {
+      title:       "Konekte — Rezo Mapou Nasyonal",
+      description: "Konekte nan kont Rezo Mapou ou.",
+      og_title:    "Konekte — Rezo Mapou",
+      og_desc:     "Antre nan kont ou.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
   },
 
   fr: {
-    nav_home: "Accueil",
-    nav_program: "Programme",
-    nav_sentinelle: "Sentinelle",
-    nav_coach: "Coach",
-    nav_dashboard: "Tableau de bord",
-    nav_join: "S'inscrire",
-    stats_sentinelles: "Sentinelles",
-    stats_coaches: "Coachs",
-    stats_loading: "...",
-    hero_tag: "Réseau Marchand National · Haïti 2026",
-    hero_t1: "Vous êtes",
-    hero_t2: "Rezo Mapou.",
-    hero_t3: "Venez grandir avec nous.",
-    hero_lead: "Un réseau national qui soutient les marchands et entrepreneurs à travers Haïti — visibilité, connexions et soutien concret chaque mois.",
-    hero_cta_s: "S'inscrire comme Sentinelle",
-    hero_cta_c: "S'inscrire comme Coach",
-    hero_cta_more: "Comment ça marche",
-    map_eye: "Notre Symbole",
-    map_title: "Pourquoi Mapou?",
-    map_p1: "L'arbre Mapou est l'arbre le plus solide d'Haïti. Il ne grandit pas vite — il construit des racines profondes avant de s'élever. Les cyclones ne peuvent pas le déraciner.",
-    map_p2: "Les marchands sont les racines de l'économie haïtienne. Chaque marchand d'eau, chaque vendeur de nourriture — est une racine. Ensemble, nous formons un réseau impossible à déraciner.",
-    map_dis_title: "Une chose importante à dire clairement :",
-    map_dis1: "Rezo Mapou n'a aucune affiliation religieuse — ni catholique, ni protestante, ni vaudou. Le symbole du mapou est le patrimoine de tout le peuple haïtien.",
-    map_dis2: "Rezo Mapou n'a aucune affiliation politique — ni parti, ni candidat, ni gouvernement. Nous travaillons pour les marchands et les communautés.",
-    map_dis3: "Toute personne — quelle que soit sa religion ou politique — a sa place dans Rezo Mapou. Une seule condition : vouloir voir Haïti avancer.",
-    prog_eye: "Notre Programme",
-    prog_title: "Map Sipote Lakay",
-    prog_lead: "3 étapes simples. Un soutien réel chaque mois.",
-    step1_title: "S'inscrire — Gratuit",
-    step1_desc: "Créez votre profil Sentinelle. Gratuit. Inscriptions ouvertes jusqu'au 1er mai.",
-    step2_title: "Un Coach vous choisit",
-    step2_desc: "Les Coachs consultent votre profil et peuvent décider de vous soutenir en payant les frais d'inscription.",
-    step3_title: "Recevez un soutien mensuel",
-    step3_desc: "Chaque mois vous recevez un soutien — à condition de réaliser 3 activités du réseau.",
-    cond1_title: "① Poster sur Rezo Mapou",
-    cond1_desc: "Partager un post sur notre page pour parler de votre Coach et de vos activités.",
-    cond2_title: "② Activité Communautaire",
-    cond2_desc: "Participer à au moins une activité communautaire significative dans le mois.",
-    cond3_title: "③ Rapport Mensuel",
-    cond3_desc: "Remplir le rapport mensuel du réseau sur vos activités et votre zone.",
-    cta_eye: "Notre Appel",
-    cta_quote: "Que vous vendiez de l'eau, de la nourriture ou des légumes — vous soutenez l'économie. Rejoignez Rezo Mapou.",
-    cta_s: "S'inscrire comme Sentinelle — Gratuit",
-    cta_c: "S'inscrire comme Coach",
-    f_prenom: "Prénom", f_nom: "Nom", f_email: "Email",
-    f_phone: "Téléphone", f_phone_hint: "Votre numéro de téléphone",
-    f_whatsapp: "WhatsApp", f_whatsapp_hint: "Si différent de votre téléphone",
-    f_dept: "Département", f_dept_ph: "— Choisir un département —",
-    f_commune: "Commune", f_commune_ph: "— Choisir une commune —",
-    f_zone: "Zone / Quartier", f_zone_hint: "Où exactement vous travaillez",
-    f_message: "Message (optionnel)",
-    f_consent: "J'accepte les Conditions et la Politique de Confidentialité de Rezo Mapou.",
-    f_submit_s: "S'inscrire comme Sentinelle — Gratuit",
-    f_submit_c: "S'inscrire comme Coach",
-    s_title: "S'inscrire comme Sentinelle",
-    s_sub: "Gratuit. Une minute. Vous pourrez inviter un Coach plus tard.",
-    s_sec1: "Informations Personnelles", s_sec2: "Localisation",
-    s_sec3: "Activité & Réseaux Sociaux", s_sec4: "Préférences",
-    f_activite: "Type d'activité", f_activite_hint: "Ex: Marchand d'eau, boutique, coiffeur...",
-    f_video: "Lien vidéo (optionnel)", f_video_hint: "YouTube ou TikTok — présentez-vous",
-    f_payment: "Méthode de paiement préférée",
-    f_payment_hint: "Comment voulez-vous recevoir votre soutien mensuel ?",
-    pay_moncash: "MonCash", pay_natcash: "NatCash", pay_cash: "Espèces",
-    pay_virement: "Virement Bancaire", pay_autre: "Autre",
-    self_note: "💡 Vous voulez vous auto-soutenir ? Inscrivez-vous aussi comme Coach. Le soutien mensuel sera moindre, mais vous bénéficiez de toute la visibilité du réseau.",
-    c_title: "S'inscrire comme Coach",
-    c_sub: "Votre profil sera visible. Vous choisissez quelle Sentinelle soutenir.",
-    c_sec1: "Informations Personnelles", c_sec2: "Profil Coach",
-    c_sec3: "Réseaux Sociaux", c_sec4: "Motivation",
-    f_location: "Vous êtes basé où ?",
-    loc_haiti: "En Haïti", loc_diaspora: "Diaspora",
-    f_org: "Organisation / Entreprise", f_org_hint: "Optionnel — si vous représentez une institution",
-    f_logo: "Lien Logo / Photo de profil", f_logo_hint: "Optionnel — Facebook, Google Drive...",
-    f_website: "Site Web", f_website_hint: "Optionnel",
-    f_message_c: "Pourquoi voulez-vous être Coach ?", f_message_c_hint: "Optionnel — dites-nous votre motivation",
-    suc_s_title: "Merci — vous êtes dans le réseau !",
-    suc_s_msg: "Nous vous contacterons bientôt. Rasin fò, pyebwa leve.",
-    suc_s_share: "Partagez le lien sur vos réseaux. Si vous connaissez un Coach potentiel, invitez-le à s'inscrire.",
-    suc_c_title: "Merci Coach — bienvenu !",
-    suc_c_msg: "Votre profil sera visible sur le site. Nous vous contacterons pour les prochaines étapes.",
-    foot_tagline: "Réseau Marchand National · Haïti",
-    foot_motto: "Rasin fò, pyebwa leve.",
-    foot_nav: "Navigation", foot_legal: "Légal",
-    lnk_privacy: "Confidentialité", lnk_terms: "Conditions", lnk_copyright: "Droits d'auteur",
-    dash_title: "Tableau de Bord Rezo Mapou",
-    dash_sub: "Inscriptions en temps réel",
-    dash_sentinelles: "Sentinelles Inscrites", dash_coaches: "Coachs Actifs",
-    dash_depts: "Départements", dash_communes: "Communes",
-    dash_by_dept: "Par Département", dash_by_commune: "Par Commune (Top 10)",
-    dash_refresh: "Actualiser", dash_loading: "Chargement...",
-    dash_empty: "Pas de données pour le moment.", dash_error: "Erreur de connexion.",
+    home: {
+      title:       "Rezo Mapou Nasyonal — Les Racines d'Haïti",
+      description: "Réseau civique haïtien connectant marchands, enseignants, employés et diaspora en une seule infrastructure de confiance.",
+      og_title:    "Rezo Mapou Nasyonal",
+      og_desc:     "Rejoignez le réseau. Devenez une Racine Mapou.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    register: {
+      title:       "S'inscrire — Rezo Mapou Nasyonal",
+      description: "Devenez une Racine Mapou. Inscription gratuite au réseau civique haïtien.",
+      og_title:    "Rejoindre Rezo Mapou",
+      og_desc:     "Gratuit pour tous.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    dashboard: {
+      title:       "Tableau de bord — Rezo Mapou Nasyonal",
+      description: "Suivez la croissance du réseau en temps réel — membres, départements, communes.",
+      og_title:    "Tableau de bord Rezo Mapou",
+      og_desc:     "Le réseau grandit chaque jour.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    profile: {
+      title:       "Vitrine — Rezo Mapou Nasyonal",
+      description: "Votre vitrine personnelle sur Rezo Mapou Nasyonal.",
+      og_title:    "Vitrine Rezo Mapou",
+      og_desc:     "Consultez le profil d'un membre du réseau.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    links: {
+      title:       "Liens — Rezo Mapou Nasyonal",
+      description: "Accédez aux liens d'un membre Rezo Mapou.",
+      og_title:    "Liens Membre Rezo Mapou",
+      og_desc:     "Connectez-vous avec ce membre.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    directory: {
+      title:       "Annuaire — Rezo Mapou Nasyonal",
+      description: "Recherchez des membres Rezo Mapou par commune, activité ou niveau de confiance.",
+      og_title:    "Annuaire Rezo Mapou",
+      og_desc:     "Trouvez une Racine Mapou près de chez vous.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    login: {
+      title:       "Connexion — Rezo Mapou Nasyonal",
+      description: "Connectez-vous à votre compte Rezo Mapou.",
+      og_title:    "Connexion — Rezo Mapou",
+      og_desc:     "Accédez à votre compte.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
   },
 
   en: {
-    nav_home: "Home", nav_program: "Program", nav_sentinelle: "Sentinel",
-    nav_coach: "Coach", nav_dashboard: "Dashboard", nav_join: "Register",
-    stats_sentinelles: "Sentinels", stats_coaches: "Coaches", stats_loading: "...",
-    hero_tag: "National Merchant Network · Haiti 2026",
-    hero_t1: "You are", hero_t2: "Rezo Mapou.", hero_t3: "Come grow with us.",
-    hero_lead: "A national network supporting merchants and entrepreneurs across Haiti — visibility, connections, and concrete monthly support.",
-    hero_cta_s: "Register as Sentinel", hero_cta_c: "Register as Coach", hero_cta_more: "How It Works",
-    map_eye: "Our Symbol", map_title: "Why Mapou?",
-    map_p1: "The Mapou tree is Haiti's most resilient tree. It doesn't grow fast — it builds deep roots before rising. Hurricanes cannot uproot it.",
-    map_p2: "Merchants are the roots of the Haitian economy. Every water vendor, every food seller — is a root. Together, we form a network that cannot be uprooted.",
-    map_dis_title: "One thing important to state clearly:",
-    map_dis1: "Rezo Mapou has no religious affiliation — neither Catholic, Protestant, Vodou, nor any other belief. The mapou symbol belongs to all Haitian people.",
-    map_dis2: "Rezo Mapou has no political affiliation — no party, no candidate, no government. We work for merchants and communities only.",
-    map_dis3: "Anyone — regardless of religion or politics — has a place in Rezo Mapou. One condition: wanting Haiti to move forward.",
-    prog_eye: "Our Program", prog_title: "Map Sipote Lakay", prog_lead: "3 simple steps. Real support every month.",
-    step1_title: "Register — Free", step1_desc: "Create your Sentinel profile. Free. Open until May 1st.",
-    step2_title: "A Coach Chooses You", step2_desc: "Coaches browse profiles and can decide to support you by paying your enrollment fee.",
-    step3_title: "Receive Monthly Support", step3_desc: "Each month you receive support — provided you complete 3 network activities.",
-    cond1_title: "① Post on Rezo Mapou", cond1_desc: "Share a post on our page about your Coach and activities.",
-    cond2_title: "② Community Activity", cond2_desc: "Participate in at least one meaningful community activity per month.",
-    cond3_title: "③ Monthly Report", cond3_desc: "Complete the monthly network report on your activities and area.",
-    cta_eye: "Our Call",
-    cta_quote: "Whether you sell water, food, or vegetables — you hold up the economy. Join Rezo Mapou.",
-    cta_s: "Register as Sentinel — Free", cta_c: "Register as Coach",
-    f_prenom: "First Name", f_nom: "Last Name", f_email: "Email",
-    f_phone: "Phone", f_phone_hint: "Your phone number",
-    f_whatsapp: "WhatsApp", f_whatsapp_hint: "If different from your phone",
-    f_dept: "Department", f_dept_ph: "— Choose a department —",
-    f_commune: "Commune", f_commune_ph: "— Choose a commune —",
-    f_zone: "Zone / Neighborhood", f_zone_hint: "Where exactly you work",
-    f_message: "Message (optional)",
-    f_consent: "I accept Rezo Mapou's Terms and Privacy Policy.",
-    f_submit_s: "Register as Sentinel — Free", f_submit_c: "Register as Coach",
-    s_title: "Register as a Sentinel", s_sub: "Free. One minute. You can invite a Coach later.",
-    s_sec1: "Personal Information", s_sec2: "Location",
-    s_sec3: "Activity & Social Media", s_sec4: "Preferences",
-    f_activite: "Activity type", f_activite_hint: "E.g.: Water vendor, shop, hairdresser...",
-    f_video: "Video link (optional)", f_video_hint: "YouTube or TikTok — introduce yourself",
-    f_payment: "Preferred payment method", f_payment_hint: "How do you want to receive your monthly support?",
-    pay_moncash: "MonCash", pay_natcash: "NatCash", pay_cash: "Cash",
-    pay_virement: "Bank Transfer", pay_autre: "Other",
-    self_note: "💡 Want to self-support? Register as a Coach for your own profile. Monthly support will be less, but you get full network visibility.",
-    c_title: "Register as a Coach", c_sub: "Your profile will be visible. You choose which Sentinel to support.",
-    c_sec1: "Personal Information", c_sec2: "Coach Profile",
-    c_sec3: "Social Media", c_sec4: "Motivation",
-    f_location: "Where are you based?", loc_haiti: "In Haiti", loc_diaspora: "Diaspora",
-    f_org: "Organization / Business", f_org_hint: "Optional — if you represent an institution",
-    f_logo: "Logo / Profile photo link", f_logo_hint: "Optional — Facebook, Google Drive...",
-    f_website: "Website", f_website_hint: "Optional",
-    f_message_c: "Why do you want to be a Coach?", f_message_c_hint: "Optional — tell us your motivation",
-    suc_s_title: "Thank you — you're in the network!",
-    suc_s_msg: "We'll be in touch soon. Rasin fò, pyebwa leve.",
-    suc_s_share: "Share the registration link on your social media. If you know a potential Coach, invite them.",
-    suc_c_title: "Thank you Coach — welcome!",
-    suc_c_msg: "Your profile will be visible on the site. We'll contact you for next steps.",
-    foot_tagline: "National Merchant Network · Haiti",
-    foot_motto: "Rasin fò, pyebwa leve.",
-    foot_nav: "Navigation", foot_legal: "Legal",
-    lnk_privacy: "Privacy", lnk_terms: "Terms", lnk_copyright: "Copyright",
-    dash_title: "Rezo Mapou Dashboard",
-    dash_sub: "Real-time registrations",
-    dash_sentinelles: "Registered Sentinels", dash_coaches: "Active Coaches",
-    dash_depts: "Departments", dash_communes: "Communes",
-    dash_by_dept: "By Department", dash_by_commune: "By Commune (Top 10)",
-    dash_refresh: "Refresh", dash_loading: "Loading...",
-    dash_empty: "No data yet.", dash_error: "Connection error.",
+    home: {
+      title:       "Rezo Mapou Nasyonal — The Roots of Haiti",
+      description: "Haitian civic network connecting merchants, teachers, employees and diaspora into one trust infrastructure.",
+      og_title:    "Rezo Mapou Nasyonal",
+      og_desc:     "Join the network. Become a Mapou Root.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    register: {
+      title:       "Register — Rezo Mapou Nasyonal",
+      description: "Become a Rasin Mapou. Free registration in the Haitian civic network.",
+      og_title:    "Join Rezo Mapou",
+      og_desc:     "Free for everyone.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    dashboard: {
+      title:       "Dashboard — Rezo Mapou Nasyonal",
+      description: "Watch the network grow in real time — members, departments, communes.",
+      og_title:    "Rezo Mapou Dashboard",
+      og_desc:     "The network grows every day.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    profile: {
+      title:       "Vitrine — Rezo Mapou Nasyonal",
+      description: "Your personal Vitrine on Rezo Mapou Nasyonal.",
+      og_title:    "Rezo Mapou Vitrine",
+      og_desc:     "View a network member's profile.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    links: {
+      title:       "Links — Rezo Mapou Nasyonal",
+      description: "Access a Rezo Mapou member's links.",
+      og_title:    "Rezo Mapou Member Links",
+      og_desc:     "Connect with this member.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    directory: {
+      title:       "Directory — Rezo Mapou Nasyonal",
+      description: "Search Rezo Mapou members by commune, activity, or trust level.",
+      og_title:    "Rezo Mapou Directory",
+      og_desc:     "Find a Rasin Mapou near you.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+    login: {
+      title:       "Login — Rezo Mapou Nasyonal",
+      description: "Log in to your Rezo Mapou account.",
+      og_title:    "Login — Rezo Mapou",
+      og_desc:     "Access your account.",
+      og_image:    "https://rezomapou.github.io/webapp/og_image.png",
+    },
+  },
+};
+
+// ── UI STRINGS ────────────────────────────────────────────────────────────
+// All labels, buttons, placeholders, and messages.
+// Reference by STRINGS[lang].key — never hard-code in HTML.
+
+const STRINGS = {
+  ht: {
+    // Site identity
+    site_name:        "Rezo Mapou Nasyonal",
+    site_tagline:     "Rasin Ayiti",
+    site_abbr:        "RMN",
+
+    // Navigation
+    nav_home:         "Akèy",
+    nav_register:     "Enskri",
+    nav_login:        "Konekte",
+    nav_dashboard:    "Tablodbò",
+    nav_directory:    "Anyè",
+    nav_profile:      "Vitrine mwen",
+    nav_logout:       "Dekonekte",
+
+    // Trust levels
+    level_0:          "Rasin",
+    level_1:          "Verifye",
+    level_2:          "Rekonèt",
+    level_coach:      "Coach",
+
+    // Visibility labels
+    vis_public:       "Piblik",
+    vis_members:      "Rezo sèlman",
+    vis_trust:        "Sèk Konfyans",
+    vis_private:      "Prive",
+
+    // Registration form
+    reg_title:        "Vin yon Rasin Mapou",
+    reg_subtitle:     "Enskri gratis. Pa gen pèmisyon espesyal.",
+    f_firstname:      "Prenon",
+    f_lastname:       "Siyati",
+    f_phone:          "Nimewo telefòn",
+    f_phone_ph:       "+509 3701 2345",
+    f_phone_hint:     "Nimewo entènasyonal — pa gen doub",
+    f_phone_exists:   "Nimewo sa a deja enskri.",
+    f_phone_ok:       "✓ Nimewo disponib",
+    f_phone_invalid:  "Nimewo pa valid. Itilize fòma entènasyonal.",
+    f_email:          "Imèl",
+    f_email_ph:       "ou@ekzanp.com",
+    f_email_hint:     "Pou verifye kont ou",
+    f_country:        "Peyi",
+    f_country_ph:     "— Chwazi peyi ou —",
+    f_dept:           "Depatman",
+    f_dept_ph:        "— Chwazi depatman —",
+    f_commune:        "Komin",
+    f_commune_ph:     "— Chwazi komin —",
+    f_city:           "Vil",
+    f_city_ph:        "Miami, New York, Montréal...",
+    f_state:          "Eta / Pwovens",
+    f_state_ph:       "Florida, Quebec...",
+    f_lang:           "Lang prefere",
+    f_submit:         "Enskri kounye a",
+    f_submitting:     "Ap voye...",
+    f_success:        "Enskripsyon fèt! Verifye imèl ou.",
+    f_error:          "Yon erè te fèt. Eseye ankò.",
+    f_required:       "Chan obligatwa",
+
+    // Login
+    login_title:      "Konekte nan kont ou",
+    login_subtitle:   "Nou pral voye yon lyen nan imèl ou.",
+    login_ph:         "Telefòn oswa imèl",
+    login_btn:        "Voye lyen koneksyon",
+    login_sent:       "Lyen voye! Verifye imèl ou.",
+    login_not_found:  "Kont pa jwenn.",
+
+    // Verify
+    verify_title:     "Ap verifye kont ou...",
+    verify_success:   "Kont verifye! Ou ka konekte kounye a.",
+    verify_expired:   "Lyen ekspire. Mande yon nouvo lyen.",
+    verify_invalid:   "Lyen pa valid.",
+    verify_redirecting: "Redireksyon nan Vitrine ou...",
+
+    // Dashboard
+    dash_title:       "Tablodbò Rezo Mapou",
+    dash_subtitle:    "Enskripsyon an tan reyèl",
+    dash_members:     "Rasin Enskri",
+    dash_coaches:     "Coach Aktif",
+    dash_depts:       "Depatman",
+    dash_communes:    "Komin",
+    dash_by_dept:     "Pa Depatman",
+    dash_by_commune:  "Pa Komin — Top 10",
+    dash_refresh:     "⟳ Aktyalize",
+    dash_updated:     "Dènye aktyalizasyon",
+    dash_loading:     "Ap chaje done...",
+    dash_error:       "Erè koneksyon. Tanpri rafrechi.",
+    dash_no_data:     "Pa gen done pou kounye a.",
+
+    // Vitrine / profile
+    vitrine_title:    "Vitrine mwen",
+    vitrine_edit:     "Modifye",
+    vitrine_save:     "Sove",
+    vitrine_cancel:   "Anile",
+    vitrine_links:    "Lyen mwen",
+    vitrine_vwa:      "Vwa mwen",
+    vitrine_score:    "Skor RMN",
+    vitrine_reach:    "Pòte rezo",
+    vitrine_level:    "Nivo",
+    vitrine_since:    "Manm depi",
+    vitrine_coach:    "Coach",
+    vitrine_add_link: "+ Ajoute yon lyen",
+    vitrine_add_vwa:  "+ Ajoute yon Vwa",
+    vitrine_visibility: "Visibilite Vitrine",
+    vitrine_score_public: "Montre skor piblikman",
+
+    // Links page
+    links_contact:    "Kontakte mwen",
+    links_pending:    "Annatant...",
+    links_message:    "Voye mesaj",
+    links_connect:    "Konekte pou kontakte manm sa a.",
+    links_register:   "Enskri nan Rezo Mapou",
+    links_login_cta:  "Konekte",
+
+    // 5-Leaf system
+    leaf_we_li:       "Wè li",
+    leaf_apresye:     "Apresye",
+    leaf_konekte:     "Konekte",
+    leaf_enspire:     "Enspire",
+    leaf_angaje:      "Angaje",
+    leaf_we_li_tip:   "Mwen te wè sa",
+    leaf_apresye_tip: "Sa gen valè pou mwen",
+    leaf_konekte_tip: "Sa pale ak eksperyans mwen",
+    leaf_enspire_tip: "Sa chanje fason mwen panse",
+    leaf_angaje_tip:  "Mwen pral aji akòz sa",
+
+    // Validation
+    val_trusted:      "Mwen fè li konfyans",
+    val_active:       "Mwen wè li aktif",
+    val_reliable:     "Li fiab — li livre",
+    val_give:         "Valide manm sa a",
+    val_revoke:       "Retire validasyon",
+    val_count:        "Validasyon resevwa",
+
+    // Coaching
+    coach_request:    "Mande coaching",
+    coach_offer:      "Ofri coaching",
+    coach_accept:     "Aksepte",
+    coach_decline:    "Refize",
+    coach_pending:    "Annatant",
+    coach_active:     "Coaching aktif",
+    coach_expires:    "Ekspire",
+
+    // Invites
+    invite_targeted:  "Envite yon moun",
+    invite_open:      "Jenere lyen envitasyon",
+    invite_phone_ph:  "Nimewo moun ou vle envite",
+    invite_send:      "Voye envitasyon",
+    invite_copy:      "Kopye lyen",
+    invite_copied:    "Kopye!",
+
+    // Ad tiers — names in strings, not config
+    ad_l1_name:       "Koulè",
+    ad_l2_name:       "Ajan",
+    ad_l3_int_name:   "Lò",
+    ad_l3_ext_name:   "Platèn",
+    ad_shared_name:   "Pataje",
+    ad_dedicated_name:"Dedye",
+    ad_message_ph:    "Mesaj ou (maks 80 karaktè)",
+    ad_points:        "Pwen",
+    ad_activate:      "Aktive",
+    ad_deactivate:    "Dezaktive",
+    ad_add_points:    "Ajoute pwen",
+
+    // Platforms
+    plt_whatsapp:     "WhatsApp",
+    plt_facebook:     "Facebook",
+    plt_tiktok:       "TikTok",
+    plt_instagram:    "Instagram",
+    plt_youtube:      "YouTube",
+    plt_linkedin:     "LinkedIn",
+    plt_moncash:      "MonCash",
+    plt_natcash:      "NatCash",
+    plt_website:      "Sit entènèt",
+    plt_other:        "Lòt lyen",
+
+    // General UI
+    btn_back:         "← Retounen",
+    btn_close:        "Fèmen",
+    btn_confirm:      "Konfime",
+    btn_loading:      "Ap chaje...",
+    lbl_or:           "oswa",
+    lbl_optional:     "opsyonèl",
+    lbl_required:     "*",
+    lbl_new:          "Nouvo",
+    lbl_verified:     "✓ Verifye",
+    lbl_unverified:   "Pa verifye",
+
+    // Legal footer
+    legal_terms:      "Tèm Itilizasyon",
+    legal_privacy:    "Konfidansyalite",
+    legal_copyright:  "Dwa Otè",
+    legal_rights:     "© 2026 Rezo Mapou Nasyonal. Tout dwa rezève.",
+  },
+
+  fr: {
+    site_name:        "Rezo Mapou Nasyonal",
+    site_tagline:     "Les Racines d'Haïti",
+    site_abbr:        "RMN",
+
+    nav_home:         "Accueil",
+    nav_register:     "S'inscrire",
+    nav_login:        "Connexion",
+    nav_dashboard:    "Tableau de bord",
+    nav_directory:    "Annuaire",
+    nav_profile:      "Ma Vitrine",
+    nav_logout:       "Déconnexion",
+
+    level_0:          "Rasin",
+    level_1:          "Vérifié(e)",
+    level_2:          "Reconnu(e)",
+    level_coach:      "Coach",
+
+    vis_public:       "Public",
+    vis_members:      "Membres seulement",
+    vis_trust:        "Cercle de confiance",
+    vis_private:      "Privé",
+
+    reg_title:        "Devenez une Racine Mapou",
+    reg_subtitle:     "Inscription gratuite. Ouverte à tous.",
+    f_firstname:      "Prénom",
+    f_lastname:       "Nom de famille",
+    f_phone:          "Numéro de téléphone",
+    f_phone_ph:       "+509 3701 2345",
+    f_phone_hint:     "Format international — unique par membre",
+    f_phone_exists:   "Ce numéro est déjà enregistré.",
+    f_phone_ok:       "✓ Numéro disponible",
+    f_phone_invalid:  "Numéro invalide. Utilisez le format international.",
+    f_email:          "Adresse email",
+    f_email_ph:       "vous@exemple.com",
+    f_email_hint:     "Pour vérifier votre compte",
+    f_country:        "Pays",
+    f_country_ph:     "— Choisissez votre pays —",
+    f_dept:           "Département",
+    f_dept_ph:        "— Choisissez un département —",
+    f_commune:        "Commune",
+    f_commune_ph:     "— Choisissez une commune —",
+    f_city:           "Ville",
+    f_city_ph:        "Miami, New York, Montréal...",
+    f_state:          "État / Province",
+    f_state_ph:       "Florida, Québec...",
+    f_lang:           "Langue préférée",
+    f_submit:         "S'inscrire maintenant",
+    f_submitting:     "Envoi en cours...",
+    f_success:        "Inscription réussie ! Vérifiez votre email.",
+    f_error:          "Une erreur est survenue. Réessayez.",
+    f_required:       "Champ obligatoire",
+
+    login_title:      "Connexion à votre compte",
+    login_subtitle:   "Nous enverrons un lien à votre email.",
+    login_ph:         "Téléphone ou email",
+    login_btn:        "Envoyer le lien de connexion",
+    login_sent:       "Lien envoyé ! Vérifiez votre email.",
+    login_not_found:  "Compte introuvable.",
+
+    verify_title:     "Vérification de votre compte...",
+    verify_success:   "Compte vérifié ! Vous pouvez vous connecter.",
+    verify_expired:   "Lien expiré. Demandez un nouveau lien.",
+    verify_invalid:   "Lien invalide.",
+    verify_redirecting: "Redirection vers votre Vitrine...",
+
+    dash_title:       "Tableau de bord Rezo Mapou",
+    dash_subtitle:    "Inscriptions en temps réel",
+    dash_members:     "Racines inscrites",
+    dash_coaches:     "Coaches actifs",
+    dash_depts:       "Départements",
+    dash_communes:    "Communes",
+    dash_by_dept:     "Par Département",
+    dash_by_commune:  "Par Commune — Top 10",
+    dash_refresh:     "⟳ Actualiser",
+    dash_updated:     "Dernière mise à jour",
+    dash_loading:     "Chargement des données...",
+    dash_error:       "Erreur de connexion. Veuillez rafraîchir.",
+    dash_no_data:     "Aucune donnée pour le moment.",
+
+    vitrine_title:    "Ma Vitrine",
+    vitrine_edit:     "Modifier",
+    vitrine_save:     "Enregistrer",
+    vitrine_cancel:   "Annuler",
+    vitrine_links:    "Mes liens",
+    vitrine_vwa:      "Mes Vwa",
+    vitrine_score:    "Score RMN",
+    vitrine_reach:    "Portée réseau",
+    vitrine_level:    "Niveau",
+    vitrine_since:    "Membre depuis",
+    vitrine_coach:    "Coach",
+    vitrine_add_link: "+ Ajouter un lien",
+    vitrine_add_vwa:  "+ Ajouter un Vwa",
+    vitrine_visibility: "Visibilité de la Vitrine",
+    vitrine_score_public: "Afficher le score publiquement",
+
+    links_contact:    "Me contacter",
+    links_pending:    "En attente...",
+    links_message:    "Envoyer un message",
+    links_connect:    "Connectez-vous pour contacter ce membre.",
+    links_register:   "Rejoindre Rezo Mapou",
+    links_login_cta:  "Se connecter",
+
+    leaf_we_li:       "Vu",
+    leaf_apresye:     "Apprécié",
+    leaf_konekte:     "Connecté",
+    leaf_enspire:     "Inspiré",
+    leaf_angaje:      "Engagé",
+    leaf_we_li_tip:   "J'ai remarqué ceci",
+    leaf_apresye_tip: "Cela a de la valeur pour moi",
+    leaf_konekte_tip: "Cela parle à mon expérience",
+    leaf_enspire_tip: "Cela change ma façon de penser",
+    leaf_angaje_tip:  "Je vais agir grâce à ceci",
+
+    val_trusted:      "Je lui fais confiance",
+    val_active:       "Je l'ai vu(e) actif/active",
+    val_reliable:     "Fiable — a livré",
+    val_give:         "Valider ce membre",
+    val_revoke:       "Retirer la validation",
+    val_count:        "Validations reçues",
+
+    coach_request:    "Demander un coaching",
+    coach_offer:      "Proposer un coaching",
+    coach_accept:     "Accepter",
+    coach_decline:    "Refuser",
+    coach_pending:    "En attente",
+    coach_active:     "Coaching actif",
+    coach_expires:    "Expire le",
+
+    invite_targeted:  "Inviter quelqu'un",
+    invite_open:      "Générer un lien d'invitation",
+    invite_phone_ph:  "Numéro de la personne à inviter",
+    invite_send:      "Envoyer l'invitation",
+    invite_copy:      "Copier le lien",
+    invite_copied:    "Copié !",
+
+    ad_l1_name:       "Clair",
+    ad_l2_name:       "Argent",
+    ad_l3_int_name:   "Or",
+    ad_l3_ext_name:   "Platine",
+    ad_shared_name:   "Partagé",
+    ad_dedicated_name:"Dédié",
+    ad_message_ph:    "Votre message (max 80 caractères)",
+    ad_points:        "Points",
+    ad_activate:      "Activer",
+    ad_deactivate:    "Désactiver",
+    ad_add_points:    "Ajouter des points",
+
+    plt_whatsapp:     "WhatsApp",
+    plt_facebook:     "Facebook",
+    plt_tiktok:       "TikTok",
+    plt_instagram:    "Instagram",
+    plt_youtube:      "YouTube",
+    plt_linkedin:     "LinkedIn",
+    plt_moncash:      "MonCash",
+    plt_natcash:      "NatCash",
+    plt_website:      "Site web",
+    plt_other:        "Autre lien",
+
+    btn_back:         "← Retour",
+    btn_close:        "Fermer",
+    btn_confirm:      "Confirmer",
+    btn_loading:      "Chargement...",
+    lbl_or:           "ou",
+    lbl_optional:     "optionnel",
+    lbl_required:     "*",
+    lbl_new:          "Nouveau",
+    lbl_verified:     "✓ Vérifié(e)",
+    lbl_unverified:   "Non vérifié(e)",
+
+    legal_terms:      "Conditions d'utilisation",
+    legal_privacy:    "Confidentialité",
+    legal_copyright:  "Droits d'auteur",
+    legal_rights:     "© 2026 Rezo Mapou Nasyonal. Tous droits réservés.",
+  },
+
+  en: {
+    site_name:        "Rezo Mapou Nasyonal",
+    site_tagline:     "The Roots of Haiti",
+    site_abbr:        "RMN",
+
+    nav_home:         "Home",
+    nav_register:     "Register",
+    nav_login:        "Login",
+    nav_dashboard:    "Dashboard",
+    nav_directory:    "Directory",
+    nav_profile:      "My Vitrine",
+    nav_logout:       "Log out",
+
+    level_0:          "Rasin",
+    level_1:          "Verified",
+    level_2:          "Recognized",
+    level_coach:      "Coach",
+
+    vis_public:       "Public",
+    vis_members:      "Members only",
+    vis_trust:        "Trust Circle",
+    vis_private:      "Private",
+
+    reg_title:        "Become a Rasin Mapou",
+    reg_subtitle:     "Free registration. Open to everyone.",
+    f_firstname:      "First name",
+    f_lastname:       "Last name",
+    f_phone:          "Phone number",
+    f_phone_ph:       "+509 3701 2345",
+    f_phone_hint:     "International format — unique per member",
+    f_phone_exists:   "This number is already registered.",
+    f_phone_ok:       "✓ Number available",
+    f_phone_invalid:  "Invalid number. Use international format.",
+    f_email:          "Email address",
+    f_email_ph:       "you@example.com",
+    f_email_hint:     "To verify your account",
+    f_country:        "Country",
+    f_country_ph:     "— Choose your country —",
+    f_dept:           "Department",
+    f_dept_ph:        "— Choose a department —",
+    f_commune:        "Commune",
+    f_commune_ph:     "— Choose a commune —",
+    f_city:           "City",
+    f_city_ph:        "Miami, New York, Montreal...",
+    f_state:          "State / Province",
+    f_state_ph:       "Florida, Quebec...",
+    f_lang:           "Preferred language",
+    f_submit:         "Register now",
+    f_submitting:     "Submitting...",
+    f_success:        "Registration successful! Check your email.",
+    f_error:          "An error occurred. Please try again.",
+    f_required:       "Required field",
+
+    login_title:      "Log in to your account",
+    login_subtitle:   "We will send a link to your email.",
+    login_ph:         "Phone or email",
+    login_btn:        "Send login link",
+    login_sent:       "Link sent! Check your email.",
+    login_not_found:  "Account not found.",
+
+    verify_title:     "Verifying your account...",
+    verify_success:   "Account verified! You can now log in.",
+    verify_expired:   "Link expired. Request a new one.",
+    verify_invalid:   "Invalid link.",
+    verify_redirecting: "Redirecting to your Vitrine...",
+
+    dash_title:       "Rezo Mapou Dashboard",
+    dash_subtitle:    "Live registrations",
+    dash_members:     "Roots Registered",
+    dash_coaches:     "Active Coaches",
+    dash_depts:       "Departments",
+    dash_communes:    "Communes",
+    dash_by_dept:     "By Department",
+    dash_by_commune:  "By Commune — Top 10",
+    dash_refresh:     "⟳ Refresh",
+    dash_updated:     "Last updated",
+    dash_loading:     "Loading data...",
+    dash_error:       "Connection error. Please refresh.",
+    dash_no_data:     "No data yet.",
+
+    vitrine_title:    "My Vitrine",
+    vitrine_edit:     "Edit",
+    vitrine_save:     "Save",
+    vitrine_cancel:   "Cancel",
+    vitrine_links:    "My links",
+    vitrine_vwa:      "My Vwa",
+    vitrine_score:    "RMN Score",
+    vitrine_reach:    "Network reach",
+    vitrine_level:    "Level",
+    vitrine_since:    "Member since",
+    vitrine_coach:    "Coach",
+    vitrine_add_link: "+ Add a link",
+    vitrine_add_vwa:  "+ Add a Vwa",
+    vitrine_visibility: "Vitrine visibility",
+    vitrine_score_public: "Show score publicly",
+
+    links_contact:    "Contact me",
+    links_pending:    "Pending...",
+    links_message:    "Send message",
+    links_connect:    "Log in to contact this member.",
+    links_register:   "Join Rezo Mapou",
+    links_login_cta:  "Log in",
+
+    leaf_we_li:       "Seen",
+    leaf_apresye:     "Appreciated",
+    leaf_konekte:     "Connected",
+    leaf_enspire:     "Inspired",
+    leaf_angaje:      "Engaged",
+    leaf_we_li_tip:   "I noticed this",
+    leaf_apresye_tip: "This has value to me",
+    leaf_konekte_tip: "This speaks to my experience",
+    leaf_enspire_tip: "This changed how I think",
+    leaf_angaje_tip:  "I am taking action because of this",
+
+    val_trusted:      "I trust this person",
+    val_active:       "I have seen them active",
+    val_reliable:     "Reliable — delivered",
+    val_give:         "Validate this member",
+    val_revoke:       "Remove validation",
+    val_count:        "Validations received",
+
+    coach_request:    "Request coaching",
+    coach_offer:      "Offer coaching",
+    coach_accept:     "Accept",
+    coach_decline:    "Decline",
+    coach_pending:    "Pending",
+    coach_active:     "Coaching active",
+    coach_expires:    "Expires",
+
+    invite_targeted:  "Invite someone",
+    invite_open:      "Generate invite link",
+    invite_phone_ph:  "Phone number of person to invite",
+    invite_send:      "Send invitation",
+    invite_copy:      "Copy link",
+    invite_copied:    "Copied!",
+
+    ad_l1_name:       "Clear",
+    ad_l2_name:       "Silver",
+    ad_l3_int_name:   "Gold",
+    ad_l3_ext_name:   "Platinum",
+    ad_shared_name:   "Shared",
+    ad_dedicated_name:"Dedicated",
+    ad_message_ph:    "Your message (max 80 characters)",
+    ad_points:        "Points",
+    ad_activate:      "Activate",
+    ad_deactivate:    "Deactivate",
+    ad_add_points:    "Add points",
+
+    plt_whatsapp:     "WhatsApp",
+    plt_facebook:     "Facebook",
+    plt_tiktok:       "TikTok",
+    plt_instagram:    "Instagram",
+    plt_youtube:      "YouTube",
+    plt_linkedin:     "LinkedIn",
+    plt_moncash:      "MonCash",
+    plt_natcash:      "NatCash",
+    plt_website:      "Website",
+    plt_other:        "Other link",
+
+    btn_back:         "← Back",
+    btn_close:        "Close",
+    btn_confirm:      "Confirm",
+    btn_loading:      "Loading...",
+    lbl_or:           "or",
+    lbl_optional:     "optional",
+    lbl_required:     "*",
+    lbl_new:          "New",
+    lbl_verified:     "✓ Verified",
+    lbl_unverified:   "Unverified",
+
+    legal_terms:      "Terms of Use",
+    legal_privacy:    "Privacy Policy",
+    legal_copyright:  "Copyright",
+    legal_rights:     "© 2026 Rezo Mapou Nasyonal. All rights reserved.",
+  },
+};
+
+// ── LANGUAGE UTILITIES ────────────────────────────────────────────────────
+
+/**
+ * Returns the current language from localStorage, defaulting to config default.
+ */
+function getCurrentLang() {
+  return localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY)
+    || RMN_CONFIG.DEFAULT_LANG;
+}
+
+/**
+ * Applies language to all [data-s] elements, updates SEO tags,
+ * updates <html lang> attribute, and marks active language button.
+ * Call on every page load and on language switch.
+ */
+function L(lang, pageKey) {
+  lang = lang || getCurrentLang();
+  pageKey = pageKey || 'home';
+
+  // Persist to localStorage
+  localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY, lang);
+
+  const t  = STRINGS[lang]  || STRINGS[RMN_CONFIG.DEFAULT_LANG];
+  const s  = SEO[lang]      || SEO[RMN_CONFIG.DEFAULT_LANG];
+  const pg = s[pageKey]     || s.home;
+
+  // Update all [data-s] elements
+  document.querySelectorAll('[data-s]').forEach(el => {
+    const key = el.getAttribute('data-s');
+    if (t[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+    }
+  });
+
+  // Update [data-ph] placeholders separately
+  document.querySelectorAll('[data-ph]').forEach(el => {
+    const key = el.getAttribute('data-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+
+  // Update SEO tags
+  document.title = pg.title;
+  _setMeta('description', pg.description);
+  _setMeta('og:title',    pg.og_title,    true);
+  _setMeta('og:description', pg.og_desc,  true);
+  _setMeta('og:image',    pg.og_image,    true);
+  _setMeta('og:url',      window.location.href, true);
+  _setMeta('twitter:card', 'summary_large_image', true);
+
+  // Update html lang attribute
+  document.documentElement.lang = lang;
+
+  // Update language switcher buttons
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
+  });
+}
+
+function _setMeta(name, content, isProperty = false) {
+  if (!content) return;
+  const attr = isProperty ? 'property' : 'name';
+  let el = document.querySelector(`meta[${attr}="${name}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, name);
+    document.head.appendChild(el);
   }
-};
+  el.setAttribute('content', content);
+}
 
-// Département codes (4 chars)
-const DEPT_CODES = {
-  "Artibonite": "ARTB", "Centre": "CNTR", "Grand'Anse": "GDAS",
-  "Nippes": "NIPP", "Nord": "NORD", "Nord-Est": "NRDE",
-  "Nord-Ouest": "NRDO", "Ouest": "OUES", "Sud": "SUDD", "Sud-Est": "SDST"
-};
+/**
+ * Shortcut: get a string in the current language.
+ */
+function s(key) {
+  const lang = getCurrentLang();
+  const t = STRINGS[lang] || STRINGS[RMN_CONFIG.DEFAULT_LANG];
+  return t[key] || key;
+}
 
-// Commune codes (4 chars) — first 4 unique chars of commune name
-const COMMUNE_CODES = {
-  "Dessalines":"DSSL","Desdunes":"DSDN","Ennery":"ENNR","Gros-Morne":"GRSM",
-  "La Chapelle":"LCHP","Marchand Dessalines":"MRDS","Marmelade":"MRML",
-  "Saint-Marc":"STMR","Saint-Michel de l'Atalaye":"STMI","Saint-Raphaël":"STRP",
-  "Verrettes":"VRRT","Belladère":"BLLR","Boucan Carré":"BCCR","Hinche":"HNCH",
-  "Lascahobas":"LSCB","Mirebalais":"MRBL","Savanette":"SVNT","Thomonde":"THMD",
-  "Abricots":"ABRC","Anse-d'Ainault":"ASAN","Beaumont":"BMON","Bonbon":"BNBN",
-  "Chambellan":"CHBL","Dame-Marie":"DMRY","Jérémie":"JRMI","Latibolière":"LTBL",
-  "Les Irois":"LSIR","Moron":"MRON","Roseaux":"ROSW","Tiburon":"TBRN",
-  "Arnaud":"ARND","Anse-à-Veau":"ANSV","Barradères":"BRDR","Fond des Nègres":"FNDN",
-  "Jérôme":"JROM","L'Asile":"LASL","Miragoane":"MRGN","Paillant":"PLNT",
-  "Plaisance du Sud":"PLSD","Petit-Trou-de-Nippes":"PTTN","Acul du Nord":"ACLN",
-  "Bahon":"BAHN","Borgne":"BRGN","Cap-Haïtien":"CPHT","Dondon":"DNDN",
-  "Grande Rivière du Nord":"GRDN","Limonade":"LMND","Milot":"MLOT","Pignon":"PGNN",
-  "Pilate":"PLAT","Plaisance":"PLSN","Ranquitte":"RNQT","Sainte-Suzanne":"STSZ",
-  "Trou-du-Nord":"TRDN","Caracol":"CRCL","Carice":"CRCE","Ferrier":"FERR",
-  "Fort-Liberté":"FTLB","Mombin Crochu":"MMCR","Mont-Organisé":"MNTO",
-  "Ouanaminthe":"WNMT","Perches":"PRCH","Terrier Rouge":"TRRG","Vallières":"VLLR",
-  "Wanament":"WNMN","Anse-à-Foleur":"ANSF","Baie de Henne":"BDHN",
-  "Bassin Bleu":"BSNB","Bombardopolis":"BMBP","Chansolme":"CHNS","Jean Rabel":"JNRB",
-  "La Tortue":"LTRТ","Môle Saint-Nicolas":"MLSN","Port-de-Paix":"PTDP",
-  "Saint-Louis du Nord":"SLND","Terre Neuve":"TRNV","Arcahaie":"ARCH",
-  "Cabaret":"CBRT","Carrefour":"CRFR","Cité Soleil":"CTSL","Cornillon":"CRNL",
-  "Croix des Bouquets":"CRBQ","Delmas":"DLMS","Gressier":"GRSS","Ganthier":"GNTH",
-  "Kenscoff":"KNSC","La Gonâve":"LGNV","Léogâne":"LOGN","Pétion-Ville":"PTVL",
-  "Port-au-Prince":"PTPR","Tabarre":"TBRR","Thomazeau":"THMZ","Titanyen":"TTYN",
-  "Aquin":"AQIN","Arniquet":"ARNQ","Camp Perrin":"CMPR","Cavaillon":"CVLN",
-  "Chantal":"CHNT","Côtes de Fer":"CTDF","Les Cayes":"LSCY","Maniche":"MNCH",
-  "Port-à-Piment":"PTPM","Port-Salut":"PTSL","Saint-Jean du Sud":"SJDS",
-  "Saint-Louis du Sud":"SLSD","Torbeck":"TRBK","Bainet":"BNET","Belle Anse":"BLNS",
-  "Cayes-Jacmel":"CYJM","Grand Gosier":"GRGS","Jacmel":"JCML","La Vallée":"LVLL",
-  "Marigot":"MRGT","Thiotte":"THTT"
-};
+// ── HAITIAN NAME POOLS ────────────────────────────────────────────────────
+// Used by randomHaitianName() for seed data generation.
+// 70 female + 70 male first names, 100 surnames.
+// All authentic Haitian names — religiously neutral.
 
-// Haiti departments + communes
-const HAITI = {
-  "Artibonite":["Dessalines","Desdunes","Ennery","Gros-Morne","La Chapelle","Marchand Dessalines","Marmelade","Saint-Marc","Saint-Michel de l'Atalaye","Saint-Raphaël","Verrettes"],
-  "Centre":["Belladère","Boucan Carré","Hinche","Lascahobas","Mirebalais","Savanette","Thomonde"],
-  "Grand'Anse":["Abricots","Anse-d'Ainault","Beaumont","Bonbon","Chambellan","Dame-Marie","Jérémie","Latibolière","Les Irois","Moron","Roseaux","Tiburon"],
-  "Nippes":["Arnaud","Anse-à-Veau","Barradères","Fond des Nègres","Jérôme","L'Asile","Miragoane","Paillant","Plaisance du Sud","Petit-Trou-de-Nippes"],
-  "Nord":["Acul du Nord","Bahon","Borgne","Cap-Haïtien","Dondon","Grande Rivière du Nord","Limonade","Milot","Pignon","Pilate","Plaisance","Ranquitte","Sainte-Suzanne","Trou-du-Nord"],
-  "Nord-Est":["Caracol","Carice","Ferrier","Fort-Liberté","Mombin Crochu","Mont-Organisé","Ouanaminthe","Perches","Terrier Rouge","Vallières","Wanament"],
-  "Nord-Ouest":["Anse-à-Foleur","Baie de Henne","Bassin Bleu","Bombardopolis","Chansolme","Jean Rabel","La Tortue","Môle Saint-Nicolas","Port-de-Paix","Saint-Louis du Nord","Terre Neuve"],
-  "Ouest":["Arcahaie","Cabaret","Carrefour","Cité Soleil","Cornillon","Croix des Bouquets","Delmas","Gressier","Ganthier","Kenscoff","La Gonâve","Léogâne","Pétion-Ville","Port-au-Prince","Tabarre","Thomazeau","Titanyen"],
-  "Sud":["Aquin","Arniquet","Camp Perrin","Cavaillon","Chantal","Côtes de Fer","Les Cayes","Maniche","Port-à-Piment","Port-Salut","Saint-Jean du Sud","Saint-Louis du Sud","Torbeck"],
-  "Sud-Est":["Bainet","Belle Anse","Cayes-Jacmel","Grand Gosier","Jacmel","La Vallée","Marigot","Thiotte"]
-};
-
-// (moved to config.js)
-
-// ============================================================
-// CONFIG — Edit here to change backend settings
-// ============================================================
-// (moved to config.js)
-
-// ============================================================
-// FAKE DATA POOLS — used by seeddata and dashboard auto-seed
-// ============================================================
-// ── FEMALE FIRST NAMES (70 authentic Haitian names) ─────────────────────
 const FAKE_FIRSTNAMES_F = [
   "Marie","Roseline","Nadège","Sophia","Kettely","Farah","Mireille","Edwige","Guerda",
   "Junie","Marlène","Yvelise","Carline","Gisèle","Lunise","Claudine","Danièle","Micheline",
@@ -393,7 +1045,6 @@ const FAKE_FIRSTNAMES_F = [
   "Daphney","Gaëlle","Fabiola","Priscilla","Angeline","Venise","Florette","Marceline","Ange"
 ];
 
-// ── MALE FIRST NAMES (70 authentic Haitian names) ────────────────────────
 const FAKE_FIRSTNAMES_M = [
   "Jean","Claude","Frantz","Patrick","Dieuseul","Luckson","Roberson","Widler","Kervens",
   "Samson","Joël","Renald","Hervé","Dieudonne","Lionel","Guerlain","Wesly","Kenson",
@@ -405,7 +1056,6 @@ const FAKE_FIRSTNAMES_M = [
   "Valcin","Wenders","Kerby","Walky","Guichard","Stéphano","Yvon","Elie","Rigaud"
 ];
 
-// ── FAMILY NAMES (100 authentic Haitian surnames) ────────────────────────
 const FAKE_LASTNAMES = [
   "Desroches","Baptiste","Pierre","Mentor","Joseph","Celestin","Duval","Lamarre","François",
   "Blanc","Charles","Estimé","Dorismond","Augustin","Prophète","Casimir","Sainvil","Thermidor",
@@ -426,42 +1076,187 @@ const FAKE_ACTIVITIES = [
   "Mekanisyen","Machann rad","Epicerie","Machann poul","Machann chabon","Boulanje",
   "Machann fritay","Machann ji","Tèlkominikasyon","Machann pwason","Koutirye",
   "Machann soulye","Fòjon","Chapantye","Machann fig","Machann pen","Estetisyen",
-  "Machann dous","Plonbye","Elektrisyen","Machann kokoye","Machann kann"
+  "Machann dous","Plonbye","Elektrisyen","Machann kokoye","Machann kann",
+  "Pwofesè","Etidyan","Enfimyè","Doktè","Jounalis","Ajan kominotè",
+  "Chauffè","Agrikilti","Pechè","Direktè lekòl","Travayè sante","Manm dyaspora",
+  "Sekretè","Kontab","Enjenyè","Avoka","Pastè","Kominikasyon"
 ];
 
-const FAKE_COACH_ORGS = [
-  "","","","Diaspora Haiti","Association Ayisyen","","","Haiti Forward","",
-  "Haitian Business Network","","","","Haiti Solidarity","","Ayiti Pou Ayisyen",""
-];
+// ── SESSION-LEVEL DEDUPLICATION ───────────────────────────────────────────
+// Prevents repeated names within a single browser session.
 
-// ── SESSION-LEVEL DEDUP — no repeated names within a session ─────────────
 const _usedNames = new Set();
 
+/**
+ * Returns a unique {prenom, nom} pair from the Haitian name pools.
+ * Deduplicates within the session. Clears and retries if pool exhausted.
+ */
 function randomHaitianName() {
-  const isFemale = Math.random() < 0.52;
+  const isFemale  = Math.random() < 0.52;
   const firstPool = isFemale ? FAKE_FIRSTNAMES_F : FAKE_FIRSTNAMES_M;
   let attempts = 0;
-  while (attempts < 40) {
-    const first = firstPool[Math.floor(Math.random() * firstPool.length)];
-    const last  = FAKE_LASTNAMES[Math.floor(Math.random() * FAKE_LASTNAMES.length)];
-    const key   = first + "|" + last;
+
+  while (attempts < 50) {
+    const prenom = firstPool[Math.floor(Math.random() * firstPool.length)];
+    const nom    = FAKE_LASTNAMES[Math.floor(Math.random() * FAKE_LASTNAMES.length)];
+    const key    = prenom + '|' + nom;
+
     if (!_usedNames.has(key)) {
       _usedNames.add(key);
-      return { prenom: first, nom: last };
+      return { prenom, nom };
     }
     attempts++;
   }
+
+  // Pool exhausted for this session — reset and continue
   _usedNames.clear();
-  const first = firstPool[Math.floor(Math.random() * firstPool.length)];
-  const last  = FAKE_LASTNAMES[Math.floor(Math.random() * FAKE_LASTNAMES.length)];
-  return { prenom: first, nom: last };
+  const prenom = firstPool[Math.floor(Math.random() * firstPool.length)];
+  const nom    = FAKE_LASTNAMES[Math.floor(Math.random() * FAKE_LASTNAMES.length)];
+  return { prenom, nom };
 }
 
+// ── SEED DATA HELPERS ─────────────────────────────────────────────────────
 
-// Commune population weights for realistic distribution
-const COMMUNE_WEIGHTS = {
-  "Port-au-Prince":22,"Delmas":14,"Carrefour":11,"Pétion-Ville":9,"Cité Soleil":8,
-  "Cap-Haïtien":10,"Saint-Marc":6,"Les Cayes":6,"Gonaïves":7,"Hinche":4,
-  "Jacmel":5,"Jérémie":4,"Ouanaminthe":4,"Croix des Bouquets":6,"Léogâne":4,
-  "Arcahaie":3,"Tabarre":5,"Mirebalais":3
-};
+/**
+ * Returns a weighted random location {dept, commune} from HAITI data.
+ * Higher COMMUNE_WEIGHTS values appear more frequently.
+ */
+function weightedLocation() {
+  const pool = [];
+  Object.entries(HAITI).forEach(([dept, communes]) => {
+    communes.forEach(commune => {
+      const weight = COMMUNE_WEIGHTS[commune] || 1;
+      for (let i = 0; i < weight; i++) {
+        pool.push({ dept, commune });
+      }
+    });
+  });
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/**
+ * Builds a fake sentinelle registration payload.
+ * Used by dashboard auto-seed and seeddata.html.
+ */
+function makeFakeMember(isCoachType) {
+  const { prenom, nom } = randomHaitianName();
+  const loc  = weightedLocation();
+  const acts = FAKE_ACTIVITIES;
+  const pays = ['MCH', 'MCH', 'NCH', 'CSH', 'MCH'];
+  const ts   = Date.now();
+
+  if (isCoachType) {
+    return {
+      action:       'register',
+      type:         'coach',
+      prenom,
+      nom,
+      email:        `c${ts}@rmn-seed.net`,
+      phone:        `+509${Math.floor(30000000 + Math.random() * 9999999)}`,
+      country:      'Haïti',
+      departement:  loc.dept,
+      departement_nom: loc.dept,
+      commune:      loc.commune,
+      commune_nom:  loc.commune,
+      langue:       'ht',
+      source:       'seed_auto',
+      is_real:      'false',
+    };
+  }
+
+  return {
+    action:       'register',
+    prenom,
+    nom,
+    email:        `s${ts}@rmn-seed.net`,
+    phone:        `+509${Math.floor(30000000 + Math.random() * 9999999)}`,
+    country:      'Haïti',
+    departement:  loc.dept,
+    departement_nom: loc.dept,
+    commune:      loc.commune,
+    commune_nom:  loc.commune,
+    activite:     acts[Math.floor(Math.random() * acts.length)],
+    paiement:     pays[Math.floor(Math.random() * pays.length)],
+    langue:       'ht',
+    source:       'seed_auto',
+    is_real:      'false',
+  };
+}
+
+/**
+ * Sends a fake registration to the backend.
+ * mode:'no-cors' — cannot read response, but submission goes through.
+ */
+async function sendFakeMember(isCoachType) {
+  const data = makeFakeMember(isCoachType);
+  const params = new URLSearchParams();
+  Object.entries(data).forEach(([k, v]) => params.append(k, String(v)));
+  try {
+    await fetch(RMN_CONFIG.SCRIPT_URL, {
+      method: 'POST',
+      body:   params,
+      mode:   'no-cors',
+    });
+  } catch(e) {
+    // Silent fail — seed data is non-critical
+  }
+}
+
+/**
+ * Auto-seed trigger: called on dashboard page load.
+ * 25% chance of adding 1 fake member.
+ * 15% of those are coach-type.
+ * Waits 1.5s after seeding for sheet to update before fetching stats.
+ */
+async function autoSeed() {
+  if (Math.random() >= RMN_CONFIG.SEED_PROBABILITY) return;
+  const isCoach = Math.random() < RMN_CONFIG.SEED_COACH_PROBABILITY;
+  await sendFakeMember(isCoach);
+  await new Promise(r => setTimeout(r, 1500));
+}
+
+// ── LEGAL ROUTER ──────────────────────────────────────────────────────────
+// Each legal page calls its router on load.
+// Router reads localStorage lang and redirects to the monolingual file.
+
+function legalRouter(page) {
+  const lang = getCurrentLang();
+  const validPages = ['terms', 'privacy', 'copyright'];
+  const validLangs = ['ht', 'fr', 'en'];
+  const p = validPages.includes(page)  ? page : 'terms';
+  const l = validLangs.includes(lang)  ? lang  : 'ht';
+  window.location.replace(`${p}-${l}.html`);
+}
+
+// ── PLATFORM HELPERS ──────────────────────────────────────────────────────
+
+/**
+ * Returns the display label for a platform key in the current language.
+ */
+function platformLabel(key) {
+  const lang = getCurrentLang();
+  const t = STRINGS[lang] || STRINGS[RMN_CONFIG.DEFAULT_LANG];
+  const labelKey = 'plt_' + key.toLowerCase();
+  return t[labelKey] || key;
+}
+
+/**
+ * Returns the icon for a platform key from RMN_CONFIG.PLATFORMS.
+ */
+function platformIcon(key) {
+  const p = RMN_CONFIG.PLATFORMS.find(pl => pl.key === key);
+  return p ? p.icon : '🔗';
+}
+
+/**
+ * Builds a full URL from a platform key and user-entered value.
+ * Handles prefix logic (e.g. wa.me/ for WhatsApp).
+ */
+function buildPlatformUrl(key, value) {
+  if (!value) return '';
+  const p = RMN_CONFIG.PLATFORMS.find(pl => pl.key === key);
+  if (!p || !p.prefix) return value;
+  // Don't double-prefix if user already entered the full URL
+  if (value.startsWith('http') || value.startsWith(p.prefix)) return value;
+  return p.prefix + value;
+}
