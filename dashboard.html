@@ -1,249 +1,357 @@
-<!DOCTYPE html><html lang="ht"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Tablodbò — Rezo Mapou</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"><style>
-:root{--gold:#C8A84B;--forest:#1E4D2B;--earth-d:#3A2210;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}
-*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--cream-d);color:var(--ink);font-size:15px;line-height:1.6;}
-.stats-bar{background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}
-.sc{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}.sc strong{color:var(--gold);}
-.lb-bar{display:flex;gap:3px;}.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;transition:all 0.2s;font-family:'DM Sans',sans-serif;}.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-d);}
-nav{background:var(--forest);padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;}
-.nb{display:flex;align-items:center;gap:10px;text-decoration:none;}.nl{width:32px;height:32px;border-radius:50%;background:white;object-fit:contain;padding:3px;}.nn{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:white;}
-.nlinks{display:flex;gap:1.25rem;list-style:none;}.nlinks a{font-size:13px;color:rgba(255,255,255,0.65);text-decoration:none;}.nlinks a:hover{color:var(--gold);}
-.rbtn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 14px;border-radius:2px;cursor:pointer;}.rbtn:hover{background:rgba(255,255,255,0.2);}
-.main{max-width:1100px;margin:0 auto;padding:2rem;}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
-.mc{background:white;border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;text-align:center;}
-.mc-n{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--forest);display:block;line-height:1;margin-bottom:3px;}
-.mc-l{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
-.card{background:white;border:1px solid var(--bdr);border-radius:4px;padding:1.5rem;}
-.card-t{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--bdr);}
-.br{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
-.bl{font-size:13px;color:var(--muted);min-width:150px;font-weight:400;}
-.bt{flex:1;background:var(--cream-d);border-radius:2px;height:8px;overflow:hidden;}
-.bf{height:100%;background:var(--forest);border-radius:2px;transition:width 0.8s ease;}
-.bn{font-size:12px;font-weight:500;color:var(--forest);min-width:28px;text-align:right;}
-.loading{text-align:center;padding:3rem;color:var(--muted);font-size:14px;}
-.upd{font-size:11px;color:var(--muted);text-align:right;margin-bottom:1rem;}
-@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr);}.grid2{grid-template-columns:1fr;}}
-</style></head><body>
-<div class="stats-bar">
-  <div class="sc"><span><strong id="sb-s">—</strong> <span id="sb-s-lbl">Santinèl</span></span><span><strong id="sb-c">—</strong> <span id="sb-c-lbl">Coach</span></span></div>
-  <div class="lb-bar">
-    <button class="lb active" onclick="L('ht')">🇭🇹 KR</button>
-    <button class="lb" onclick="L('fr')">🇫🇷 FR</button>
-    <button class="lb" onclick="L('en')">🇺🇸 EN</button>
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablodbò — Rezo Mapou Nasyonal</title>
+  <meta name="description" content="Wè kwasans rezo a an tan reyèl — manm, depatman, komin.">
+  <meta property="og:title" content="Tablodbò Rezo Mapou">
+  <meta property="og:image" content="https://rezomapou.github.io/webapp/og_image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://rezomapou.github.io/webapp/dashboard.html">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .dash-header {
+      background: var(--forest);
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .dash-header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .dash-header h1 {
+      color: white;
+      font-size: 1.4rem;
+      margin: 0;
+    }
+    .dash-header p {
+      color: var(--on-dark-muted);
+      font-size: 0.82rem;
+      margin: 2px 0 0;
+    }
+    .dash-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .refresh-btn {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .refresh-btn:hover { background: rgba(255,255,255,0.22); }
+    .admin-seed-btn {
+      background: rgba(200,168,75,0.2);
+      border: 1px solid rgba(200,168,75,0.4);
+      color: var(--gold);
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s;
+      title: "Admin: ajoute 1 enskripsyon";
+    }
+    .admin-seed-btn:hover { background: rgba(200,168,75,0.35); }
+    .last-updated {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    .no-data {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .cta-strip {
+      background: var(--forest);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .cta-strip p {
+      color: var(--on-dark-muted);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .cta-strip h3 {
+      color: white;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="index.html" data-s="nav_home">Akèy</a>
+    <div class="top-bar-counts">
+      <span><strong id="tb-s">—</strong> <span data-s="dash_members">Rasin</span></span>
+      <span><strong id="tb-c">—</strong> <span data-s="dash_coaches">Coach</span></span>
+    </div>
+  </div>
+  <div class="lang-bar">
+    <button class="lang-btn active" data-lang-btn="ht" onclick="switchLang('ht')">🇭🇹 KR</button>
+    <button class="lang-btn" data-lang-btn="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">🇺🇸 EN</button>
   </div>
 </div>
-<nav>
-  <a href="index.html" class="nb">
-    <img src="rezo_mapou_logo.png" class="nl" alt="Rezo Mapou" onerror="this.style.display='none'">
-    <span class="nn">Rezo Mapou</span>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback" style="display:none;">RMN</div>
+    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
   </a>
-  <ul class="nlinks">
-    <li><a href="index.html">Akèy</a></li>
-    <li><a href="register.html#sentinelle">Santinèl</a></li>
-    <li><a href="register.html#coach">Coach</a></li>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" data-s="nav_home">Akèy</a></li>
+    <li><a href="register.html" data-s="nav_register">Enskri</a></li>
+    <li><a href="dashboard.html" data-s="nav_dashboard" class="active">Tablodbò</a></li>
+    <li><a href="login.html" data-s="nav_login" id="nav-login-link">Konekte</a></li>
   </ul>
-  <button class="rbtn" onclick="loadData()">⟳ Aktyalize</button>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
 </nav>
-<main class="main">
-  <div id="loading" class="loading">Ap chaje done...</div>
-  <div id="content" style="display:none">
-    <div class="upd" id="upd-time"></div>
-    <div class="metrics">
-      <div class="mc"><span class="mc-n" id="m-s">0</span><div class="mc-l" id="s-lbl">Santinèl</div></div>
-      <div class="mc"><span class="mc-n" id="m-c">0</span><div class="mc-l" id="c-lbl">Coach</div></div>
-      <div class="mc"><span class="mc-n" id="m-d">0</span><div class="mc-l" id="d-lbl">Depatman</div></div>
-      <div class="mc"><span class="mc-n" id="m-k">0</span><div class="mc-l" id="k-lbl">Komin</div></div>
+
+<!-- DASH HEADER -->
+<div class="dash-header">
+  <div class="dash-header-inner">
+    <div>
+      <h1 data-s="dash_title">Tablodbò Rezo Mapou</h1>
+      <p data-s="dash_subtitle">Enskripsyon an tan reyèl</p>
     </div>
-    <div class="grid2">
-      <div class="card"><div class="card-t" id="dept-title">Pa Depatman</div><div id="dept-bars"></div></div>
-      <div class="card"><div class="card-t" id="comm-title">Pa Komin — Top 10</div><div id="commune-bars"></div></div>
+    <div class="dash-actions">
+      <button class="admin-seed-btn" onclick="adminSeed()" title="+1">+1</button>
+      <button class="refresh-btn" onclick="loadData()">⟳ <span data-s="dash_refresh">Aktyalize</span></button>
     </div>
   </div>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="container">
+
+    <!-- LOADING -->
+    <div class="loading-block" id="dash-loading">
+      <div class="loading-spinner" style="margin:0 auto 1rem;"></div>
+      <span data-s="dash_loading">Ap chaje done...</span>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="dash-content" class="hidden">
+
+      <div class="last-updated" id="last-updated"></div>
+
+      <!-- METRICS -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-number" id="m-s">0</span>
+          <div class="metric-label" data-s="dash_members" id="lbl-members">Rasin Enskri</div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-number" id="m-c">0</span>
+          <div class="metric-label" data-s="dash_coaches" id="lbl-coaches">Coach Aktif</div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-number" id="m-d">0</span>
+          <div class="metric-label" data-s="dash_depts" id="lbl-depts">Depatman</div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-number" id="m-k">0</span>
+          <div class="metric-label" data-s="dash_communes" id="lbl-communes">Komin</div>
+        </div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="chart-grid">
+        <div class="card">
+          <div class="card-title" data-s="dash_by_dept" id="lbl-by-dept">Pa Depatman</div>
+          <div id="dept-bars"><div class="no-data" data-s="dash_no_data">Pa gen done.</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title" data-s="dash_by_commune" id="lbl-by-commune">Pa Komin — Top 10</div>
+          <div id="commune-bars"><div class="no-data" data-s="dash_no_data">Pa gen done.</div></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-strip">
+        <div>
+          <h3 data-s="reg_title">Vin yon Rasin Mapou</h3>
+          <p data-s="reg_subtitle">Enskri gratis. Pa gen pèmisyon espesyal.</p>
+        </div>
+        <a href="register.html" class="btn btn-gold" data-s="nav_register">Enskri kounye a</a>
+      </div>
+
+    </div><!-- /#dash-content -->
+
+    <!-- ERROR -->
+    <div id="dash-error" class="hidden">
+      <div class="alert alert-error">
+        <span data-s="dash_error">Erè koneksyon. Tanpri rafrechi.</span>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
 </main>
-<script src="config.js"></script>
-<script src="strings.js"></script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="terms.html" data-s="legal_terms">Tèm Itilizasyon</a>
+      <a href="privacy.html" data-s="legal_privacy">Konfidansyalite</a>
+      <a href="copyright.html" data-s="legal_copyright">Dwa Otè</a>
+    </div>
+    <div class="footer-copy" data-s="legal_rights">© 2026 Rezo Mapou Nasyonal</div>
+  </div>
+</footer>
+
 <script>
-let lang='ht';
-function L(l){
-  lang=l;
-  // Update language button states
-  document.querySelectorAll('.lb').forEach(b=>{
-    const m={ht:'🇭🇹 KR',fr:'🇫🇷 FR',en:'🇺🇸 EN'};
-    b.classList.toggle('active',b.textContent.trim()===m[l]);
-  });
-  // Translate all elements with data-s attribute
-  const t=STRINGS[l]||STRINGS['ht'];
-  document.querySelectorAll('[data-s]').forEach(el=>{
-    const k=el.getAttribute('data-s');
-    if(t[k]) el.textContent=t[k];
-  });
-  // Update metric labels
-  const labels={
-    ht:{s:'Santinèl',c:'Coach',d:'Depatman',k:'Komin',dept_chart:'Pa Depatman',comm_chart:'Pa Komin — Top 10'},
-    fr:{s:'Sentinelles',c:'Coaches',d:'Départements',k:'Communes',dept_chart:'Par Département',comm_chart:'Par Commune — Top 10'},
-    en:{s:'Sentinels',c:'Coaches',d:'Departments',k:'Communes',dept_chart:'By Department',comm_chart:'By Commune — Top 10'}
-  };
-  const lb=labels[l]||labels['ht'];
-  const els={
-    's-lbl':lb.s,'c-lbl':lb.c,'d-lbl':lb.d,'k-lbl':lb.k,
-    'dept-title':lb.dept_chart,'comm-title':lb.comm_chart,
-    'sb-s-lbl':lb.s,'sb-c-lbl':lb.c
-  };
-  Object.entries(els).forEach(([id,txt])=>{const el=document.getElementById(id);if(el)el.textContent=txt;});
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  L(getCurrentLang(), 'dashboard');
+
+  // Show profile link if logged in
+  const session = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
+  if (session) {
+    const lnk = document.getElementById('nav-login-link');
+    if (lnk) {
+      lnk.href = 'profile.html';
+      lnk.setAttribute('data-s', 'nav_profile');
+      lnk.textContent = s('nav_profile');
+    }
+  }
+
+  // Auto-seed then load
+  autoSeed().then(() => loadData());
+
+  // Auto-refresh every 60s
+  setInterval(loadData, RMN_CONFIG.DASHBOARD_REFRESH_MS);
+});
+
+// ── LANGUAGE ──────────────────────────────────────────────────────────────
+function switchLang(lang) {
+  L(lang, 'dashboard');
+  // Re-render bars with translated labels
+  loadData();
 }
 
-function bars(data,id,max){
-  const c=document.getElementById(id);c.innerHTML='';
-  const s=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  if(!s.length){c.innerHTML='<p style="font-size:13px;color:var(--muted)">Pa gen done.</p>';return;}
-  s.forEach(([k,v])=>{const pct=max>0?Math.round(v/max*100):0;c.innerHTML+=`<div class="br"><div class="bl">${k}</div><div class="bt"><div class="bf" style="width:${pct}%"></div></div><div class="bn">${v}</div></div>`;});
-}
-
-// ── SEED LOGIC ─────────────────────────────────────────────
-function weightedLoc(){
-  const pool=[];
-  Object.entries(HAITI).forEach(([dept,communes])=>{
-    communes.forEach(c=>{
-      const w=COMMUNE_WEIGHTS[c]||1;
-      for(let i=0;i<w;i++)pool.push({dept,commune:c});
-    });
-  });
-  return pool[Math.floor(Math.random()*pool.length)];
-}
-
-function randomItem(arr){return arr[Math.floor(Math.random()*arr.length)];}
-
-function makeFakeSentinelle(){
-  const loc = weightedLoc();
-  
-  // 1. Get names first
-  const dName = loc.dept;
-  const cName = loc.commune;
-
-  // 2. Look up codes with a "Safe Fallback"
-  // If DEPT_CODES doesn't have the key, it uses the first 4 letters 
-  // This prevents sending an empty string which can break the Sheet append
-  const dCode = (typeof DEPT_CODES !== 'undefined' && DEPT_CODES[dName]) 
-                ? DEPT_CODES[dName] 
-                : dName.substring(0, 4).toUpperCase();
-
-  const cCode = (typeof COMMUNE_CODES !== 'undefined' && COMMUNE_CODES[cName]) 
-                ? COMMUNE_CODES[cName] 
-                : cName.substring(0, 4).toUpperCase();
-
-  return {
-    type: 'sentinelle',
-    ...randomHaitianName(),
-    email: `f${Date.now()}${Math.floor(Math.random()*100)}@rmn-seed.net`,
-    telephone: `+509${Math.floor(30000000+Math.random()*9999999)}`,
-    whatsapp: '',
-    departement: dCode,           // Example: PTPR
-    departement_nom: dName,       // Example: Ouest
-    commune: cCode,               // Example: PTPR
-    commune_nom: cName,           // Example: Port-au-Prince
-    zone: 'Zòn Seeding',
-    activite: randomItem(FAKE_ACTIVITIES),
-    paiement: randomItem(['MCH','NCH','CSH']),
-    langue: 'ht',
-    source: 'seed',
-    is_real: 'false'
-  };
-}
-
-// ── GENERATE FAKE COACH DATA ──────────────────────────────
-function makeFakeCoach() {
-  // 1. Pick a location (Coaches use the same weights for realism)
-  const loc = weightedLoc();
-  const dName = loc.dept;
-  
-  // 2. Determine Organization name
-  // Some coaches might be individuals (empty string), others from the pool
-  const orgName = (typeof FAKE_COACH_ORGS !== 'undefined') 
-                  ? randomItem(FAKE_COACH_ORGS) 
-                  : "";
-
-  return {
-    type: 'coach',
-    ...randomHaitianName(),
-    email: `c${Date.now()}@rmn-seed.net`,
-    telephone: `+509${Math.floor(30000000 + Math.random() * 9999999)}`,
-    whatsapp: (Math.random() > 0.5) ? `+509${Math.floor(30000000 + Math.random() * 9999999)}` : '',
-    
-    // Coaches use 'location_type' or 'location_code' depending on your script version
-    // We send the Dept Code here (e.g., "OUE", "ART")
-    location_code: DEPT_CODES[dName] || dName.substring(0, 4).toUpperCase(),
-    organisation: orgName,
-    
-    // Optional fields
-    logo_url: orgName ? `https://via.placeholder.com/150?text=${orgName.substring(0,1)}` : '',
-    website: orgName ? `www.${orgName.toLowerCase().replace(/\s/g, '')}.ht` : '',
-    
-    // Socials (randomly filled)
-    facebook: (Math.random() > 0.7) ? 'facebook.com/fakecoach' : '',
-    instagram: '',
-    tiktok: '',
-    youtube: '',
-    
-    message: "Mwen vle sipòte rezo a kòm yon coach volontè.",
-    langue: 'ht',
-    source: 'seed_auto',
-    is_real: 'false'
-  };
-}
-
-async function sendFake(data){
-  try{
-    const p=new URLSearchParams();
-    Object.entries(data).forEach(([k,v])=>p.append(k,String(v)));
-    await fetch(SCRIPT_URL,{method:'POST',body:p,mode:'no-cors'});
-  }catch(e){}
-}
-
-// ── LOAD DATA ────────────────────────────────────────────────
+// ── DATA LOAD ─────────────────────────────────────────────────────────────
 async function loadData() {
-  const loadingEl = document.getElementById('loading');
-  const contentEl = document.getElementById('content');
-  if(loadingEl) loadingEl.style.display = 'block';
-  if(contentEl) contentEl.style.display = 'none';
+  document.getElementById('dash-loading').classList.remove('hidden');
+  document.getElementById('dash-content').classList.add('hidden');
+  document.getElementById('dash-error').classList.add('hidden');
+
   try {
-    const response = await fetch(SCRIPT_URL + '?t=' + Date.now());
-    if(!response.ok) throw new Error('Network error');
-    const d = await response.json();
-    const sCount = d.sentinelles || 0;
-    const cCount = d.coaches     || 0;
-    document.getElementById('m-s').textContent = sCount;
-    document.getElementById('m-c').textContent = cCount;
-    document.getElementById('m-d').textContent = Object.keys(d.by_dept    || {}).length;
-    document.getElementById('m-k').textContent = Object.keys(d.by_commune || {}).length;
-    if(document.getElementById('sb-s')) document.getElementById('sb-s').textContent = sCount;
-    if(document.getElementById('sb-c')) document.getElementById('sb-c').textContent = cCount;
-    const maxD = Math.max(1,...Object.values(d.by_dept    || {1:1}));
-    const maxK = Math.max(1,...Object.values(d.by_commune || {1:1}));
-    bars(d.by_dept    || {}, 'dept-bars',    maxD);
-    bars(d.by_commune || {}, 'commune-bars', maxK);
-    document.getElementById('upd-time').textContent = 'Dènye aktyalizasyon: ' + new Date().toLocaleTimeString();
-    if(loadingEl) loadingEl.style.display = 'none';
-    if(contentEl) contentEl.style.display = 'block';
+    const res  = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=stats&t=${Date.now()}`);
+    const data = await res.json();
+
+    // Metrics
+    const sCount = data.sentinelles || 0;
+    const cCount = data.coaches     || 0;
+    const dCount = Object.keys(data.by_dept    || {}).length;
+    const kCount = Object.keys(data.by_commune || {}).length;
+
+    document.getElementById('m-s').textContent = sCount.toLocaleString();
+    document.getElementById('m-c').textContent = cCount.toLocaleString();
+    document.getElementById('m-d').textContent = dCount.toLocaleString();
+    document.getElementById('m-k').textContent = kCount.toLocaleString();
+
+    // Top bar sync
+    const tbs = document.getElementById('tb-s');
+    const tbc = document.getElementById('tb-c');
+    if (tbs) tbs.textContent = sCount.toLocaleString();
+    if (tbc) tbc.textContent = cCount.toLocaleString();
+
+    // Charts
+    renderBars(data.by_dept    || {}, 'dept-bars',    RMN_CONFIG.DASHBOARD_TOP_N);
+    renderBars(data.by_commune || {}, 'commune-bars', RMN_CONFIG.DASHBOARD_TOP_N);
+
+    // Timestamp
+    const lang = getCurrentLang();
+    const ts = {
+      ht: `Dènye aktyalizasyon: ${new Date().toLocaleTimeString('fr-HT')}`,
+      fr: `Dernière mise à jour: ${new Date().toLocaleTimeString('fr-FR')}`,
+      en: `Last updated: ${new Date().toLocaleTimeString('en-US')}`,
+    };
+    document.getElementById('last-updated').textContent = ts[lang] || ts.ht;
+
+    document.getElementById('dash-loading').classList.add('hidden');
+    document.getElementById('dash-content').classList.remove('hidden');
+
   } catch(err) {
-    console.error('Load error:', err);
-    if(loadingEl) loadingEl.innerHTML = '<p style="color:#c0392b;font-size:13px;">Erè koneksyon. Tanpri rafrechi.</p>';
+    document.getElementById('dash-loading').classList.add('hidden');
+    document.getElementById('dash-error').classList.remove('hidden');
   }
 }
 
-// ── AUTO-SEED: runs on every page load ───────────────────────
-// visitSeed fires once per load; 25% chance adds 1 sentinelle, 
-// 15% of those also adds a coach. Sheet needs ~1.5s to append
-// before doGet returns the new count, hence the delay.
-async function visitSeed() {
-  if(Math.random() >= 0.25) return; // 75% of visits: skip
-  const isCoach = Math.random() < 0.15;
-  await sendFake(isCoach ? makeFakeCoach() : makeFakeSentinelle());
-  await new Promise(r => setTimeout(r, 1500));
+// ── BAR CHART RENDERER ────────────────────────────────────────────────────
+function renderBars(data, containerId, topN) {
+  const container = document.getElementById(containerId);
+  const entries   = Object.entries(data)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, topN);
+
+  if (!entries.length) {
+    container.innerHTML = `<div class="no-data">${s('dash_no_data')}</div>`;
+    return;
+  }
+
+  const max = entries[0][1] || 1;
+  container.innerHTML = entries.map(([label, count]) => {
+    const pct = Math.round((count / max) * 100);
+    return `
+      <div class="bar-row">
+        <div class="bar-label" title="${label}">${label}</div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="bar-count">${count}</div>
+      </div>
+    `;
+  }).join('');
 }
 
-// Init
-visitSeed().then(() => loadData());
-setInterval(loadData, 60000);
+// ── ADMIN SEED (manual +1) ────────────────────────────────────────────────
+async function adminSeed() {
+  const btn = document.querySelector('.admin-seed-btn');
+  if (btn) { btn.textContent = '...'; btn.disabled = true; }
+  await sendFakeMember(false);
+  await new Promise(r => setTimeout(r, 1500));
+  await loadData();
+  if (btn) { btn.textContent = '+1'; btn.disabled = false; }
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
 </script>
-</body></html>
+</body>
+</html>

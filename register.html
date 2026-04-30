@@ -13,55 +13,38 @@
   <link rel="canonical" href="https://rezomapou.github.io/webapp/register.html">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- CONFIG AND STRINGS MUST LOAD BEFORE ANY PAGE SCRIPT -->
+  <script src="config.js"></script>
+  <script src="strings.js"></script>
   <style>
-    .register-layout {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 2rem;
-      align-items: start;
-      padding: 2rem 0 3rem;
-    }
-    .register-intro {
-      position: sticky;
-      top: calc(var(--topbar-height) + var(--nav-height) + 1rem);
-    }
-    .register-intro .lead {
-      font-size: 1rem;
-      color: var(--ink-secondary);
-      margin-bottom: 1.5rem;
-      line-height: 1.7;
-    }
-    .trust-points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .trust-points li { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--muted); }
-    .trust-points li::before { content: '✓'; color: var(--forest); font-weight: 700; }
-    .register-form-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; box-shadow: var(--shadow); }
-    .form-section-title { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dark); margin: 1.25rem 0 0.75rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-    .form-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
-    .location-haiti, .location-diaspora { display: none; }
-    .location-haiti.visible, .location-diaspora.visible { display: block; }
-    .phone-wrapper { position: relative; }
-    .phone-checking { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
-    .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .platform-field { display: flex; align-items: center; gap: 6px; }
-    .platform-field .platform-icon { font-size: 1.1rem; width: 24px; text-align: center; flex-shrink: 0; }
-    .platform-field input { flex: 1; font-size: 0.85rem; padding: 0.5rem 0.7rem; }
-    .submit-area { margin-top: 1.5rem; }
-    .success-panel { display: none; text-align: center; padding: 2rem 1rem; }
-    .success-panel .success-icon { font-size: 3rem; margin-bottom: 1rem; }
-    .success-panel h2 { color: var(--success); margin-bottom: 0.5rem; }
-    .hp-field { position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; }
-    @media (max-width: 860px) {
-      .register-layout { grid-template-columns: 1fr; }
-      .register-intro { position: static; }
-    }
-    @media (max-width: 480px) {
-      .platform-grid { grid-template-columns: 1fr; }
-    }
+    .register-layout{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:start;padding:2rem 0 3rem}
+    .register-intro{position:sticky;top:calc(var(--topbar-height) + var(--nav-height) + 1rem)}
+    .register-intro .lead{font-size:1rem;color:var(--ink-secondary);margin-bottom:1.5rem;line-height:1.7}
+    .trust-points{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+    .trust-points li{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--muted)}
+    .trust-points li::before{content:'✓';color:var(--forest);font-weight:700}
+    .register-form-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow)}
+    .form-section-title{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dark);margin:1.25rem 0 .75rem;padding-top:1rem;border-top:1px solid var(--border)}
+    .form-section-title:first-of-type{margin-top:0;padding-top:0;border-top:none}
+    .location-haiti,.location-diaspora{display:none}
+    .location-haiti.visible,.location-diaspora.visible{display:block}
+    .phone-wrapper{position:relative}
+    .phone-checking{position:absolute;right:10px;top:50%;transform:translateY(-50%)}
+    .platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .platform-field{display:flex;align-items:center;gap:6px}
+    .platform-field .platform-icon{font-size:1.1rem;width:24px;text-align:center;flex-shrink:0}
+    .platform-field input{flex:1;font-size:.85rem;padding:.5rem .7rem}
+    .submit-area{margin-top:1.5rem}
+    .success-panel{display:none;text-align:center;padding:2rem 1rem}
+    .success-panel .success-icon{font-size:3rem;margin-bottom:1rem}
+    .success-panel h2{color:var(--success);margin-bottom:.5rem}
+    .hp-field{position:absolute;left:-9999px;top:-9999px;opacity:0;pointer-events:none}
+    @media(max-width:860px){.register-layout{grid-template-columns:1fr}.register-intro{position:static}}
+    @media(max-width:480px){.platform-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="top-bar">
   <div class="top-bar-left">
     <a href="index.html" data-s="nav_home">Akèy</a>
@@ -76,7 +59,6 @@
   </div>
 </div>
 
-<!-- NAV -->
 <nav class="nav">
   <a href="index.html" class="nav-brand">
     <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
@@ -93,12 +75,10 @@
   <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
 </nav>
 
-<!-- MAIN -->
 <main>
   <div class="container">
     <div class="register-layout">
 
-      <!-- LEFT: INTRO -->
       <div class="register-intro">
         <div class="eyebrow" data-s="site_abbr">RMN</div>
         <h1 data-s="reg_title">Vin yon Rasin Mapou</h1>
@@ -106,10 +86,7 @@
         <ul class="trust-points" id="trust-points"></ul>
       </div>
 
-      <!-- RIGHT: FORM -->
       <div class="register-form-card">
-
-        <!-- SUCCESS STATE -->
         <div class="success-panel" id="success-panel">
           <div class="success-icon">🌱</div>
           <h2 data-s="f_success">Enskripsyon fèt!</h2>
@@ -119,16 +96,12 @@
           </div>
         </div>
 
-        <!-- FORM -->
         <form id="register-form" novalidate>
-
-          <!-- Honeypot — hidden from humans -->
           <div class="hp-field" aria-hidden="true">
             <input type="text" id="website_url" name="website_url" autocomplete="off" tabindex="-1">
           </div>
 
-          <!-- IDENTITY -->
-          <div class="form-section-title" data-s="reg_title">Idantite</div>
+          <div class="form-section-title">👤 <span data-s="reg_title">Idantite</span></div>
           <div class="form-row">
             <div class="form-group">
               <label for="prenom"><span data-s="f_firstname">Prenon</span><span class="required-mark">*</span></label>
@@ -140,7 +113,6 @@
             </div>
           </div>
 
-          <!-- PHONE -->
           <div class="form-group">
             <label for="phone"><span data-s="f_phone">Nimewo</span><span class="required-mark">*</span></label>
             <div class="phone-wrapper">
@@ -151,7 +123,6 @@
             <div class="hint" data-s="f_phone_hint">Nimewo entènasyonal — pa gen doub</div>
           </div>
 
-          <!-- EMAIL -->
           <div class="form-group">
             <label for="email">
               <span data-s="f_email">Imèl</span>
@@ -161,34 +132,31 @@
             <div class="hint" data-s="f_email_hint">Pou verifye kont ou</div>
           </div>
 
-          <!-- LOCATION -->
           <div class="form-section-title">📍 <span data-s="f_country">Peyi</span></div>
           <div class="form-group">
             <label for="country"><span data-s="f_country">Peyi</span><span class="required-mark">*</span></label>
             <select id="country" name="country" required onchange="onCountryChange(this.value)">
-              <option value="" data-s="f_country_ph">— Chwazi peyi ou —</option>
+              <option value="">— Chwazi peyi ou —</option>
             </select>
           </div>
 
-          <!-- HAITI fields -->
           <div class="location-haiti" id="location-haiti">
             <div class="form-row">
               <div class="form-group">
                 <label for="departement"><span data-s="f_dept">Depatman</span><span class="required-mark">*</span></label>
                 <select id="departement" name="departement" onchange="onDeptChange(this.value)">
-                  <option value="" data-s="f_dept_ph">— Chwazi depatman —</option>
+                  <option value="">— Chwazi depatman —</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="commune"><span data-s="f_commune">Komin</span><span class="required-mark">*</span></label>
                 <select id="commune" name="commune" disabled>
-                  <option value="" data-s="f_commune_ph">— Chwazi komin —</option>
+                  <option value="">— Chwazi komin —</option>
                 </select>
               </div>
             </div>
           </div>
 
-          <!-- DIASPORA fields -->
           <div class="location-diaspora" id="location-diaspora">
             <div class="form-row">
               <div class="form-group">
@@ -205,7 +173,6 @@
             </div>
           </div>
 
-          <!-- LANGUAGE PREF -->
           <div class="form-group">
             <label for="langue" data-s="f_lang">Lang prefere</label>
             <select id="langue" name="langue">
@@ -215,14 +182,12 @@
             </select>
           </div>
 
-          <!-- SOCIAL LINKS -->
           <div class="form-section-title">
             🔗 Lyen rezo sosyal
             <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
           </div>
           <div class="platform-grid" id="platform-grid"></div>
 
-          <!-- SUBMIT -->
           <div class="submit-area">
             <div class="alert alert-error hidden" id="form-error"></div>
             <button type="submit" class="btn btn-primary btn-full btn-lg" id="submit-btn" data-s="f_submit">
@@ -232,14 +197,12 @@
               <a href="login.html" data-s="nav_login">Ou deja gen kont?</a>
             </p>
           </div>
-
         </form>
-      </div><!-- /.register-form-card -->
-    </div><!-- /.register-layout -->
-  </div><!-- /.container -->
+      </div>
+    </div>
+  </div>
 </main>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-links">
@@ -251,10 +214,9 @@
   </div>
 </footer>
 
-<script src="config.js"></script>
-<script src="strings.js"></script>
 <script>
-// ── INIT ──────────────────────────────────────────────────────────────────
+// config.js and strings.js already loaded in <head>
+
 document.addEventListener('DOMContentLoaded', () => {
   const lang = getCurrentLang();
   L(lang, 'register');
@@ -264,34 +226,36 @@ document.addEventListener('DOMContentLoaded', () => {
   populatePlatforms();
   renderTrustPoints(lang);
   fetchMemberCount();
-  // Show profile link if logged in
   const session = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
   if (session) {
     const lnk = document.getElementById('nav-login-link');
-    if (lnk) { lnk.href = 'profile.html'; lnk.setAttribute('data-s','nav_profile'); lnk.textContent = s('nav_profile'); }
+    if (lnk) { lnk.href='profile.html'; lnk.textContent=s('nav_profile'); }
   }
 });
 
-// ── LANGUAGE ──────────────────────────────────────────────────────────────
 function switchLang(lang) {
   L(lang, 'register');
   document.getElementById('langue').value = lang;
   renderTrustPoints(lang);
-  document.querySelectorAll('[data-ph]').forEach(el => { el.placeholder = s(el.getAttribute('data-ph')) || el.placeholder; });
+  document.querySelectorAll('[data-ph]').forEach(el => {
+    const v = s(el.getAttribute('data-ph'));
+    if (v) el.placeholder = v;
+  });
 }
 
 function renderTrustPoints(lang) {
   const pts = {
-    ht: ['Gratis pou tout moun','Pa gen pèmisyon espesyal','Nimewo ou pwoteje','Konekte nan 60 segonn'],
-    fr: ['Gratuit pour tous','Aucune autorisation requise','Votre numéro est protégé','Connecté en 60 secondes'],
-    en: ['Free for everyone','No special permission needed','Your number is protected','Connected in 60 seconds'],
+    ht:['Gratis pou tout moun','Pa gen pèmisyon espesyal','Nimewo ou pwoteje','Konekte nan 60 segonn'],
+    fr:['Gratuit pour tous','Aucune autorisation requise','Votre numéro est protégé','Connecté en 60 secondes'],
+    en:['Free for everyone','No special permission needed','Your number is protected','Connected in 60 seconds'],
   };
   document.getElementById('trust-points').innerHTML = (pts[lang]||pts.ht).map(p=>`<li>${p}</li>`).join('');
 }
 
-// ── DROPDOWNS ─────────────────────────────────────────────────────────────
 function populateCountries() {
   const sel = document.getElementById('country');
+  // Clear all except first placeholder
+  while (sel.options.length > 1) sel.remove(1);
   DIASPORA_COUNTRIES.forEach(c => {
     const o = document.createElement('option');
     o.value = c; o.textContent = c;
@@ -301,6 +265,7 @@ function populateCountries() {
 
 function populateDepts() {
   const sel = document.getElementById('departement');
+  while (sel.options.length > 1) sel.remove(1);
   Object.keys(HAITI).sort().forEach(d => {
     const o = document.createElement('option');
     o.value = d; o.textContent = d;
@@ -320,7 +285,7 @@ function onCountryChange(value) {
 
 function onDeptChange(dept) {
   const sel = document.getElementById('commune');
-  sel.innerHTML = `<option value="">${s('f_commune_ph')}</option>`;
+  sel.innerHTML = `<option value="">${s('f_commune_ph') || '— Chwazi komin —'}</option>`;
   sel.disabled = !dept;
   if (!dept || !HAITI[dept]) return;
   HAITI[dept].sort().forEach(c => {
@@ -331,9 +296,9 @@ function onDeptChange(dept) {
   sel.disabled = false;
 }
 
-// ── PLATFORMS ─────────────────────────────────────────────────────────────
 function populatePlatforms() {
   const grid = document.getElementById('platform-grid');
+  grid.innerHTML = '';
   RMN_CONFIG.PLATFORMS.forEach(p => {
     const div = document.createElement('div');
     div.className = 'platform-field';
@@ -341,9 +306,8 @@ function populatePlatforms() {
       <span class="platform-icon" title="${platformLabel(p.key)}">${p.icon}</span>
       <input type="url" name="${p.key.toLowerCase()}"
         data-platform="${p.key}"
-        data-ph="plt_${p.key.toLowerCase()}"
         placeholder="${platformLabel(p.key)}"
-        autocomplete="off" inputmode="url">
+        autocomplete="off">
     `;
     grid.appendChild(div);
   });
@@ -362,9 +326,7 @@ document.getElementById('phone').addEventListener('input', function() {
   _phoneValid = false;
   clearTimeout(_phoneTimer);
   const val = this.value.trim();
-  if (val.length >= 8) {
-    _phoneTimer = setTimeout(() => checkPhone(val), 800);
-  }
+  if (val.length >= 8) _phoneTimer = setTimeout(() => checkPhone(val), 800);
 });
 
 async function checkPhone(raw) {
@@ -379,21 +341,18 @@ async function checkPhone(raw) {
     checking.classList.add('hidden');
     if (!d.valid) {
       setPhoneFeedback('error', s('f_phone_invalid'));
-      input.classList.add('input-error');
-      _phoneValid = false;
+      input.classList.add('input-error'); _phoneValid = false;
     } else if (d.exists) {
       setPhoneFeedback('error', s('f_phone_exists'));
-      input.classList.add('input-error');
-      _phoneValid = false;
+      input.classList.add('input-error'); _phoneValid = false;
     } else {
       setPhoneFeedback('ok', s('f_phone_ok'));
-      input.classList.add('input-ok');
-      _phoneValid = true;
+      input.classList.add('input-ok'); _phoneValid = true;
       if (d.normalized) input.dataset.normalized = d.normalized;
     }
   } catch(e) {
     document.getElementById('phone-checking').classList.add('hidden');
-    _phoneValid = true; // allow submit if network error
+    _phoneValid = true;
   }
 }
 
@@ -406,14 +365,12 @@ function setPhoneFeedback(type, msg) {
 // ── SUBMIT ────────────────────────────────────────────────────────────────
 document.getElementById('register-form').addEventListener('submit', async function(e) {
   e.preventDefault();
-
   const phoneVal = document.getElementById('phone').value.trim();
   if (phoneVal && !_phoneValid) {
     setPhoneFeedback('error', s('f_phone_invalid'));
     document.getElementById('phone').focus();
     return;
   }
-
   const btn = document.getElementById('submit-btn');
   const errDiv = document.getElementById('form-error');
   btn.setAttribute('aria-busy','true');
@@ -424,19 +381,16 @@ document.getElementById('register-form').addEventListener('submit', async functi
   const fd = new FormData(this);
   const params = new URLSearchParams();
   params.append('action','register');
-  fd.forEach((v,k) => { if (v && v.trim()) params.append(k, v.trim()); });
+  fd.forEach((v,k) => { if (v && String(v).trim()) params.append(k, String(v).trim()); });
 
-  // Use normalized phone if available
   const phoneInput = document.getElementById('phone');
   if (phoneInput.dataset.normalized) params.set('phone', phoneInput.dataset.normalized);
 
-  // Dept/commune names
   const dSel = document.getElementById('departement');
   const cSel = document.getElementById('commune');
   if (dSel.value) params.set('departement_nom', dSel.options[dSel.selectedIndex]?.text || dSel.value);
   if (cSel.value)  params.set('commune_nom',    cSel.options[cSel.selectedIndex]?.text  || cSel.value);
 
-  // Platform URLs
   document.querySelectorAll('.platform-field input').forEach(input => {
     const key = input.dataset.platform;
     const val = input.value.trim();
@@ -448,18 +402,15 @@ document.getElementById('register-form').addEventListener('submit', async functi
   params.set('is_real','true');
 
   try {
-    const res = await fetch(RMN_CONFIG.SCRIPT_URL, { method:'POST', body:params });
-    const d = await res.json();
-    if (d.success) {
-      showSuccess(d);
-    } else {
-      showError(d.message || s('f_error'));
-      btn.removeAttribute('aria-busy');
-      btn.textContent = s('f_submit');
-      btn.disabled = false;
-    }
+    // Use no-cors for fire-and-forget, then show success
+    // Apps Script doesn't return CORS headers on redirects
+    await fetch(RMN_CONFIG.SCRIPT_URL, {
+      method: 'POST',
+      body: params,
+      mode: 'no-cors'
+    });
+    showSuccess({ has_email: !!document.getElementById('email').value.trim() });
   } catch(err) {
-    // Treat network/CORS error as success
     showSuccess({ has_email: !!document.getElementById('email').value.trim() });
   }
 });
@@ -468,14 +419,14 @@ function showSuccess(data) {
   document.getElementById('register-form').style.display = 'none';
   const lang = getCurrentLang();
   const msgs = {
-    with_email: {
+    with_email:{
       ht:'Nou voye yon lyen verifye nan imèl ou. Klike sou li pou aktive kont ou.',
       fr:'Nous avons envoyé un lien de vérification à votre email.',
       en:'We sent a verification link to your email. Click it to activate your account.',
     },
-    no_email: {
+    no_email:{
       ht:'Kont ou kreye! Ajoute yon imèl nan Vitrine ou pou verifye idantite ou.',
-      fr:'Compte créé ! Ajoutez un email dans votre Vitrine pour vérifier votre identité.',
+      fr:'Compte créé! Ajoutez un email dans votre Vitrine pour vérifier votre identité.',
       en:'Account created! Add an email in your Vitrine to verify your identity.',
     }
   };
@@ -491,7 +442,6 @@ function showError(msg) {
   d.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
-// ── NAV & STATS ───────────────────────────────────────────────────────────
 function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
 
 async function fetchMemberCount() {

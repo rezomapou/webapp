@@ -1,306 +1,473 @@
-
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Rezo Mapou — Rezo Machann Nasyonal</title>
-<meta name="description" content="Rezo Mapou — rezo sipò pou machann ak antreprenè Ayiti.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{--gold:#C8A84B;--gold-l:#E8D5A0;--earth:#5C3D1E;--earth-d:#3A2210;--forest:#1E4D2B;--forest-m:#2D6B3E;--cream:#F7F3EC;--cream-d:#EDE7D8;--ink:#1A1A18;--muted:#6B6455;--bdr:rgba(90,70,40,0.15);}
-*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);font-size:16px;line-height:1.7;overflow-x:hidden;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezo Mapou Nasyonal — Rasin Ayiti</title>
+  <meta name="description" content="Rezo sivil ayisyen ki konekte machann, pwofesè, anplwaye ak dyaspora nan yon sèl enfrastrikti konfyans.">
+  <meta property="og:title" content="Rezo Mapou Nasyonal">
+  <meta property="og:description" content="Jwenn rezo a. Vin yon Rasin Mapou.">
+  <meta property="og:image" content="https://rezomapou.github.io/webapp/og_image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://rezomapou.github.io/webapp/index.html">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+  <script src="strings.js"></script>
+  <style>
+    .hero {
+      background: var(--forest);
+      padding: 4rem 0 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(200,168,75,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 3rem;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+      display: inline-block;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: white;
+      margin-bottom: 1rem;
+      line-height: 1.15;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--on-dark-muted);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+    .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .hero-stats {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .hero-stat { text-align: center; padding: 0.75rem 0; }
+    .hero-stat + .hero-stat { border-top: 1px solid rgba(255,255,255,0.1); }
+    .hero-stat-num {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-stat-lbl { font-size: 0.75rem; color: var(--on-dark-muted); letter-spacing: 0.08em; }
 
-/* STATS BAR */
-.stats-bar{position:fixed;top:0;left:0;right:0;z-index:101;background:var(--earth-d);display:flex;align-items:center;justify-content:space-between;padding:5px 2rem;height:30px;}
-.stats-counts{display:flex;gap:1.5rem;font-size:11px;color:rgba(255,255,255,0.6);}
-.stats-counts strong{color:var(--gold);}
-.lang-bar{display:flex;gap:3px;}
-.lb{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'DM Sans',sans-serif;font-size:11px;padding:2px 8px;cursor:pointer;border-radius:2px;transition:all 0.2s;display:flex;align-items:center;gap:4px;}
-.lb.active,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--earth-d);}
+    .section { padding: 3.5rem 0; }
+    .section-alt { background: white; }
+    .section-title {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      margin-bottom: 0.5rem;
+    }
+    .section-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      max-width: 540px;
+    }
 
-/* NAV */
-nav{position:fixed;top:30px;left:0;right:0;z-index:100;background:rgba(247,243,236,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:56px;}
-.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.nav-logo{width:34px;height:34px;border-radius:50%;background:white;object-fit:contain;padding:3px;}
-.nav-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--forest);}
-.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;}
-.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-.nav-links a:hover,.nav-links a.active{color:var(--forest);}
-.nav-cta{background:var(--gold)!important;color:var(--earth-d)!important;padding:6px 16px;border-radius:2px;font-weight:500!important;}
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .feature-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+    .feature-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 0.85rem; color: var(--muted); margin: 0; }
 
-/* HERO */
-.hero{min-height:100vh;padding-top:86px;display:flex;align-items:center;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(30,77,43,0.08) 0%,transparent 70%);pointer-events:none;}
-.hero-inner{max-width:1100px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1fr 360px;align-items:center;gap:4rem;}
-.hero-eye{font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;}
-.hero-eye::before{content:'';width:28px;height:1px;background:var(--gold);display:inline-block;}
-h1.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,5vw,4.5rem);font-weight:900;line-height:1.0;color:var(--ink);margin-bottom:1.5rem;}
-h1.hero-title em{font-style:italic;color:var(--forest);display:block;}
-h1.hero-title .acc{color:var(--gold);}
-.hero-lead{font-size:1rem;font-weight:300;color:var(--muted);max-width:440px;margin-bottom:2.5rem;line-height:1.8;}
-.hero-btns{display:flex;gap:10px;flex-wrap:wrap;}
-.btn-gold{display:inline-block;background:var(--gold);color:var(--earth-d);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:13px 26px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s;}
-.btn-gold:hover{background:var(--gold-l);}
-.btn-out{display:inline-block;background:transparent;color:var(--earth);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:12px 26px;border-radius:2px;text-decoration:none;border:1px solid var(--earth);transition:all 0.2s;}
-.btn-out:hover{background:var(--earth);color:white;}
-.hero-vis{display:flex;justify-content:center;align-items:center;}
-.hero-logo{width:260px;height:260px;border-radius:50%;background:white;object-fit:contain;padding:16px;filter:drop-shadow(0 8px 32px rgba(30,77,43,0.15));animation:rise 0.9s ease forwards;opacity:0;}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+    .leaf-showcase {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .leaf-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+    }
+    .leaf-item .icon { font-size: 1.3rem; }
+    .leaf-item .name { font-weight: 600; color: var(--forest); }
+    .leaf-item .desc { color: var(--muted); font-size: 0.8rem; }
 
-/* DARK BAND */
-.dark-band{background:var(--earth-d);padding:2rem 2rem;}
-.dark-band-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center;}
-.db-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--gold);display:block;line-height:1;margin-bottom:3px;}
-.db-lbl{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);}
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      counter-reset: steps;
+    }
+    .how-step {
+      text-align: center;
+      padding: 1.25rem 1rem;
+      position: relative;
+    }
+    .how-step::before {
+      counter-increment: steps;
+      content: counter(steps);
+      display: block;
+      width: 36px;
+      height: 36px;
+      background: var(--forest);
+      color: var(--gold);
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 900;
+      border-radius: 50%;
+      line-height: 36px;
+      margin: 0 auto 0.75rem;
+    }
+    .how-step h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .how-step p  { font-size: 0.82rem; color: var(--muted); margin: 0; }
 
-/* SECTIONS */
-.sec{padding:5rem 2rem;}
-.sec-inner{max-width:1100px;margin:0 auto;}
-.sec-eye{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;display:flex;align-items:center;gap:10px;}
-.sec-eye::before{content:'';width:20px;height:1px;background:var(--gold);display:inline-block;}
-h2.sec-t{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;color:var(--ink);margin-bottom:0.75rem;line-height:1.2;}
-.sec-lead{font-size:1rem;color:var(--muted);max-width:540px;line-height:1.8;margin-bottom:2.5rem;font-weight:300;}
+    .cta-section {
+      background: var(--earth);
+      padding: 3rem 0;
+      text-align: center;
+    }
+    .cta-section h2 { color: white; margin-bottom: 0.5rem; }
+    .cta-section p  { color: var(--on-dark-muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
 
-/* MAPOU */
-.mapou-sec{background:var(--forest);padding:5rem 2rem;}
-.mapou-inner{max-width:880px;margin:0 auto;text-align:center;}
-.mapou-inner .sec-eye{justify-content:center;color:var(--gold-l);}
-.mapou-inner .sec-eye::before{background:var(--gold-l);}
-.mapou-inner h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;color:white;margin-bottom:1.5rem;}
-.mapou-inner p{font-size:1rem;color:rgba(255,255,255,0.75);font-weight:300;line-height:1.85;margin-bottom:1rem;max-width:680px;margin-left:auto;margin-right:auto;}
-.disclaimer{margin-top:2.5rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:1.75rem 2rem;text-align:left;max-width:680px;margin-left:auto;margin-right:auto;}
-.disclaimer p{font-size:13.5px;color:rgba(255,255,255,0.78);margin-bottom:0.7rem;line-height:1.65;}
-.disclaimer p:last-child{margin-bottom:0;}
-.disclaimer strong{color:var(--gold-l);}
+    .vwa-preview {
+      background: var(--cream-dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 1rem;
+    }
 
-/* STEPS */
-.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:2rem;}
-.step{background:white;border:1px solid var(--bdr);border-radius:4px;padding:1.75rem;}
-.step-n{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:0.75rem;display:block;}
-.step-t{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem;}
-.step-d{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;}
-.conds{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
-.cond{background:white;border-left:3px solid var(--gold);padding:1rem 1.25rem;}
-.cond-t{font-size:13px;font-weight:500;color:var(--forest);margin-bottom:3px;}
-.cond-d{font-size:12px;color:var(--muted);font-weight:300;line-height:1.5;}
-
-/* CTA CARDS */
-.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;}
-.cta-card{border-radius:4px;padding:2.5rem;display:flex;flex-direction:column;gap:1rem;}
-.cta-card.green{background:var(--forest);}
-.cta-card.gold{background:var(--gold);}
-.cta-card h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;}
-.cta-card.green h3{color:white;}
-.cta-card.gold h3{color:var(--earth-d);}
-.cta-card p{font-size:14px;font-weight:300;line-height:1.7;}
-.cta-card.green p{color:rgba(255,255,255,0.75);}
-.cta-card.gold p{color:var(--earth);}
-.cta-card a{align-self:flex-start;}
-.btn-white{display:inline-block;background:white;color:var(--forest);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:12px 24px;border-radius:2px;text-decoration:none;transition:opacity 0.2s;}
-.btn-white:hover{opacity:0.9;}
-.btn-dark{display:inline-block;background:var(--earth-d);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:12px 24px;border-radius:2px;text-decoration:none;transition:opacity 0.2s;}
-.btn-dark:hover{opacity:0.85;}
-
-/* FOOTER */
-footer{background:var(--ink);color:rgba(255,255,255,0.45);padding:2.5rem 2rem;}
-.foot-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;}
-.foot-brand .foot-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:4px;}
-.foot-brand .foot-tag{font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;}
-.foot-contact{margin-top:0.75rem;font-size:12px;}
-.foot-contact a{color:var(--gold);text-decoration:none;}
-.foot-col h4{font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:0.75rem;}
-.foot-col ul{list-style:none;}
-.foot-col ul li{margin-bottom:6px;}
-.foot-col ul li a{font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;}
-.foot-col ul li a:hover{color:var(--gold);}
-.foot-bottom{max-width:1100px;margin:0 auto;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.07);font-size:11px;text-align:center;}
-.foot-bottom a{color:var(--gold);text-decoration:none;margin:0 0.5rem;}
-
-.fade-up{opacity:0;transform:translateY(18px);transition:opacity 0.6s,transform 0.6s;}
-.fade-up.visible{opacity:1;transform:none;}
-@media(max-width:768px){
-  .hero-inner{grid-template-columns:1fr;}.hero-vis{display:none;}
-  .dark-band-inner{grid-template-columns:repeat(2,1fr);}
-  .steps-grid,.conds,.cta-grid{grid-template-columns:1fr;}
-  .nav-links{display:none;}
-  .foot-inner{flex-direction:column;gap:1.5rem;}
-}
-</style>
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+      .hero-stat + .hero-stat { border-top: none; border-left: 1px solid rgba(255,255,255,0.1); }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .how-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 520px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .how-grid { grid-template-columns: 1fr 1fr; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stats-counts">
-    <span><strong id="sb-s">—</strong> <span data-s="stats_sentinelles">Santinèl</span></span>
-    <span><strong id="sb-c">—</strong> <span data-s="stats_coaches">Coach</span></span>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="index.html" data-s="nav_home">Akèy</a>
+    <div class="top-bar-counts">
+      <span><strong id="tb-s">—</strong> <span data-s="dash_members">Rasin</span></span>
+      <span><strong id="tb-c">—</strong> <span data-s="dash_coaches">Coach</span></span>
+    </div>
   </div>
   <div class="lang-bar">
-    <button class="lb active" onclick="L('ht')">🇭🇹 KR</button>
-    <button class="lb" onclick="L('fr')">🇫🇷 FR</button>
-    <button class="lb" onclick="L('en')">🇺🇸 EN</button>
+    <button class="lang-btn active" data-lang-btn="ht" onclick="switchLang('ht')">🇭🇹 KR</button>
+    <button class="lang-btn" data-lang-btn="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">🇺🇸 EN</button>
   </div>
 </div>
 
 <!-- NAV -->
-<nav>
+<nav class="nav">
   <a href="index.html" class="nav-brand">
-    <img src="rezo_mapou_logo.png" class="nav-logo" alt="Rezo Mapou" onerror="this.style.display='none'">
-    <span class="nav-name">Rezo Mapou</span>
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback" style="display:none;">RMN</div>
+    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active" data-s="nav_home">Akèy</a></li>
-    <li><a href="index.html#program" data-s="nav_program">Pwogram</a></li>
-    <li><a href="register.html#sentinelle" data-s="nav_sentinelle">Santinèl</a></li>
-    <li><a href="register.html#coach" data-s="nav_coach">Coach</a></li>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" data-s="nav_home" class="active">Akèy</a></li>
+    <li><a href="register.html" data-s="nav_register">Enskri</a></li>
     <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
-    <li><a href="register.html" class="nav-cta" data-s="nav_join">Enskri</a></li>
+    <li><a href="login.html" data-s="nav_login" id="nav-login-link">Konekte</a></li>
   </ul>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
   <div class="hero-inner">
     <div>
-      <div class="hero-eye" data-s="hero_tag">Rezo Machann Nasyonal · Ayiti 2026</div>
-      <h1 class="hero-title">
-        <span data-s="hero_t1">Ou se</span><br>
-        <em data-s="hero_t2">Rezo Mapou.</em><br>
-        <span class="acc" data-s="hero_t3">Vini grandi.</span>
-      </h1>
-      <p class="hero-lead" data-s="hero_lead">Yon rezo nasyonal ki sipòte machann ak antreprenè nan tout Ayiti.</p>
-      <div class="hero-btns">
-        <a href="register.html#sentinelle" class="btn-gold" data-s="hero_cta_s">Enskri kòm Santinèl</a>
-        <a href="register.html#coach" class="btn-out" data-s="hero_cta_c">Enskri kòm Coach</a>
+      <div class="hero-eyebrow" data-s="site_abbr">RMN</div>
+      <h1 id="hero-title">Rasin <span>Ayiti</span></h1>
+      <p class="hero-desc" id="hero-desc">
+        Rezo sivil ayisyen ki konekte machann, pwofesè, anplwaye ak dyaspora
+        nan yon sèl enfrastrikti konfyans.
+      </p>
+      <div class="hero-actions">
+        <a href="register.html" class="btn btn-gold btn-lg" data-s="nav_register">Enskri kounye a</a>
+        <a href="dashboard.html" class="btn btn-outline btn-lg" style="color:white;border-color:rgba(255,255,255,0.4);" data-s="nav_dashboard">Tablodbò</a>
       </div>
     </div>
-    <div class="hero-vis">
-      <img src="rezo_mapou_logo.png" class="hero-logo" alt="Rezo Mapou" onerror="this.style.display='none'">
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="stat-members">—</span>
+        <div class="hero-stat-lbl" data-s="dash_members">Rasin Enskri</div>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="stat-depts">—</span>
+        <div class="hero-stat-lbl" data-s="dash_depts">Depatman</div>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="stat-communes">—</span>
+        <div class="hero-stat-lbl" data-s="dash_communes">Komin</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- DARK BAND -->
-<div class="dark-band">
-  <div class="dark-band-inner">
-    <div class="fade-up"><span class="db-num">10</span><span class="db-lbl" data-s="dash_depts">Depatman</span></div>
-    <div class="fade-up"><span class="db-num">146</span><span class="db-lbl" data-s="dash_communes">Komin</span></div>
-    <div class="fade-up"><span class="db-num" id="stat-s">—</span><span class="db-lbl" data-s="stats_sentinelles">Santinèl</span></div>
-    <div class="fade-up"><span class="db-num" id="stat-c">—</span><span class="db-lbl" data-s="stats_coaches">Coach</span></div>
+<!-- FEATURES -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title" id="feat-title">Poukisa Rezo Mapou?</h2>
+    <p class="section-sub" id="feat-sub">Yon rezo ki bati sou konfyans, pa sou klik.</p>
+    <div class="features-grid" id="features-grid"></div>
   </div>
-</div>
+</section>
 
-<!-- MAPOU -->
-<section class="mapou-sec" id="mapou">
-  <div class="mapou-inner fade-up">
-    <div class="sec-eye" data-s="map_eye">Senbòl Nou</div>
-    <h2 data-s="map_title">Poukisa Mapou?</h2>
-    <p data-s="map_p1">Pyebwa Mapou se pyebwa ki pi solid ann Ayiti. Li pa grandi vit — li bati rasin pwofon anvan li leve anlè. Siklòn pa ka rache l paske pa gen yon sèl rasin ki pote tout pwa a.</p>
-    <p data-s="map_p2">Machann yo se rasin ekonomi Ayisyen an. Chak machann dlo, chak vandè manje — se yon rasin. Ansanm, nou fòme yon rezo ki pa ka rache.</p>
-    <div class="disclaimer">
-      <p><strong data-s="map_dis_title">Yon bagay enpòtan pou nou di klè:</strong></p>
-      <p data-s="map_dis1">Rezo Mapou pa gen okenn afiliyasyon relijye — ni katolik, ni pwotestan, ni vodou. Senbòl mapou a se eritaj tout pèp Ayisyen.</p>
-      <p data-s="map_dis2">Rezo Mapou pa gen okenn afiliyasyon politik — ni pati, ni kandida, ni gouvènman.</p>
-      <p data-s="map_dis3">Tout moun gen plas nan Rezo Mapou. Sèl kondisyon: vle wè Ayiti avanse.</p>
+<!-- 5-LEAF SYSTEM -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title" id="leaf-title">Sistèm 5 Fèy</h2>
+    <p class="section-sub" id="leaf-sub">Pa gen "Like" isit. Chak fèy gen yon siyifikasyon reyèl.</p>
+    <div class="leaf-showcase" id="leaf-showcase"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title" id="how-title">Kijan sa travay?</h2>
+    <p class="section-sub" id="how-sub">Senp. Rapid. Gratis.</p>
+    <div class="how-grid" id="how-grid"></div>
+  </div>
+</section>
+
+<!-- VWA PREVIEW -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title" id="vwa-title">Vwa — Vwa Ou</h2>
+    <p class="section-sub" id="vwa-sub">Pataje kontni ou nan rezo a. Videyo kout ki montre ki moun ou ye ak sa ou fè.</p>
+    <div class="vwa-preview" id="vwa-preview">
+      🎬 Vwa feed ap vini nan pwochen vèsyon an.
     </div>
   </div>
 </section>
 
-<!-- PROGRAMME -->
-<section class="sec" id="program" style="background:var(--cream-d);">
-  <div class="sec-inner">
-    <div class="fade-up">
-      <div class="sec-eye" data-s="prog_eye">Pwogram Nou</div>
-      <h2 class="sec-t" data-s="prog_title">Map Sipote Lakay</h2>
-      <p class="sec-lead" data-s="prog_lead">3 etap senp. Yon sipò reyèl chak mwa.</p>
-      <div class="steps-grid">
-        <div class="step"><span class="step-n">1</span><div class="step-t" data-s="step1_title">Enskri — Gratis</div><div class="step-d" data-s="step1_desc">Kreye pwofil ou kòm Santinèl. Pa peye anyen.</div></div>
-        <div class="step"><span class="step-n">2</span><div class="step-t" data-s="step2_title">Coach Chwazi Ou</div><div class="step-d" data-s="step2_desc">Coach yo gade pwofil ou epi deside sipòte ou.</div></div>
-        <div class="step"><span class="step-n">3</span><div class="step-t" data-s="step3_title">Resevwa Sipò Chak Mwa</div><div class="step-d" data-s="step3_desc">Ou resevwa sipò — akondisyon 3 aktivite yo fèt.</div></div>
-      </div>
-      <div class="conds">
-        <div class="cond"><div class="cond-t" data-s="cond1_title">① Poste sou Rezo Mapou</div><div class="cond-d" data-s="cond1_desc">Pataje yon post sou paj nou.</div></div>
-        <div class="cond"><div class="cond-t" data-s="cond2_title">② Aktivite Kominotè</div><div class="cond-d" data-s="cond2_desc">Patisipe nan omwen yon aktivite nan mwa a.</div></div>
-        <div class="cond"><div class="cond-t" data-s="cond3_title">③ Rapò Mansyèl</div><div class="cond-d" data-s="cond3_desc">Ranpli rapò mansyèl rezo a.</div></div>
-      </div>
-    </div>
-    <div class="cta-grid fade-up">
-      <div class="cta-card green">
-        <h3 data-s="nav_sentinelle">Santinèl</h3>
-        <p data-s="cta_quote">Ou se yon machann — vini nan rezo a.</p>
-        <a href="register.html#sentinelle" class="btn-white" data-s="cta_s">Enskri Gratis</a>
-      </div>
-      <div class="cta-card gold">
-        <h3 data-s="nav_coach">Coach</h3>
-        <p data-s="step2_desc">Sipòte yon machann nan kominote ou.</p>
-        <a href="register.html#coach" class="btn-dark" data-s="cta_c">Enskri kòm Coach</a>
-      </div>
-    </div>
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2 data-s="reg_title">Vin yon Rasin Mapou</h2>
+    <p data-s="reg_subtitle">Enskri gratis. Pa gen pèmisyon espesyal.</p>
+    <a href="register.html" class="btn btn-gold btn-lg" data-s="nav_register">Enskri kounye a</a>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-inner">
-    <div class="foot-brand">
-      <div class="foot-name">Rezo Mapou</div>
-      <div class="foot-tag" data-s="foot_tagline">Rezo Machann Nasyonal · Ayiti</div>
-      <div class="foot-tag" data-s="foot_motto"><em>Rasin nou fò, nou rive lwen .</em></div>
-      <div class="foot-contact"><a href="mailto:info@fatraselo.net">info@fatraselo.net</a> · <a href="tel:+50947334565">+509 4733 4565</a></div>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="terms.html" data-s="legal_terms">Tèm Itilizasyon</a>
+      <a href="privacy.html" data-s="legal_privacy">Konfidansyalite</a>
+      <a href="copyright.html" data-s="legal_copyright">Dwa Otè</a>
+      <a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a>
     </div>
-    <div class="foot-col">
-      <h4 data-s="foot_nav">Navigasyon</h4>
-      <ul>
-        <li><a href="index.html" data-s="nav_home">Akèy</a></li>
-        <li><a href="register.html#sentinelle" data-s="nav_sentinelle">Santinèl</a></li>
-        <li><a href="register.html#coach" data-s="nav_coach">Coach</a></li>
-        <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
-      </ul>
-    </div>
-    <div class="foot-col">
-      <h4 data-s="foot_legal">Legal</h4>
-      <ul>
-        <li><a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a></li>
-        <li><a href="terms.html" data-s="lnk_terms">Tèm</a></li>
-        <li><a href="copyright.html" data-s="lnk_copyright">Dwa Otè</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="foot-bottom">
-    © 2026 Rezo Mapou · <a href="privacy.html" data-s="lnk_privacy">Konfidansyalite</a> · <a href="terms.html" data-s="lnk_terms">Tèm</a>
+    <div class="footer-copy" data-s="legal_rights">© 2026 Rezo Mapou Nasyonal</div>
   </div>
 </footer>
 
-<script src="strings.js"></script>
 <script>
-let lang='ht';
-function L(l){
-  lang=l;
-  document.querySelectorAll('.lb').forEach(b=>{
-    const m={ht:'🇭🇹 KR',fr:'🇫🇷 FR',en:'🇺🇸 EN'};
-    b.classList.toggle('active',b.textContent.trim()===m[l]);
-  });
-  const t=STRINGS[l];
-  document.querySelectorAll('[data-s]').forEach(el=>{
-    const k=el.getAttribute('data-s');
-    if(t[k])el.innerHTML=t[k];
-  });
+document.addEventListener('DOMContentLoaded', () => {
+  const lang = getCurrentLang();
+  L(lang, 'home');
+  renderFeatures(lang);
+  renderLeaves(lang);
+  renderHowItWorks(lang);
+  renderHeroText(lang);
+  fetchStats();
+  const session = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
+  if (session) {
+    const lnk = document.getElementById('nav-login-link');
+    if (lnk) { lnk.href='profile.html'; lnk.textContent=s('nav_profile'); }
+  }
+});
+
+function switchLang(lang) {
+  L(lang, 'home');
+  renderFeatures(lang);
+  renderLeaves(lang);
+  renderHowItWorks(lang);
+  renderHeroText(lang);
 }
-async function fetchStats(){
-  try{
-    const r=await fetch(SCRIPT_URL+'?t='+Date.now());
-    const d=await r.json();
-    const s=d.sentinelles||0, c=d.coaches||0;
-    ['sb-s','stat-s'].forEach(id=>document.getElementById(id).textContent=s);
-    ['sb-c','stat-c'].forEach(id=>document.getElementById(id).textContent=c);
-  }catch(e){}
+
+function renderHeroText(lang) {
+  const titles = {
+    ht: ['Rasin', 'Ayiti'],
+    fr: ['Les Racines', "d'Haïti"],
+    en: ['The Roots', 'of Haiti'],
+  };
+  const descs = {
+    ht: 'Rezo sivil ayisyen ki konekte machann, pwofesè, anplwaye ak dyaspora nan yon sèl enfrastrikti konfyans.',
+    fr: 'Réseau civique haïtien connectant marchands, enseignants, employés et diaspora en une seule infrastructure de confiance.',
+    en: 'Haitian civic network connecting merchants, teachers, employees and diaspora into one trust infrastructure.',
+  };
+  const t = titles[lang] || titles.ht;
+  document.getElementById('hero-title').innerHTML = `${t[0]} <span>${t[1]}</span>`;
+  document.getElementById('hero-desc').textContent = descs[lang] || descs.ht;
 }
-const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.1});
-document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-L('ht');fetchStats();setInterval(fetchStats,60000);
+
+function renderFeatures(lang) {
+  const features = {
+    ht: [
+      { icon:'🌳', title:'Idantite Rasin', desc:'Chak manm se yon Rasin Mapou — yon nœud nan rezo a.' },
+      { icon:'🔐', title:'Konfyans Reyèl', desc:'Validasyon ant moun — pa bot, pa fòs.' },
+      { icon:'📍', title:'Kat Nasyonal', desc:'146 komin reprezante nan yon sèl rezo.' },
+      { icon:'💬', title:'Koneksyon Pwoteje', desc:'Kontakte manm san ekspoze enfòmasyon pèsonèl.' },
+      { icon:'🌍', title:'Dyaspora Entegre', desc:'Manm nan Ayiti ak toupatou sou latè.' },
+      { icon:'📊', title:'Skor RMN', desc:'Chak manm gen yon skor baze sou aktivite reyèl.' },
+    ],
+    fr: [
+      { icon:'🌳', title:'Identité Rasin', desc:"Chaque membre est une Rasin Mapou — un nœud dans le réseau." },
+      { icon:'🔐', title:'Confiance Réelle', desc:'Validation entre humains — pas de bots, pas de force.' },
+      { icon:'📍', title:'Carte Nationale', desc:'146 communes représentées dans un seul réseau.' },
+      { icon:'💬', title:'Connexion Protégée', desc:'Contactez des membres sans exposer vos données personnelles.' },
+      { icon:'🌍', title:'Diaspora Intégrée', desc:"Membres en Haïti et partout dans le monde." },
+      { icon:'📊', title:'Score RMN', desc:'Chaque membre a un score basé sur une activité réelle.' },
+    ],
+    en: [
+      { icon:'🌳', title:'Rasin Identity', desc:'Every member is a Rasin Mapou — a node in the network.' },
+      { icon:'🔐', title:'Real Trust', desc:'Human validation — no bots, no force.' },
+      { icon:'📍', title:'National Map', desc:'146 communes represented in one network.' },
+      { icon:'💬', title:'Protected Connection', desc:'Contact members without exposing personal information.' },
+      { icon:'🌍', title:'Integrated Diaspora', desc:'Members in Haiti and everywhere in the world.' },
+      { icon:'📊', title:'RMN Score', desc:'Every member has a score based on real activity.' },
+    ],
+  };
+  const list = features[lang] || features.ht;
+  document.getElementById('features-grid').innerHTML = list.map(f => `
+    <div class="feature-card">
+      <span class="feature-icon">${f.icon}</span>
+      <h3>${f.title}</h3>
+      <p>${f.desc}</p>
+    </div>
+  `).join('');
+}
+
+function renderLeaves(lang) {
+  const leaves = RMN_CONFIG.LEAF_KEYS.map(key => ({
+    icon: RMN_CONFIG.LEAF_ICONS[key],
+    name: s('leaf_' + key.toLowerCase()),
+    tip:  s('leaf_' + key.toLowerCase() + '_tip'),
+  }));
+  document.getElementById('leaf-showcase').innerHTML = leaves.map(l => `
+    <div class="leaf-item">
+      <span class="icon">${l.icon}</span>
+      <div>
+        <div class="name">${l.name}</div>
+        <div class="desc">${l.tip}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderHowItWorks(lang) {
+  const steps = {
+    ht: [
+      { title:'Enskri', desc:'Ranpli fòm nan ak nimewo ou. Gratis pou tout moun.' },
+      { title:'Verifye', desc:'Klike sou lyen nan imèl ou pou aktive kont ou.' },
+      { title:'Konekte', desc:'Jwenn lòt Rasin. Valide moun ou konnen.' },
+      { title:'Grandi', desc:'Bati skor ou. Pataje Vwa. Vin yon Rekonèt.' },
+    ],
+    fr: [
+      { title:"S'inscrire", desc:'Remplissez le formulaire avec votre numéro. Gratuit pour tous.' },
+      { title:'Vérifier', desc:'Cliquez sur le lien dans votre email pour activer votre compte.' },
+      { title:'Se Connecter', desc:"Trouvez d'autres Racines. Validez les personnes que vous connaissez." },
+      { title:'Grandir', desc:'Construisez votre score. Partagez des Vwa. Devenez Reconnu(e).' },
+    ],
+    en: [
+      { title:'Register', desc:'Fill the form with your number. Free for everyone.' },
+      { title:'Verify', desc:'Click the link in your email to activate your account.' },
+      { title:'Connect', desc:'Find other Roots. Validate people you know.' },
+      { title:'Grow', desc:'Build your score. Share Vwa. Become Recognized.' },
+    ],
+  };
+  const list = steps[lang] || steps.ht;
+  document.getElementById('how-grid').innerHTML = list.map(st => `
+    <div class="how-step">
+      <h3>${st.title}</h3>
+      <p>${st.desc}</p>
+    </div>
+  `).join('');
+}
+
+async function fetchStats() {
+  try {
+    const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=stats&t=${Date.now()}`);
+    const d = await res.json();
+    const sm = d.sentinelles || 0;
+    const sc = d.coaches     || 0;
+    const sd = Object.keys(d.by_dept    || {}).length;
+    const sk = Object.keys(d.by_commune || {}).length;
+    document.getElementById('stat-members').textContent   = sm.toLocaleString();
+    document.getElementById('stat-depts').textContent     = sd.toLocaleString();
+    document.getElementById('stat-communes').textContent  = sk.toLocaleString();
+    document.getElementById('tb-s').textContent = sm.toLocaleString();
+    document.getElementById('tb-c').textContent = sc.toLocaleString();
+  } catch(e) {}
+}
+
+function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
 </script>
 </body>
 </html>

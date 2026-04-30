@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifye — Rezo Mapou Nasyonal</title>
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .verify-wrap {
+      min-height: calc(100vh - var(--topbar-height) - var(--nav-height) - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .verify-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .verify-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .verify-card h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .verify-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--cream-dark);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--forest);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="index.html" data-s="nav_home">Akèy</a>
+  </div>
+  <div class="lang-bar">
+    <button class="lang-btn active" data-lang-btn="ht" onclick="switchLang('ht')">🇭🇹 KR</button>
+    <button class="lang-btn" data-lang-btn="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">🇺🇸 EN</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback" style="display:none;">RMN</div>
+    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" data-s="nav_home">Akèy</a></li>
+    <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
+</nav>
+
+<!-- MAIN -->
+<main>
+  <div class="verify-wrap">
+    <div class="verify-card" id="verify-card">
+
+      <!-- LOADING STATE -->
+      <div id="state-loading">
+        <span class="verify-icon">🔐</span>
+        <h1 data-s="verify_title">Ap verifye kont ou...</h1>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p class="text-muted text-sm">Tanpri pran pasyans...</p>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div id="state-success" class="hidden">
+        <span class="verify-icon">🌱</span>
+        <h1 data-s="verify_success" style="color:var(--success)">Kont verifye!</h1>
+        <p id="success-detail"></p>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill-2" style="width:100%;background:var(--success)"></div>
+        </div>
+        <p class="text-sm text-muted" data-s="verify_redirecting">Redireksyon nan Vitrine ou...</p>
+        <div class="mt-2">
+          <a href="profile.html" class="btn btn-primary btn-full" data-s="nav_profile">Vitrine mwen</a>
+        </div>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div id="state-error" class="hidden">
+        <span class="verify-icon">⚠️</span>
+        <h1 id="error-title" style="color:var(--error)">Erè</h1>
+        <p id="error-detail"></p>
+        <div class="mt-2" id="error-actions"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="terms.html" data-s="legal_terms">Tèm Itilizasyon</a>
+    </div>
+    <div class="footer-copy" data-s="legal_rights">© 2026 Rezo Mapou Nasyonal</div>
+  </div>
+</footer>
+
+<script>
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  L(getCurrentLang(), 'home');
+  startVerification();
+});
+
+function switchLang(lang) { L(lang, 'home'); }
+function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+// ── VERIFICATION ──────────────────────────────────────────────────────────
+async function startVerification() {
+  // Animate progress bar while verifying
+  animateProgress(0, 70, 800);
+
+  // Read token and type from URL
+  const params  = new URLSearchParams(window.location.search);
+  const token   = params.get('token') || '';
+  const type    = params.get('type')  || 'verify';
+  const lang    = getCurrentLang();
+
+  if (!token) {
+    showError(s('verify_invalid'), null, lang);
+    return;
+  }
+
+  try {
+    const body = new URLSearchParams({
+      action: 'verify_token',
+      token,
+      type,
+      lang,
+    });
+    const res  = await fetch(RMN_CONFIG.SCRIPT_URL, { method: 'POST', body });
+    const data = await res.json();
+
+    animateProgress(70, 100, 400);
+
+    if (data.success) {
+      // Store session in localStorage
+      localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY,  data.session_token);
+      localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_ID_KEY,     data.member_id);
+      localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY,   getCurrentLang());
+
+      setTimeout(() => showSuccess(data, type, lang), 500);
+
+    } else {
+      const isExpired = data.message && data.message.toLowerCase().includes('expir');
+      showError(
+        data.message || s('verify_invalid'),
+        isExpired ? 'expired' : 'invalid',
+        lang
+      );
+    }
+
+  } catch(err) {
+    showError(s('f_error'), 'network', lang);
+  }
+}
+
+// ── STATE RENDERERS ───────────────────────────────────────────────────────
+function showSuccess(data, type, lang) {
+  document.getElementById('state-loading').classList.add('hidden');
+  document.getElementById('state-success').classList.remove('hidden');
+
+  const msgs = {
+    verify: {
+      ht: `Ou kounye a nan Nivo 1 — Verifye. Byenveni, ${data.first_name || 'Rasin'}!`,
+      fr: `Vous êtes maintenant au Niveau 1 — Vérifié(e). Bienvenue, ${data.first_name || 'Rasin'} !`,
+      en: `You are now Level 1 — Verified. Welcome, ${data.first_name || 'Rasin'}!`,
+    },
+    login: {
+      ht: `Bon tounen, ${data.first_name || 'Rasin'}! Ou konekte.`,
+      fr: `Bon retour, ${data.first_name || 'Rasin'} ! Vous êtes connecté(e).`,
+      en: `Welcome back, ${data.first_name || 'Rasin'}! You are logged in.`,
+    },
+  };
+  const msgSet = msgs[type] || msgs.verify;
+  document.getElementById('success-detail').textContent = msgSet[lang] || msgSet.ht;
+
+  // Auto-redirect to profile after 2.5s
+  setTimeout(() => {
+    window.location.replace('profile.html');
+  }, 2500);
+}
+
+function showError(message, errorType, lang) {
+  document.getElementById('state-loading').classList.add('hidden');
+  document.getElementById('state-error').classList.remove('hidden');
+
+  const titles = {
+    expired: { ht:'Lyen ekspire', fr:'Lien expiré', en:'Link expired' },
+    invalid: { ht:'Lyen pa valid', fr:'Lien invalide', en:'Invalid link' },
+    network: { ht:'Erè koneksyon', fr:'Erreur de connexion', en:'Connection error' },
+  };
+  const titleSet = titles[errorType] || titles.invalid;
+  document.getElementById('error-title').textContent  = titleSet[lang] || titleSet.ht;
+  document.getElementById('error-detail').textContent = message;
+
+  // Action buttons based on error type
+  const actionsDiv = document.getElementById('error-actions');
+  if (errorType === 'expired') {
+    actionsDiv.innerHTML = `
+      <a href="login.html" class="btn btn-primary btn-full mb-1" data-s="login_btn">
+        ${s('login_btn')}
+      </a>
+      <a href="register.html" class="btn btn-ghost btn-full" data-s="nav_register">
+        ${s('nav_register')}
+      </a>
+    `;
+  } else if (errorType === 'network') {
+    actionsDiv.innerHTML = `
+      <button class="btn btn-primary btn-full mb-1" onclick="startVerification()">
+        ${s('btn_confirm')} — Eseye ankò
+      </button>
+      <a href="index.html" class="btn btn-ghost btn-full" data-s="nav_home">
+        ${s('nav_home')}
+      </a>
+    `;
+  } else {
+    actionsDiv.innerHTML = `
+      <a href="login.html" class="btn btn-primary btn-full mb-1" data-s="nav_login">
+        ${s('nav_login')}
+      </a>
+      <a href="register.html" class="btn btn-ghost btn-full" data-s="nav_register">
+        ${s('nav_register')}
+      </a>
+    `;
+  }
+}
+
+// ── PROGRESS ANIMATION ────────────────────────────────────────────────────
+function animateProgress(from, to, duration) {
+  const fills = document.querySelectorAll('.progress-fill');
+  const start = performance.now();
+  function step(now) {
+    const elapsed = now - start;
+    const pct = Math.min(from + (to - from) * (elapsed / duration), to);
+    fills.forEach(f => { f.style.width = pct + '%'; });
+    if (elapsed < duration) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+</script>
+</body>
+</html>
