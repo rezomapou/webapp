@@ -353,37 +353,32 @@ function toggleNav() {
   document.getElementById('nav-links').classList.toggle('open');
 }
 
-  // ── sendFakeMember ────────────────────────────────────────────────
+// ── sendFakeMember ────────────────────────────────────────────────
 async function sendFakeMember() {
-  // 1. Replace this with your actual Web App URL from the 'Deploy' menu
-  const WEB_APP_URL = "https://script.google.com/macros/s/.../exec";
+  // Reference the centralized constant from your config.js
+  const url = RMN_CONFIG.SCRIPT_URL; 
 
   const fakeData = {
-    action: "register", // Must match the action checked in pipeline.gs
-    first_name: "Test",
-    last_name: "Merchant",
-    email: "your-email@example.com", 
-    phone: "+509" + Math.floor(Math.random() * 10000000), // Random Haiti number
-    language: "ht"
+    action: 'register', // pipeline.gs looks for this key
+    first_name: 'Test',
+    last_name: 'Merchant',
+    email: 'test@fatraselo.net',
+    phone: '+509' + Math.floor(Math.random() * 10000000),
+    language: 'ht'
   };
 
-  console.log("Sending data to:", WEB_APP_URL);
-
   try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      mode: "no-cors", // Crucial for Google Apps Script Web Apps
-      cache: "no-cache",
-      headers: { "Content-Type": "application/json" },
+    // Sending the request to the central URL
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors', // Essential for Apps Script Web Apps[cite: 1]
+      cache: 'no-cache',
       body: JSON.stringify(fakeData)
     });
-
-    // Note: With 'no-cors', you won't see the JSON response, 
-    // but the data will still hit the Google Sheet.
-    alert("Request sent! Check your GS_Raw sheet in 10 seconds.");
+    
+    alert("Data sent to " + url);
   } catch (error) {
     console.error("Connection failed:", error);
-    alert("Failed to connect to the backend.");
   }
 }
 </script>
