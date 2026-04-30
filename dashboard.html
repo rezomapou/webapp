@@ -352,6 +352,40 @@ async function adminSeed() {
 function toggleNav() {
   document.getElementById('nav-links').classList.toggle('open');
 }
+
+  // ── sendFakeMember ────────────────────────────────────────────────
+async function sendFakeMember() {
+  // 1. Replace this with your actual Web App URL from the 'Deploy' menu
+  const WEB_APP_URL = "https://script.google.com/macros/s/.../exec";
+
+  const fakeData = {
+    action: "register", // Must match the action checked in pipeline.gs
+    first_name: "Test",
+    last_name: "Merchant",
+    email: "your-email@example.com", 
+    phone: "+509" + Math.floor(Math.random() * 10000000), // Random Haiti number
+    language: "ht"
+  };
+
+  console.log("Sending data to:", WEB_APP_URL);
+
+  try {
+    const response = await fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors", // Crucial for Google Apps Script Web Apps
+      cache: "no-cache",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fakeData)
+    });
+
+    // Note: With 'no-cors', you won't see the JSON response, 
+    // but the data will still hit the Google Sheet.
+    alert("Request sent! Check your GS_Raw sheet in 10 seconds.");
+  } catch (error) {
+    console.error("Connection failed:", error);
+    alert("Failed to connect to the backend.");
+  }
+}
 </script>
 </body>
 </html>
