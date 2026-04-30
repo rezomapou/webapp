@@ -9,7 +9,7 @@
 const RMN_CONFIG = {
 
   // ── BACKEND ──────────────────────────────────────────────
-  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyhv9ttPU4iu55UeC4LrjP6K_A-t23Txp5GLjOiLMk7SX9fb5b6a_05jmmU7_AxVZ7Zxg/exec',
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwiXRt79QnrSbep4pDXfHQ-l9StJt61HVcJQeiNY3FCRXEffTF5mJOnVcO3ghECNqqiKg/exec',
   SHEET_ID:   '1-1C3v-hO7r_mACqQffAFUx0amXY1H9oJGbWRruz1JHw',
   ENV:        'production', // 'production' | 'dev'
 
