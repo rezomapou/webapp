@@ -9,11 +9,8 @@
   <meta property="og:description" content="Konekte ak rezo a. Gratis pou tout moun.">
   <meta property="og:image" content="https://rezomapou.github.io/webapp/og_image.png">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://rezomapou.github.io/webapp/register.html">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <!-- CONFIG AND STRINGS MUST LOAD BEFORE ANY PAGE SCRIPT -->
   <script src="config.js"></script>
   <script src="strings.js"></script>
   <style>
@@ -28,8 +25,8 @@
     .form-section-title:first-of-type{margin-top:0;padding-top:0;border-top:none}
     .location-haiti,.location-diaspora{display:none}
     .location-haiti.visible,.location-diaspora.visible{display:block}
-    .phone-wrapper{position:relative}
-    .phone-checking{position:absolute;right:10px;top:50%;transform:translateY(-50%)}
+    .phone-wrapper, .email-wrapper {position:relative}
+    .field-checking{position:absolute;right:10px;top:50%;transform:translateY(-50%)}
     .platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
     .platform-field{display:flex;align-items:center;gap:6px}
     .platform-field .platform-icon{font-size:1.1rem;width:24px;text-align:center;flex-shrink:0}
@@ -41,6 +38,14 @@
     .hp-field{position:absolute;left:-9999px;top:-9999px;opacity:0;pointer-events:none}
     @media(max-width:860px){.register-layout{grid-template-columns:1fr}.register-intro{position:static}}
     @media(max-width:480px){.platform-grid{grid-template-columns:1fr}}
+    
+    /* Loading Spinner Styling */
+    .loading-spinner {
+      width: 16px; height: 16px; border: 2px solid #ccc;
+      border-top-color: var(--gold-dark); border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -61,8 +66,7 @@
 
 <nav class="nav">
   <a href="index.html" class="nav-brand">
-    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
-      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
     <div class="nav-logo-fallback" style="display:none;">RMN</div>
     <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
   </a>
@@ -78,7 +82,6 @@
 <main>
   <div class="container">
     <div class="register-layout">
-
       <div class="register-intro">
         <div class="eyebrow" data-s="site_abbr">RMN</div>
         <h1 data-s="reg_title">Vin yon Rasin Mapou</h1>
@@ -114,29 +117,27 @@
           </div>
 
           <div class="form-group">
-  <label for="phone"><span data-s="f_phone">Nimewo</span><span class="required-mark">*</span></label>
-  <div class="phone-wrapper" style="position: relative;">
-    <input type="tel" id="phone" name="phone" autocomplete="tel" required placeholder="+509 3701 2345" data-ph="f_phone_ph">
-    <!-- Visual Sign for Phone -->
-    <div class="field-checking hidden" id="phone-checking"><div class="loading-spinner"></div></div>
-  </div>
-  <div class="field-feedback" id="phone-feedback"></div>
-  <div class="hint" data-s="f_phone_hint">Nimewo entènasyonal — pa gen doub</div>
-</div>
+            <label for="phone"><span data-s="f_phone">Nimewo</span><span class="required-mark">*</span></label>
+            <div class="phone-wrapper">
+              <input type="tel" id="phone" name="phone" autocomplete="tel" required placeholder="+509 3701 2345" data-ph="f_phone_ph">
+              <div class="field-checking hidden" id="phone-checking"><div class="loading-spinner"></div></div>
+            </div>
+            <div class="field-feedback" id="phone-feedback"></div>
+            <div class="hint" data-s="f_phone_hint">Nimewo entènasyonal — pa gen doub</div>
+          </div>
 
-<div class="form-group">
-  <label for="email">
-    <span data-s="f_email">Imèl</span>
-    <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
-  </label>
-  <div class="email-wrapper" style="position: relative;">
-    <input type="email" id="email" name="email" autocomplete="email" placeholder="ou@ekzanp.com" data-ph="f_email_ph">
-    <!-- Visual Sign for Email -->
-    <div class="field-checking hidden" id="email-checking"><div class="loading-spinner"></div></div>
-  </div>
-  <div class="field-feedback" id="email-feedback"></div>
-  <div class="hint" data-s="f_email_hint">Pou verifye kont ou</div>
-</div>
+          <div class="form-group">
+            <label for="email">
+              <span data-s="f_email">Imèl</span>
+              <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
+            </label>
+            <div class="email-wrapper">
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="ou@ekzanp.com" data-ph="f_email_ph">
+              <div class="field-checking hidden" id="email-checking"><div class="loading-spinner"></div></div>
+            </div>
+            <div class="field-feedback" id="email-feedback"></div>
+            <div class="hint" data-s="f_email_hint">Pou verifye kont ou</div>
+          </div>
 
           <div class="form-section-title">📍 <span data-s="f_country">Peyi</span></div>
           <div class="form-group">
@@ -189,8 +190,7 @@
           </div>
 
           <div class="form-section-title">
-            🔗 Lyen rezo sosyal
-            <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
+            🔗 Lyen rezo sosyal <span class="text-muted text-xs" data-s="lbl_optional">(opsyonèl)</span>
           </div>
           <div class="platform-grid" id="platform-grid"></div>
 
@@ -221,8 +221,6 @@
 </footer>
 
 <script>
-// config.js and strings.js already loaded in <head>
-
 document.addEventListener('DOMContentLoaded', () => {
   const lang = getCurrentLang();
   L(lang, 'register');
@@ -260,12 +258,10 @@ function renderTrustPoints(lang) {
 
 function populateCountries() {
   const sel = document.getElementById('country');
-  // Clear all except first placeholder
   while (sel.options.length > 1) sel.remove(1);
   DIASPORA_COUNTRIES.forEach(c => {
     const o = document.createElement('option');
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
+    o.value = c; o.textContent = c; sel.appendChild(o);
   });
 }
 
@@ -274,8 +270,7 @@ function populateDepts() {
   while (sel.options.length > 1) sel.remove(1);
   Object.keys(HAITI).sort().forEach(d => {
     const o = document.createElement('option');
-    o.value = d; o.textContent = d;
-    sel.appendChild(o);
+    o.value = d; o.textContent = d; sel.appendChild(o);
   });
 }
 
@@ -296,8 +291,7 @@ function onDeptChange(dept) {
   if (!dept || !HAITI[dept]) return;
   HAITI[dept].sort().forEach(c => {
     const o = document.createElement('option');
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
+    o.value = c; o.textContent = c; sel.appendChild(o);
   });
   sel.disabled = false;
 }
@@ -310,73 +304,87 @@ function populatePlatforms() {
     div.className = 'platform-field';
     div.innerHTML = `
       <span class="platform-icon" title="${platformLabel(p.key)}">${p.icon}</span>
-      <input type="url" name="${p.key.toLowerCase()}"
-        data-platform="${p.key}"
-        placeholder="${platformLabel(p.key)}"
-        autocomplete="off">
+      <input type="url" name="${p.key.toLowerCase()}" data-platform="${p.key}" placeholder="${platformLabel(p.key)}" autocomplete="off">
     `;
     grid.appendChild(div);
   });
 }
 
-// ── PHONE CHECK ───────────────────────────────────────────────────────────
-let _phoneTimer = null;
-let _phoneValid = false;
+// ── AVAILABILITY CHECK (Phone & Email) ────────────────────────────────────
+let _timers = { phone: null, email: null };
+let _validity = { phone: false, email: true };
 
-document.getElementById('phone').addEventListener('blur', function() {
-  if (this.value.trim()) checkPhone(this.value.trim());
+['phone', 'email'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('blur', function() {
+    if (this.value.trim()) checkAvailability(id, this.value.trim());
+  });
+  el.addEventListener('input', function() {
+    setFieldFeedback(id, '', '');
+    _validity[id] = (id === 'email' && !this.value.trim()); 
+    clearTimeout(_timers[id]);
+    const val = this.value.trim();
+    if (val.length >= (id === 'phone' ? 8 : 5)) {
+      _timers[id] = setTimeout(() => checkAvailability(id, val), 800);
+    }
+  });
 });
 
-document.getElementById('phone').addEventListener('input', function() {
-  setPhoneFeedback('','');
-  _phoneValid = false;
-  clearTimeout(_phoneTimer);
-  const val = this.value.trim();
-  if (val.length >= 8) _phoneTimer = setTimeout(() => checkPhone(val), 800);
-});
-
-async function checkPhone(raw) {
-  const input = document.getElementById('phone');
-  const checking = document.getElementById('phone-checking');
+async function checkAvailability(type, raw) {
+  const input = document.getElementById(type);
+  const checking = document.getElementById(`${type}-checking`);
   checking.classList.remove('hidden');
   input.classList.remove('input-ok','input-error');
+
   try {
-    const params = new URLSearchParams({ action:'check_phone', phone:raw, lang:getCurrentLang() });
+    const params = new URLSearchParams({ action:'check_availability', type:type, value:raw, lang:getCurrentLang() });
     const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?${params}`);
     const d = await res.json();
     checking.classList.add('hidden');
+    
     if (!d.valid) {
-      setPhoneFeedback('error', s('f_phone_invalid'));
-      input.classList.add('input-error'); _phoneValid = false;
+      setFieldFeedback(type, 'error', s(`f_${type}_invalid`));
+      input.classList.add('input-error'); _validity[type] = false;
     } else if (d.exists) {
-      setPhoneFeedback('error', s('f_phone_exists'));
-      input.classList.add('input-error'); _phoneValid = false;
+      setFieldFeedback(type, 'error', s(`f_${type}_exists`));
+      input.classList.add('input-error'); _validity[type] = false;
     } else {
-      setPhoneFeedback('ok', s('f_phone_ok'));
-      input.classList.add('input-ok'); _phoneValid = true;
-      if (d.normalized) input.dataset.normalized = d.normalized;
+      setFieldFeedback(type, 'ok', s(`f_${type}_ok`));
+      input.classList.add('input-ok'); _validity[type] = true;
+      if (type === 'phone' && d.normalized) input.dataset.normalized = d.normalized;
     }
   } catch(e) {
-    document.getElementById('phone-checking').classList.add('hidden');
-    _phoneValid = true;
+    checking.classList.add('hidden');
+    _validity[type] = true; // Allow submission on network fail
   }
 }
 
-function setPhoneFeedback(type, msg) {
-  const fb = document.getElementById('phone-feedback');
-  fb.className = 'field-feedback' + (type ? ' '+type : '');
-  fb.textContent = msg;
+function setFieldFeedback(id, type, msg) {
+  const fb = document.getElementById(`${id}-feedback`);
+  if (fb) {
+    fb.className = 'field-feedback' + (type ? ' '+type : '');
+    fb.textContent = msg;
+  }
 }
 
 // ── SUBMIT ────────────────────────────────────────────────────────────────
 document.getElementById('register-form').addEventListener('submit', async function(e) {
   e.preventDefault();
+  
+  // Validation checks before POST
   const phoneVal = document.getElementById('phone').value.trim();
-  if (phoneVal && !_phoneValid) {
-    setPhoneFeedback('error', s('f_phone_invalid'));
+  if (phoneVal && !_validity.phone) {
+    setFieldFeedback('phone', 'error', s('f_phone_invalid'));
     document.getElementById('phone').focus();
     return;
   }
+  const emailVal = document.getElementById('email').value.trim();
+  if (emailVal && !_validity.email) {
+    setFieldFeedback('email', 'error', s('f_email_exists'));
+    document.getElementById('email').focus();
+    return;
+  }
+
   const btn = document.getElementById('submit-btn');
   const errDiv = document.getElementById('form-error');
   btn.setAttribute('aria-busy','true');
@@ -386,17 +394,20 @@ document.getElementById('register-form').addEventListener('submit', async functi
 
   const fd = new FormData(this);
   const params = new URLSearchParams();
-  params.append('action','register');
+  params.append('action', 'register');
   fd.forEach((v,k) => { if (v && String(v).trim()) params.append(k, String(v).trim()); });
 
+  // Use normalized phone if backend provided it
   const phoneInput = document.getElementById('phone');
   if (phoneInput.dataset.normalized) params.set('phone', phoneInput.dataset.normalized);
 
+  // Set formatted location names
   const dSel = document.getElementById('departement');
   const cSel = document.getElementById('commune');
-  if (dSel.value) params.set('departement_nom', dSel.options[dSel.selectedIndex]?.text || dSel.value);
-  if (cSel.value)  params.set('commune_nom',    cSel.options[cSel.selectedIndex]?.text  || cSel.value);
+  if (dSel.value) params.set('departement_nom', dSel.options[dSel.selectedIndex].text);
+  if (cSel.value) params.set('commune_nom', cSel.options[cSel.selectedIndex].text);
 
+  // Process social links
   document.querySelectorAll('.platform-field input').forEach(input => {
     const key = input.dataset.platform;
     const val = input.value.trim();
@@ -405,19 +416,18 @@ document.getElementById('register-form').addEventListener('submit', async functi
 
   params.set('langue', getCurrentLang());
   params.set('source', 'website');
-  params.set('is_real','true');
+  params.set('is_real', 'true');
 
   try {
-    // Use no-cors for fire-and-forget, then show success
-    // Apps Script doesn't return CORS headers on redirects
+    // POST to Apps Script (no-cors because of redirect limitations)
     await fetch(RMN_CONFIG.SCRIPT_URL, {
       method: 'POST',
       body: params,
       mode: 'no-cors'
     });
-    showSuccess({ has_email: !!document.getElementById('email').value.trim() });
+    showSuccess({ has_email: !!emailVal });
   } catch(err) {
-    showSuccess({ has_email: !!document.getElementById('email').value.trim() });
+    showSuccess({ has_email: !!emailVal });
   }
 });
 
@@ -436,16 +446,8 @@ function showSuccess(data) {
       en:'Account created! Add an email in your Vitrine to verify your identity.',
     }
   };
-  document.getElementById('success-msg').textContent =
-    (data.has_email ? msgs.with_email : msgs.no_email)[lang] || msgs.with_email.ht;
+  document.getElementById('success-msg').textContent = (data.has_email ? msgs.with_email : msgs.no_email)[lang] || msgs.with_email.ht;
   document.getElementById('success-panel').style.display = 'block';
-}
-
-function showError(msg) {
-  const d = document.getElementById('form-error');
-  d.textContent = msg;
-  d.classList.remove('hidden');
-  d.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
