@@ -9,7 +9,6 @@
   <script src="config.js"></script>
   <script src="strings.js"></script>
   <style>
-    /* Layout & Visuals from Original[cite: 1] */
     .register-layout{display:grid;grid-template-columns:1fr 420px;gap:2rem;align-items:start;padding:2rem 0 3rem}
     .register-intro{position:sticky;top:calc(var(--topbar-height) + var(--nav-height) + 1rem)}
     .trust-points{list-style:none;display:flex;flex-direction:column;gap:.6rem;padding:0}
@@ -17,12 +16,10 @@
     .trust-points li::before{content:'✓';color:var(--forest);font-weight:700}
     .register-form-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow)}
     
-    /* Social Grid Restoration[cite: 1] */
     .platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
     .platform-field{display:flex;align-items:center;gap:6px}
     .platform-field input{flex:1;font-size:.85rem;padding:.5rem .7rem}
     
-    /* Improvement Elements: Spinners & States */
     .phone-wrapper, .email-wrapper {position:relative}
     .field-checking{position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:10}
     .loading-spinner {
@@ -39,7 +36,6 @@
 </head>
 <body>
 
-<!-- RESTORED TOP BAR & NAV[cite: 1] -->
 <div class="top-bar">
   <div class="top-bar-left">
     <a href="index.html" data-s="nav_home">Akèy</a>
@@ -53,10 +49,8 @@
 </div>
 
 <nav class="nav">
-  <a href="index.html" class="nav-brand">
-    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
-  </a>
-  <ul class="nav-links" id="nav-links">
+  <a href="index.html" class="nav-brand"><span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span></a>
+  <ul class="nav-links">
     <li><a href="index.html" data-s="nav_home">Akèy</a></li>
     <li><a href="register.html" data-s="nav_register" class="active">Enskri</a></li>
     <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
@@ -66,8 +60,6 @@
 <main>
   <div class="container">
     <div class="register-layout">
-      
-      <!-- RESTORED INTRO & TRUST POINTS[cite: 1] -->
       <div class="register-intro">
         <h1 data-s="reg_title">Vin yon Rasin Mapou</h1>
         <p class="lead" data-s="reg_subtitle">Enskri gratis. Pa gen pèmisyon espesyal.</p>
@@ -88,21 +80,11 @@
             </div>
           </div>
 
-          <!-- IMPROVEMENT: Phone Normalization Logic[cite: 1] -->
-          <div class="form-group">
-            <label for="phone"><span data-s="f_phone">Nimewo</span>*</label>
-            <div class="phone-wrapper">
-              <input type="tel" id="phone" name="phone" required placeholder="+509...">
-              <div class="field-checking hidden" id="phone-checking"><div class="loading-spinner"></div></div>
-            </div>
-            <div class="field-feedback" id="phone-feedback"></div>
-          </div>
-
-          <!-- IMPROVEMENT: Email Spinner Fixed -->
+          <!-- Email: Now primary and required -->
           <div class="form-group">
             <label for="email"><span data-s="f_email">Imèl</span>*</label>
             <div class="email-wrapper">
-              <input type="email" id="email" name="email">
+              <input type="email" id="email" name="email" required placeholder="ou@ekzanp.com">
               <div class="field-checking hidden" id="email-checking"><div class="loading-spinner"></div></div>
             </div>
             <div class="field-feedback" id="email-feedback"></div>
@@ -115,24 +97,40 @@
             </select>
           </div>
 
-          <!-- IMPROVEMENT: Lang Preference mapped to select[cite: 1] -->
+          <!-- Phone: Moved after Country -->
+          <div class="form-group">
+            <label for="phone"><span data-s="f_phone">Nimewo Telefòn</span>*</label>
+            <div class="phone-wrapper">
+              <input type="tel" id="phone" name="phone" required placeholder="+509..." inputmode="tel">
+              <div class="field-checking hidden" id="phone-checking"><div class="loading-spinner"></div></div>
+            </div>
+            <div class="field-feedback" id="phone-feedback"></div>
+          </div>
+
           <div class="form-group">
             <label for="langue" data-s="f_lang">Lang prefere</label>
-            <select id="langue" name="langue" onchange="manualLangSelect(this.value)">
+            <select id="langue" name="langue" onchange="lockLang()">
               <option value="ht">🇭🇹 Kreyòl ayisyen</option>
               <option value="fr">🇫🇷 Français</option>
               <option value="en">🇺🇸 English</option>
             </select>
           </div>
 
-          <!-- RESTORED SOCIAL LINKS[cite: 1] -->
-          <div class="form-section-title">🔗 Lyen rezo sosyal</div>
-          <div class="platform-grid" id="platform-grid"></div>
+          <div class="form-section-title">💰 Peman & Rezo</div>
+          <div class="platform-grid">
+            <div class="platform-field">
+              <span class="platform-icon">💵</span>
+              <input type="text" name="moncash" placeholder="MonCash #" pattern="[0-9]*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+            </div>
+            <div class="platform-field">
+              <span class="platform-icon">📲</span>
+              <input type="text" name="natcash" placeholder="NatCash #" pattern="[0-9]*" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+            </div>
+          </div>
+          <div class="platform-grid" id="platform-grid" style="margin-top:10px"></div>
 
           <div class="submit-area">
-            <button type="submit" class="btn btn-primary btn-full btn-lg" id="submit-btn" disabled>
-              Enskri kounye a
-            </button>
+            <button type="submit" class="btn btn-primary btn-full btn-lg" id="submit-btn" disabled>Enskri kounye a</button>
           </div>
         </form>
       </div>
@@ -140,7 +138,6 @@
   </div>
 </main>
 
-<!-- RESTORED FOOTER[cite: 1] -->
 <footer>
   <div class="footer-inner">
     <div class="footer-links">
@@ -153,6 +150,7 @@
 
 <script>
 let _validity = { phone: false, email: false };
+let isLangManual = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   const lang = getCurrentLang();
@@ -161,45 +159,44 @@ document.addEventListener('DOMContentLoaded', () => {
   populateCountries();
   populatePlatforms();
   renderTrustPoints(lang);
-  
-  const form = document.getElementById('register-form');
-  form.addEventListener('input', validateFormState);
+  document.getElementById('register-form').addEventListener('input', validateFormState);
 });
 
+function lockLang() { isLangManual = true; }
+
+function switchLang(l) { 
+  L(l, 'register'); 
+  renderTrustPoints(l); 
+  if (!isLangManual) document.getElementById('langue').value = l; 
+}
+
 function validateFormState() {
-  const prenom = document.getElementById('prenom').value.trim();
-  const nom = document.getElementById('nom').value.trim();
-  const email = document.getElementById('email').value.trim(); // Added
-  const country = document.getElementById('country').value;
+  const f = document.getElementById('register-form');
   const btn = document.getElementById('submit-btn');
-  
-  // Button only unlocks if all text is present AND backend checks are green
-  const isReady = prenom && nom && email && country && _validity.phone && _validity.email;
-  btn.disabled = !isReady;
+  const hasReq = f.prenom.value.trim() && f.nom.value.trim() && f.email.value.trim() && f.country.value && f.phone.value.trim();
+  btn.disabled = !(hasReq && _validity.phone && _validity.email);
 }
 
 ['phone', 'email'].forEach(id => {
-  const el = document.getElementById(id);
-  el.addEventListener('blur', () => { if (el.value.trim()) checkAvailability(id, el.value.trim()); });
+  document.getElementById(id).addEventListener('blur', function() {
+    if (this.value.trim()) checkAvailability(id, this.value.trim());
+  });
 });
 
-// Updated availability check for phone
 async function checkAvailability(type, raw) {
   const checking = document.getElementById(`${type}-checking`);
   checking.classList.remove('hidden');
   
-  // We send the raw value; the Apps Script backend should use:
-  // value.replace(/^\+?509/, '') to normalize Haiti numbers
+  let val = raw;
+  if (type === 'phone') {
+    val = raw.replace(/\D/g, '');
+    if (val.startsWith('509')) val = val.substring(3);
+  }
+
   try {
-    const params = new URLSearchParams({ 
-      action: 'check_availability', 
-      type: type, 
-      value: raw, 
-      lang: getCurrentLang() 
-    });
+    const params = new URLSearchParams({ action:'check_availability', type, value: val, lang: getCurrentLang() });
     const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?${params}`);
     const d = await res.json();
-    
     checking.classList.add('hidden');
     
     if (d.exists) {
@@ -208,25 +205,18 @@ async function checkAvailability(type, raw) {
     } else {
       setFeedback(type, 'ok', 'OK');
       _validity[type] = true;
-      // Store the normalized version returned by the server (e.g., 50937216867)
-      if (type === 'phone' && d.normalized) {
-        document.getElementById('phone').dataset.normalized = d.normalized;
-      }
+      if (type === 'phone') document.getElementById('phone').dataset.normalized = d.normalized || val;
     }
-  } catch(e) { 
-    checking.classList.add('hidden'); 
-    _validity[type] = true; 
-  }
+  } catch(e) { checking.classList.add('hidden'); _validity[type] = false; }
   validateFormState();
 }
 
 function populatePlatforms() {
   const grid = document.getElementById('platform-grid');
-  RMN_CONFIG.PLATFORMS.forEach(p => {
+  RMN_CONFIG.PLATFORMS.filter(p => !['MonCash','NatCash'].includes(p.key)).forEach(p => {
     const div = document.createElement('div');
     div.className = 'platform-field';
-    div.innerHTML = `<span class="platform-icon">${p.icon}</span>
-                     <input type="url" name="${p.key.toLowerCase()}" placeholder="${p.key}">`;
+    div.innerHTML = `<span class="platform-icon">${p.icon}</span><input type="url" name="${p.key.toLowerCase()}" placeholder="${p.key}">`;
     grid.appendChild(div);
   });
 }
@@ -254,12 +244,10 @@ document.getElementById('register-form').addEventListener('submit', async functi
 
   const params = new URLSearchParams(new FormData(this));
   params.set('action', 'register');
-  
   const normPhone = document.getElementById('phone').dataset.normalized;
   if (normPhone) params.set('phone', normPhone);
   params.set('langue', document.getElementById('langue').value);
 
-  // Fallback for mail_failed status: Redirect to success panel regardless of CORS redirect[cite: 1]
   await fetch(RMN_CONFIG.SCRIPT_URL, { method: 'POST', body: params, mode: 'no-cors' });
   alert("Enskripsyon fèt!");
   window.location.href = "dashboard.html";
@@ -272,24 +260,6 @@ function populateCountries() {
     o.value = c; o.textContent = c; sel.appendChild(o);
   });
 }
-let isLangManual = false;
-
-// Call this from the HTML: <select id="langue" onchange="manualLangSelect(this.value)">
-function manualLangSelect(val) {
-  isLangManual = true;
-  // This value is now "locked" for the submission
-}
-
-function switchLang(l) { 
-  L(l, 'register'); 
-  renderTrustPoints(l); 
-  
-  // Only update the dropdown if the user hasn't touched it yet
-  if (!isLangManual) {
-    document.getElementById('langue').value = l; 
-  }
-}
-function switchLang(l) { L(l, 'register'); renderTrustPoints(l); document.getElementById('langue').value = l; }
 </script>
 </body>
 </html>
