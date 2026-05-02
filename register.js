@@ -67,30 +67,55 @@ async function handleRegistration(e) {
     e.preventDefault();
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
-    
+    btn.textContent = "Ap voye...";
+
     const formData = new FormData(e.target);
     const params = new URLSearchParams();
     
-    // Explicitly mapping all fields for the Google Script
-    formData.forEach((value, key) => {
-        if (key !== 'payment_type' && key !== 'payment_value') params.append(key, value);
-    });
-
-    const payType = formData.get('payment_type');
-    const payVal = formData.get('payment_value');
-    if (payVal && payType) params.append(payType, payVal);
+    // Core Identity (Matching your backend 'p' object keys)
+    params.append('prenom', formData.get('prenom'));
+    params.append('nom', formData.get('nom'));
+    params.append('email', formData.get('email').toLowerCase().trim());
+    params.append('country', formData.get('country'));
+    
+    // Ensure phone is just the digits (e.g., 37216655)
+    const rawPhone = formData.get('phone').replace(/\D/g, '');
+    params.append('phone', rawPhone); 
     
     params.append('action', 'register');
+    params.append('lang', document.documentElement.lang || 'ht');
+
+    // Payment Logic
+    const payType = formData.get('payment_type'); // 'moncash' or 'natcash'
+    const payVal = formData.get('payment_value');
+    if (payVal && payType) {
+        params.append(payType, payVal); 
+    }
+
+    // Platforms
+    const platforms = ['facebook', 'instagram', 'twitter', 'tiktok', 'whatsapp'];
+    platforms.forEach(p => {
+        const val = formData.get(p);
+        if (val) params.append(p, val);
+    });
+
+    // We send via POST but keep params in the URL to guarantee e.parameter visibility
+    const finalUrl = `${RMN_CONFIG.SCRIPT_URL}?${params.toString()}`;
 
     try {
-        await fetch(RMN_CONFIG.SCRIPT_URL, { 
+        await fetch(finalUrl, { 
             method: 'POST', 
-            body: params, 
             mode: 'no-cors' 
         });
-        window.location.href = "dashboard.html";
+        
+        // Success redirect
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 800);
     } catch(err) {
+        console.error("Submission failed:", err);
         btn.disabled = false;
+        btn.textContent = "Eseye ankò";
     }
 }
 
