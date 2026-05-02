@@ -217,13 +217,7 @@ async function checkAvailability(type, raw) {
   validateFormState();
 }
 
-function populateCountries() {
-  const sel = document.getElementById('country');
-  ["Haiti", "USA", "Canada", "France", "Dominican Republic"].forEach(c => {
-    const o = document.createElement('option');
-    o.value = c; o.textContent = c; sel.appendChild(o);
-  });
-}
+
 </script>
 </body>
 </html>
