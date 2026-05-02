@@ -1,106 +1,113 @@
 /** 
- * register.js - Logic for Rezo Mapou Registration[cite: 1]
+ * register.js - Separated Logic with Enhanced Validation
  */
 
 let _validity = { phone: false, email: false, pay: true };
-let _debounceTimers = {};
 const PREFIX_MAP = { 'Haïti': '+509', 'USA': '+1', 'Canada': '+1', 'France': '+33', 'Dominican Republic': '+1' };
 
 document.addEventListener('DOMContentLoaded', () => {
     populateCountries();
     populatePlatforms();
-    initValidationListeners();
-});
+    
+    const countrySel = document.getElementById('country');
+    countrySel.addEventListener('change', (e) => onCountryChange(e.target.value));
 
-function initValidationListeners() {
-    // 2. Fix Email: Reject double dots or trailing dots[cite: 1]
+    // Email validation fix for double dots
     document.getElementById('email').addEventListener('input', function() {
         const val = this.value.trim();
-        const feedback = document.getElementById('email-feedback');
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/; 
-        
-        clearTimeout(_debounceTimers.email);
         if (re.test(val) && !val.includes('..')) {
-            _debounceTimers.email = setTimeout(() => checkAvailability('email', val), 600);
+            checkAvailability('email', val);
         } else {
-            feedback.textContent = val ? "Imèl pa valid" : "";
-            feedback.className = "field-feedback error";
             _validity.email = false;
             validateFormState();
         }
     });
 
-    // 3. Phone & 509 Check[cite: 1]
+    // 3. Dynamic length and prefix for international
     document.getElementById('phone').addEventListener('input', function() {
-        // Remove 509 if user typed it in the field[cite: 1]
-        if (this.value.startsWith('509')) this.value = this.value.replace('509', '');
-        this.value = this.value.replace(/\D/g, '').slice(0, 8);
-
-        clearTimeout(_debounceTimers.phone);
-        if (this.value.length === 8) {
-            _debounceTimers.phone = setTimeout(() => checkAvailability('phone', this.value), 600);
+        const isHaiti = document.getElementById('country').value === 'Haïti';
+        this.value = this.value.replace(/\D/g, '');
+        if (isHaiti) this.value = this.value.slice(0, 8);
+        
+        if (this.value.length >= (isHaiti ? 8 : 10)) {
+            checkAvailability('phone', this.value);
         } else {
             _validity.phone = false;
             validateFormState();
         }
     });
 
-    // 3. Payment conditional UI[cite: 1]
     document.getElementById('payment_value').addEventListener('input', function() {
         this.value = this.value.replace(/\D/g, '').slice(0, 8);
         const radioArea = document.getElementById('pay-selection');
-        
         if (this.value.length > 0) {
             radioArea.classList.add('visible');
             _validity.pay = document.querySelector('input[name="payment_type"]:checked') !== null;
         } else {
             radioArea.classList.remove('visible');
-            _validity.pay = true; // Valid if empty
+            _validity.pay = true;
         }
         validateFormState();
     });
+
+    // 4. Data Row fix
+    document.getElementById('register-form').addEventListener('submit', handleRegistration);
+});
+
+function onCountryChange(v) {
+    document.getElementById('prefix-display').textContent = PREFIX_MAP[v] || '+?';
+    // Clear phone validation on country change to force re-check
+    document.getElementById('phone').value = '';
+    _validity.phone = false;
+    validateFormState();
 }
 
-async function checkAvailability(type, val) {
-    const feedback = document.getElementById(`${type}-feedback`);
-    const checking = document.getElementById(`${type}-checking`);
-    checking?.classList.remove('hidden');
+async function handleRegistration(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    
+    const formData = new FormData(e.target);
+    const params = new URLSearchParams();
+    
+    // Explicitly mapping all fields for the Google Script
+    formData.forEach((value, key) => {
+        if (key !== 'payment_type' && key !== 'payment_value') params.append(key, value);
+    });
+
+    const payType = formData.get('payment_type');
+    const payVal = formData.get('payment_value');
+    if (payVal && payType) params.append(payType, payVal);
+    
+    params.append('action', 'register');
 
     try {
-        const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=check_availability&type=${type}&value=${val}`);
-        const d = await res.json();
-        checking?.classList.add('hidden');
-        
-        if (d.exists) {
-            feedback.textContent = "Deja itilize";
-            feedback.className = "field-feedback error";
-            _validity[type] = false;
-        } else {
-            feedback.textContent = "✓ Disponib";
-            feedback.className = "field-feedback ok";
-            _validity[type] = true;
-        }
-    } catch(e) {
-        checking?.classList.add('hidden');
-        _validity[type] = true; 
+        await fetch(RMN_CONFIG.SCRIPT_URL, { 
+            method: 'POST', 
+            body: params, 
+            mode: 'no-cors' 
+        });
+        window.location.href = "dashboard.html";
+    } catch(err) {
+        btn.disabled = false;
     }
-    validateFormState();
 }
 
 function validateFormState() {
     const f = document.getElementById('register-form');
     const btn = document.getElementById('submit-btn');
-    const payRadioChecked = document.getElementById('payment_value').value.length > 0 
-        ? document.querySelector('input[name="payment_type"]:checked') 
-        : true;
-
-    const hasReq = f.prenom.value && f.nom.value && _validity.email && _validity.phone && payRadioChecked;
+    const hasReq = f.prenom.value && f.nom.value && _validity.email && _validity.phone && _validity.pay;
     btn.disabled = !hasReq;
 }
 
-function onCountryChange(v) {
-    document.getElementById('prefix-display').textContent = PREFIX_MAP[v] || '+?';
-    validateFormState();
+function populateCountries() {
+    const sel = document.getElementById('country');
+    sel.innerHTML = '<option value="">— Peyi —</option>';
+    DIASPORA_COUNTRIES.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c; o.textContent = c; sel.appendChild(o);
+    });
 }
 
 function populatePlatforms() {
@@ -110,31 +117,5 @@ function populatePlatforms() {
         div.className = 'field-wrapper';
         div.innerHTML = `<input type="text" name="${p.key.toLowerCase()}" placeholder="${p.icon} ${p.key}">`;
         grid.appendChild(div);
-    });
-}
-
-function populateCountries() {
-    const sel = document.getElementById('country');
-    DIASPORA_COUNTRIES.forEach(c => {
-        const o = document.createElement('option');
-        o.value = c; o.textContent = c; sel.appendChild(o);
-    });
-}
-
-function populateDepts() {
-    const sel = document.getElementById('departement');
-    sel.innerHTML = '<option value="">— Depatman —</option>';
-    Object.keys(HAITI).sort().forEach(d => {
-        const o = document.createElement('option');
-        o.value = d; o.textContent = d; sel.appendChild(o);
-    });
-}
-
-function onDeptChange(dept) {
-    const sel = document.getElementById('commune');
-    sel.innerHTML = `<option value="">— Komin —</option>`;
-    if (HAITI[dept]) HAITI[dept].sort().forEach(c => {
-        const o = document.createElement('option');
-        o.value = c; o.textContent = c; sel.appendChild(o);
     });
 }
