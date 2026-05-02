@@ -5,25 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enskri — Rezo Mapou Nasyonal</title>
   <link rel="icon" type="image/png" href="https://rezomapouglobal.net/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="config.js"></script>
   <script src="strings.js"></script>
   <style>
-    /* Visual structure for the registration layout */
-    .register-layout { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: start; padding: 2rem 0; }
+    /* Restoration of Layout & Feedback Visuals */
+    .register-layout { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: start; padding: 2rem 0 3rem; }
+    .register-form-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; box-shadow: var(--shadow); }
+    
     .location-group { display: none; margin-top: 1rem; }
     .location-group.visible { display: block; }
     
-    /* Phone input with flag/prefix */
-    .phone-box { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: white; }
+    /* Verif Visual Cues: Spinners */
+    .phone-box, .email-wrapper { position: relative; display: flex; align-items: center; }
+    .field-checking { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; }
+    .loading-spinner { width: 16px; height: 16px; border: 2px solid #ccc; border-top-color: var(--gold-dark); border-radius: 50%; animation: spin 0.6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Phone input with prefix */
+    .phone-box { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: white; width: 100%; }
     .prefix-label { background: #f0f0f0; padding: 0.7rem; border-right: 1px solid var(--border); font-weight: 500; min-width: 65px; text-align: center; }
     .phone-box input { border: none !important; flex: 1; padding: 0.7rem; }
     
+    .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 10px; }
     .hidden { display: none !important; }
     @media(max-width: 860px) { .register-layout { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+
+<!-- RESTORED TOP BAR & NAV -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="index.html" data-s="nav_home">Akèy</a>
+    <div class="top-bar-counts"><span><strong id="tb-members">—</strong> <span data-s="dash_members">Rasin Enskri</span></span></div>
+  </div>
+  <div class="lang-bar">
+    <button class="lang-btn" onclick="switchLang('ht')">🇭🇹 KR</button>
+    <button class="lang-btn" onclick="switchLang('fr')">🇫🇷 FR</button>
+  </div>
+</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand"><span class="nav-name">Rezo Mapou Nasyonal</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Akèy</a></li>
+    <li><a href="register.html" class="active">Enskri</a></li>
+    <li><a href="dashboard.html">Tablodbò</a></li>
+  </ul>
+</nav>
 
 <main class="container">
   <div class="register-layout">
@@ -42,8 +73,8 @@
 
         <div class="form-group">
           <label>Imèl*</label>
-          <div class="email-wrapper" style="position:relative;">
-            <input type="email" id="email" name="email" required placeholder="rara@azor.com">
+          <div class="email-wrapper">
+            <input type="email" id="email" name="email" required placeholder="rara@azor.com" style="width:100%">
             <div id="email-checking" class="field-checking hidden"><div class="loading-spinner"></div></div>
           </div>
           <div id="email-feedback" class="field-feedback"></div>
@@ -56,7 +87,6 @@
           </select>
         </div>
 
-        <!-- 2. Territory Population (Haiti vs Diaspora) -->
         <div id="location-haiti" class="location-group">
           <div class="form-group">
             <label>Depatman*</label>
@@ -69,10 +99,7 @@
         </div>
 
         <div id="location-diaspora" class="location-group">
-          <div class="form-group">
-            <label>Vil*</label>
-            <input type="text" id="city" name="city" placeholder="Ex: Miami, Paris">
-          </div>
+          <div class="form-group"><label>Vil*</label><input type="text" id="city" name="city"></div>
         </div>
 
         <div class="form-group">
@@ -80,6 +107,7 @@
           <div class="phone-box">
             <div class="prefix-label" id="prefix-display">+?</div>
             <input type="tel" id="phone" name="phone" required placeholder="0000 0000">
+            <div id="phone-checking" class="field-checking hidden"><div class="loading-spinner"></div></div>
           </div>
           <div id="phone-feedback" class="field-feedback"></div>
         </div>
@@ -92,18 +120,15 @@
           </select>
         </div>
 
-        <!-- 3 & 4. Payment Fields with Numeric Only[cite: 1] -->
+        <!-- RESTORED PAYMENT & SOCIAL LINKS[cite: 1] -->
         <div class="form-section-title">💰 Peman (8 chif)</div>
         <div class="platform-grid">
-          <div class="form-group">
-            <label>MonCash</label>
-            <input type="text" name="moncash" placeholder="3XXX XXXX" maxlength="11" oninput="this.value=this.value.replace(/\D/g,'')">
-          </div>
-          <div class="form-group">
-            <label>NatCash</label>
-            <input type="text" name="natcash" placeholder="4XXX XXXX" maxlength="11" oninput="this.value=this.value.replace(/\D/g,'')">
-          </div>
+          <input type="text" name="moncash" placeholder="MonCash #" oninput="this.value=this.value.replace(/\D/g,'')">
+          <input type="text" name="natcash" placeholder="NatCash #" oninput="this.value=this.value.replace(/\D/g,'')">
         </div>
+
+        <div class="form-section-title">🔗 Rezo Sosyal</div>
+        <div class="platform-grid" id="platform-grid"></div>
 
         <div class="submit-area">
           <button type="submit" class="btn btn-primary btn-full" id="submit-btn" disabled>Enskri</button>
@@ -113,26 +138,34 @@
   </div>
 </main>
 
+<!-- RESTORED FOOTER[cite: 1] -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="terms.html">Tèm Itilizasyon</a>
+      <a href="privacy.html">Konfidansyalite</a>
+    </div>
+    <div class="footer-copy">© 2026 Rezo Mapou Nasyonal</div>
+  </div>
+</footer>
+
 <script>
 let _validity = { phone: false, email: false };
 let isLangManual = false;
-
-// 6. Prefixes from image_a32c6d.jpg context[cite: 1]
 const PREFIX_MAP = { 'Haïti': '+509', 'USA': '+1', 'Canada': '+1', 'France': '+33', 'Dominican Republic': '+1' };
 
 document.addEventListener('DOMContentLoaded', () => {
   populateCountries();
   populateDepts();
+  populatePlatforms(); // Restored logic[cite: 1]
   document.getElementById('register-form').addEventListener('input', validateFormState);
 });
 
 function populateCountries() {
   const sel = document.getElementById('country');
-  while (sel.options.length > 1) sel.remove(1);
   DIASPORA_COUNTRIES.forEach(c => {
     const o = document.createElement('option');
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
+    o.value = c; o.textContent = c; sel.appendChild(o);
   });
 }
 
@@ -141,52 +174,50 @@ function populateDepts() {
   sel.innerHTML = '<option value="">— Chwazi depatman —</option>';
   Object.keys(HAITI).sort().forEach(d => {
     const o = document.createElement('option');
-    o.value = d; o.textContent = d;
-    sel.appendChild(o);
+    o.value = d; o.textContent = d; sel.appendChild(o);
+  });
+}
+
+function populatePlatforms() {
+  const grid = document.getElementById('platform-grid');
+  RMN_CONFIG.PLATFORMS.filter(p => !['MonCash','NatCash'].includes(p.key)).forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'platform-field';
+    div.innerHTML = `<input type="url" name="${p.key.toLowerCase()}" placeholder="${p.icon} ${p.key}">`;
+    grid.appendChild(div);
   });
 }
 
 function onCountryChange(value) {
   const isHaiti = value === 'Haïti';
-  const hasValue = value !== '';
-  
-  // Toggle UI visibility[cite: 1]
   document.getElementById('location-haiti').classList.toggle('visible', isHaiti);
-  document.getElementById('location-diaspora').classList.toggle('visible', !isHaiti && hasValue);
-  
-  // Set requirements[cite: 1]
-  document.getElementById('departement').required = isHaiti;
-  document.getElementById('commune').required = isHaiti;
-  document.getElementById('city').required = !isHaiti && hasValue;
-  
-  // Update Prefix[cite: 1]
+  document.getElementById('location-diaspora').classList.toggle('visible', !isHaiti && value !== '');
   document.getElementById('prefix-display').textContent = PREFIX_MAP[value] || '+?';
-  
   validateFormState();
 }
 
 function onDeptChange(dept) {
   const sel = document.getElementById('commune');
   sel.innerHTML = `<option value="">— Chwazi komin —</option>`;
-  if (!dept || !HAITI[dept]) { sel.disabled = true; return; }
+  if (!dept || !HAITI[dept]) return;
   HAITI[dept].sort().forEach(c => {
     const o = document.createElement('option');
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
+    o.value = c; o.textContent = c; sel.appendChild(o);
   });
-  sel.disabled = false;
 }
 
 function validateFormState() {
   const f = document.getElementById('register-form');
   const btn = document.getElementById('submit-btn');
-  const hasRequired = f.prenom.value && f.nom.value && f.email.value.includes('@') && f.country.value && f.phone.value;
-  btn.disabled = !(hasRequired && _validity.phone && _validity.email);
+  const hasReq = f.prenom.value && f.nom.value && f.email.value.includes('@') && f.country.value && f.phone.value;
+  btn.disabled = !(hasReq && _validity.phone && _validity.email);
 }
 
-// Backend check logic remains same[cite: 1]
-document.getElementById('email').addEventListener('blur', function() {
-  if (this.value.includes('@')) checkAvailability('email', this.value);
+// Logic for visual verif triggers[cite: 1]
+['phone', 'email'].forEach(id => {
+  document.getElementById(id).addEventListener('blur', function() {
+    if (this.value.trim()) checkAvailability(id, this.value.trim());
+  });
 });
 
 async function checkAvailability(type, raw) {
@@ -218,7 +249,10 @@ async function checkAvailability(type, raw) {
 }
 
 
+function switchLang(l) { 
+  L(l, 'register'); 
+  if (!isLangManual) document.getElementById('langue').value = l; 
+}
 </script>
 </body>
 </html>
-
