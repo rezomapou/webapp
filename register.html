@@ -189,15 +189,6 @@ document.getElementById('email').addEventListener('blur', function() {
   if (this.value.includes('@')) checkAvailability('email', this.value);
 });
 
-async function checkAvailability(type, val) {
-  _validity[type] = true; // Placeholder for actual fetch logic
-  validateFormState();
-}
-</script>
-</body>
-</html>
-
-
 async function checkAvailability(type, raw) {
   const checking = document.getElementById(`${type}-checking`);
   checking.classList.remove('hidden');
@@ -236,3 +227,4 @@ function populateCountries() {
 </script>
 </body>
 </html>
+
