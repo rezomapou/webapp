@@ -87,15 +87,12 @@ const RMN_CONFIG = {
   // icon: unicode or class name — resolved to SVG in UI
   PLATFORMS: [
     { key: 'WHATSAPP',  icon: '💬', label_key: 'plt_whatsapp',  prefix: 'https://wa.me/' },
+    { key: 'WEBSITE',   icon: '🔗', label_key: 'plt_website',   prefix: '' },
     { key: 'FACEBOOK',  icon: '📘', label_key: 'plt_facebook',  prefix: 'https://facebook.com/' },
     { key: 'TIKTOK',    icon: '🎵', label_key: 'plt_tiktok',    prefix: 'https://tiktok.com/@' },
     { key: 'INSTAGRAM', icon: '📷', label_key: 'plt_instagram', prefix: 'https://instagram.com/' },
     { key: 'YOUTUBE',   icon: '▶️', label_key: 'plt_youtube',   prefix: 'https://youtube.com/' },
-    { key: 'LINKEDIN',  icon: '💼', label_key: 'plt_linkedin',  prefix: 'https://linkedin.com/in/' },
-    { key: 'MONCASH',   icon: '💳', label_key: 'plt_moncash',   prefix: 'moncash://' },
-    { key: 'NATCASH',   icon: '💳', label_key: 'plt_natcash',   prefix: 'natcash://' },
-    { key: 'WEBSITE',   icon: '🔗', label_key: 'plt_website',   prefix: '' },
-    { key: 'OTHER',     icon: '🔗', label_key: 'plt_other',     prefix: '' },
+    { key: 'LINKEDIN',  icon: '💼', label_key: 'plt_linkedin',  prefix: 'https://linkedin.com/in/' }
   ],
 
   // ── DASHBOARD & SEED ──────────────────────────────────────
