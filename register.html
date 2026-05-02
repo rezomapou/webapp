@@ -118,7 +118,7 @@
           <!-- IMPROVEMENT: Lang Preference mapped to select[cite: 1] -->
           <div class="form-group">
             <label for="langue" data-s="f_lang">Lang prefere</label>
-            <select id="langue" name="langue">
+            <select id="langue" name="langue" onchange="manualLangSelect(this.value)">
               <option value="ht">🇭🇹 Kreyòl ayisyen</option>
               <option value="fr">🇫🇷 Français</option>
               <option value="en">🇺🇸 English</option>
@@ -181,14 +181,23 @@ function validateFormState() {
   el.addEventListener('blur', () => { if (el.value.trim()) checkAvailability(id, el.value.trim()); });
 });
 
+// Updated availability check for phone
 async function checkAvailability(type, raw) {
   const checking = document.getElementById(`${type}-checking`);
   checking.classList.remove('hidden');
   
+  // We send the raw value; the Apps Script backend should use:
+  // value.replace(/^\+?509/, '') to normalize Haiti numbers
   try {
-    const params = new URLSearchParams({ action:'check_availability', type:type, value:raw, lang:getCurrentLang() });
+    const params = new URLSearchParams({ 
+      action: 'check_availability', 
+      type: type, 
+      value: raw, 
+      lang: getCurrentLang() 
+    });
     const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?${params}`);
     const d = await res.json();
+    
     checking.classList.add('hidden');
     
     if (d.exists) {
@@ -197,9 +206,15 @@ async function checkAvailability(type, raw) {
     } else {
       setFeedback(type, 'ok', 'OK');
       _validity[type] = true;
-      if (type === 'phone' && d.normalized) document.getElementById('phone').dataset.normalized = d.normalized;
+      // Store the normalized version returned by the server (e.g., 50937216867)
+      if (type === 'phone' && d.normalized) {
+        document.getElementById('phone').dataset.normalized = d.normalized;
+      }
     }
-  } catch(e) { checking.classList.add('hidden'); _validity[type] = true; }
+  } catch(e) { 
+    checking.classList.add('hidden'); 
+    _validity[type] = true; 
+  }
   validateFormState();
 }
 
@@ -255,7 +270,23 @@ function populateCountries() {
     o.value = c; o.textContent = c; sel.appendChild(o);
   });
 }
+let isLangManual = false;
 
+// Call this from the HTML: <select id="langue" onchange="manualLangSelect(this.value)">
+function manualLangSelect(val) {
+  isLangManual = true;
+  // This value is now "locked" for the submission
+}
+
+function switchLang(l) { 
+  L(l, 'register'); 
+  renderTrustPoints(l); 
+  
+  // Only update the dropdown if the user hasn't touched it yet
+  if (!isLangManual) {
+    document.getElementById('langue').value = l; 
+  }
+}
 function switchLang(l) { L(l, 'register'); renderTrustPoints(l); document.getElementById('langue').value = l; }
 </script>
 </body>
