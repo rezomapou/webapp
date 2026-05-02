@@ -23,14 +23,13 @@
     .prefix-label { background: #f0f0f0; padding: 0.7rem; border-right: 1px solid var(--border); font-weight: 500; min-width: 65px; text-align: center; }
     .phone-box input { border: none !important; flex: 1; padding: 0.7rem; }
     
-    .payment-selector { display: flex; gap: 10px; margin-bottom: 10px; }
-    .pay-opt { flex: 1; border: 1px solid var(--border); padding: 8px; border-radius: 6px; text-align: center; cursor: pointer; background: #fff; font-size: 0.9rem; }
-    .pay-opt.active { border-color: var(--gold-dark); background: #fffdf0; font-weight: bold; }
+    /* Payment Radio UI[cite: 1] */
+    .pay-radio-group { display: flex; gap: 15px; margin-bottom: 10px; }
+    .pay-radio-item { display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 500; }
 
     .field-feedback { font-size: 0.8rem; margin-top: 4px; min-height: 1.2em; }
     .field-feedback.ok { color: var(--forest); }
     .field-feedback.error { color: #d93025; }
-    .hidden { display: none !important; }
     
     .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 10px; }
     .platform-field input { width: 100%; font-size: 0.85rem; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; }
@@ -46,15 +45,6 @@
     <button class="lang-btn" onclick="switchLang('en')">🇺🇸 EN</button>
   </div>
 </div>
-
-<nav class="nav">
-  <a href="index.html" class="nav-brand"><span class="nav-name">Rezo Mapou Nasyonal</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Akèy</a></li>
-    <li><a href="register.html" class="active">Enskri</a></li>
-    <li><a href="dashboard.html">Tablodbò</a></li>
-  </ul>
-</nav>
 
 <main class="container">
   <div class="register-layout">
@@ -102,7 +92,7 @@
           <label>Nimewo Telefòn*</label>
           <div class="phone-box">
             <div class="prefix-label" id="prefix-display">+?</div>
-            <input type="tel" id="phone" name="phone" required placeholder="0000 0000">
+            <input type="tel" id="phone" name="phone" required placeholder="0000 0000" oninput="this.value=this.value.replace(/\D/g,'')">
             <div id="phone-checking" class="field-checking hidden"><div class="loading-spinner"></div></div>
           </div>
           <div id="phone-feedback" class="field-feedback"></div>
@@ -118,13 +108,13 @@
         </div>
 
         <div class="form-section-title">💰 Peman (8 chif)</div>
-        <div class="payment-selector">
-          <div class="pay-opt active" id="opt-moncash" onclick="setPaymentMode('moncash')">MonCash</div>
-          <div class="pay-opt" id="opt-natcash" onclick="setPaymentMode('natcash')">NatCash</div>
+        <div class="pay-radio-group">
+          <label class="pay-radio-item"><input type="radio" name="payment_type" value="moncash" checked onchange="updatePayPh()"> MonCash</label>
+          <label class="pay-radio-item"><input type="radio" name="payment_type" value="natcash" onchange="updatePayPh()"> NatCash</label>
         </div>
-        <input type="hidden" id="payment_type" name="payment_type" value="moncash">
         <div class="form-group">
-          <input type="text" id="payment_value" name="payment_value" placeholder="3XXX XXXX" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')">
+          <input type="text" id="payment_value" name="payment_value" placeholder="3XXX XXXX" maxlength="8" oninput="this.value=this.value.replace(/\D/g,''); checkPayValid()">
+          <div id="pay-feedback" class="field-feedback"></div>
         </div>
 
         <div class="form-section-title">🔗 Rezo Sosyal</div>
@@ -138,18 +128,8 @@
   </div>
 </main>
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-links">
-      <a href="terms.html">Tèm Itilizasyon</a>
-      <a href="privacy.html">Konfidansyalite</a>
-    </div>
-    <div class="footer-copy">© 2026 Rezo Mapou Nasyonal[cite: 1]</div>
-  </div>
-</footer>
-
 <script>
-let _validity = { phone: false, email: false };
+let _validity = { phone: false, email: false, pay: false };
 let _debounceTimers = {};
 let isLangManual = false;
 const PREFIX_MAP = { 'Haïti': '+509', 'USA': '+1', 'Canada': '+1', 'France': '+33', 'Dominican Republic': '+1' };
@@ -157,67 +137,66 @@ const PREFIX_MAP = { 'Haïti': '+509', 'USA': '+1', 'Canada': '+1', 'France': '+
 document.addEventListener('DOMContentLoaded', () => {
   populateCountries();
   populateDepts();
-  populatePlatforms(); // Restored call[cite: 1]
+  populatePlatforms();
   
   ['email', 'phone'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => {
       clearTimeout(_debounceTimers[id]);
-      document.getElementById(`${id}-feedback`).className = 'field-feedback';
-      document.getElementById(`${id}-feedback`).textContent = '';
-      
       _debounceTimers[id] = setTimeout(() => {
         const val = document.getElementById(id).value.trim();
-        if (id === 'email' ? val.includes('@') : val.length >= 8) {
-          checkAvailability(id, val);
-        }
+        if (id === 'email' ? val.includes('@') : val.length >= 8) checkAvailability(id, val);
       }, 600);
     });
   });
-  
-  document.getElementById('register-form').addEventListener('input', validateFormState);
 });
 
-// Restored Function: populatePlatforms[cite: 1]
 function populatePlatforms() {
   const grid = document.getElementById('platform-grid');
   grid.innerHTML = ''; 
-  RMN_CONFIG.PLATFORMS.filter(p => !['MonCash','NatCash'].includes(p.key)).forEach(p => {
+  // Pulling directly from your updated array[cite: 1]
+  RMN_CONFIG.PLATFORMS.forEach(p => {
     const div = document.createElement('div');
     div.className = 'platform-field';
-    div.innerHTML = `<input type="url" name="${p.key.toLowerCase()}" placeholder="${p.icon} ${p.key}">`;
+    div.innerHTML = `<input type="text" name="${p.key.toLowerCase()}" placeholder="${p.icon} ${p.key}">`;
     grid.appendChild(div);
   });
 }
 
-function setPaymentMode(mode) {
-  document.getElementById('payment_type').value = mode;
-  document.getElementById('opt-moncash').classList.toggle('active', mode === 'moncash');
-  document.getElementById('opt-natcash').classList.toggle('active', mode === 'natcash');
-  document.getElementById('payment_value').placeholder = (mode === 'moncash') ? "3XXX XXXX" : "4XXX XXXX";
+function updatePayPh() {
+  const type = document.querySelector('input[name="payment_type"]:checked').value;
+  document.getElementById('payment_value').placeholder = (type === 'moncash') ? "3XXX XXXX" : "4XXX XXXX";
+  checkPayValid();
+}
+
+function checkPayValid() {
+  const val = document.getElementById('payment_value').value;
+  const feedback = document.getElementById('pay-feedback');
+  if (val.length === 8) {
+    feedback.textContent = "Nimewo valid"; feedback.className = "field-feedback ok";
+    _validity.pay = true;
+  } else if (val.length > 0) {
+    feedback.textContent = "Fòk li gen 8 chif"; feedback.className = "field-feedback error";
+    _validity.pay = false;
+  }
+  validateFormState();
 }
 
 async function checkAvailability(type, val) {
   const checking = document.getElementById(`${type}-checking`);
   const feedback = document.getElementById(`${type}-feedback`);
   checking.classList.remove('hidden');
-  
   try {
     const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=check_availability&type=${type}&value=${val}`);
     const d = await res.json();
     checking.classList.add('hidden');
-    
     if (d.exists) {
-      feedback.textContent = "Deja itilize";
-      feedback.className = 'field-feedback error';
+      feedback.textContent = "Deja itilize"; feedback.className = 'field-feedback error';
       _validity[type] = false;
     } else {
-      feedback.textContent = "OK";
-      feedback.className = 'field-feedback ok';
+      feedback.textContent = "OK"; feedback.className = 'field-feedback ok';
       _validity[type] = true;
     }
-  } catch(e) { 
-    checking.classList.add('hidden'); 
-  }
+  } catch(e) { checking.classList.add('hidden'); }
   validateFormState();
 }
 
@@ -233,23 +212,22 @@ function validateFormState() {
   const f = document.getElementById('register-form');
   const btn = document.getElementById('submit-btn');
   const hasReq = f.prenom.value && f.nom.value && f.email.value.includes('@') && f.country.value && f.phone.value;
+  // Button enabled if required fields are filled and checks pass[cite: 1]
   btn.disabled = !(hasReq && _validity.phone && _validity.email);
 }
 
 document.getElementById('register-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = "...";
-
+  btn.disabled = true; btn.textContent = "...";
   const formData = new FormData(this);
   const params = new URLSearchParams(formData);
   
+  // Mapping unified field to moncash/natcash[cite: 1]
   const payType = formData.get('payment_type');
   const payVal = formData.get('payment_value');
   if (payVal) params.set(payType, payVal);
-  params.delete('payment_type');
-  params.delete('payment_value');
+  params.delete('payment_type'); params.delete('payment_value');
   
   params.set('action', 'register');
   await fetch(RMN_CONFIG.SCRIPT_URL, { method: 'POST', body: params, mode: 'no-cors' });
@@ -257,7 +235,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
 });
 
 function switchLang(l) { 
-  L(l, 'register'); 
+  if (typeof L === 'function') L(l, 'register'); // Restored function call[cite: 1]
   if (!isLangManual) document.getElementById('langue').value = l; 
 }
 
