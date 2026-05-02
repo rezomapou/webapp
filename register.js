@@ -1,16 +1,22 @@
 /** 
- * register.js - Cleaned & Modular
+ * register.js - Streamlined Logic
  */
 
 let _validity = { phone: false, email: false, pay: true };
-const PREFIX_MAP = { 'Haïti': '+509', 'USA': '+1', 'Canada': '+1', 'France': '+33', 'Dominican Republic': '+1' };
+const PREFIX_MAP = { 
+    'Haïti': '+509', 
+    'USA': '+1', 
+    'Canada': '+1', 
+    'France': '+33', 
+    'Dominican Republic': '+1' 
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Setup UI
     populateCountries();
     populatePlatforms();
     
-    // 2. Initialize All Event Listeners (Only call this once!)
+    // 2. Initialize All Event Listeners
     initValidationListeners();
 
     // 3. Bind the main form submission
@@ -33,7 +39,7 @@ function initValidationListeners() {
         countrySel.addEventListener('change', (e) => onCountryChange(e.target.value));
     }
 
-    // Email Logic
+    // Email Logic: Check for double dots or bad formatting
     if (emailField) {
         emailField.addEventListener('input', function() {
             const val = this.value.trim();
@@ -47,7 +53,7 @@ function initValidationListeners() {
         });
     }
 
-    // Phone Logic
+    // Phone Logic: 8-digit Haiti limit or International length
     if (phoneField) {
         phoneField.addEventListener('input', function() {
             const isHaiti = document.getElementById('country').value === 'Haïti';
@@ -63,14 +69,13 @@ function initValidationListeners() {
         });
     }
 
-    // Payment Logic
+    // Payment Logic: Show/Hide MonCash/NatCash
     if (payField) {
         payField.addEventListener('input', function() {
             this.value = this.value.replace(/\D/g, '').slice(0, 8);
             const radioArea = document.getElementById('pay-selection');
             if (this.value.length > 0) {
                 radioArea.classList.add('visible');
-                // Check if a radio is actually selected
                 const checked = document.querySelector('input[name="payment_type"]:checked');
                 _validity.pay = checked !== null;
             } else {
@@ -81,7 +86,7 @@ function initValidationListeners() {
         });
     }
 
-    // Haiti Location Logic
+    // Haiti Location Logic: Trigger Commune when Department changes
     if (deptField) {
         deptField.addEventListener('change', (e) => onDeptChange(e.target.value));
     }
@@ -101,7 +106,7 @@ function onCountryChange(v) {
     // Update Prefix
     document.getElementById('prefix-display').textContent = PREFIX_MAP[v] || '+?';
 
-    // Reset and Populate Depts
+    // Populate Depts if Haiti
     if (isHaiti) populateDepts();
     
     validateFormState();
@@ -131,4 +136,87 @@ function populateDepts() {
     }
 }
 
-// ... (Keep your handleRegistration, populateCountries, etc. as they are) ...
+function populateCountries() {
+    const sel = document.getElementById('country');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">— Peyi —</option>';
+    DIASPORA_COUNTRIES.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c; o.textContent = c; sel.appendChild(o);
+    });
+}
+
+function populatePlatforms() {
+    const grid = document.getElementById('platform-grid');
+    if (!grid) return;
+    RMN_CONFIG.PLATFORMS.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'field-wrapper';
+        div.innerHTML = `<input type="text" name="${p.key.toLowerCase()}" placeholder="${p.icon} ${p.key}">`;
+        grid.appendChild(div);
+    });
+}
+
+/**
+ * Backend Communication
+ */
+
+async function handleRegistration(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = "Ap voye...";
+
+    const formData = new FormData(e.target);
+    const params = new URLSearchParams();
+    
+    // Core Identity
+    params.append('prenom', formData.get('prenom'));
+    params.append('nom', formData.get('nom'));
+    params.append('email', formData.get('email').toLowerCase().trim());
+    params.append('country', formData.get('country'));
+    params.append('departement', formData.get('departement') || '');
+    params.append('commune', formData.get('commune') || '');
+    
+    const rawPhone = formData.get('phone').replace(/\D/g, '');
+    params.append('phone', rawPhone); 
+    
+    params.append('action', 'register');
+    params.append('lang', document.documentElement.lang || 'ht');
+
+    // Payment Logic
+    const payType = formData.get('payment_type'); 
+    const payVal = formData.get('payment_value');
+    if (payVal && payType) {
+        params.append(payType, payVal); 
+    }
+
+    // Platforms
+    const platforms = ['facebook', 'instagram', 'twitter', 'tiktok', 'whatsapp'];
+    platforms.forEach(p => {
+        const val = formData.get(p);
+        if (val) params.append(p, val);
+    });
+
+    const finalUrl = `${RMN_CONFIG.SCRIPT_URL}?${params.toString()}`;
+
+    try {
+        await fetch(finalUrl, { method: 'POST', mode: 'no-cors' });
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 800);
+    } catch(err) {
+        console.error("Submission failed:", err);
+        btn.disabled = false;
+        btn.textContent = "Eseye ankò";
+    }
+}
+
+function validateFormState() {
+    const f = document.getElementById('register-form');
+    const btn = document.getElementById('submit-btn');
+    if (!f || !btn) return;
+    
+    const hasReq = f.prenom.value && f.nom.value && _validity.email && _validity.phone && _validity.pay;
+    btn.disabled = !hasReq;
+}
