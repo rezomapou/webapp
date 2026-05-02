@@ -10,40 +10,40 @@
   <script src="config.js"></script>
   <script src="strings.js"></script>
   <style>
-    /* Restoration of Layout & Feedback Visuals */
     .register-layout { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: start; padding: 2rem 0 3rem; }
-    .register-form-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; box-shadow: var(--shadow); }
-    
     .location-group { display: none; margin-top: 1rem; }
     .location-group.visible { display: block; }
     
-    /* Verif Visual Cues: Spinners */
-    .phone-box, .email-wrapper { position: relative; display: flex; align-items: center; }
-    .field-checking { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; }
+    .field-wrapper { position: relative; width: 100%; }
+    .field-checking { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); z-index: 10; }
     .loading-spinner { width: 16px; height: 16px; border: 2px solid #ccc; border-top-color: var(--gold-dark); border-radius: 50%; animation: spin 0.6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     
-    /* Phone input with prefix */
-    .phone-box { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: white; width: 100%; }
+    .phone-box { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: white; }
     .prefix-label { background: #f0f0f0; padding: 0.7rem; border-right: 1px solid var(--border); font-weight: 500; min-width: 65px; text-align: center; }
     .phone-box input { border: none !important; flex: 1; padding: 0.7rem; }
     
-    .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 10px; }
+    .payment-selector { display: flex; gap: 10px; margin-bottom: 10px; }
+    .pay-opt { flex: 1; border: 1px solid var(--border); padding: 8px; border-radius: 6px; text-align: center; cursor: pointer; background: #fff; font-size: 0.9rem; }
+    .pay-opt.active { border-color: var(--gold-dark); background: #fffdf0; font-weight: bold; }
+
+    .field-feedback { font-size: 0.8rem; margin-top: 4px; min-height: 1.2em; }
+    .field-feedback.ok { color: var(--forest); }
+    .field-feedback.error { color: #d93025; }
     .hidden { display: none !important; }
-    @media(max-width: 860px) { .register-layout { grid-template-columns: 1fr; } }
+    
+    .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 10px; }
+    .platform-field input { width: 100%; font-size: 0.85rem; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; }
   </style>
 </head>
 <body>
 
-<!-- RESTORED TOP BAR & NAV -->
 <div class="top-bar">
-  <div class="top-bar-left">
-    <a href="index.html" data-s="nav_home">Akèy</a>
-    <div class="top-bar-counts"><span><strong id="tb-members">—</strong> <span data-s="dash_members">Rasin Enskri</span></span></div>
-  </div>
+  <div class="top-bar-left"><a href="index.html" data-s="nav_home">Akèy</a></div>
   <div class="lang-bar">
     <button class="lang-btn" onclick="switchLang('ht')">🇭🇹 KR</button>
     <button class="lang-btn" onclick="switchLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" onclick="switchLang('en')">🇺🇸 EN</button>
   </div>
 </div>
 
@@ -73,8 +73,8 @@
 
         <div class="form-group">
           <label>Imèl*</label>
-          <div class="email-wrapper">
-            <input type="email" id="email" name="email" required placeholder="rara@azor.com" style="width:100%">
+          <div class="field-wrapper">
+            <input type="email" id="email" name="email" required placeholder="rara@azor.com">
             <div id="email-checking" class="field-checking hidden"><div class="loading-spinner"></div></div>
           </div>
           <div id="email-feedback" class="field-feedback"></div>
@@ -88,13 +88,9 @@
         </div>
 
         <div id="location-haiti" class="location-group">
-          <div class="form-group">
-            <label>Depatman*</label>
-            <select id="departement" name="departement" onchange="onDeptChange(this.value)"></select>
-          </div>
-          <div class="form-group">
-            <label>Komin*</label>
-            <select id="commune" name="commune"></select>
+          <div class="form-row">
+            <div class="form-group"><label>Depatman*</label><select id="departement" onchange="onDeptChange(this.value)"></select></div>
+            <div class="form-group"><label>Komin*</label><select id="commune" name="commune"></select></div>
           </div>
         </div>
 
@@ -117,14 +113,18 @@
           <select id="langue" name="langue" onchange="isLangManual=true">
             <option value="ht">🇭🇹 Kreyòl ayisyen</option>
             <option value="fr">🇫🇷 Français</option>
+            <option value="en">🇺🇸 English</option>
           </select>
         </div>
 
-        <!-- RESTORED PAYMENT & SOCIAL LINKS[cite: 1] -->
         <div class="form-section-title">💰 Peman (8 chif)</div>
-        <div class="platform-grid">
-          <input type="text" name="moncash" placeholder="MonCash #" oninput="this.value=this.value.replace(/\D/g,'')">
-          <input type="text" name="natcash" placeholder="NatCash #" oninput="this.value=this.value.replace(/\D/g,'')">
+        <div class="payment-selector">
+          <div class="pay-opt active" id="opt-moncash" onclick="setPaymentMode('moncash')">MonCash</div>
+          <div class="pay-opt" id="opt-natcash" onclick="setPaymentMode('natcash')">NatCash</div>
+        </div>
+        <input type="hidden" id="payment_type" name="payment_type" value="moncash">
+        <div class="form-group">
+          <input type="text" id="payment_value" name="payment_value" placeholder="3XXX XXXX" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')">
         </div>
 
         <div class="form-section-title">🔗 Rezo Sosyal</div>
@@ -138,28 +138,128 @@
   </div>
 </main>
 
-<!-- RESTORED FOOTER[cite: 1] -->
 <footer>
   <div class="footer-inner">
     <div class="footer-links">
       <a href="terms.html">Tèm Itilizasyon</a>
       <a href="privacy.html">Konfidansyalite</a>
     </div>
-    <div class="footer-copy">© 2026 Rezo Mapou Nasyonal</div>
+    <div class="footer-copy">© 2026 Rezo Mapou Nasyonal[cite: 1]</div>
   </div>
 </footer>
 
 <script>
 let _validity = { phone: false, email: false };
+let _debounceTimers = {};
 let isLangManual = false;
 const PREFIX_MAP = { 'Haïti': '+509', 'USA': '+1', 'Canada': '+1', 'France': '+33', 'Dominican Republic': '+1' };
 
 document.addEventListener('DOMContentLoaded', () => {
   populateCountries();
   populateDepts();
-  populatePlatforms(); // Restored logic[cite: 1]
+  populatePlatforms(); // Restored call[cite: 1]
+  
+  ['email', 'phone'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      clearTimeout(_debounceTimers[id]);
+      document.getElementById(`${id}-feedback`).className = 'field-feedback';
+      document.getElementById(`${id}-feedback`).textContent = '';
+      
+      _debounceTimers[id] = setTimeout(() => {
+        const val = document.getElementById(id).value.trim();
+        if (id === 'email' ? val.includes('@') : val.length >= 8) {
+          checkAvailability(id, val);
+        }
+      }, 600);
+    });
+  });
+  
   document.getElementById('register-form').addEventListener('input', validateFormState);
 });
+
+// Restored Function: populatePlatforms[cite: 1]
+function populatePlatforms() {
+  const grid = document.getElementById('platform-grid');
+  grid.innerHTML = ''; 
+  RMN_CONFIG.PLATFORMS.filter(p => !['MonCash','NatCash'].includes(p.key)).forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'platform-field';
+    div.innerHTML = `<input type="url" name="${p.key.toLowerCase()}" placeholder="${p.icon} ${p.key}">`;
+    grid.appendChild(div);
+  });
+}
+
+function setPaymentMode(mode) {
+  document.getElementById('payment_type').value = mode;
+  document.getElementById('opt-moncash').classList.toggle('active', mode === 'moncash');
+  document.getElementById('opt-natcash').classList.toggle('active', mode === 'natcash');
+  document.getElementById('payment_value').placeholder = (mode === 'moncash') ? "3XXX XXXX" : "4XXX XXXX";
+}
+
+async function checkAvailability(type, val) {
+  const checking = document.getElementById(`${type}-checking`);
+  const feedback = document.getElementById(`${type}-feedback`);
+  checking.classList.remove('hidden');
+  
+  try {
+    const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=check_availability&type=${type}&value=${val}`);
+    const d = await res.json();
+    checking.classList.add('hidden');
+    
+    if (d.exists) {
+      feedback.textContent = "Deja itilize";
+      feedback.className = 'field-feedback error';
+      _validity[type] = false;
+    } else {
+      feedback.textContent = "OK";
+      feedback.className = 'field-feedback ok';
+      _validity[type] = true;
+    }
+  } catch(e) { 
+    checking.classList.add('hidden'); 
+  }
+  validateFormState();
+}
+
+function onCountryChange(value) {
+  const isHaiti = value === 'Haïti';
+  document.getElementById('location-haiti').classList.toggle('visible', isHaiti);
+  document.getElementById('location-diaspora').classList.toggle('visible', !isHaiti && value !== '');
+  document.getElementById('prefix-display').textContent = PREFIX_MAP[value] || '+?';
+  validateFormState();
+}
+
+function validateFormState() {
+  const f = document.getElementById('register-form');
+  const btn = document.getElementById('submit-btn');
+  const hasReq = f.prenom.value && f.nom.value && f.email.value.includes('@') && f.country.value && f.phone.value;
+  btn.disabled = !(hasReq && _validity.phone && _validity.email);
+}
+
+document.getElementById('register-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = "...";
+
+  const formData = new FormData(this);
+  const params = new URLSearchParams(formData);
+  
+  const payType = formData.get('payment_type');
+  const payVal = formData.get('payment_value');
+  if (payVal) params.set(payType, payVal);
+  params.delete('payment_type');
+  params.delete('payment_value');
+  
+  params.set('action', 'register');
+  await fetch(RMN_CONFIG.SCRIPT_URL, { method: 'POST', body: params, mode: 'no-cors' });
+  window.location.href = "dashboard.html";
+});
+
+function switchLang(l) { 
+  L(l, 'register'); 
+  if (!isLangManual) document.getElementById('langue').value = l; 
+}
 
 function populateCountries() {
   const sel = document.getElementById('country');
@@ -171,87 +271,21 @@ function populateCountries() {
 
 function populateDepts() {
   const sel = document.getElementById('departement');
-  sel.innerHTML = '<option value="">— Chwazi depatman —</option>';
+  sel.innerHTML = '<option value="">— Chwazi —</option>';
   Object.keys(HAITI).sort().forEach(d => {
     const o = document.createElement('option');
     o.value = d; o.textContent = d; sel.appendChild(o);
   });
 }
 
-function populatePlatforms() {
-  const grid = document.getElementById('platform-grid');
-  RMN_CONFIG.PLATFORMS.filter(p => !['MonCash','NatCash'].includes(p.key)).forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'platform-field';
-    div.innerHTML = `<input type="url" name="${p.key.toLowerCase()}" placeholder="${p.icon} ${p.key}">`;
-    grid.appendChild(div);
-  });
-}
-
-function onCountryChange(value) {
-  const isHaiti = value === 'Haïti';
-  document.getElementById('location-haiti').classList.toggle('visible', isHaiti);
-  document.getElementById('location-diaspora').classList.toggle('visible', !isHaiti && value !== '');
-  document.getElementById('prefix-display').textContent = PREFIX_MAP[value] || '+?';
-  validateFormState();
-}
-
 function onDeptChange(dept) {
   const sel = document.getElementById('commune');
-  sel.innerHTML = `<option value="">— Chwazi komin —</option>`;
+  sel.innerHTML = `<option value="">— Chwazi —</option>`;
   if (!dept || !HAITI[dept]) return;
   HAITI[dept].sort().forEach(c => {
     const o = document.createElement('option');
     o.value = c; o.textContent = c; sel.appendChild(o);
   });
-}
-
-function validateFormState() {
-  const f = document.getElementById('register-form');
-  const btn = document.getElementById('submit-btn');
-  const hasReq = f.prenom.value && f.nom.value && f.email.value.includes('@') && f.country.value && f.phone.value;
-  btn.disabled = !(hasReq && _validity.phone && _validity.email);
-}
-
-// Logic for visual verif triggers[cite: 1]
-['phone', 'email'].forEach(id => {
-  document.getElementById(id).addEventListener('blur', function() {
-    if (this.value.trim()) checkAvailability(id, this.value.trim());
-  });
-});
-
-async function checkAvailability(type, raw) {
-  const checking = document.getElementById(`${type}-checking`);
-  checking.classList.remove('hidden');
-  
-  let val = raw;
-  if (type === 'phone') {
-    val = raw.replace(/\D/g, '');
-    if (val.startsWith('509')) val = val.substring(3);
-  }
-
-  try {
-    const params = new URLSearchParams({ action:'check_availability', type, value: val, lang: getCurrentLang() });
-    const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?${params}`);
-    const d = await res.json();
-    checking.classList.add('hidden');
-    
-    if (d.exists) {
-      setFeedback(type, 'error', s(`f_${type}_exists`));
-      _validity[type] = false;
-    } else {
-      setFeedback(type, 'ok', 'OK');
-      _validity[type] = true;
-      if (type === 'phone') document.getElementById('phone').dataset.normalized = d.normalized || val;
-    }
-  } catch(e) { checking.classList.add('hidden'); _validity[type] = false; }
-  validateFormState();
-}
-
-
-function switchLang(l) { 
-  L(l, 'register'); 
-  if (!isLangManual) document.getElementById('langue').value = l; 
 }
 </script>
 </body>
