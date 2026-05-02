@@ -100,7 +100,7 @@
 
           <!-- IMPROVEMENT: Email Spinner Fixed -->
           <div class="form-group">
-            <label for="email"><span data-s="f_email">Imèl</span></label>
+            <label for="email"><span data-s="f_email">Imèl</span>*</label>
             <div class="email-wrapper">
               <input type="email" id="email" name="email">
               <div class="field-checking hidden" id="email-checking"><div class="loading-spinner"></div></div>
@@ -152,7 +152,7 @@
 </footer>
 
 <script>
-let _validity = { phone: false, email: true };
+let _validity = { phone: false, email: false };
 
 document.addEventListener('DOMContentLoaded', () => {
   const lang = getCurrentLang();
@@ -169,10 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function validateFormState() {
   const prenom = document.getElementById('prenom').value.trim();
   const nom = document.getElementById('nom').value.trim();
+  const email = document.getElementById('email').value.trim(); // Added
   const country = document.getElementById('country').value;
   const btn = document.getElementById('submit-btn');
   
-  const isReady = prenom && nom && country && _validity.phone && _validity.email;
+  // Button only unlocks if all text is present AND backend checks are green
+  const isReady = prenom && nom && email && country && _validity.phone && _validity.email;
   btn.disabled = !isReady;
 }
 
