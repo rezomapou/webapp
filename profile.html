@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitrine — Rezo Mapou Nasyonal</title>
+  <meta name="description" content="Vitrine pèsonèl ou nan Rezo Mapou Nasyonal.">
+  <meta property="og:title" content="Vitrine Rezo Mapou">
+  <meta property="og:image" content="https://rezomapou.github.io/webapp/og_image.png">
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+  <script src="strings.js"></script>
+  <style>
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 1.5rem;
+      padding: 2rem 0 3rem;
+      align-items: start;
+    }
+    .profile-sidebar { position: sticky; top: calc(var(--topbar-height) + var(--nav-height) + 1rem); }
+    .avatar-wrap { text-align: center; margin-bottom: 1.25rem; }
+    .avatar-circle {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--forest); color: var(--gold);
+      font-family: var(--font-serif); font-size: 2rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.75rem;
+    }
+    .profile-name { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 4px; }
+    .profile-location { font-size: 0.82rem; color: var(--muted); text-align: center; margin-bottom: 0.5rem; }
+    .profile-badges { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .profile-actions { display: flex; flex-direction: column; gap: 0.5rem; }
+    .score-box {
+      background: var(--forest-pale);
+      border: 1px solid rgba(30,77,43,0.15);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .score-num { font-family: var(--font-serif); font-size: 2rem; font-weight: 900; color: var(--forest); }
+    .score-lbl { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .section-tabs {
+      display: flex; gap: 2px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 1.25rem;
+    }
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      font-family: var(--font-sans); font-size: 0.85rem; font-weight: 500;
+      color: var(--muted); background: transparent; border: none;
+      cursor: pointer; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn.active { color: var(--forest); border-bottom-color: var(--forest); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .link-manage-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+    }
+    .link-manage-row:last-child { border-bottom: none; }
+    .link-manage-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+    .link-manage-label { flex: 1; font-size: 0.88rem; color: var(--ink); }
+    .link-manage-url { font-size: 0.75rem; color: var(--muted); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .link-manage-actions { display: flex; gap: 4px; }
+    .add-link-form { background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; margin-top: 1rem; display: none; }
+    .add-link-form.open { display: block; }
+    .platform-select-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-bottom: 0.75rem; }
+    .platform-opt {
+      aspect-ratio: 1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 2px; font-size: 0.65rem; color: var(--muted);
+      background: white; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      cursor: pointer; transition: all 0.15s; padding: 6px 2px;
+    }
+    .platform-opt .opt-icon { font-size: 1.2rem; }
+    .platform-opt.selected { border-color: var(--forest); background: var(--forest-pale); color: var(--forest); }
+    .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row label { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+    .settings-row .hint { font-size: 0.75rem; color: var(--muted); }
+    .toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; inset: 0; background: var(--border); border-radius: 22px;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .toggle-slider::before {
+      content: ''; position: absolute;
+      width: 16px; height: 16px; left: 3px; top: 3px;
+      background: white; border-radius: 50%; transition: transform 0.2s;
+    }
+    .toggle input:checked + .toggle-slider { background: var(--forest); }
+    .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+    .share-url-box {
+      background: var(--cream-dark); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.6rem 0.85rem;
+      font-size: 0.82rem; color: var(--muted); word-break: break-all;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .not-logged-in { text-align: center; padding: 4rem 1rem; }
+    .not-logged-in h2 { margin-bottom: 0.5rem; }
+    .not-logged-in p { color: var(--muted); margin-bottom: 1.5rem; }
+    @media (max-width: 768px) {
+      .profile-layout { grid-template-columns: 1fr; }
+      .profile-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="index.html" data-s="nav_home">Akèy</a>
+  </div>
+  <div class="lang-bar">
+    <button class="lang-btn active" data-lang-btn="ht" onclick="switchLang('ht')">🇭🇹 KR</button>
+    <button class="lang-btn" data-lang-btn="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">🇺🇸 EN</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback" style="display:none;">RMN</div>
+    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" data-s="nav_home">Akèy</a></li>
+    <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
+    <li><a href="profile.html" data-s="nav_profile" class="active">Vitrine mwen</a></li>
+    <li><a href="#" onclick="doLogout()" data-s="nav_logout">Dekonekte</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
+</nav>
+
+<!-- NOT LOGGED IN STATE -->
+<div id="state-guest" class="not-logged-in hidden">
+  <div class="container">
+    <div style="font-size:3rem;margin-bottom:1rem;">🔐</div>
+    <h2 data-s="login_title">Konekte nan kont ou</h2>
+    <p data-s="login_subtitle">Ou bezwen konekte pou wè Vitrine ou.</p>
+    <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+      <a href="login.html" class="btn btn-primary" data-s="nav_login">Konekte</a>
+      <a href="register.html" class="btn btn-outline" data-s="nav_register">Enskri</a>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING STATE -->
+<div id="state-loading" class="loading-block hidden">
+  <div class="loading-spinner" style="margin:0 auto 1rem;"></div>
+  <span data-s="btn_loading">Ap chaje...</span>
+</div>
+
+<!-- MAIN PROFILE -->
+<main id="state-profile" class="hidden">
+  <div class="container">
+    <div class="profile-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="profile-sidebar">
+        <div class="card">
+          <div class="avatar-wrap">
+            <div class="avatar-circle" id="avatar-initials">?</div>
+          </div>
+          <div class="profile-name" id="profile-name">—</div>
+          <div class="profile-location" id="profile-location"></div>
+          <div class="profile-badges" id="profile-badges"></div>
+
+          <!-- Score box (if public or owner) -->
+          <div class="score-box" id="score-box">
+            <div class="score-num" id="score-val">—</div>
+            <div class="score-lbl" data-s="vitrine_score">Skor RMN</div>
+          </div>
+
+          <div class="profile-actions">
+            <a id="links-page-btn" href="#" class="btn btn-outline btn-sm">
+              🔗 <span data-s="vitrine_links">Lyen mwen</span>
+            </a>
+            <button class="btn btn-ghost btn-sm" onclick="doLogout()">
+              <span data-s="nav_logout">Dekonekte</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Share URL -->
+        <div class="card mt-2">
+          <div class="card-title" style="font-size:.85rem;" data-s="vitrine_links">Lyen Piblik</div>
+          <div class="share-url-box">
+            <span id="share-url" style="flex:1;"></span>
+            <button onclick="copyShareUrl()" class="btn btn-ghost btn-sm" data-s="invite_copy">Kopye</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div>
+        <!-- TABS -->
+        <div class="section-tabs">
+          <button class="tab-btn active" onclick="showTab('tab-info')" data-s="vitrine_title">Vitrine</button>
+          <button class="tab-btn" onclick="showTab('tab-links')" data-s="vitrine_links">Lyen</button>
+          <button class="tab-btn" onclick="showTab('tab-settings')" data-s="vitrine_edit">Paramèt</button>
+        </div>
+
+        <!-- TAB: INFO -->
+        <div id="tab-info" class="tab-panel active">
+          <div class="card mb-2">
+            <div class="card-title" data-s="vitrine_title">Enfòmasyon</div>
+            <div id="info-fields"></div>
+          </div>
+          <!-- Verification alert -->
+          <div id="verify-alert" class="alert alert-warning hidden">
+            ⚠️ Kont ou poko verifye. Verifye imèl ou pou rive Nivo 1.
+            <a href="login.html" style="margin-left:8px;font-weight:600;">Voye lyen →</a>
+          </div>
+        </div>
+
+        <!-- TAB: LINKS -->
+        <div id="tab-links" class="tab-panel">
+          <div class="card">
+            <div class="card-title" data-s="vitrine_links">Lyen mwen</div>
+            <div id="links-list"></div>
+            <div class="mt-2">
+              <button class="btn btn-outline btn-sm" onclick="toggleAddLink()" data-s="vitrine_add_link">
+                + Ajoute yon lyen
+              </button>
+            </div>
+            <!-- ADD LINK FORM -->
+            <div class="add-link-form" id="add-link-form">
+              <div class="form-group">
+                <label>Platform</label>
+                <div class="platform-select-grid" id="platform-select-grid"></div>
+              </div>
+              <div class="form-group">
+                <label for="new-link-url">URL</label>
+                <input type="url" id="new-link-url" placeholder="https://..." autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="new-link-label" data-s="lbl_optional">Label (opsyonèl)</label>
+                <input type="text" id="new-link-label" placeholder="Kontakte mwen sou WhatsApp..." maxlength="60">
+              </div>
+              <div style="display:flex;gap:.5rem;">
+                <button class="btn btn-primary btn-sm" onclick="saveLink()" data-s="vitrine_save">Sove</button>
+                <button class="btn btn-ghost btn-sm" onclick="toggleAddLink()" data-s="vitrine_cancel">Anile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: SETTINGS -->
+        <div id="tab-settings" class="tab-panel">
+          <div class="card">
+            <div class="card-title" data-s="vitrine_edit">Modifye pwofil</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="edit-firstname" data-s="f_firstname">Prenon</label>
+                <input type="text" id="edit-firstname" autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label for="edit-lastname" data-s="f_lastname">Siyati</label>
+                <input type="text" id="edit-lastname" autocomplete="family-name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="edit-lang" data-s="f_lang">Lang prefere</label>
+              <select id="edit-lang">
+                <option value="ht">🇭🇹 Kreyòl ayisyen</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+              </select>
+            </div>
+            <div class="mt-2">
+              <button class="btn btn-primary btn-sm" onclick="saveProfile()" data-s="vitrine_save">Sove chanjman</button>
+            </div>
+            <div class="alert hidden mt-1" id="settings-alert"></div>
+          </div>
+
+          <div class="card mt-2">
+            <div class="card-title" data-s="vitrine_visibility">Vizibilite</div>
+            <div class="settings-row">
+              <div>
+                <label data-s="vitrine_visibility">Vizibilite Vitrine</label>
+                <div class="hint" id="vis-hint"></div>
+              </div>
+              <select id="vis-select" onchange="saveVisibility(this.value)" style="width:auto;min-width:140px;">
+                <option value="PIBLIK" data-s="vis_public">Piblik</option>
+                <option value="REZO_SELMAN" data-s="vis_members">Rezo sèlman</option>
+                <option value="SEK_KONFYANS" data-s="vis_trust">Sèk Konfyans</option>
+              </select>
+            </div>
+            <div class="settings-row">
+              <div>
+                <label data-s="vitrine_score_public">Montre skor piblikman</label>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="score-public-toggle" onchange="saveScorePublic(this.checked)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.main content -->
+    </div><!-- /.profile-layout -->
+  </div><!-- /.container -->
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="terms.html" data-s="legal_terms">Tèm</a>
+      <a href="privacy.html" data-s="legal_privacy">Konfidansyalite</a>
+    </div>
+    <div class="footer-copy" data-s="legal_rights">© 2026 Rezo Mapou Nasyonal</div>
+  </div>
+</footer>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let _profile  = null;
+let _links    = [];
+let _session  = null;
+let _memberId = null;
+let _selectedPlatform = null;
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  L(getCurrentLang(), 'profile');
+  _session  = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
+  _memberId = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_ID_KEY);
+
+  if (!_session) {
+    showState('guest');
+    return;
+  }
+
+  showState('loading');
+  loadProfile();
+});
+
+function switchLang(lang) { L(lang, 'profile'); }
+function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+// ── LOAD PROFILE ──────────────────────────────────────────────────────────
+async function loadProfile() {
+  try {
+    // Verify session and load profile in one call
+    const res  = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=member&token=${_session}`);
+    const data = await res.json();
+
+    if (!data.success || !data.is_owner) {
+      // Session expired or invalid
+      localStorage.removeItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
+      localStorage.removeItem(RMN_CONFIG.LOCALSTORAGE_ID_KEY);
+      showState('guest');
+      return;
+    }
+
+    _profile = data.profile;
+    _memberId = _profile.member_id;
+
+    // Load links
+    const linksRes  = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=links&id=${_memberId}`);
+    const linksData = await linksRes.json();
+    _links = linksData.links || [];
+
+    renderProfile();
+    showState('profile');
+
+  } catch(e) {
+    showState('guest');
+  }
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function renderProfile() {
+  const p    = _profile;
+  const lang = getCurrentLang();
+
+  // Initials
+  const initials = ((p.first_name||'?')[0] + (p.last_name||'?')[0]).toUpperCase();
+  document.getElementById('avatar-initials').textContent = initials;
+
+  // Name
+  document.getElementById('profile-name').textContent = `${p.first_name||''} ${p.last_name||''}`.trim();
+
+  // Location
+  const loc = p.commune_nom
+    ? `${p.commune_nom}, ${p.dept_nom}`
+    : p.city ? `${p.city}${p.state ? ', '+p.state : ''}` : p.country || '';
+  document.getElementById('profile-location').textContent = loc;
+
+  // Badges
+  const lvl = parseInt(p.trust_level) || 0;
+  const lvlKeys   = ['level_0','level_1','level_2'];
+  const lvlColors = ['badge-level-0','badge-level-1','badge-level-2'];
+  const verifiedBadge = p.email_verified === 'TRUE'
+    ? `<span class="badge badge-verified" data-s="lbl_verified">${s('lbl_verified')}</span>` : '';
+  document.getElementById('profile-badges').innerHTML =
+    `<span class="badge ${lvlColors[lvl]||'badge-level-0'}">${s(lvlKeys[lvl]||'level_0')}</span>${verifiedBadge}`;
+
+  // Score
+  document.getElementById('score-val').textContent = p.rmn_score || '0';
+
+  // Links page URL
+  const shareUrl = `${window.location.origin}${window.location.pathname.replace('profile.html','links.html')}?id=${_memberId}`;
+  document.getElementById('share-url').textContent = shareUrl;
+  document.getElementById('links-page-btn').href = `links.html?id=${_memberId}`;
+
+  // Info tab
+  renderInfoFields(p, lang);
+
+  // Links tab
+  renderLinks();
+
+  // Settings tab
+  document.getElementById('edit-firstname').value = p.first_name || '';
+  document.getElementById('edit-lastname').value  = p.last_name  || '';
+  document.getElementById('edit-lang').value      = p.language_pref || getCurrentLang();
+  document.getElementById('vis-select').value     = p.visibility || 'REZO_SELMAN';
+  document.getElementById('score-public-toggle').checked = p.score_public === 'TRUE';
+
+  // Verify alert
+  if (p.email_verified !== 'TRUE') {
+    document.getElementById('verify-alert').classList.remove('hidden');
+  }
+
+  // Platform selector for add-link form
+  renderPlatformSelector();
+}
+
+function renderInfoFields(p, lang) {
+  const fields = [
+    { label: s('f_phone'), value: p.phone || '—', icon: '📱' },
+    { label: s('f_email'), value: p.email || '—', icon: '📧' },
+    { label: s('f_country'), value: p.country || '—', icon: '🌍' },
+    { label: p.commune_nom ? s('f_commune') : s('f_city'),
+      value: p.commune_nom ? `${p.commune_nom}, ${p.dept_nom}` : p.city || '—', icon: '📍' },
+    { label: s('vitrine_level'), value: s(['level_0','level_1','level_2'][parseInt(p.trust_level)||0]), icon: '⭐' },
+    { label: s('vitrine_since'), value: p.created_at ? new Date(p.created_at).toLocaleDateString() : '—', icon: '📅' },
+  ];
+  document.getElementById('info-fields').innerHTML = fields.map(f => `
+    <div style="display:flex;align-items:center;gap:10px;padding:.6rem 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:1rem;width:24px;text-align:center;">${f.icon}</span>
+      <span style="font-size:.8rem;color:var(--muted);min-width:90px;">${f.label}</span>
+      <span style="font-size:.88rem;color:var(--ink);font-weight:500;">${f.value}</span>
+    </div>
+  `).join('');
+}
+
+function renderLinks() {
+  const list = document.getElementById('links-list');
+  if (!_links.length) {
+    list.innerHTML = `<p class="text-muted text-sm" style="text-align:center;padding:1rem 0;">${s('dash_no_data')}</p>`;
+    return;
+  }
+  list.innerHTML = _links.map((lnk, idx) => {
+    const platform = RMN_CONFIG.PLATFORMS.find(p => p.key === lnk.platform) || { icon:'🔗' };
+    return `
+      <div class="link-manage-row">
+        <span class="link-manage-icon">${platform.icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div class="link-manage-label">${escHtml(lnk.label || platformLabel(lnk.platform))}</div>
+          <div class="link-manage-url">${escHtml(lnk.url)}</div>
+        </div>
+        <div class="link-manage-actions">
+          <a href="${escHtml(lnk.url)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">↗</a>
+          <button class="btn btn-danger btn-sm" onclick="removeLink('${lnk.link_id}')">×</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderPlatformSelector() {
+  const grid = document.getElementById('platform-select-grid');
+  grid.innerHTML = RMN_CONFIG.PLATFORMS.map(p => `
+    <div class="platform-opt" data-platform="${p.key}" onclick="selectPlatform('${p.key}', this)">
+      <span class="opt-icon">${p.icon}</span>
+      <span>${platformLabel(p.key)}</span>
+    </div>
+  `).join('');
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function showTab(tabId) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── ADD LINK ──────────────────────────────────────────────────────────────
+function toggleAddLink() {
+  document.getElementById('add-link-form').classList.toggle('open');
+  _selectedPlatform = null;
+  document.getElementById('new-link-url').value   = '';
+  document.getElementById('new-link-label').value = '';
+  document.querySelectorAll('.platform-opt').forEach(o => o.classList.remove('selected'));
+}
+
+function selectPlatform(key, el) {
+  _selectedPlatform = key;
+  document.querySelectorAll('.platform-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  // Pre-fill placeholder
+  const platform = RMN_CONFIG.PLATFORMS.find(p => p.key === key);
+  const urlInput = document.getElementById('new-link-url');
+  if (platform && platform.prefix) {
+    urlInput.placeholder = platform.prefix + '...';
+  } else {
+    urlInput.placeholder = 'https://...';
+  }
+}
+
+async function saveLink() {
+  if (!_selectedPlatform) { alert('Chwazi yon platform dabò.'); return; }
+  const url   = document.getElementById('new-link-url').value.trim();
+  const label = document.getElementById('new-link-label').value.trim();
+  if (!url) { alert('URL obligatwa.'); return; }
+
+  const params = new URLSearchParams({
+    action:   'add_link',
+    token:    _session,
+    platform: _selectedPlatform,
+    url:      buildPlatformUrl(_selectedPlatform, url),
+    label,
+  });
+
+  try {
+    await fetch(RMN_CONFIG.SCRIPT_URL, { method:'POST', body:params, mode:'no-cors' });
+    // Optimistically add to local list
+    _links.push({
+      link_id:  'LN-NEW',
+      platform: _selectedPlatform,
+      url:      buildPlatformUrl(_selectedPlatform, url),
+      label,
+    });
+    renderLinks();
+    toggleAddLink();
+  } catch(e) {}
+}
+
+async function removeLink(linkId) {
+  if (!confirm('Retire lyen sa a?')) return;
+  const params = new URLSearchParams({ action:'remove_link', token:_session, link_id:linkId });
+  try {
+    await fetch(RMN_CONFIG.SCRIPT_URL, { method:'POST', body:params, mode:'no-cors' });
+    _links = _links.filter(l => l.link_id !== linkId);
+    renderLinks();
+  } catch(e) {}
+}
+
+// ── SAVE PROFILE ──────────────────────────────────────────────────────────
+async function saveProfile() {
+  const params = new URLSearchParams({
+    action:     'update_profile',
+    token:      _session,
+    first_name: document.getElementById('edit-firstname').value.trim(),
+    last_name:  document.getElementById('edit-lastname').value.trim(),
+    lang_pref:  document.getElementById('edit-lang').value,
+  });
+  const alertEl = document.getElementById('settings-alert');
+  try {
+    await fetch(RMN_CONFIG.SCRIPT_URL, { method:'POST', body:params, mode:'no-cors' });
+    alertEl.className = 'alert alert-success mt-1';
+    alertEl.textContent = s('success') || 'Sove!';
+    alertEl.classList.remove('hidden');
+    // Update display
+    _profile.first_name = document.getElementById('edit-firstname').value.trim();
+    _profile.last_name  = document.getElementById('edit-lastname').value.trim();
+    document.getElementById('profile-name').textContent = `${_profile.first_name} ${_profile.last_name}`.trim();
+    document.getElementById('avatar-initials').textContent =
+      ((_profile.first_name[0]||'?') + (_profile.last_name[0]||'?')).toUpperCase();
+    setTimeout(() => alertEl.classList.add('hidden'), 3000);
+  } catch(e) {
+    alertEl.className = 'alert alert-error mt-1';
+    alertEl.textContent = s('f_error');
+    alertEl.classList.remove('hidden');
+  }
+}
+
+async function saveVisibility(value) {
+  const params = new URLSearchParams({ action:'update_profile', token:_session, visibility:value });
+  await fetch(RMN_CONFIG.SCRIPT_URL, { method:'POST', body:params, mode:'no-cors' }).catch(()=>{});
+}
+
+async function saveScorePublic(checked) {
+  const params = new URLSearchParams({ action:'update_profile', token:_session, score_public: checked ? 'true':'false' });
+  await fetch(RMN_CONFIG.SCRIPT_URL, { method:'POST', body:params, mode:'no-cors' }).catch(()=>{});
+}
+
+// ── SHARE URL ─────────────────────────────────────────────────────────────
+function copyShareUrl() {
+  const url = document.getElementById('share-url').textContent;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = event.target;
+    btn.textContent = s('invite_copied') || 'Kopye!';
+    setTimeout(() => { btn.textContent = s('invite_copy') || 'Kopye'; }, 2000);
+  }).catch(() => {});
+}
+
+// ── LOGOUT ────────────────────────────────────────────────────────────────
+function doLogout() {
+  localStorage.removeItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
+  localStorage.removeItem(RMN_CONFIG.LOCALSTORAGE_ID_KEY);
+  window.location.href = 'index.html';
+}
+
+// ── STATE MANAGER ─────────────────────────────────────────────────────────
+function showState(state) {
+  ['guest','loading','profile'].forEach(s => {
+    document.getElementById('state-' + s).classList.add('hidden');
+  });
+  document.getElementById('state-' + state).classList.remove('hidden');
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
