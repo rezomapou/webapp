@@ -80,7 +80,7 @@ async function performCheck(type, value) {
     spinner.classList.remove('hidden'); // Show spinner inside field
     
     try {
-        const response = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=check&type=${type}&value=${value}`);
+        const response = await fetch(`${STRINGS.SCRIPT_URL}?action=check&type=${type}&value=${value}`);
         const data = await response.json();
         
         spinner.classList.add('hidden'); // Hide spinner
