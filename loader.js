@@ -8,7 +8,7 @@ async function loadComponent(elementId, componentKey) {
     if (!target) return;
 
     // Construct path: e.g., "components/header.html"
-    const filePath = `${RMN_CONFIG.PATHS.COMPONENTS}/${RMN_CONFIG.COMPONENTS[componentKey]}`;
+    const filePath = `${STRINGS.PATHS.COMPONENTS}/${RMN_CONFIG.COMPONENTS[componentKey]}`;
 
     try {
         const response = await fetch(filePath);
