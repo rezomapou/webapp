@@ -12,7 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize country/location listeners
     initLocationLogic();
+    initSocialGrid();
+    initPrefixLogic();
     
+    // Set default prefix if Haiti is pre-selected
+    document.getElementById('prefix-display').textContent = '+509';
     // Initialize validation listeners for real-time checks
     initValidationListeners();
 });
@@ -129,6 +133,37 @@ registerForm.addEventListener('submit', async (e) => {
         submitBtn.textContent = STRINGS[lang].f_submit;
     }
 });
+
+// 1. Function to build Social Media fields dynamically
+function initSocialGrid() {
+    const grid = document.getElementById('platform-grid');
+    const platforms = ['facebook', 'instagram', 'tiktok', 'x', 'youtube'];
+    const lang = getCurrentLang();
+
+    grid.innerHTML = platforms.map(p => `
+        <div class="platform-item">
+            <label for="soc_${p}">${p.charAt(0).toUpperCase() + p.slice(1)}</label>
+            <input type="text" id="soc_${p}" name="soc_${p}" placeholder="@handle">
+        </div>
+    `).join('');
+}
+
+// 2. Logic to update the Phone Prefix based on Country
+function initPrefixLogic() {
+    const countrySel = document.getElementById('country');
+    const prefixDisplay = document.getElementById('prefix-display');
+
+    countrySel.addEventListener('change', () => {
+        // Logic: if Haiti (+509), else show (+) and let user type or fetch code
+        if (countrySel.value === 'HT') {
+            prefixDisplay.textContent = '+509';
+        } else {
+            prefixDisplay.textContent = '+'; 
+        }
+    });
+}
+
+
 
 // Helper: Enable submit button only if all required fields are filled
 function checkFormValidity() {
