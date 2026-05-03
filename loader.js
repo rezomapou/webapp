@@ -1,7 +1,7 @@
 /**
  * Dynamic Component Loader
  * @param {string} elementId - The ID of the placeholder div
- * @param {string} componentKey - The key from RMN_CONFIG.COMPONENTS
+ * @param {string} componentKey - The key from STRINGS.COMPONENTS
  */
 async function loadComponent(elementId, componentKey) {
     const target = document.getElementById(elementId);
