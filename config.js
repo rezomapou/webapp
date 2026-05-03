@@ -8,6 +8,20 @@
 
 const RMN_CONFIG = {
 
+  // Folder Architecture
+    PATHS: {
+        COMPONENTS: 'components',
+        ASSETS: 'assets',
+        PAGES: 'pages'
+    },
+
+    // Component Filenames
+    COMPONENTS: {
+        HEADER: 'header.html',
+        FOOTER: 'footer.html',
+        NAV: 'nav.html'
+    }
+      
   // ── BACKEND ──────────────────────────────────────────────
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwiXRt79QnrSbep4pDXfHQ-l9StJt61HVcJQeiNY3FCRXEffTF5mJOnVcO3ghECNqqiKg/exec',
   SHEET_ID:   '1-1C3v-hO7r_mACqQffAFUx0amXY1H9oJGbWRruz1JHw',
