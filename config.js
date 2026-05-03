@@ -20,7 +20,7 @@ const RMN_CONFIG = {
         HEADER: 'header.html',
         FOOTER: 'footer.html',
         NAV: 'nav.html'
-    }
+    },
       
   // ── BACKEND ──────────────────────────────────────────────
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwiXRt79QnrSbep4pDXfHQ-l9StJt61HVcJQeiNY3FCRXEffTF5mJOnVcO3ghECNqqiKg/exec',
