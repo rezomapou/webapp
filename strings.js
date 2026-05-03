@@ -408,6 +408,7 @@ const STRINGS = {
     f_sect_identity:   "👤 Idantite",
     f_sect_social:     "🔗 Rezo Sosyal",
     pay_section_title: "💰 Peman",
+    pay_method_title:  "Chwazi",
     plt_moncash:       "MonCash",
     plt_natcash:       "NatCash",
   
@@ -611,6 +612,7 @@ const STRINGS = {
     f_sect_identity:   "👤 Identité",
     f_sect_social:     "🔗 Reseaux Sociaux",
     pay_section_title: "💰 Paiement",
+    pay_method_title:  "Votre choix",
     plt_moncash:       "MonCash",
     plt_natcash:       "NatCash",
     
@@ -796,6 +798,7 @@ const STRINGS = {
     f_sect_identity:   "👤 Identity",
     f_sect_social:     "🔗 Social networks",
     pay_section_title: "💰 Payment",
+    pay_method_title:  "Your choice",
     plt_moncash:       "MonCash",
     plt_natcash:       "NatCash",
     
