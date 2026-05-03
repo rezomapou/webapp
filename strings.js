@@ -402,9 +402,14 @@ const STRINGS = {
 
   ht: {
     // payment field
-    pay_section_title: "Peman"
-    pay_hint:          "Lè nou gen pou nou peye ou"
-    f_payment_ph:      "8 chif"
+    pay_section_title: "Peman",
+    pay_hint:          "Pou lè nou gen pou nou peye ou",
+    f_payment_ph:      "8 chif",
+    f_sect_identity:   "👤 Idantite",
+    f_sect_social:     "🔗 Rezo Sosyal",
+    pay_section_title: "💰 Peman",
+    plt_moncash:       "MonCash",
+    plt_natcash:       "NatCash",
   
     // Site identity
     site_name:        "Rezo Mapou Nasyonal",
@@ -600,10 +605,15 @@ const STRINGS = {
   },
 
   fr: {
-    pay_section_title: "Paiement"
-    pay_hint:          "Pour quand nous devrons vous payer"
-    f_payment_ph:      "8 chif"
-
+    pay_section_title: "Paiement",
+    pay_hint:          "Pour quand nous devrons vous payer",
+    f_payment_ph:      "8 chif",
+    f_sect_identity:   "👤 Identité",
+    f_sect_social:     "🔗 Reseaux Sociaux",
+    pay_section_title: "💰 Paiement",
+    plt_moncash:       "MonCash",
+    plt_natcash:       "NatCash",
+    
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "Les Racines d'Haïti",
     site_abbr:        "RMN",
@@ -780,9 +790,14 @@ const STRINGS = {
   },
 
   en: {
-    pay_section_title: "Payment"
-    pay_hint:          "For when we have to pay you"
-    f_payment_ph:      "8 digits"
+    pay_section_title: "Payment",
+    pay_hint:          "For when we have to pay you",
+    f_payment_ph:      "8 digits",
+    f_sect_identity:   "👤 Identity",
+    f_sect_social:     "🔗 Social networks",
+    pay_section_title: "💰 Payment",
+    plt_moncash:       "MonCash",
+    plt_natcash:       "NatCash",
     
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "The Roots of Haiti",
