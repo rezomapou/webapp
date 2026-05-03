@@ -73,22 +73,32 @@
             </div>
 
             <!-- Payment Section -->
-            <div class="form-section-title" data-s="pay_section_title"></div>
-            <p class="pay-hint" data-s="pay_hint"></p>
-            <div class="pay-row">
-                <div class="pay-prefix">+509</div>
-                <input type="text" id="payment_value" name="payment_value" data-s="f_payment_ph" maxlength="8">
-                <div id="pay-selection" class="pay-radios visible">
-                    <label>
-                        <input type="radio" name="payment_type" value="moncash"> 
-                        <span data-s="plt_moncash"></span>
-                    </label>
-                    <label>
-                        <input type="radio" name="payment_type" value="natcash"> 
-                        <span data-s="plt_natcash"></span>
-                    </label>
-                </div>
-            </div>
+
+<!-- Payment Number Field -->
+<div class="form-group">
+    <label data-s="pay_section_title"></label> <!-- "Peman" -->
+    <div class="pay-row">
+        <div class="pay-prefix">+509</div>
+        <input type="text" id="payment_value" name="payment_value" data-s="f_payment_ph" maxlength="8">
+    </div>
+    <small id="pay-msg" class="msg" data-s="pay_hint"></small>
+</div>
+
+<!-- Payment Method Selection (Hidden by default) -->
+<div id="payment-method-wrapper" class="hidden-section" style="display: none; margin-top: 15px;">
+    <label data-s="pay_method_title" style="display:block; margin-bottom: 8px; font-weight: bold;"></label>
+    <div class="platform-grid">
+        <label class="platform-item">
+            <input type="radio" name="payment_type" value="moncash" id="radio-moncash"> 
+            <span data-s="plt_moncash"></span>
+        </label>
+        <label class="platform-item">
+            <input type="radio" name="payment_type" value="natcash" id="radio-natcash"> 
+            <span data-s="plt_natcash"></span>
+        </label>
+    </div>
+</div>
+            
             <small id="pay-msg" class="msg"></small>
 
             <!-- Social Media Grid -->
