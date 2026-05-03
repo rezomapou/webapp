@@ -220,3 +220,21 @@ function validateFormState() {
     const hasReq = f.prenom.value && f.nom.value && _validity.email && _validity.phone && _validity.pay;
     btn.disabled = !hasReq;
 }
+
+function setFieldStatus(type, status) {
+    const msgEl = document.getElementById(`${type}-msg`);
+    const lang = getCurrentLang(); // Pulls 'ht', 'fr', or 'en'
+    
+    // Determine which key to use from your STRINGS object
+    let statusKey = '';
+    if (status === 'loading') statusKey = `f_submitting`; // Or a specific 'checking' key
+    if (status === 'exists')  statusKey = `f_${type}_exists`;
+    if (status === 'available') statusKey = `f_${type}_ok`;
+    if (status === 'invalid') statusKey = `f_${type}_invalid`;
+
+    // Map the key to the text and update class
+    if (STRINGS[lang][statusKey]) {
+        msgEl.textContent = STRINGS[lang][statusKey];
+        msgEl.className = `msg ${status === 'available' ? 'success' : 'error'}`;
+    }
+}
