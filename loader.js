@@ -1,20 +1,24 @@
 /**
- * loader.js - Loads HTML components and applies translations
+ * Dynamic Component Loader
+ * @param {string} elementId - The ID of the placeholder div
+ * @param {string} componentKey - The key from RMN_CONFIG.COMPONENTS
  */
-async function loadComponent(elementId, filePath) {
+async function loadComponent(elementId, componentKey) {
     const target = document.getElementById(elementId);
     if (!target) return;
 
+    // Construct path: e.g., "components/header.html"
+    const filePath = `${RMN_CONFIG.PATHS.COMPONENTS}/${RMN_CONFIG.COMPONENTS[componentKey]}`;
+
     try {
         const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const html = await response.text();
         target.innerHTML = html;
         
-        // After loading, trigger translation for the new content
-        if (typeof L === 'function') {
-            L(getCurrentLang()); 
-        }
+        // Trigger translation
+        L(getCurrentLang()); 
     } catch (err) {
-        console.error(`Failed to load ${filePath}:`, err);
+        console.error(`Failed to load component from ${filePath}:`, err);
     }
 }
