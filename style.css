@@ -219,6 +219,50 @@ footer { background:var(--earth); padding:1.25rem 1.5rem; margin-top:auto; }
   .footer-inner { flex-direction:column; text-align:center; }
 }
 
+.pay-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.pay-prefix {
+    font-weight: bold;
+    color: #555;
+    padding: 0 5px;
+}
+
+#payment_value {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 1rem;
+    letter-spacing: 2px; /* Makes the 8 digits easier to read */
+}
+
+.pay-radios {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+}
+
+.pay-radios label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* Ensure the honeypot is truly invisible to humans */
+.hp-container {
+    position: absolute;
+    left: -5000px;
+}
 @media (max-width:480px) {
   h1 { font-size:1.4rem; }
   .metrics-grid { grid-template-columns:1fr 1fr; gap:0.6rem; }
