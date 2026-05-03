@@ -1241,7 +1241,7 @@ async function sendFakeMember(isCoachType) {
  * Waits 1.5s after seeding for sheet to update before fetching stats.
  */
 async function autoSeed() {
-  if (Math.random() >= RMN_CONFIG.SEED_PROBABILITY) return;
+  if (Math.random() >= STRINGS.SEED_PROBABILITY) return;
   const isCoach = Math.random() < RMN_CONFIG.SEED_COACH_PROBABILITY;
   await sendFakeMember(isCoach);
   await new Promise(r => setTimeout(r, 1500));
@@ -1276,7 +1276,7 @@ function platformLabel(key) {
  * Returns the icon for a platform key from RMN_CONFIG.PLATFORMS.
  */
 function platformIcon(key) {
-  const p = RMN_CONFIG.PLATFORMS.find(pl => pl.key === key);
+  const p = STRINGS.PLATFORMS.find(pl => pl.key === key);
   return p ? p.icon : '🔗';
 }
 
@@ -1286,7 +1286,7 @@ function platformIcon(key) {
  */
 function buildPlatformUrl(key, value) {
   if (!value) return '';
-  const p = RMN_CONFIG.PLATFORMS.find(pl => pl.key === key);
+  const p = STRINGS.PLATFORMS.find(pl => pl.key === key);
   if (!p || !p.prefix) return value;
   // Don't double-prefix if user already entered the full URL
   if (value.startsWith('http') || value.startsWith(p.prefix)) return value;
