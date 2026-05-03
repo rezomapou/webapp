@@ -80,7 +80,7 @@ async function performCheck(type, value) {
     spinner.classList.remove('hidden'); // Show spinner inside field
     
     try {
-        const response = await fetch(`${SCRIPT_URL}?action=check&type=${type}&value=${value}`);
+        const response = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=check&type=${type}&value=${value}`);
         const data = await response.json();
         
         spinner.classList.add('hidden'); // Hide spinner
@@ -128,7 +128,7 @@ registerForm.addEventListener('submit', async (e) => {
 
     // D. Final Submission to Google Sheets[cite: 1]
     try {
-        const response = await fetch(SCRIPT_URL, {
+        const response = await fetch(RMN_CONFIG.SCRIPT_URL, {
             method: 'POST',
             body: JSON.stringify({ action: 'register', data: dataObj })
         });
