@@ -399,7 +399,13 @@ const SEO = {
 // Reference by STRINGS[lang].key — never hard-code in HTML.
 
 const STRINGS = {
+
   ht: {
+    // payment field
+    pay_section_title: "Peman"
+    pay_hint:          "Lè nou gen pou nou peye ou"
+    f_payment_ph:      "8 chif"
+  
     // Site identity
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "Rasin Ayiti",
@@ -594,6 +600,10 @@ const STRINGS = {
   },
 
   fr: {
+    pay_section_title: "Paiement"
+    pay_hint:          "Pour quand nous devrons vous payer"
+    f_payment_ph:      "8 chif"
+
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "Les Racines d'Haïti",
     site_abbr:        "RMN",
@@ -770,6 +780,10 @@ const STRINGS = {
   },
 
   en: {
+    pay_section_title: "Payment"
+    pay_hint:          "For when we have to pay you"
+    f_payment_ph:      "8 digits"
+    
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "The Roots of Haiti",
     site_abbr:        "RMN",
