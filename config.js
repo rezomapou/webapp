@@ -12,14 +12,14 @@ const RMN_CONFIG = {
     PATHS: {
         COMPONENTS: 'components',
         ASSETS: 'assets',
-        PAGES: 'pages'
+        PAGES: 'pages',
     },
 
     // Component Filenames
     COMPONENTS: {
         HEADER: 'header.html',
         FOOTER: 'footer.html',
-        NAV: 'nav.html'
+        NAV: 'nav.html',
     },
       
   // ── BACKEND ──────────────────────────────────────────────
