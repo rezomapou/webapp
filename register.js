@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('prefix-display').textContent = '+509';
     // Initialize validation listeners for real-time checks
     initValidationListeners();
+
+    // Translate everything current on page
+    L(getCurrentLang()); 
+
+    //  Init custom logic
+    initPaymentLogic();
 });
 
 // 2. LOCATION LOGIC (Country -> Dept -> Commune)
@@ -163,7 +169,28 @@ function initPrefixLogic() {
     });
 }
 
+function initPaymentLogic() {
+    const payInput = document.getElementById('payment_value');
+    const methodWrapper = document.getElementById('payment-method-wrapper');
+    const radios = document.getElementsByName('payment_type');
 
+    payInput.addEventListener('input', () => {
+        const val = payInput.value.trim();
+        
+        if (val.length === 8) {
+            // Show section and make radios required
+            methodWrapper.style.display = 'block';
+            radios.forEach(r => r.required = true);
+        } else {
+            // Hide section and remove requirement/selection
+            methodWrapper.style.display = 'none';
+            radios.forEach(r => {
+                r.required = false;
+                r.checked = false;
+            });
+        }
+    });
+}
 
 // Helper: Enable submit button only if all required fields are filled
 function checkFormValidity() {
