@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //  Init custom logic
     initPaymentLogic();
+    // Force labels/titles to appear from strings.js
+    if (typeof L === 'function') {
+        L(getCurrentLang());
+    }
+
+     initSocialGrid();
 });
 
 // 2. LOCATION LOGIC (Country -> Dept -> Commune)
@@ -175,18 +181,17 @@ function initPaymentLogic() {
     const radios = document.getElementsByName('payment_type');
 
     payInput.addEventListener('input', () => {
-        const val = payInput.value.trim();
-        
+        const val = payInput.value.trim().replace(/[^0-9]/g, '');
+        payInput.value = val; // Force numeric only
+
         if (val.length === 8) {
-            // Show section and make radios required
-            methodWrapper.style.display = 'block';
-            radios.forEach(r => r.required = true);
+            methodWrapper.style.display = 'block'; // Show section
+            radios.forEach(r => r.required = true); // Make required
         } else {
-            // Hide section and remove requirement/selection
-            methodWrapper.style.display = 'none';
+            methodWrapper.style.display = 'none'; // Hide section
             radios.forEach(r => {
                 r.required = false;
-                r.checked = false;
+                r.checked = false; // Reset selection
             });
         }
     });
