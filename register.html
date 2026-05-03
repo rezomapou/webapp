@@ -32,7 +32,39 @@
                 </div>
                 <small id="phone-msg" class="msg" data-s="f_phone_hint"></small>
             </div>
+<!-- HONEYPOT (Anti-Bot) -->
+<div class="hp-container" style="display:none;">
+    <input type="text" name="full_name_hp" id="full_name_hp" tabindex="-1" autocomplete="off">
+</div>
 
+<!-- PAYMENT SECTION -->
+<div class="form-section">
+    <div class="form-section-title" data-s="pay_section_title">💰 Peman</div>
+    <p class="pay-hint" data-s="pay_hint"></p> <!-- "For when we have to pay you" -->
+    
+    <div class="pay-row">
+        <div class="pay-prefix">+509</div>
+        <input type="text" 
+               id="payment_value" 
+               name="payment_value" 
+               data-s="f_payment_ph" 
+               maxlength="8" 
+               pattern="\d{8}" 
+               required>
+        
+        <div id="pay-selection" class="pay-radios">
+            <label>
+                <input type="radio" name="payment_type" value="moncash" required> 
+                <span data-s="plt_moncash"></span>
+            </label>
+            <label>
+                <input type="radio" name="payment_type" value="natcash"> 
+                <span data-s="plt_natcash"></span>
+            </label>
+        </div>
+    </div>
+    <small id="pay-msg" class="msg"></small>
+</div>
             <button type="submit" id="submit-btn" data-s="f_submit" class="btn-primary" disabled></button>
         </form>
     </main>
