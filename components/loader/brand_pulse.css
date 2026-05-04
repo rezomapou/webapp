@@ -1,0 +1,44 @@
+.pulse-theme {
+    position: fixed;
+    inset: 0;
+    background: #1b2e1b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.logo-pulse {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #d4af37;
+    letter-spacing: 5px;
+    animation: pulse-grow 2s ease-in-out infinite;
+}
+
+.progress-line {
+    width: 150px;
+    height: 1px;
+    background: rgba(212, 175, 55, 0.2);
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 100%;
+    height: 100%;
+    background: #d4af37;
+    animation: slide-in 2s infinite;
+}
+
+@keyframes pulse-grow {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes slide-in {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
