@@ -79,31 +79,26 @@
 <!-- INTERACTIVE CONTENT TABS -->
 <section class="section section-alt">
   <div class="container">
+    <!-- The Navigation Buttons -->
     <div class="tab-nav">
       <button class="tab-link active" onclick="openTab(event, 'tab-features')" data-s="tab_features_label"></button>
       <button class="tab-link" onclick="openTab(event, 'tab-leaves')" data-s="tab_leaves_label"></button>
       <button class="tab-link" onclick="openTab(event, 'tab-how')" data-s="tab_how_label"></button>
     </div>
 
-    <!-- Features Tab Content -->
+    <!-- Features Tab: index.js looks for 'features-grid' to inject the 3 cards -->
     <div id="tab-features" class="tab-content active">
-      <div class="features-grid" id="features-grid">
-        <!-- Injected by index.js -->
-      </div>
+      <div class="features-grid" id="features-grid"></div>
     </div>
 
-    <!-- Leaves Tab Content -->
+    <!-- Leaves Tab: index.js looks for 'leaf-showcase' to inject the icons -->
     <div id="tab-leaves" class="tab-content">
-      <div class="leaf-showcase" id="leaf-showcase">
-        <!-- Injected by index.js -->
-      </div>
+      <div class="leaf-showcase" id="leaf-showcase"></div>
     </div>
 
-    <!-- How it Works Tab Content -->
+    <!-- How it Works Tab: index.js looks for 'how-grid' to inject the steps -->
     <div id="tab-how" class="tab-content">
-      <div class="how-grid" id="how-grid">
-        <!-- Injected by index.js -->
-      </div>
+      <div class="how-grid" id="how-grid"></div>
     </div>
   </div>
 </section>
