@@ -402,6 +402,7 @@ const STRINGS = {
 
   ht: {
     // 404 msg
+   err_404_page_title: "404 — Paj pa disponib",
    err_404_title: "Paj sa a pa egziste",
    err_404_msg: "Nou pa ka jwenn paj w ap chèche a. Li ka deplase oswa li pa egziste ankò.",
    err_back_home: "Retounen nan Akèy",
@@ -611,6 +612,7 @@ const STRINGS = {
   },
 
   fr: {
+    err_404_page_title: "404 — Page introuvable",
     err_404_title:    "Page non trouvée",
     err_404_msg:      "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
     err_back_home:    "Retour à l'accueil",
@@ -801,6 +803,7 @@ const STRINGS = {
   },
 
   en: {
+    err_404_page_title: "404 — Pgae not Found",
     err_404_title: "Page Not Found",
     err_404_msg: "Sorry, the page you are looking for does not exist or has been moved.",
     err_back_home: "Back to Home",
