@@ -20,12 +20,14 @@ PATHS: {
       LOADER: {
             js: 'components/loader/loader.js',
             css: 'components/loader/loader.css',
-            html: 'components/loader/loader.html'
+            html: 'components/loader/loader.html',
+        containerId: 'rmn-loader-placeholder'
         },
         HEADER: {
             html: 'components/header/header.html',
             css: 'components/header/header.css',
-            js: 'components/header/header.js'
+            js: 'components/header/header.js',
+          containerId: 'header-placeholder'
         },
         NAV: {
             html: 'components/nav/nav.html',
