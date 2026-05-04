@@ -1,59 +1,50 @@
 /**
- * Header Component Object
- * Encapsulates Nav, NavStats, and Language selection.
+ * HeaderComponent Object
+ * Encapsulates the top of the page.
  */
 const HeaderComponent = {
-    // Component private configuration
-    config: {
-        targetId: 'header-placeholder',
-        subFiles: {
-            stats: 'components/navstats.html',
-            nav: 'components/nav.html'
-        }
-    },
-
     async init() {
+        const shell = document.getElementById('header-placeholder');
+        if (!shell) return;
+
         try {
-            // 1. Create the internal "Black Box" structure
-            const shell = document.getElementById(this.config.targetId);
-            if (!shell) return;
+            // 1. Load the Header Shell
+            const response = await fetch('components/header.html');
+            shell.innerHTML = await response.text();
 
-            shell.innerHTML = `
-                <header id="main-header">
-                    <div id="nav-stats-container"></div>
-                    <div id="nav-bar-container"></div>
-                    <div id="lang-bar" class="lang-switcher"></div>
-                </header>
-            `;
-
-            // 2. Load internal sub-modules in parallel
+            // 2. Load Sub-Fragments into the shell
             await Promise.all([
-                this.loadFragment(this.config.subFiles.stats, 'nav-stats-container'),
-                this.loadFragment(this.config.subFiles.nav, 'nav-bar-container')
+                this.injectFragment('components/navstats.html', 'nav-stats-container'),
+                this.injectFragment('components/nav.html', 'nav-bar-container')
             ]);
 
-            // 3. Initialize internal logic
-            this.syncInternalLogic();
-
+            // 3. Finalize Internal logic
+            this.runInternalLogic();
+            
         } catch (err) {
-            console.error("Header Component Error:", err);
+            console.error("Header Component failed to assemble:", err);
         }
     },
 
-    async loadFragment(url, id) {
-        const response = await fetch(url);
-        const html = await response.text();
-        document.getElementById(id).innerHTML = html;
+    async injectFragment(url, targetId) {
+        const res = await fetch(url);
+        const html = await res.text();
+        const target = document.getElementById(targetId);
+        if (target) target.innerHTML = html;
     },
 
-    syncInternalLogic() {
-        // Trigger local stats refresh
-        if (typeof updateNavStats === 'function') updateNavStats();
-        
-        // Trigger language UI refresh for the newly injected HTML
-        if (window.LangManager) window.LangManager.updateUI();
+    runInternalLogic() {
+        // Stats Logic: Update the numbers in the Nav Stats
+        if (typeof updateNavStats === 'function') {
+            updateNavStats();
+        }
+
+        // Language Logic: Translate the newly injected HTML
+        if (window.LangManager && typeof window.LangManager.updateUI === 'function') {
+            window.LangManager.updateUI();
+        }
     }
 };
 
-// Component Self-Initialization
+// Self-initialize when the DOM is ready
 document.addEventListener('DOMContentLoaded', () => HeaderComponent.init());
