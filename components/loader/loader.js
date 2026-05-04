@@ -1,81 +1,74 @@
-/**
- * LoaderEngine: The Master Assembler with Theming
- * Encapsulates all loading logic into a single Black Box.
- */
-const LoaderEngine = {
-    async init() {
-        // Read theme from SETTINGS
-        const style = config_const.SETTINGS.LOADER_STYLE.toLowerCase();
-        const folder = config_const.COMPONENTS.LOADER.folder;
-        
-        // Dynamic path construction
-        const themeHTML = `${folder}/${style}.html`;
-        const themeCSS = `${folder}/${style}.css`;
+const Loader = {
 
-        this.injectStyle(themeCSS);
+  async loadComponent(name, config) {
+    try {
+      if (!config) {
+        throw new Error(`Missing config for component: ${name}`);
+      }
 
-        const target = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
-        if (target) {
-            try {
-                const response = await fetch(themeHTML);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                target.innerHTML = await response.text();
-                
-                // Inject localized strings (site_name, etc.)
-                this.localize(); 
-            } catch (e) {
-                console.error("Loader theme not found or failed to load:", themeHTML, e);
-            }
+      const { html, css, js, containerId } = config;
+
+      // ── LOAD HTML ─────────────────────────────
+      if (html && containerId) {
+        const res = await fetch(html);
+        if (!res.ok) throw new Error(`HTML not found: ${html}`);
+
+        const content = await res.text();
+        const container = document.getElementById(containerId);
+
+        if (!container) {
+          console.warn(`Container not found: ${containerId}`);
+        } else {
+          container.innerHTML = content;
         }
-    },
+      }
 
-    localize() {
-        const currentLang = localStorage.getItem('rmn_lang') || 'ht';
-        const strings = window.STRINGS ? window.STRINGS[currentLang] : {};
-        
-        const container = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
-        if (!container) return;
-
-        container.querySelectorAll('[data-s]').forEach(el => {
-            const key = el.getAttribute('data-s');
-            if (strings[key]) {
-                el.textContent = strings[key];
-            }
-        });
-    },
-
-    injectStyle(path) {
-        if (!path || document.querySelector(`link[href="${path}"]`)) return;
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = path;
-        document.head.appendChild(link);
-    },
-
-    async loadComponent(comp) {
-        if (!comp || !comp.containerId) return;
-        const target = document.getElementById(comp.containerId);
-        if (!target) return;
-
-        try {
-            const response = await fetch(comp.html);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            target.innerHTML = await response.text();
-            if (comp.css) this.injectStyle(comp.css);
-        } catch (err) {
-            console.error(`Failed to load component: ${comp.html}`, err);
+      // ── LOAD CSS ─────────────────────────────
+      if (css) {
+        if (!document.querySelector(`link[href="${css}"]`)) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = css;
+          document.head.appendChild(link);
         }
-    },
+      }
 
-    hide() {
-        // Look for the specific overlay ID inside the injected HTML
-        const overlay = document.getElementById('rmn-loader-overlay');
-        if (overlay) {
-            overlay.style.transition = "opacity 0.6s ease-out";
-            overlay.style.opacity = "0";
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 600);
-        }
+      // ── LOAD JS ──────────────────────────────
+      if (js) {
+        await this.loadScript(js);
+      }
+
+      console.log(`✅ Loaded component: ${name}`);
+
+    } catch (err) {
+      console.error(`❌ Failed to load component: ${name}`, err);
+      this.renderFallback(name);
     }
-}; // The object now closes correctly here.
+  },
+
+  loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) {
+        return resolve();
+      }
+
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = () => reject(new Error(`Script failed: ${src}`));
+      document.body.appendChild(script);
+    });
+  },
+
+  renderFallback(name) {
+    console.warn(`⚠️ Rendering fallback for: ${name}`);
+
+    const fallback = document.createElement('div');
+    fallback.style.padding = '10px';
+    fallback.style.background = '#ffe6e6';
+    fallback.style.color = '#900';
+    fallback.innerText = `Component "${name}" unavailable`;
+
+    document.body.appendChild(fallback);
+  }
+};
