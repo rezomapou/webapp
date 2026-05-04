@@ -1,0 +1,39 @@
+.eco-theme {
+    position: fixed;
+    inset: 0;
+    background: #1b2e1b; /* Forest Dark */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.circular-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.circle {
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+    border-top-color: #d4af37; /* Gold */
+    border-bottom-color: #d4af37;
+    border-radius: 50%;
+    animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+.circle-inner {
+    position: absolute;
+    top: 15px; left: 15px; bottom: 15px; right: 15px;
+    border: 4px solid transparent;
+    border-left-color: #ffffff;
+    border-right-color: #ffffff;
+    border-radius: 50%;
+    animation: spin-reverse 1s linear infinite;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
