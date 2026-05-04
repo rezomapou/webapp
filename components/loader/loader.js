@@ -1,16 +1,7 @@
 /**
- * LoaderEngine Object
- * A self-contained utility for assembling Black Box components.
- */
-/**
- * LoaderEngine: The Master Assembler
+ * LoaderEngine: The Master Assembler with Theming
  * Encapsulates all loading logic into a single Black Box.
  */
-/**
- * LoaderEngine: The Master Assembler with Theming
- */
-/* components/loader/loader.js */
-
 const LoaderEngine = {
     async init() {
         // Read theme from SETTINGS
@@ -27,34 +18,32 @@ const LoaderEngine = {
         if (target) {
             try {
                 const response = await fetch(themeHTML);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 target.innerHTML = await response.text();
                 
-                // CRITICAL: Inject your site_name, site_abbr, etc.
+                // Inject localized strings (site_name, etc.)
                 this.localize(); 
             } catch (e) {
-                console.error("Loader theme not found:", style);
+                console.error("Loader theme not found or failed to load:", themeHTML, e);
             }
         }
     },
 
     localize() {
-        // Get language from storage or default to Kreyòl
         const currentLang = localStorage.getItem('rmn_lang') || 'ht';
         const strings = window.STRINGS ? window.STRINGS[currentLang] : {};
         
         const container = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
         if (!container) return;
 
-        // Map data-s to your specific constants
         container.querySelectorAll('[data-s]').forEach(el => {
             const key = el.getAttribute('data-s');
             if (strings[key]) {
                 el.textContent = strings[key];
             }
         });
-    }
-    // ... loadComponent and hide methods
-};
+    },
+
     injectStyle(path) {
         if (!path || document.querySelector(`link[href="${path}"]`)) return;
         const link = document.createElement('link');
@@ -70,19 +59,23 @@ const LoaderEngine = {
 
         try {
             const response = await fetch(comp.html);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             target.innerHTML = await response.text();
             if (comp.css) this.injectStyle(comp.css);
         } catch (err) {
-            console.error(`Failed to load ${comp.html}:`, err);
+            console.error(`Failed to load component: ${comp.html}`, err);
         }
     },
 
     hide() {
-        const overlay = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
+        // Look for the specific overlay ID inside the injected HTML
+        const overlay = document.getElementById('rmn-loader-overlay');
         if (overlay) {
             overlay.style.transition = "opacity 0.6s ease-out";
             overlay.style.opacity = "0";
-            setTimeout(() => overlay.style.display = 'none', 600);
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 600);
         }
     }
-};
+}; // The object now closes correctly here.
