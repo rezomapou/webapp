@@ -1,0 +1,15 @@
+[data-slot="lang-root"] {
+    display: flex;
+    gap: 8px;
+}
+
+.lang-btn {
+    cursor: pointer;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+}
+
+.lang-btn.active {
+    font-weight: bold;
+    border-color: #000;
+}
