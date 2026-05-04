@@ -81,8 +81,23 @@ NAVSTATS_DATA: [
       html: 'components/blockstats/blockstats.html',
       css: 'components/blockstats/blockstats.css',
       js: 'components/blockstats/blockstats.js'
-    }
+    },
+FOOTER: {
+  html: 'components/footer/footer.html',
+  css: 'components/footer/footer.css',
+  js: 'components/footer/footer.js',
+  containerId: 'footer-placeholder'
+},
 
+FOOTER_LINKS: [
+  { key: 'footer_legal', action: 'legal' },
+  { key: 'footer_privacy', action: 'privacy' },
+  { key: 'footer_terms', action: 'terms' }
+],
+
+FOOTER_META: {
+  key: 'footer_meta'
+},
   },
 
   // ── API ──────────────────────────────────────────────────
