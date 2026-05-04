@@ -1,4 +1,6 @@
 /* TAB NAVIGATION */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 .tab-nav {
   display: flex;
   justify-content: center;
