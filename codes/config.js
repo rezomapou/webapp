@@ -53,6 +53,11 @@ const RMN_CONFIG = {
       containerId: 'nav-bar-container'
     },
 
+    NAV_ITEMS: [
+  { key: 'nav_home', tab: 'home' },
+  { key: 'nav_about', tab: 'about' },
+  { key: 'nav_contact', tab: 'contact' }
+],
     NAVSTATS: {
       html: 'components/navstats/navstats.html',
       css: 'components/navstats/navstats.css',
