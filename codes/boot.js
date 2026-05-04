@@ -26,7 +26,7 @@
         }
 
         // 3. Load main orchestrator (from /codes/)
-        await loadScript('/codes/index.js');
+        await loadScript('./codes/index.js');
 
     } catch (err) {
         console.error('BOOT ERROR:', err);
