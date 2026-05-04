@@ -1,0 +1,13 @@
+<section class="section stats-block">
+  <div class="container">
+    <div class="tab-nav">
+      <button class="tab-link active" onclick="openStatTab(event, 'top-countries')" data-s="tab_top_countries"></button>
+      <button class="tab-link" onclick="openStatTab(event, 'top-depts')" data-s="tab_top_depts"></button>
+      <button class="tab-link" onclick="openStatTab(event, 'top-communes')" data-s="tab_top_communes"></button>
+    </div>
+    
+    <div id="top-countries" class="tab-content active"><div class="stats-list" id="list-countries"></div></div>
+    <div id="top-depts" class="tab-content"><div class="stats-list" id="list-depts"></div></div>
+    <div id="top-communes" class="tab-content"><div class="stats-list" id="list-communes"></div></div>
+  </div>
+</section>
