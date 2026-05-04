@@ -16,7 +16,30 @@
 </head>
 <body id="home" data-page="home">
 
-<div id="lang-bar" class="lang-switcher"></div>
+<!-- Restore Top Bar & Navigation -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <a href="/index.html" data-s="nav_home"></a>
+    <div class="top-bar-counts">
+      <span><strong id="tb-s">—</strong> <span data-s="dash_members"></span></span>
+      <span><strong id="tb-c">—</strong> <span data-s="dash_coaches"></span></span>
+    </div>
+  </div>
+  <div id="lang-bar" class="lang-switcher"></div>
+</div>
+
+<nav class="nav">
+  <a href="/index.html" class="nav-brand">
+    <div class="nav-logo-fallback">RMN</div>
+    <span class="nav-name" data-s="site_name"></span>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/index.html" data-s="nav_home" class="active"></a></li>
+    <li><a href="/register.html" data-s="nav_register"></a></li>
+    <li><a href="/dashboard.html" data-s="nav_dashboard"></a></li>
+    <li><a href="/login.html" data-s="nav_login" id="nav-login-link"></a></li>
+  </ul>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -27,7 +50,7 @@
       <p class="hero-desc" data-s="hero_desc_long"></p>
       <div class="hero-actions">
         <a href="/register.html" class="btn btn-gold btn-lg" data-s="nav_register"></a>
-        <a href="/dashboard.html" class="btn btn-outline btn-lg" data-s="nav_dashboard"></a>
+        <a href="/dashboard.html" class="btn btn-outline btn-lg" style="color:white;border-color:rgba(255,255,255,0.4);" data-s="nav_dashboard"></a>
       </div>
     </div>
     <div class="hero-stats">
@@ -59,11 +82,9 @@
     <div id="tab-features" class="tab-content active">
       <div class="features-grid" id="features-grid"></div>
     </div>
-
     <div id="tab-leaves" class="tab-content">
       <div class="leaf-showcase" id="leaf-showcase"></div>
     </div>
-
     <div id="tab-how" class="tab-content">
       <div class="how-grid" id="how-grid"></div>
     </div>
@@ -79,8 +100,15 @@
   </div>
 </section>
 
+<!-- Restore Footer Structure -->
 <footer>
-  <div class="footer-copy" data-s="legal_rights"></div>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/terms.html" data-s="legal_terms"></a>
+      <a href="/privacy.html" data-s="legal_privacy"></a>
+    </div>
+    <div class="footer-copy" data-s="legal_rights"></div>
+  </div>
 </footer>
 
 </body>
