@@ -53,7 +53,12 @@ const RMN_CONFIG = {
       js: 'components/navstats/navstats.js',
       containerId: 'nav-stats-container'
     },
-
+    
+NAVSTATS_DATA: [
+  { key: 'stat_members', value: 128 },
+  { key: 'stat_actions', value: 54 },
+  { key: 'stat_points', value: 876 }
+],
     FEATURE_BLOCK: {
       html: 'components/features/features.html',
       css: 'components/features/features.css',
