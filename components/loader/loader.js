@@ -9,31 +9,52 @@
 /**
  * LoaderEngine: The Master Assembler with Theming
  */
+/* components/loader/loader.js */
+
 const LoaderEngine = {
-    
     async init() {
+        // Read theme from SETTINGS
         const style = config_const.SETTINGS.LOADER_STYLE.toLowerCase();
         const folder = config_const.COMPONENTS.LOADER.folder;
         
-        // Construct paths dynamically based on the constant
+        // Dynamic path construction
         const themeHTML = `${folder}/${style}.html`;
         const themeCSS = `${folder}/${style}.css`;
 
-        // 1. Inject the specific CSS
         this.injectStyle(themeCSS);
 
-        // 2. Load the specific HTML into the placeholder
         const target = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
         if (target) {
             try {
                 const response = await fetch(themeHTML);
                 target.innerHTML = await response.text();
+                
+                // CRITICAL: Inject your site_name, site_abbr, etc.
+                this.localize(); 
             } catch (e) {
-                console.error("Theme files missing for:", style);
+                console.error("Loader theme not found:", style);
             }
         }
     },
 
+    localize() {
+        // Get language from storage or default to Kreyòl
+        const currentLang = localStorage.getItem('rmn_lang') || 'ht';
+        const strings = window.STRINGS ? window.STRINGS[currentLang] : {};
+        
+        const container = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
+        if (!container) return;
+
+        // Map data-s to your specific constants
+        container.querySelectorAll('[data-s]').forEach(el => {
+            const key = el.getAttribute('data-s');
+            if (strings[key]) {
+                el.textContent = strings[key];
+            }
+        });
+    }
+    // ... loadComponent and hide methods
+};
     injectStyle(path) {
         if (!path || document.querySelector(`link[href="${path}"]`)) return;
         const link = document.createElement('link');
