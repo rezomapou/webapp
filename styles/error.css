@@ -1,0 +1,19 @@
+.error-container {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+.error-code {
+  font-size: clamp(5rem, 15vw, 8rem);
+  font-family: var(--font-serif);
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+.error-container h1 { margin-bottom: 1.5rem; }
+.error-container p { max-width: 500px; margin-bottom: 2rem; color: var(--muted); }
