@@ -431,14 +431,17 @@ lang_en: "ANGLE",
     loading_msg: "Pasyans, n ap prepare...",
 
     // Navigation
-    nav_home:         "Akèy",
-    nav_register:     "Enskri",
-    nav_login:        "Konekte",
-    nav_dashboard:    "Tablodbò",
-    nav_directory:    "Anyè",
-    nav_profile:      "Vitrine mwen",
-    nav_logout:       "Dekonekte",
 
+    NAV_ITEMS: [
+  { key: 'nav_home', tab: 'home' },
+  { key: 'nav_register', tab: 'register' },
+  { key: 'nav_login', tab: 'login' },
+  { key: 'nav_dashboard', tab: 'dashboard' },
+  { key: 'nav_directory', tab: 'directory' },
+  { key: 'nav_profile', tab: 'profile' },
+  { key: 'nav_logout', tab: 'logout' }
+],
+    
     // Trust levels
     level_0:          "Rasin",
     level_1:          "Verifye",
