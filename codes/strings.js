@@ -401,6 +401,12 @@ const SEO = {
 const STRINGS = {
 
   ht: {
+    // lang component
+  // Haitian Creole (ht)
+lang_ht: "KREYÒL",
+lang_fr: "FRANSE",
+lang_en: "ANGLE",
+
     // 404 msg
    err_404_page_title: "404 — Paj pa disponib",
    err_404_title: "Paj sa a pa egziste",
@@ -613,6 +619,12 @@ const STRINGS = {
   },
 
   fr: {
+    // lang component
+    // French (fr)
+lang_ht: "CRÉOLE",
+lang_fr: "FRANÇAIS",
+lang_en: "ANGLAIS",
+
     err_404_page_title: "404 — Page introuvable",
     err_404_title:    "Page non trouvée",
     err_404_msg:      "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
@@ -805,6 +817,10 @@ const STRINGS = {
   },
 
   en: {
+    // lang component English (en)
+lang_ht: "CREOLE",
+lang_fr: "FRENCH",
+lang_en: "ENGLISH",
     err_404_page_title: "404 — Pgae not Found",
     err_404_title: "Page Not Found",
     err_404_msg: "Sorry, the page you are looking for does not exist or has been moved.",
