@@ -161,6 +161,6 @@ PATHS: {
   DIRECTORY_PAGE_SIZE: 20,
   DASHBOARD_TOP_N:     10,  // top N depts/communes shown in charts
 };
-
+const config_const = RMN_CONFIG;
 // Freeze to prevent accidental mutation
 Object.freeze(RMN_CONFIG);
