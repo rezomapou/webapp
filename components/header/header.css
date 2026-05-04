@@ -1,19 +1,20 @@
-#main-header {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+[data-slot="header-root"] {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-/* Specific spacing for the language bar if it sits outside the nav */
-#lang-bar {
-  position: absolute;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 8px;
+[data-slot="header-lang"] {
+    align-self: flex-end;
+}
+
+[data-slot="header-nav"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+[data-slot="header-navstats"] {
+    font-size: 0.9rem;
+    opacity: 0.85;
 }
