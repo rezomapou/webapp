@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Rezo Mapou Nasyonal</title>
-  
-  <!-- Absolute links to centralized files -->
-  <link rel="stylesheet" href="/styles/style.css">
-  <link rel="stylesheet" href="/styles/index.css">
-  <link rel="stylesheet" href="/styles/error.css">
-  
-  <script src="/codes/config.js"></script>
-  <script src="/codes/strings.js"></script>
-  <script src="/codes/index.js" defer></script>
-  <script src="/codes/error.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The title will be set dynamically via JavaScript -->
+    <title data-s="err_404_page_title"></title>
+    
+    <!-- Absolute paths for consistent loading -->
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/error.css">
+    
+    <!-- Core Engine -->
+    <script src="/codes/config.js"></script>
+    <script src="/codes/strings.js"></script>
+    <script src="/codes/lang.js" defer></script>
+    <script src="/codes/index.js" defer></script>
 </head>
-<body id="error-page">
+<body id="error-page" data-page="home">
 
-<div class="error-container">
-  <div class="error-code">404</div>
-  <h1 data-s="err_404_title">Paj sa a pa egziste</h1>
-  <p data-s="err_404_msg">Nou pa ka jwenn paj w ap chèche a. Li ka deplase oswa li pa egziste ankò.</p>
-  <a href="/index.html" class="btn btn-gold btn-lg" data-s="err_back_home">Retounen nan Akèy</a>
-</div>
+    <!-- Language selector injected by LangManager -->
+    <div id="lang-bar" class="lang-switcher"></div>
+
+    <main class="error-container">
+        <div class="error-code">404</div>
+        
+        <!-- All text is now driven by data-s attributes -->
+        <h1 data-s="err_404_title"></h1>
+        <p data-s="err_404_msg"></p>
+        
+        <div class="hero-actions" style="justify-content: center;">
+            <a href="/index.html" class="btn btn-gold btn-lg" data-s="err_back_home"></a>
+        </div>
+    </main>
 
 </body>
 </html>
