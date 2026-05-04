@@ -72,7 +72,5 @@ const LangManager = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => LangManager.init());
-
 // Start the manager when the DOM is ready
 document.addEventListener('DOMContentLoaded', () => LangManager.init());
