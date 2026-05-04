@@ -1,74 +1,59 @@
-const Loader = {
+/**
+ * LoaderEngine — Core Component Loader
+ */
 
-  async loadComponent(name, config) {
-    try {
-      if (!config) {
-        throw new Error(`Missing config for component: ${name}`);
-      }
+const LoaderEngine = {
 
-      const { html, css, js, containerId } = config;
+    async init() {
+        await this.loadComponent(config_const.COMPONENTS.LOADER);
+    },
 
-      // ── LOAD HTML ─────────────────────────────
-      if (html && containerId) {
-        const res = await fetch(html);
-        if (!res.ok) throw new Error(`HTML not found: ${html}`);
+    async loadComponent(cfg) {
+        if (!cfg) return;
 
-        const content = await res.text();
-        const container = document.getElementById(containerId);
+        const { html, css, js, containerId } = cfg;
 
-        if (!container) {
-          console.warn(`Container not found: ${containerId}`);
-        } else {
-          container.innerHTML = content;
+        try {
+            // HTML
+            if (html && containerId) {
+                const res = await fetch(html);
+                if (res.ok) {
+                    const content = await res.text();
+                    const el = document.getElementById(containerId);
+                    if (el) el.innerHTML = content;
+                }
+            }
+
+            // CSS
+            if (css && !document.querySelector(`link[href="${css}"]`)) {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = css;
+                document.head.appendChild(link);
+            }
+
+            // JS
+            if (js && !document.querySelector(`script[src="${js}"]`)) {
+                await this.loadScript(js);
+            }
+
+        } catch (err) {
+            console.warn('Component failed:', cfg, err);
         }
-      }
+    },
 
-      // ── LOAD CSS ─────────────────────────────
-      if (css) {
-        if (!document.querySelector(`link[href="${css}"]`)) {
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = css;
-          document.head.appendChild(link);
-        }
-      }
+    loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = src;
+            s.onload = resolve;
+            s.onerror = () => reject();
+            document.body.appendChild(s);
+        });
+    },
 
-      // ── LOAD JS ──────────────────────────────
-      if (js) {
-        await this.loadScript(js);
-      }
-
-      console.log(`✅ Loaded component: ${name}`);
-
-    } catch (err) {
-      console.error(`❌ Failed to load component: ${name}`, err);
-      this.renderFallback(name);
+    hide() {
+        const el = document.getElementById('rmn-loader-placeholder');
+        if (el) el.style.display = 'none';
     }
-  },
-
-  loadScript(src) {
-    return new Promise((resolve, reject) => {
-      if (document.querySelector(`script[src="${src}"]`)) {
-        return resolve();
-      }
-
-      const script = document.createElement('script');
-      script.src = src;
-      script.onload = resolve;
-      script.onerror = () => reject(new Error(`Script failed: ${src}`));
-      document.body.appendChild(script);
-    });
-  },
-
-  renderFallback(name) {
-    console.warn(`⚠️ Rendering fallback for: ${name}`);
-
-    const fallback = document.createElement('div');
-    fallback.style.padding = '10px';
-    fallback.style.background = '#ffe6e6';
-    fallback.style.color = '#900';
-    fallback.innerText = `Component "${name}" unavailable`;
-
-    document.body.appendChild(fallback);
-  }
 };
