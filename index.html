@@ -1,126 +1,23 @@
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-s="site_title"></title>
-  
-  <link rel="stylesheet" href="styles/style.css">
-  <link rel="stylesheet" href="styles/index.css">
-  
-  <script src="codes/config.js"></script>
-  <script src="codes/strings.js"></script>
-  <!-- SEO.JS REMOVED TO FIX 404 -->
-  <script src="codes/lang.js" defer></script>
-  <script src="codes/index.js" defer></script>
-</head>
-<body id="home" data-page="home">
+<body>
+    <!-- 1. Placeholders for the top-level objects -->
+    <div id="rmn-loader-placeholder"></div>
+    <div id="header-placeholder"></div>
 
-<!-- TOP BAR & LANG -->
-<div class="top-bar">
-  <div class="container top-bar-inner">
-    <div class="top-bar-left">
-      <div class="top-bar-counts">
-        <!-- Stats will be injected here by fetchStats() -->
-        <span><strong id="tb-s">—</strong> <span data-s="dash_members"></span></span>
-        <span><strong id="tb-c">—</strong> <span data-s="dash_coaches"></span></span>
-      </div>
-    </div>
-    <!-- Language buttons will be injected here by lang.js -->
-    <div id="lang-bar" class="lang-switcher"></div>
-  </div>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // A. Load the Loader first to show the user progress
+            await LoaderEngine.loadComponent(config_const.COMPONENTS.LOADER);
+            
+            // B. Load the Header Shell
+            await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
+            
+            // C. Tell the Header Object to assemble its internals
+            if (typeof HeaderComponent !== 'undefined') {
+                await HeaderComponent.init();
+            }
 
-<nav class="nav">
-  <div class="container nav-inner">
-    <a href="index.html" class="nav-brand">
-      <div class="nav-logo-fallback">RMN</div>
-      <span class="nav-name" data-s="site_name"></span>
-    </a>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="index.html" data-s="nav_home" class="active"></a></li>
-      <li><a href="register.html" data-s="nav_register"></a></li>
-      <li><a href="dashboard.html" data-s="nav_dashboard"></a></li>
-      <li><a href="login.html" data-s="nav_login" id="nav-login-link"></a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- HERO SECTION -->
-<section class="hero">
-  <div class="container hero-inner">
-    <div class="hero-text">
-      <div class="hero-eyebrow" data-s="site_abbr"></div>
-      <h1><span data-s="hero_title_p1"></span> <span data-s="hero_title_p2"></span></h1>
-      <p class="hero-desc" data-s="hero_desc_long"></p>
-      <div class="hero-actions">
-        <a href="/register.html" class="btn btn-gold btn-lg" data-s="nav_register"></a>
-        <a href="/dashboard.html" class="btn btn-outline btn-lg" data-s="nav_dashboard"></a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-num" id="stat-members">—</span>
-        <div class="hero-stat-lbl" data-s="dash_members"></div>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num" id="stat-depts">—</span>
-        <div class="hero-stat-lbl" data-s="dash_depts"></div>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num" id="stat-communes">—</span>
-        <div class="hero-stat-lbl" data-s="dash_communes"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- INTERACTIVE CONTENT TABS -->
-<section class="section section-alt">
-  <div class="container">
-    <!-- The Navigation Buttons -->
-    <div class="tab-nav">
-      <button class="tab-link active" onclick="openTab(event, 'tab-features')" data-s="tab_features_label"></button>
-      <button class="tab-link" onclick="openTab(event, 'tab-leaves')" data-s="tab_leaves_label"></button>
-      <button class="tab-link" onclick="openTab(event, 'tab-how')" data-s="tab_how_label"></button>
-    </div>
-
-    <!-- Features Tab: index.js looks for 'features-grid' to inject the 3 cards -->
-    <div id="tab-features" class="tab-content active">
-      <div class="features-grid" id="features-grid"></div>
-    </div>
-
-    <!-- Leaves Tab: index.js looks for 'leaf-showcase' to inject the icons -->
-    <div id="tab-leaves" class="tab-content">
-      <div class="leaf-showcase" id="leaf-showcase"></div>
-    </div>
-
-    <!-- How it Works Tab: index.js looks for 'how-grid' to inject the steps -->
-    <div id="tab-how" class="tab-content">
-      <div class="how-grid" id="how-grid"></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section">
-  <div class="container">
-    <h2 data-s="reg_title"></h2>
-    <p data-s="reg_subtitle"></p>
-    <a href="/register.html" class="btn btn-gold btn-lg" data-s="nav_register"></a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container footer-inner">
-    <div class="footer-links">
-      <a href="/terms.html" data-s="legal_terms"></a>
-      <a href="/privacy.html" data-s="legal_privacy"></a>
-    </div>
-    <div class="footer-copy" data-s="legal_rights"></div>
-  </div>
-</footer>
-
+            // D. Hide the loader once everything is visual
+            LoaderEngine.hide();
+        });
+    </script>
 </body>
-</html>
