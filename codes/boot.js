@@ -1,30 +1,26 @@
 /**
- * boot.js — Dynamic bootstrap loader (config-driven)
+ * boot.js — System Bootstrapper
  */
 
 (async function () {
+
     try {
         if (typeof config_const === 'undefined') {
-            throw new Error('config_const missing in boot');
+            throw new Error('config_const missing');
         }
 
-        const loaderPath = config_const.COMPONENTS?.LOADER?.js;
-
-        if (!loaderPath) {
-            throw new Error('Loader path missing in config');
-        }
-
-        await loadScript(loaderPath);
+        // 1. Load LoaderEngine first
+        await loadScript(config_const.COMPONENTS.LOADER.js);
 
         if (typeof LoaderEngine === 'undefined') {
-            throw new Error('LoaderEngine failed to initialize');
+            throw new Error('LoaderEngine failed to load');
         }
 
-        // Now load index.js dynamically
+        // 2. Load main orchestrator
         await loadScript('index.js');
 
     } catch (err) {
-        console.error('Boot failure:', err);
+        console.error('BOOT ERROR:', err);
     }
 
     function loadScript(src) {
@@ -36,4 +32,5 @@
             document.head.appendChild(s);
         });
     }
+
 })();
