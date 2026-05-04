@@ -1292,3 +1292,19 @@ function buildPlatformUrl(key, value) {
   if (value.startsWith('http') || value.startsWith(p.prefix)) return value;
   return p.prefix + value;
 }
+
+function switchLang(lang) {
+  // 1. Set the 'lang' attribute on the HTML tag for accessibility
+  document.documentElement.lang = lang;
+
+  // 2. Save the preference so it persists on page reload
+  localStorage.setItem('preferredLanguage', lang);
+
+  // 3. Logic to update text content
+  // If you are using a library like i18next, call its change function:
+  // i18next.changeLanguage(lang);
+
+  // If you are doing it manually, you might reload or trigger a UI update:
+  console.log("Language switched to: " + lang);
+  // location.reload(); // Optional: reload to apply server-side or static changes
+}
