@@ -1304,7 +1304,15 @@ function switchLang(lang) {
   // If you are using a library like i18next, call its change function:
   // i18next.changeLanguage(lang);
 
-  // If you are doing it manually, you might reload or trigger a UI update:
+  window.switchLang = function(lang) {
+    // You can specify the pageKey here (e.g., 'register' for register.html)
+    // or let it default to 'home' as per your function logic
+    const pageKey = document.body.id || 'home'; 
+    
+    // Call your existing function
+    L(lang, pageKey);
+    
+   // If you are doing it manually, you might reload or trigger a UI update:
   console.log("Language switched to: " + lang);
   // location.reload(); // Optional: reload to apply server-side or static changes
 }
