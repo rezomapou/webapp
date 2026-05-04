@@ -6,12 +6,34 @@
  * LoaderEngine: The Master Assembler
  * Encapsulates all loading logic into a single Black Box.
  */
+/**
+ * LoaderEngine: The Master Assembler with Theming
+ */
 const LoaderEngine = {
     
-    /**
-     * Self-injects CSS to maintain component encapsulation.
-     * Prevents index.html from needing <link> tags for every component.
-     */
+    async init() {
+        const style = config_const.SETTINGS.LOADER_STYLE.toLowerCase();
+        const folder = config_const.COMPONENTS.LOADER.folder;
+        
+        // Construct paths dynamically based on the constant
+        const themeHTML = `${folder}/${style}.html`;
+        const themeCSS = `${folder}/${style}.css`;
+
+        // 1. Inject the specific CSS
+        this.injectStyle(themeCSS);
+
+        // 2. Load the specific HTML into the placeholder
+        const target = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
+        if (target) {
+            try {
+                const response = await fetch(themeHTML);
+                target.innerHTML = await response.text();
+            } catch (e) {
+                console.error("Theme files missing for:", style);
+            }
+        }
+    },
+
     injectStyle(path) {
         if (!path || document.querySelector(`link[href="${path}"]`)) return;
         const link = document.createElement('link');
@@ -20,41 +42,26 @@ const LoaderEngine = {
         document.head.appendChild(link);
     },
 
-    /**
-     * The Master Load Method
-     * @param {Object} comp - The component object from config_const
-     */
     async loadComponent(comp) {
-        // Validation: Every component MUST have a containerId in config_const
         if (!comp || !comp.containerId) return;
-
         const target = document.getElementById(comp.containerId);
-        if (!target) {
-            console.warn(`[Loader] Target #${comp.containerId} not found.`);
-            return;
-        }
+        if (!target) return;
 
         try {
-            // 1. Fetch HTML Fragment using parameterized path
             const response = await fetch(comp.html);
-            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
             target.innerHTML = await response.text();
-
-            // 2. Self-inject Component-Specific Styles
             if (comp.css) this.injectStyle(comp.css);
-
-            console.log(`[Loader] ${comp.containerId} assembled.`);
-
         } catch (err) {
-            console.error(`[Loader] Failed to load ${comp.html}:`, err);
+            console.error(`Failed to load ${comp.html}:`, err);
         }
     },
 
-    /**
-     * Hides the loader overlay once initialization is complete.
-     */
     hide() {
         const overlay = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
-        if (overlay) overlay.style.display = 'none';
+        if (overlay) {
+            overlay.style.transition = "opacity 0.6s ease-out";
+            overlay.style.opacity = "0";
+            setTimeout(() => overlay.style.display = 'none', 600);
+        }
     }
 };
