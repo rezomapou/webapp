@@ -1,6 +1,6 @@
 /**
  * HeaderComponent Object
- * Encapsulates the top of the page.
+ * Encapsulates the entire top section of the site.
  */
 const HeaderComponent = {
     async init() {
@@ -8,43 +8,36 @@ const HeaderComponent = {
         if (!shell) return;
 
         try {
-            // 1. Load the Header Shell
-            const response = await fetch('components/header.html');
+            // 1. Load the Header Shell using config constant
+            const response = await fetch(`${CONFIG.COMPONENTS_PATH}/header/header.html`);
             shell.innerHTML = await response.text();
 
             // 2. Load Sub-Fragments into the shell
             await Promise.all([
-                this.injectFragment('components/navstats.html', 'nav-stats-container'),
-                this.injectFragment('components/nav.html', 'nav-bar-container')
+                this.loadSubComponent(CONFIG.COMPONENTS.NAVSTATS, 'nav-stats-container'),
+                this.loadSubComponent(CONFIG.COMPONENTS.NAV, 'nav-bar-container')
             ]);
 
-            // 3. Finalize Internal logic
-            this.runInternalLogic();
-            
+            // 3. Initialize Sub-Component Objects
+            if (typeof NavStatsComponent !== 'undefined') await NavStatsComponent.init();
+            if (typeof NavComponent !== 'undefined') NavComponent.init();
+
+            // 4. Finalize Language UI
+            if (window.LangManager) window.LangManager.updateUI();
+
         } catch (err) {
-            console.error("Header Component failed to assemble:", err);
+            console.error("Header assembly failed:", err);
         }
     },
 
-    async injectFragment(url, targetId) {
-        const res = await fetch(url);
+    async loadSubComponent(configEntry, targetId) {
+        // configEntry would be something like { html: 'path/to/nav.html' }
+        const res = await fetch(configEntry.html);
         const html = await res.text();
         const target = document.getElementById(targetId);
         if (target) target.innerHTML = html;
-    },
-
-    runInternalLogic() {
-        // Stats Logic: Update the numbers in the Nav Stats
-        if (typeof updateNavStats === 'function') {
-            updateNavStats();
-        }
-
-        // Language Logic: Translate the newly injected HTML
-        if (window.LangManager && typeof window.LangManager.updateUI === 'function') {
-            window.LangManager.updateUI();
-        }
     }
 };
 
-// Self-initialize when the DOM is ready
+// Start the assembly
 document.addEventListener('DOMContentLoaded', () => HeaderComponent.init());
