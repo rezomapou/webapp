@@ -60,7 +60,7 @@ PATHS: {
             html: 'components/blockstats/blockstats.html',
             css: 'components/blockstats/blockstats.css',
             js: 'components/blockstats/blockstats.js'
-        }
+        },
     },
 
     // API endpoints for data injection
