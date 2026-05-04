@@ -17,6 +17,11 @@ PATHS: {
 
     // Component-specific file mappings
     COMPONENTS: {
+      LOADER: {
+            js: 'components/loader/loader.js',
+            css: 'components/loader/loader.css',
+            html: 'components/loader/loader.html'
+        },
         HEADER: {
             html: 'components/header/header.html',
             css: 'components/header/header.css',
