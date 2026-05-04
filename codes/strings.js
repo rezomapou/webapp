@@ -407,6 +407,12 @@ lang_ht: "KREYÒL",
 lang_fr: "FRANSE",
 lang_en: "ANGLE",
 
+    // HT
+footer_legal: "Legal",
+footer_privacy: "Konfidansyalite",
+footer_terms: "Kondisyon",
+footer_meta: "© Rezo Mapou Nasyonal",
+  
     // 404 msg
    err_404_page_title: "404 — Paj pa disponib",
    err_404_title: "Paj sa a pa egziste",
@@ -628,6 +634,12 @@ lang_ht: "CRÉOLE",
 lang_fr: "FRANÇAIS",
 lang_en: "ANGLAIS",
 
+    // FR
+footer_legal: "Mentions légales",
+footer_privacy: "Confidentialité",
+footer_terms: "Conditions",
+footer_meta: "© Rezo Mapou National",
+   
     err_404_page_title: "404 — Page introuvable",
     err_404_title:    "Page non trouvée",
     err_404_msg:      "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
@@ -824,6 +836,13 @@ lang_en: "ANGLAIS",
 lang_ht: "CREOLE",
 lang_fr: "FRENCH",
 lang_en: "ENGLISH",
+
+// EN
+footer_legal: "Legal",
+footer_privacy: "Privacy",
+footer_terms: "Terms",
+footer_meta: "© Rezo Mapou Network",
+    
     err_404_page_title: "404 — Pgae not Found",
     err_404_title: "Page Not Found",
     err_404_msg: "Sorry, the page you are looking for does not exist or has been moved.",
