@@ -18,14 +18,37 @@ const LangManager = {
 
     // Save and Apply the language
     update: function(lang) {
+        // 1. Persist the choice
         localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY, lang);
         document.documentElement.lang = lang;
         
-        // Trigger the universal translation engine (L function)
-        if (typeof L === 'function') {
-            const pageKey = document.body.dataset.page || 'home';
-            L(lang, pageKey);
+        const dict = STRINGS[lang];
+        if (!dict) return;
+
+        // 2. Update all elements with data-s attributes
+        document.querySelectorAll('[data-s]').forEach(el => {
+            const key = el.getAttribute('data-s');
+            if (dict[key]) {
+                // If it's an input/textarea, update the placeholder
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = dict[key];
+                } else {
+                    // Update the visible text
+                    el.textContent = dict[key];
+                }
+            }
+        });
+
+        // 3. DYNAMIC TITLE: Update the browser tab
+        // It looks for the data-s attribute on the <title> tag in your <head>
+        const titleTag = document.querySelector('title');
+        if (titleTag) {
+            const titleKey = titleTag.getAttribute('data-s');
+            if (titleKey && dict[titleKey]) {
+                document.title = dict[titleKey];
+            }
         }
+
         this.setActiveClass();
     },
 
