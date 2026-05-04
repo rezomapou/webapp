@@ -9,20 +9,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             await LoaderEngine.init();
         }
 
-        // 2. Load Core Components
-        await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
+        // 2. Load Core Components (Using config_const from config.js)
+        if (typeof config_const !== 'undefined') {
+            await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
+        }
 
         // 3. Initialize Component Logic
         if (window.HeaderComponent) {
             await HeaderComponent.init();
         }
 
-        // 4. Render Page Content (Features, Leaves, etc.)
-        const currentLang = localStorage.getItem('rmn_lang') || 'ht';
-        PageRenderer.init(currentLang);
+        // 4. Render Page Content
+        // Directly accessing localStorage to avoid 'getCurrentLang is not defined' errors
+        const lang = localStorage.getItem('rmn_lang') || 'ht';
+        PageRenderer.init(lang);
 
         // 5. Mission Complete: Hide Loader
-        LoaderEngine.hide();
+        if (typeof LoaderEngine !== 'undefined') LoaderEngine.hide();
 
     } catch (error) {
         console.error("Assembly Error:", error);
@@ -32,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 /**
  * Tab Switching System
- * Parameterized to avoid hard-coded logic inside the HTML.
  */
 window.openTab = function(evt, tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -45,17 +47,16 @@ window.openTab = function(evt, tabId) {
 
 /**
  * PageRenderer Object
- * Handles dynamic content injection using the strings and config registries.
  */
 const PageRenderer = {
     init: function(lang) {
         this.renderFeatures(lang);
         this.renderLeaves(lang);
-        // Add other dynamic sections here
     },
 
     renderFeatures: function(lang) {
         const grid = document.getElementById('features-grid');
+        // Check if FEATURES_DATA exists (should be in strings.js or a separate data file)
         if (!grid || !window.FEATURES_DATA) return;
 
         const data = FEATURES_DATA[lang] || FEATURES_DATA.ht;
@@ -70,9 +71,9 @@ const PageRenderer = {
 
     renderLeaves: function(lang) {
         const showcase = document.getElementById('leaf-showcase');
-        if (!showcase || !config_const.LEAF_KEYS) return;
+        // Ensure config_const is loaded and contains LEAF_KEYS
+        if (!showcase || typeof config_const === 'undefined' || !config_const.LEAF_KEYS) return;
 
-        // Use the global STRINGS object instead of a hard-coded s() function
         const strings = window.STRINGS ? window.STRINGS[lang] : {};
 
         const leaves = config_const.LEAF_KEYS.map(key => {
