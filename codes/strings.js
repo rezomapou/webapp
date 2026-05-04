@@ -422,6 +422,8 @@ const STRINGS = {
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "Rasin Ayiti",
     site_abbr:        "RMN",
+    loading_msg: "Pasyans, n ap prepare..."
+    },
 
     // Navigation
     nav_home:         "Akèy",
@@ -630,6 +632,7 @@ const STRINGS = {
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "Les Racines d'Haïti",
     site_abbr:        "RMN",
+    loading_msg:   "Patientez svp  ...",
 
     nav_home:         "Accueil",
     nav_register:     "S'inscrire",
@@ -821,7 +824,8 @@ const STRINGS = {
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "The Roots of Haiti",
     site_abbr:        "RMN",
-
+    loading_msg:   "Loading ...",
+    
     nav_home:         "Home",
     nav_register:     "Register",
     nav_login:        "Login",
