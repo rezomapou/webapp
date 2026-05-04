@@ -1296,23 +1296,21 @@ function buildPlatformUrl(key, value) {
 function switchLang(lang) {
   // 1. Set the 'lang' attribute on the HTML tag for accessibility
   document.documentElement.lang = lang;
+  
+  // 2. Identify the page (e.g., 'register')
+  const pageKey = document.body.id || 'home';
 
-  // 2. Save the preference so it persists on page reload
-  localStorage.setItem('preferredLanguage', lang);
-
-  // 3. Logic to update text content
-  // If you are using a library like i18next, call its change function:
-  // i18next.changeLanguage(lang);
-
-  window.switchLang = function(lang) {
-    // You can specify the pageKey here (e.g., 'register' for register.html)
-    // or let it default to 'home' as per your function logic
-    const pageKey = document.body.id || 'home'; 
-    
-    // Call your existing function
+  // 3. Run your existing L function to update the UI and SEO
+  if (typeof L === "function") {
     L(lang, pageKey);
-    
-   // If you are doing it manually, you might reload or trigger a UI update:
+  }
+
+  // 4. Save preference using your existing config key
+  localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY, lang);
+
   console.log("Language switched to: " + lang);
-  // location.reload(); // Optional: reload to apply server-side or static changes
 }
+
+// THE CRITICAL LINE:
+// This makes ONLY this one function public so your HTML buttons work.
+window.switchLang = switchLang;
