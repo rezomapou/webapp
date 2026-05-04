@@ -7,21 +7,26 @@ const NavStatsComponent = {
             return;
         }
 
-        // 1. Load HTML
+        // 1. Load HTML (from config)
         const html = await this.loadHTML();
         container.innerHTML = html;
 
-        // 2. Render simple stats
+        // 2. Render
         this.render(container);
     },
 
     async loadHTML() {
+        const path = config_const.COMPONENTS.NAVSTATS.html;
+
         try {
-            const res = await fetch('components/navstats/navstats.html');
+            const res = await fetch(path);
+            if (!res.ok) throw new Error('fetch failed');
             return await res.text();
         } catch (e) {
             console.error('NavStats HTML load failed', e);
-            return `<div>Stats unavailable</div>`;
+
+            // No hardcoded fallback → return empty safe structure
+            return `<div data-slot="navstats-root"></div>`;
         }
     },
 
@@ -29,12 +34,7 @@ const NavStatsComponent = {
         const root = container.querySelector('[data-slot="navstats-root"]');
         if (!root) return;
 
-        // 🔹 STATIC / MOCK DATA (intentionally simple)
-        const stats = [
-            { key: 'stat_members', value: 128 },
-            { key: 'stat_actions', value: 54 },
-            { key: 'stat_points', value: 876 }
-        ];
+        const stats = config_const.NAVSTATS_DATA || [];
 
         root.innerHTML = stats.map(s => `
             <div class="navstat-item">
