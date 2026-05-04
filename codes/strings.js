@@ -609,7 +609,7 @@ const STRINGS = {
     legal_terms:      "Tèm Itilizasyon",
     legal_privacy:    "Konfidansyalite",
     legal_copyright:  "Dwa Otè",
-    legal_rights:     "© 2026 Rezo Mapou Nasyonal. Tout dwa rezève.",
+    legal_rights:     "© 2026 Rezo Mapou Nasyonal. Tout dwa rezève."
   },
 
   fr: {
@@ -801,7 +801,7 @@ const STRINGS = {
     legal_terms:      "Conditions d'utilisation",
     legal_privacy:    "Confidentialité",
     legal_copyright:  "Droits d'auteur",
-    legal_rights:     "© 2026 Rezo Mapou Nasyonal. Tous droits réservés.",
+    legal_rights:     "© 2026 Rezo Mapou Nasyonal. Tous droits réservés."
   },
 
   en: {
@@ -993,7 +993,7 @@ const STRINGS = {
     legal_terms:      "Terms of Use",
     legal_privacy:    "Privacy Policy",
     legal_copyright:  "Copyright",
-    legal_rights:     "© 2026 Rezo Mapou Nasyonal. All rights reserved.",
+    legal_rights:     "© 2026 Rezo Mapou Nasyonal. All rights reserved."
   },
 };
 
@@ -1005,7 +1005,7 @@ const STRINGS = {
 function getCurrentLang() {
   return localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY)
     || RMN_CONFIG.DEFAULT_LANG;
-}
+};
 
 /**
  * Applies language to all [data-s] elements, updates SEO tags,
@@ -1057,7 +1057,7 @@ function L(lang, pageKey) {
   document.querySelectorAll('[data-lang-btn]').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
   });
-}
+};
 
 function _setMeta(name, content, isProperty = false) {
   if (!content) return;
@@ -1069,7 +1069,7 @@ function _setMeta(name, content, isProperty = false) {
     document.head.appendChild(el);
   }
   el.setAttribute('content', content);
-}
+};
 
 /**
  * Shortcut: get a string in the current language.
@@ -1078,7 +1078,7 @@ function s(key) {
   const lang = getCurrentLang();
   const t = STRINGS[lang] || STRINGS[RMN_CONFIG.DEFAULT_LANG];
   return t[key] || key;
-}
+};
 
 // ── HAITIAN NAME POOLS ────────────────────────────────────────────────────
 // Used by randomHaitianName() for seed data generation.
@@ -1157,14 +1157,14 @@ function randomHaitianName() {
       return { prenom, nom };
     }
     attempts++;
-  }
+  };
 
   // Pool exhausted for this session — reset and continue
   _usedNames.clear();
   const prenom = firstPool[Math.floor(Math.random() * firstPool.length)];
   const nom    = FAKE_LASTNAMES[Math.floor(Math.random() * FAKE_LASTNAMES.length)];
   return { prenom, nom };
-}
+};
 
 // ── SEED DATA HELPERS ─────────────────────────────────────────────────────
 
@@ -1183,7 +1183,7 @@ function weightedLocation() {
     });
   });
   return pool[Math.floor(Math.random() * pool.length)];
-}
+};
 
 /**
  * Builds a fake sentinelle registration payload.
@@ -1213,7 +1213,7 @@ function makeFakeMember(isCoachType) {
       source:       'seed_auto',
       is_real:      'false',
     };
-  }
+  };
 
   return {
     action:       'register',
@@ -1232,7 +1232,7 @@ function makeFakeMember(isCoachType) {
     source:       'seed_auto',
     is_real:      'false',
   };
-}
+};
 
 /**
  * Sends a fake registration to the backend.
@@ -1251,7 +1251,7 @@ async function sendFakeMember(isCoachType) {
   } catch(e) {
     // Silent fail — seed data is non-critical
   }
-}
+};
 
 /**
  * Auto-seed trigger: called on dashboard page load.
@@ -1264,7 +1264,7 @@ async function autoSeed() {
   const isCoach = Math.random() < RMN_CONFIG.SEED_COACH_PROBABILITY;
   await sendFakeMember(isCoach);
   await new Promise(r => setTimeout(r, 1500));
-}
+};
 
 // ── LEGAL ROUTER ──────────────────────────────────────────────────────────
 // Each legal page calls its router on load.
@@ -1277,7 +1277,7 @@ function legalRouter(page) {
   const p = validPages.includes(page)  ? page : 'terms';
   const l = validLangs.includes(lang)  ? lang  : 'ht';
   window.location.replace(`${p}-${l}.html`);
-}
+};
 
 // ── PLATFORM HELPERS ──────────────────────────────────────────────────────
 
@@ -1289,7 +1289,7 @@ function platformLabel(key) {
   const t = STRINGS[lang] || STRINGS[RMN_CONFIG.DEFAULT_LANG];
   const labelKey = 'plt_' + key.toLowerCase();
   return t[labelKey] || key;
-}
+};
 
 /**
  * Returns the icon for a platform key from RMN_CONFIG.PLATFORMS.
@@ -1297,7 +1297,7 @@ function platformLabel(key) {
 function platformIcon(key) {
   const p = STRINGS.PLATFORMS.find(pl => pl.key === key);
   return p ? p.icon : '🔗';
-}
+};
 
 /**
  * Builds a full URL from a platform key and user-entered value.
@@ -1310,7 +1310,7 @@ function buildPlatformUrl(key, value) {
   // Don't double-prefix if user already entered the full URL
   if (value.startsWith('http') || value.startsWith(p.prefix)) return value;
   return p.prefix + value;
-}
+};
 
 function switchLang(lang) {
   document.documentElement.lang = lang;
@@ -1325,6 +1325,6 @@ function switchLang(lang) {
   localStorage.setItem(storageKey, lang);
 
   console.log("Language switched to: " + lang);
-}
+};
 
 window.switchLang = switchLang;
