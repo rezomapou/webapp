@@ -66,7 +66,7 @@ PATHS: {
     // API endpoints for data injection
     API: {
         STATS: 'https://api.fatraselo.net/v1/global-stats'
-    }
+    },
       
   // ── BACKEND ──────────────────────────────────────────────
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwiXRt79QnrSbep4pDXfHQ-l9StJt61HVcJQeiNY3FCRXEffTF5mJOnVcO3ghECNqqiKg/exec',
