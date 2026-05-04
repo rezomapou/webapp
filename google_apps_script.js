@@ -1,3 +1,4 @@
+codes/
 // Rezo Mapou — Google Apps Script v5
 // - All data (real + fake) goes into Sentinelles/Coaches tabs
 // - Is_Real column distinguishes them
