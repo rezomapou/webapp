@@ -17,3 +17,28 @@
 }
 .error-container h1 { margin-bottom: 1.5rem; }
 .error-container p { max-width: 500px; margin-bottom: 2rem; color: var(--muted); }
+/* Styling for the language buttons in the 404 page */
+.lang-btn {
+    background: #f8f9fa; /* Very light gray, visible on white */
+    border: 1px solid #dee2e6; /* Defined border so it doesn't vanish */
+    color: #6c757d; /* Muted text color */
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+}
+
+/* Hover state for inactive buttons */
+.lang-btn:hover:not(.active) {
+    background: #e9ecef;
+    border-color: var(--gold); /* Subtle hint of your brand color */
+}
+
+/* The Active State (The currently selected language) */
+.lang-btn.active {
+    background-color: var(--gold); /* Gold background for the active choice */
+    border-color: var(--gold);
+    color: white; /* White text for high contrast */
+    cursor: default;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
