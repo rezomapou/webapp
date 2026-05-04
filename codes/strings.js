@@ -1313,23 +1313,18 @@ function buildPlatformUrl(key, value) {
 }
 
 function switchLang(lang) {
-  // 1. Set the 'lang' attribute on the HTML tag for accessibility
   document.documentElement.lang = lang;
-  
-  // 2. Identify the page (e.g., 'register')
   const pageKey = document.body.id || 'home';
 
-  // 3. Run your existing L function to update the UI and SEO
   if (typeof L === "function") {
     L(lang, pageKey);
   }
 
-  // 4. Save preference using your existing config key
-  localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY, lang);
+  // Use config_const instead of RMN_CONFIG to match your config.js
+  const storageKey = (typeof config_const !== 'undefined') ? config_const.LOCALSTORAGE_LANG_KEY : 'rmn_lang';
+  localStorage.setItem(storageKey, lang);
 
   console.log("Language switched to: " + lang);
 }
 
-// THE CRITICAL LINE:
-// This makes ONLY this one function public so your HTML buttons work.
 window.switchLang = switchLang;
