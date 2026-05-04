@@ -9,14 +9,23 @@
             throw new Error('config_const missing');
         }
 
-        // 1. Load LoaderEngine first
+        // 1. Load Lang service (from /codes/)
+        await loadScript('codes/lang.js');
+
+        if (typeof Lang === 'undefined') {
+            throw new Error('Lang service failed to load');
+        }
+
+        Lang.init();
+
+        // 2. Load LoaderEngine
         await loadScript(config_const.COMPONENTS.LOADER.js);
 
         if (typeof LoaderEngine === 'undefined') {
-            throw new Error('LoaderEngine failed to load');
+            throw new Error('LoaderEngine failed');
         }
 
-        // 2. Load main orchestrator
+        // 3. Load main orchestrator (from /codes/)
         await loadScript('codes/index.js');
 
     } catch (err) {
