@@ -1,22 +1,20 @@
 <!DOCTYPE html>
-<html lang="ht">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Rezo Mapou Nasyonal</title>
-    
-    <!-- 1. Configuration & Strings -->
-    <script src="codes/config.js"></script>
-    <script src="codes/strings.js"></script>
-
-    <!-- 2. The Engines -->
-    <script src="components/loader/loader.js"></script>
-    <script src="components/header/header.js"></script>
-
-    <!-- 3. The Orchestrator (Replacing the inline script) -->
-    <script src="codes/index.js" defer></script>
+    <title>RMN</title>
 </head>
 <body>
+
+    <!-- Core placeholders -->
     <div id="rmn-loader-placeholder"></div>
     <div id="header-placeholder"></div>
+    <div id="features-grid"></div>
+    <div id="leaf-showcase"></div>
+
+    <!-- ONLY ENTRY POINT -->
+    <script src="config.js"></script>
+    <script src="boot.js"></script>
+
 </body>
 </html>
