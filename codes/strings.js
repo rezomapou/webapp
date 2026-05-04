@@ -422,8 +422,7 @@ const STRINGS = {
     site_name:        "Rezo Mapou Nasyonal",
     site_tagline:     "Rasin Ayiti",
     site_abbr:        "RMN",
-    loading_msg: "Pasyans, n ap prepare..."
-    },
+    loading_msg: "Pasyans, n ap prepare...",
 
     // Navigation
     nav_home:         "Akèy",
