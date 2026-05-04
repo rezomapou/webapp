@@ -33,6 +33,12 @@ const RMN_CONFIG = {
       containerId: 'lang-bar'
     },
 
+    LANG_OPTIONS: [
+  { code: 'ht', labelKey: 'lang_ht' },
+  { code: 'fr', labelKey: 'lang_fr' },
+  { code: 'en', labelKey: 'lang_en' }
+],
+    
     HEADER: {
       html: 'components/header/header.html',
       css: 'components/header/header.css',
