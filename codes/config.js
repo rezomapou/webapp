@@ -23,6 +23,12 @@ PATHS: {
             html: 'components/loader/loader.html',
         containerId: 'rmn-loader-placeholder'
         },
+      LANG: {
+            html: 'components/lang/lang.html',
+            css: 'components/lang/lang.css',
+            js: 'components/lang/lang.js',
+            containerId: 'lang-bar' // In header.html
+      },
         HEADER: {
             html: 'components/header/header.html',
             css: 'components/header/header.css',
@@ -32,17 +38,20 @@ PATHS: {
         NAV: {
             html: 'components/nav/nav.html',
             css: 'components/nav/nav.css',
-            js: 'components/nav/nav.js'
+            js: 'components/nav/nav.js',
+        containerId: 'nav-bar-container' // In header.html
         },
         NAVSTATS: {
             html: 'components/navstats/navstats.html',
             css: 'components/navstats/navstats.css',
-            js: 'components/navstats/navstats.js'
+            js: 'components/navstats/navstats.js',
+          containerId: 'nav-stats-container' // In header.html
         },
         FEATURE_BLOCK: {
             html: 'components/features/features.html',
             css: 'components/features/features.css',
-            js: 'components/features/features.js'
+            js: 'components/features/features.js',
+          containerId: 'features-placeholder' // In index.html
         },
         BLOCKSTATS: {
             html: 'components/blockstats/blockstats.html',
