@@ -7,7 +7,10 @@
 // ============================================================
 
 const RMN_CONFIG = {
-
+// spinner style
+SETTINGS: {
+        LOADER_STYLE: 'ECO_SPINNER', // Options: 'ECO_SPINNER', 'BRAND_PULSE', 'SKELETON'
+    },
   // Folder Architecture
 PATHS: {
         COMPONENTS: 'components',
