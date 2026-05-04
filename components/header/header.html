@@ -1,10 +1,5 @@
-<header id="main-header">
-  <!-- Sub-Component 1: Navigation Bar -->
-  <div id="nav-bar-container"></div>
-
-  <!-- Sub-Component 2: Navigation Stats -->
-  <div id="nav-stats-container"></div>
-  
-  <!-- Sub-Component 3: Language Switcher (Managed by lang.js) -->
-  <div id="lang-bar" class="lang-switcher"></div>
-</header>
+<div data-slot="header-root">
+    <div data-slot="header-lang"></div>
+    <div data-slot="header-nav"></div>
+    <div data-slot="header-navstats"></div>
+</div>
