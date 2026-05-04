@@ -3,304 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rezo Mapou Nasyonal — Rasin Ayiti</title>
-  <meta name="description" content="Rezo sivil ayisyen ki konekte machann, pwofesè, anplwaye ak dyaspora nan yon sèl enfrastrikti konfyans.">
-  <meta property="og:title" content="Rezo Mapou Nasyonal">
-  <meta property="og:description" content="Jwenn rezo a. Vin yon Rasin Mapou.">
-  <meta property="og:image" content="https://rezomapou.github.io/webapp/og_image.png">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://rezomapou.github.io/webapp/index.html">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="config.js"></script>
-  <script src="strings.js"></script>
-  <style>
-    .hero {
-      background: var(--forest);
-      padding: 4rem 0 3.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 70% 50%, rgba(200,168,75,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 3rem;
-      align-items: center;
-    }
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      width: 20px;
-      height: 1px;
-      background: var(--gold);
-      display: inline-block;
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      color: white;
-      margin-bottom: 1rem;
-      line-height: 1.15;
-    }
-    .hero h1 span { color: var(--gold); }
-    .hero-desc {
-      font-size: 1.05rem;
-      color: var(--on-dark-muted);
-      line-height: 1.75;
-      margin-bottom: 2rem;
-    }
-    .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    .hero-stats {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-    .hero-stat { text-align: center; padding: 0.75rem 0; }
-    .hero-stat + .hero-stat { border-top: 1px solid rgba(255,255,255,0.1); }
-    .hero-stat-num {
-      font-family: var(--font-serif);
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--gold);
-      display: block;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .hero-stat-lbl { font-size: 0.75rem; color: var(--on-dark-muted); letter-spacing: 0.08em; }
-
-    .section { padding: 3.5rem 0; }
-    .section-alt { background: white; }
-    .section-title {
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
-      margin-bottom: 0.5rem;
-    }
-    .section-sub {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-      max-width: 540px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-    .feature-card {
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-    .feature-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
-    .feature-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
-    .feature-card p { font-size: 0.85rem; color: var(--muted); margin: 0; }
-
-    .leaf-showcase {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
-    }
-    .leaf-item {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.75rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.88rem;
-    }
-    .leaf-item .icon { font-size: 1.3rem; }
-    .leaf-item .name { font-weight: 600; color: var(--forest); }
-    .leaf-item .desc { color: var(--muted); font-size: 0.8rem; }
-
-    .how-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      counter-reset: steps;
-    }
-    .how-step {
-      text-align: center;
-      padding: 1.25rem 1rem;
-      position: relative;
-    }
-    .how-step::before {
-      counter-increment: steps;
-      content: counter(steps);
-      display: block;
-      width: 36px;
-      height: 36px;
-      background: var(--forest);
-      color: var(--gold);
-      font-family: var(--font-serif);
-      font-size: 1rem;
-      font-weight: 900;
-      border-radius: 50%;
-      line-height: 36px;
-      margin: 0 auto 0.75rem;
-    }
-    .how-step h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
-    .how-step p  { font-size: 0.82rem; color: var(--muted); margin: 0; }
-
-    .cta-section {
-      background: var(--earth);
-      padding: 3rem 0;
-      text-align: center;
-    }
-    .cta-section h2 { color: white; margin-bottom: 0.5rem; }
-    .cta-section p  { color: var(--on-dark-muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
-
-    .vwa-preview {
-      background: var(--cream-dark);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    @media (max-width: 860px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-      .hero-stat + .hero-stat { border-top: none; border-left: 1px solid rgba(255,255,255,0.1); }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .how-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 520px) {
-      .features-grid { grid-template-columns: 1fr; }
-      .how-grid { grid-template-columns: 1fr 1fr; }
-      .hero-actions { flex-direction: column; }
-      .hero-actions .btn { width: 100%; justify-content: center; }
-    }
-  </style>
+  <title data-s="site_title"></title>
+  
+  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/styles/index.css">
+  
+  <script src="/codes/config.js"></script>
+  <script src="/codes/strings.js"></script>
+  <script src="/codes/seo.js"></script>
+  <script src="/codes/lang.js" defer></script>
+  <script src="/codes/index.js" defer></script>
 </head>
-<body>
+<body id="home" data-page="home">
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <div class="top-bar-left">
-    <a href="index.html" data-s="nav_home">Akèy</a>
-    <div class="top-bar-counts">
-      <span><strong id="tb-s">—</strong> <span data-s="dash_members">Rasin</span></span>
-      <span><strong id="tb-c">—</strong> <span data-s="dash_coaches">Coach</span></span>
-    </div>
-  </div>
-  <div class="lang-bar">
-    <button class="lang-btn active" data-lang-btn="ht" onclick="switchLang('ht')">🇭🇹 KR</button>
-    <button class="lang-btn" data-lang-btn="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
-    <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">🇺🇸 EN</button>
-  </div>
-</div>
-
-<!-- NAV -->
-<nav class="nav">
-  <a href="index.html" class="nav-brand">
-    <img src="rezo_mapou_logo.png" class="nav-logo" alt="RMN"
-      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="nav-logo-fallback" style="display:none;">RMN</div>
-    <span class="nav-name" data-s="site_name">Rezo Mapou Nasyonal</span>
-  </a>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="index.html" data-s="nav_home" class="active">Akèy</a></li>
-    <li><a href="register.html" data-s="nav_register">Enskri</a></li>
-    <li><a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a></li>
-    <li><a href="login.html" data-s="nav_login" id="nav-login-link">Konekte</a></li>
-  </ul>
-  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">☰</button>
-</nav>
+<div id="lang-bar" class="lang-switcher"></div>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div>
-      <div class="hero-eyebrow" data-s="site_abbr">RMN</div>
-      <h1 id="hero-title">Rasin <span>Ayiti</span></h1>
-      <p class="hero-desc" id="hero-desc">
-        Rezo sivil ayisyen ki konekte machann, pwofesè, anplwaye ak dyaspora
-        nan yon sèl enfrastrikti konfyans.
-      </p>
+      <div class="hero-eyebrow" data-s="site_abbr"></div>
+      <h1><span data-s="hero_title_p1"></span> <span data-s="hero_title_p2"></span></h1>
+      <p class="hero-desc" data-s="hero_desc_long"></p>
       <div class="hero-actions">
-        <a href="register.html" class="btn btn-gold btn-lg" data-s="nav_register">Enskri kounye a</a>
-        <a href="dashboard.html" class="btn btn-outline btn-lg" style="color:white;border-color:rgba(255,255,255,0.4);" data-s="nav_dashboard">Tablodbò</a>
+        <a href="/register.html" class="btn btn-gold btn-lg" data-s="nav_register"></a>
+        <a href="/dashboard.html" class="btn btn-outline btn-lg" data-s="nav_dashboard"></a>
       </div>
     </div>
     <div class="hero-stats">
       <div class="hero-stat">
         <span class="hero-stat-num" id="stat-members">—</span>
-        <div class="hero-stat-lbl" data-s="dash_members">Rasin Enskri</div>
+        <div class="hero-stat-lbl" data-s="dash_members"></div>
       </div>
       <div class="hero-stat">
         <span class="hero-stat-num" id="stat-depts">—</span>
-        <div class="hero-stat-lbl" data-s="dash_depts">Depatman</div>
+        <div class="hero-stat-lbl" data-s="dash_depts"></div>
       </div>
       <div class="hero-stat">
         <span class="hero-stat-num" id="stat-communes">—</span>
-        <div class="hero-stat-lbl" data-s="dash_communes">Komin</div>
+        <div class="hero-stat-lbl" data-s="dash_communes"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- INTERACTIVE CONTENT TABS -->
 <section class="section section-alt">
   <div class="container">
-    <h2 class="section-title" id="feat-title">Poukisa Rezo Mapou?</h2>
-    <p class="section-sub" id="feat-sub">Yon rezo ki bati sou konfyans, pa sou klik.</p>
-    <div class="features-grid" id="features-grid"></div>
-  </div>
-</section>
+    <div class="tab-nav">
+      <button class="tab-link active" onclick="openTab(event, 'tab-features')" data-s="tab_features_label"></button>
+      <button class="tab-link" onclick="openTab(event, 'tab-leaves')" data-s="tab_leaves_label"></button>
+      <button class="tab-link" onclick="openTab(event, 'tab-how')" data-s="tab_how_label"></button>
+    </div>
 
-<!-- 5-LEAF SYSTEM -->
-<section class="section">
-  <div class="container">
-    <h2 class="section-title" id="leaf-title">Sistèm 5 Fèy</h2>
-    <p class="section-sub" id="leaf-sub">Pa gen "Like" isit. Chak fèy gen yon siyifikasyon reyèl.</p>
-    <div class="leaf-showcase" id="leaf-showcase"></div>
-  </div>
-</section>
+    <div id="tab-features" class="tab-content active">
+      <div class="features-grid" id="features-grid"></div>
+    </div>
 
-<!-- HOW IT WORKS -->
-<section class="section section-alt">
-  <div class="container">
-    <h2 class="section-title" id="how-title">Kijan sa travay?</h2>
-    <p class="section-sub" id="how-sub">Senp. Rapid. Gratis.</p>
-    <div class="how-grid" id="how-grid"></div>
-  </div>
-</section>
+    <div id="tab-leaves" class="tab-content">
+      <div class="leaf-showcase" id="leaf-showcase"></div>
+    </div>
 
-<!-- VWA PREVIEW -->
-<section class="section">
-  <div class="container">
-    <h2 class="section-title" id="vwa-title">Vwa — Vwa Ou</h2>
-    <p class="section-sub" id="vwa-sub">Pataje kontni ou nan rezo a. Videyo kout ki montre ki moun ou ye ak sa ou fè.</p>
-    <div class="vwa-preview" id="vwa-preview">
-      🎬 Vwa feed ap vini nan pwochen vèsyon an.
+    <div id="tab-how" class="tab-content">
+      <div class="how-grid" id="how-grid"></div>
     </div>
   </div>
 </section>
@@ -308,166 +73,15 @@
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <h2 data-s="reg_title">Vin yon Rasin Mapou</h2>
-    <p data-s="reg_subtitle">Enskri gratis. Pa gen pèmisyon espesyal.</p>
-    <a href="register.html" class="btn btn-gold btn-lg" data-s="nav_register">Enskri kounye a</a>
+    <h2 data-s="reg_title"></h2>
+    <p data-s="reg_subtitle"></p>
+    <a href="/register.html" class="btn btn-gold btn-lg" data-s="nav_register"></a>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-links">
-      <a href="terms.html" data-s="legal_terms">Tèm Itilizasyon</a>
-      <a href="privacy.html" data-s="legal_privacy">Konfidansyalite</a>
-      <a href="copyright.html" data-s="legal_copyright">Dwa Otè</a>
-      <a href="dashboard.html" data-s="nav_dashboard">Tablodbò</a>
-    </div>
-    <div class="footer-copy" data-s="legal_rights">© 2026 Rezo Mapou Nasyonal</div>
-  </div>
+  <div class="footer-copy" data-s="legal_rights"></div>
 </footer>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const lang = getCurrentLang();
-  L(lang, 'home');
-  renderFeatures(lang);
-  renderLeaves(lang);
-  renderHowItWorks(lang);
-  renderHeroText(lang);
-  fetchStats();
-  const session = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_TOKEN_KEY);
-  if (session) {
-    const lnk = document.getElementById('nav-login-link');
-    if (lnk) { lnk.href='profile.html'; lnk.textContent=s('nav_profile'); }
-  }
-});
-
-function switchLang(lang) {
-  L(lang, 'home');
-  renderFeatures(lang);
-  renderLeaves(lang);
-  renderHowItWorks(lang);
-  renderHeroText(lang);
-}
-
-function renderHeroText(lang) {
-  const titles = {
-    ht: ['Rasin', 'Ayiti'],
-    fr: ['Les Racines', "d'Haïti"],
-    en: ['The Roots', 'of Haiti'],
-  };
-  const descs = {
-    ht: 'Rezo sivil ayisyen ki konekte machann, pwofesè, anplwaye ak dyaspora nan yon sèl enfrastrikti konfyans.',
-    fr: 'Réseau civique haïtien connectant marchands, enseignants, employés et diaspora en une seule infrastructure de confiance.',
-    en: 'Haitian civic network connecting merchants, teachers, employees and diaspora into one trust infrastructure.',
-  };
-  const t = titles[lang] || titles.ht;
-  document.getElementById('hero-title').innerHTML = `${t[0]} <span>${t[1]}</span>`;
-  document.getElementById('hero-desc').textContent = descs[lang] || descs.ht;
-}
-
-function renderFeatures(lang) {
-  const features = {
-    ht: [
-      { icon:'🌳', title:'Idantite Rasin', desc:'Chak manm se yon Rasin Mapou — yon nœud nan rezo a.' },
-      { icon:'🔐', title:'Konfyans Reyèl', desc:'Validasyon ant moun — pa bot, pa fòs.' },
-      { icon:'📍', title:'Kat Nasyonal', desc:'146 komin reprezante nan yon sèl rezo.' },
-      { icon:'💬', title:'Koneksyon Pwoteje', desc:'Kontakte manm san ekspoze enfòmasyon pèsonèl.' },
-      { icon:'🌍', title:'Dyaspora Entegre', desc:'Manm nan Ayiti ak toupatou sou latè.' },
-      { icon:'📊', title:'Skor RMN', desc:'Chak manm gen yon skor baze sou aktivite reyèl.' },
-    ],
-    fr: [
-      { icon:'🌳', title:'Identité Rasin', desc:"Chaque membre est une Rasin Mapou — un nœud dans le réseau." },
-      { icon:'🔐', title:'Confiance Réelle', desc:'Validation entre humains — pas de bots, pas de force.' },
-      { icon:'📍', title:'Carte Nationale', desc:'146 communes représentées dans un seul réseau.' },
-      { icon:'💬', title:'Connexion Protégée', desc:'Contactez des membres sans exposer vos données personnelles.' },
-      { icon:'🌍', title:'Diaspora Intégrée', desc:"Membres en Haïti et partout dans le monde." },
-      { icon:'📊', title:'Score RMN', desc:'Chaque membre a un score basé sur une activité réelle.' },
-    ],
-    en: [
-      { icon:'🌳', title:'Rasin Identity', desc:'Every member is a Rasin Mapou — a node in the network.' },
-      { icon:'🔐', title:'Real Trust', desc:'Human validation — no bots, no force.' },
-      { icon:'📍', title:'National Map', desc:'146 communes represented in one network.' },
-      { icon:'💬', title:'Protected Connection', desc:'Contact members without exposing personal information.' },
-      { icon:'🌍', title:'Integrated Diaspora', desc:'Members in Haiti and everywhere in the world.' },
-      { icon:'📊', title:'RMN Score', desc:'Every member has a score based on real activity.' },
-    ],
-  };
-  const list = features[lang] || features.ht;
-  document.getElementById('features-grid').innerHTML = list.map(f => `
-    <div class="feature-card">
-      <span class="feature-icon">${f.icon}</span>
-      <h3>${f.title}</h3>
-      <p>${f.desc}</p>
-    </div>
-  `).join('');
-}
-
-function renderLeaves(lang) {
-  const leaves = RMN_CONFIG.LEAF_KEYS.map(key => ({
-    icon: RMN_CONFIG.LEAF_ICONS[key],
-    name: s('leaf_' + key.toLowerCase()),
-    tip:  s('leaf_' + key.toLowerCase() + '_tip'),
-  }));
-  document.getElementById('leaf-showcase').innerHTML = leaves.map(l => `
-    <div class="leaf-item">
-      <span class="icon">${l.icon}</span>
-      <div>
-        <div class="name">${l.name}</div>
-        <div class="desc">${l.tip}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderHowItWorks(lang) {
-  const steps = {
-    ht: [
-      { title:'Enskri', desc:'Ranpli fòm nan ak nimewo ou. Gratis pou tout moun.' },
-      { title:'Verifye', desc:'Klike sou lyen nan imèl ou pou aktive kont ou.' },
-      { title:'Konekte', desc:'Jwenn lòt Rasin. Valide moun ou konnen.' },
-      { title:'Grandi', desc:'Bati skor ou. Pataje Vwa. Vin yon Rekonèt.' },
-    ],
-    fr: [
-      { title:"S'inscrire", desc:'Remplissez le formulaire avec votre numéro. Gratuit pour tous.' },
-      { title:'Vérifier', desc:'Cliquez sur le lien dans votre email pour activer votre compte.' },
-      { title:'Se Connecter', desc:"Trouvez d'autres Racines. Validez les personnes que vous connaissez." },
-      { title:'Grandir', desc:'Construisez votre score. Partagez des Vwa. Devenez Reconnu(e).' },
-    ],
-    en: [
-      { title:'Register', desc:'Fill the form with your number. Free for everyone.' },
-      { title:'Verify', desc:'Click the link in your email to activate your account.' },
-      { title:'Connect', desc:'Find other Roots. Validate people you know.' },
-      { title:'Grow', desc:'Build your score. Share Vwa. Become Recognized.' },
-    ],
-  };
-  const list = steps[lang] || steps.ht;
-  document.getElementById('how-grid').innerHTML = list.map(st => `
-    <div class="how-step">
-      <h3>${st.title}</h3>
-      <p>${st.desc}</p>
-    </div>
-  `).join('');
-}
-
-async function fetchStats() {
-  try {
-    const res = await fetch(`${RMN_CONFIG.SCRIPT_URL}?action=stats&t=${Date.now()}`);
-    const d = await res.json();
-    const sm = d.sentinelles || 0;
-    const sc = d.coaches     || 0;
-    const sd = Object.keys(d.by_dept    || {}).length;
-    const sk = Object.keys(d.by_commune || {}).length;
-    document.getElementById('stat-members').textContent   = sm.toLocaleString();
-    document.getElementById('stat-depts').textContent     = sd.toLocaleString();
-    document.getElementById('stat-communes').textContent  = sk.toLocaleString();
-    document.getElementById('tb-s').textContent = sm.toLocaleString();
-    document.getElementById('tb-c').textContent = sc.toLocaleString();
-  } catch(e) {}
-}
-
-function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
-</script>
 </body>
 </html>
