@@ -1,3 +1,10 @@
+/* Centered Layout for 404 */
+.lang-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 2rem; /* Space before the 404 text */
+}
 .error-container {
   height: 80vh;
   display: flex;
