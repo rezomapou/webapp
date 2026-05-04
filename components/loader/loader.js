@@ -1,26 +1,60 @@
 /**
- * Universal Component Loader
- * Uses the config object to determine target and path.
+ * LoaderEngine Object
+ * A self-contained utility for assembling Black Box components.
  */
-async function loadComponent(comp) {
-    if (!comp || !comp.containerId) return;
+/**
+ * LoaderEngine: The Master Assembler
+ * Encapsulates all loading logic into a single Black Box.
+ */
+const LoaderEngine = {
+    
+    /**
+     * Self-injects CSS to maintain component encapsulation.
+     * Prevents index.html from needing <link> tags for every component.
+     */
+    injectStyle(path) {
+        if (!path || document.querySelector(`link[href="${path}"]`)) return;
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = path;
+        document.head.appendChild(link);
+    },
 
-    const target = document.getElementById(comp.containerId);
-    if (!target) {
-        console.warn(`Target #${comp.containerId} not found for component.`);
-        return;
+    /**
+     * The Master Load Method
+     * @param {Object} comp - The component object from config_const
+     */
+    async loadComponent(comp) {
+        // Validation: Every component MUST have a containerId in config_const
+        if (!comp || !comp.containerId) return;
+
+        const target = document.getElementById(comp.containerId);
+        if (!target) {
+            console.warn(`[Loader] Target #${comp.containerId} not found.`);
+            return;
+        }
+
+        try {
+            // 1. Fetch HTML Fragment using parameterized path
+            const response = await fetch(comp.html);
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+            target.innerHTML = await response.text();
+
+            // 2. Self-inject Component-Specific Styles
+            if (comp.css) this.injectStyle(comp.css);
+
+            console.log(`[Loader] ${comp.containerId} assembled.`);
+
+        } catch (err) {
+            console.error(`[Loader] Failed to load ${comp.html}:`, err);
+        }
+    },
+
+    /**
+     * Hides the loader overlay once initialization is complete.
+     */
+    hide() {
+        const overlay = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
+        if (overlay) overlay.style.display = 'none';
     }
-
-    try {
-        const response = await fetch(comp.html);
-        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-        
-        target.innerHTML = await response.text();
-
-        // After HTML is in place, we trigger the object's logic
-        // We look for the Component Object name in the global window scope
-        // (e.g., HeaderComponent, LangComponent, NavStatsComponent)
-    } catch (err) {
-        console.error(`Failed to load ${comp.html}:`, err);
-    }
-}
+};
