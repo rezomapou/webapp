@@ -2,79 +2,21 @@
 <html lang="ht">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezo Mapou Nasyonal</title>
-
-    <!-- 1. GLOBAL CONFIGURATION (The Brain) -->
-    <!-- This must load first so other scripts know the paths -->
+    
+    <!-- 1. Configuration & Strings -->
     <script src="codes/config.js"></script>
     <script src="codes/strings.js"></script>
 
-    <!-- 2. THE ENGINES (The Logic) -->
-    <!-- We load the LoaderEngine here so it is defined before the <body> script runs -->
+    <!-- 2. The Engines -->
     <script src="components/loader/loader.js"></script>
-    
-    <!-- 3. COMPONENT SCRIPTS -->
-    <!-- These will be called by the LoaderEngine once their HTML is injected -->
     <script src="components/header/header.js"></script>
 
-    <style>
-        /* Essential reset to prevent layout shift during loading */
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-        }
-    </style>
+    <!-- 3. The Orchestrator (Replacing the inline script) -->
+    <script src="codes/index.js" defer></script>
 </head>
 <body>
-
-    <!-- 4. ATTACHMENT POINTS (The Placeholders) -->
-    <!-- These IDs must match the containerId values in your config_const -->
-    
-    <!-- This holds the splash screen/animation -->
     <div id="rmn-loader-placeholder"></div>
-
-    <!-- This holds the main site header -->
     <div id="header-placeholder"></div>
-
-    <!-- Main Content Area -->
-    <main id="main-content">
-        <!-- Future components (hero, body, etc.) will go here -->
-    </main>
-
-    <!-- 5. ORCHESTRATION SCRIPT -->
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // A. Initialize the Loader first (picks theme from config_const)
-                if (typeof LoaderEngine !== 'undefined') {
-                    await LoaderEngine.init();
-                } else {
-                    throw new Error("LoaderEngine not found. Check script paths.");
-                }
-
-                // B. Load the Header (The Header logic handles Nav/Stats/Lang internally)
-                // We pull the object directly from the config to avoid hardcoding
-                await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
-
-                // C. Wake up the Header's internal logic (Black Box)
-                if (window.HeaderComponent && typeof HeaderComponent.init === 'function') {
-                    await HeaderComponent.init();
-                }
-
-                // D. Fade out the splash screen once everything is visual
-                LoaderEngine.hide();
-
-            } catch (error) {
-                console.error("Critical Assembly Error:", error);
-                // Optional: Remove loader if assembly fails so the user isn't stuck
-                if (typeof LoaderEngine !== 'undefined') LoaderEngine.hide();
-            }
-        });
-    </script>
-
 </body>
 </html>
