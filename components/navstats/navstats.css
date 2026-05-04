@@ -1,0 +1,23 @@
+.top-bar {
+  background: var(--forest-dark, #1b2e1b);
+  color: white;
+  font-size: 0.85rem;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.top-bar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-bar-counts {
+  display: flex;
+  gap: 20px;
+}
+
+.top-bar-counts strong {
+  color: var(--gold, #d4af37);
+  margin-right: 4px;
+}
