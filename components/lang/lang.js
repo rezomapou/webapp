@@ -1,76 +1,64 @@
-/**
- * REZO MAPOU NASYONAL - Centralized Language Manager
- */
-/**
- * GLOBAL TRANSLATION ENGINE (L)
- * Updates all [data-s] elements and document title based on language dictionary.
- */
-window.L = function(lang, pageKey = 'home') {
-    const dict = STRINGS[lang];
-    if (!dict) return;
+const LangComponent = {
 
-    // 1. Update all elements with data-s attributes
-    document.querySelectorAll('[data-s]').forEach(el => {
-        const key = el.getAttribute('data-s');
-        if (dict[key]) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = dict[key];
-            } else {
-                el.textContent = dict[key];
-            }
+    async init(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) {
+            console.warn('Lang container missing:', containerId);
+            return;
         }
-    });
 
-    // 2. Dynamic Browser Tab Title
-    const titleTag = document.querySelector('title');
-    if (titleTag) {
-        const titleKey = titleTag.getAttribute('data-s');
-        if (titleKey && dict[titleKey]) {
-            document.title = dict[titleKey];
+        // 1. Load HTML
+        const html = await this.loadHTML();
+        container.innerHTML = html;
+
+        // 2. Render UI
+        this.render(container);
+
+        // 3. Bind events
+        this.bind(container);
+    },
+
+    async loadHTML() {
+        try {
+            const res = await fetch('components/lang/lang.html');
+            return await res.text();
+        } catch (e) {
+            console.error('Lang HTML load failed', e);
+            return `<div>Lang failed</div>`;
         }
-    }
-    
-    // Set the HTML lang attribute for accessibility and SEO
-    document.documentElement.lang = lang;
-};
+    },
 
-const LangManager = {
-    injectUI: function() {
-        const container = document.getElementById('lang-bar');
-        if (!container) return;
+    render(container) {
+        const root = container.querySelector('[data-slot="lang-root"]');
+        if (!root) return;
 
-        container.innerHTML = `
-            <button class="lang-btn" data-l="ht" onclick="LangManager.update('ht')">🇭🇹 KR</button>
-            <button class="lang-btn" data-l="fr" onclick="LangManager.update('fr')">🇫🇷 FR</button>
-            <button class="lang-btn" data-l="en" onclick="LangManager.update('en')">🇺🇸 EN</button>
+        const current = Lang.current;
+
+        root.innerHTML = `
+            <div class="lang-btn ${current === 'ht' ? 'active' : ''}" data-lang="ht">KREYÒL</div>
+            <div class="lang-btn ${current === 'fr' ? 'active' : ''}" data-lang="fr">FR</div>
+            <div class="lang-btn ${current === 'en' ? 'active' : ''}" data-lang="en">EN</div>
         `;
-        this.setActiveClass();
     },
 
-    update: function(lang) {
-        localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY, lang);
-        
-        // Call the standalone global function
-        const pageKey = document.body.dataset.page || 'home';
-        window.L(lang, pageKey);
-        
-        this.setActiveClass();
-    },
+    bind(container) {
+        container.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
 
-    setActiveClass: function() {
-        const current = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY);
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-l') === current);
+                // 1. Update global language
+                Lang.set(lang);
+
+                // 2. Re-render entire page (simple & robust strategy)
+                this.refreshApp();
+            });
         });
     },
 
-    init: function() {
-        const savedLang = localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY) 
-                         || RMN_CONFIG.DEFAULT_LANG;
-        this.injectUI();
-        this.update(savedLang);
+    refreshApp() {
+        // Minimal safe refresh strategy
+        // avoids partial inconsistencies across components
+        location.reload();
     }
-};
 
-// Start the manager when the DOM is ready
-document.addEventListener('DOMContentLoaded', () => LangManager.init());
+};
