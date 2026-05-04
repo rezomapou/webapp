@@ -401,6 +401,11 @@ const SEO = {
 const STRINGS = {
 
   ht: {
+    // 404 msg
+   err_404_title: "Paj sa a pa egziste",
+   err_404_msg: "Nou pa ka jwenn paj w ap chèche a. Li ka deplase oswa li pa egziste ankò.",
+   err_back_home: "Retounen nan Akèy",
+   
     // payment field
     pay_section_title: "Peman",
     pay_hint:          "Pou lè nou gen pou nou peye ou",
@@ -606,6 +611,10 @@ const STRINGS = {
   },
 
   fr: {
+    err_404_title:    "Page non trouvée",
+    err_404_msg:      "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
+    err_back_home:    "Retour à l'accueil",
+    
     pay_section_title: "Paiement",
     pay_hint:          "Pour quand nous devrons vous payer",
     f_payment_ph:      "8 chif",
@@ -792,6 +801,10 @@ const STRINGS = {
   },
 
   en: {
+    err_404_title: "Page Not Found",
+    err_404_msg: "Sorry, the page you are looking for does not exist or has been moved.",
+    err_back_home: "Back to Home",
+  
     pay_section_title: "Payment",
     pay_hint:          "For when we have to pay you",
     f_payment_ph:      "8 digits",
