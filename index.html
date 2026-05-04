@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-s="site_title"></title>
   
+  <!-- Updated paths to reach specific folders -->
   <link rel="stylesheet" href="/styles/style.css">
   <link rel="stylesheet" href="/styles/index.css">
   
@@ -16,41 +17,46 @@
 </head>
 <body id="home" data-page="home">
 
-<!-- Restore Top Bar & Navigation -->
+<!-- TOP BAR & LANG -->
 <div class="top-bar">
-  <div class="top-bar-left">
-    <a href="/index.html" data-s="nav_home"></a>
-    <div class="top-bar-counts">
-      <span><strong id="tb-s">—</strong> <span data-s="dash_members"></span></span>
-      <span><strong id="tb-c">—</strong> <span data-s="dash_coaches"></span></span>
+  <div class="container top-bar-inner">
+    <div class="top-bar-left">
+      <a href="/index.html" data-s="nav_home"></a>
+      <div class="top-bar-counts">
+        <span><strong id="tb-s">—</strong> <span data-s="dash_members"></span></span>
+        <span><strong id="tb-c">—</strong> <span data-s="dash_coaches"></span></span>
+      </div>
     </div>
+    <div id="lang-bar" class="lang-switcher"></div>
   </div>
-  <div id="lang-bar" class="lang-switcher"></div>
 </div>
 
+<!-- HEADER NAVIGATION -->
 <nav class="nav">
-  <a href="/index.html" class="nav-brand">
-    <div class="nav-logo-fallback">RMN</div>
-    <span class="nav-name" data-s="site_name"></span>
-  </a>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="/index.html" data-s="nav_home" class="active"></a></li>
-    <li><a href="/register.html" data-s="nav_register"></a></li>
-    <li><a href="/dashboard.html" data-s="nav_dashboard"></a></li>
-    <li><a href="/login.html" data-s="nav_login" id="nav-login-link"></a></li>
-  </ul>
+  <div class="container nav-inner">
+    <a href="/index.html" class="nav-brand">
+      <div class="nav-logo-fallback">RMN</div>
+      <span class="nav-name" data-s="site_name"></span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/index.html" data-s="nav_home" class="active"></a></li>
+      <li><a href="/register.html" data-s="nav_register"></a></li>
+      <li><a href="/dashboard.html" data-s="nav_dashboard"></a></li>
+      <li><a href="/login.html" data-s="nav_login" id="nav-login-link"></a></li>
+    </ul>
+  </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO SECTION -->
 <section class="hero">
-  <div class="hero-inner">
-    <div>
+  <div class="container hero-inner">
+    <div class="hero-text">
       <div class="hero-eyebrow" data-s="site_abbr"></div>
       <h1><span data-s="hero_title_p1"></span> <span data-s="hero_title_p2"></span></h1>
       <p class="hero-desc" data-s="hero_desc_long"></p>
       <div class="hero-actions">
         <a href="/register.html" class="btn btn-gold btn-lg" data-s="nav_register"></a>
-        <a href="/dashboard.html" class="btn btn-outline btn-lg" style="color:white;border-color:rgba(255,255,255,0.4);" data-s="nav_dashboard"></a>
+        <a href="/dashboard.html" class="btn btn-outline btn-lg" data-s="nav_dashboard"></a>
       </div>
     </div>
     <div class="hero-stats">
@@ -79,14 +85,25 @@
       <button class="tab-link" onclick="openTab(event, 'tab-how')" data-s="tab_how_label"></button>
     </div>
 
+    <!-- Features Tab Content -->
     <div id="tab-features" class="tab-content active">
-      <div class="features-grid" id="features-grid"></div>
+      <div class="features-grid" id="features-grid">
+        <!-- Injected by index.js -->
+      </div>
     </div>
+
+    <!-- Leaves Tab Content -->
     <div id="tab-leaves" class="tab-content">
-      <div class="leaf-showcase" id="leaf-showcase"></div>
+      <div class="leaf-showcase" id="leaf-showcase">
+        <!-- Injected by index.js -->
+      </div>
     </div>
+
+    <!-- How it Works Tab Content -->
     <div id="tab-how" class="tab-content">
-      <div class="how-grid" id="how-grid"></div>
+      <div class="how-grid" id="how-grid">
+        <!-- Injected by index.js -->
+      </div>
     </div>
   </div>
 </section>
@@ -100,9 +117,9 @@
   </div>
 </section>
 
-<!-- Restore Footer Structure -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
+  <div class="container footer-inner">
     <div class="footer-links">
       <a href="/terms.html" data-s="legal_terms"></a>
       <a href="/privacy.html" data-s="legal_privacy"></a>
