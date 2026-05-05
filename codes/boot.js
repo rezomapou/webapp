@@ -10,7 +10,7 @@
         }
 
         // 1. Load Lang service (from /codes/)
-        await loadScript('codes/lang.js');
+        await loadScript(config_const.COMPONENTS.LANG.js);
 
         if (typeof Lang === 'undefined') {
             throw new Error('Lang service failed to load');
