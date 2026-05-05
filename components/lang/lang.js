@@ -1,64 +1,55 @@
 const LangComponent = {
-
     async init(containerId) {
         const container = document.getElementById(containerId);
         if (!container) {
             console.warn('Lang container missing:', containerId);
             return;
         }
-
-        // 1. Load HTML
         const html = await this.loadHTML();
         container.innerHTML = html;
-
-        // 2. Render UI
         this.render(container);
-
-        // 3. Bind events
         this.bind(container);
     },
-
     async loadHTML() {
         try {
             const res = await fetch('components/lang/lang.html');
             return await res.text();
         } catch (e) {
             console.error('Lang HTML load failed', e);
-            return `<div>Lang failed</div>`;
+            return `<div data-slot="lang-root"></div>`;
         }
     },
-
     render(container) {
         const root = container.querySelector('[data-slot="lang-root"]');
         if (!root) return;
-
-        const current = Lang.current;
-
+        const current = LangService.currentLang;
         root.innerHTML = `
-            <div class="lang-btn ${current === 'ht' ? 'active' : ''}" data-lang="ht">KREYÒL</div>
-            <div class="lang-btn ${current === 'fr' ? 'active' : ''}" data-lang="fr">FR</div>
-            <div class="lang-btn ${current === 'en' ? 'active' : ''}" data-lang="en">EN</div>
+            <button class="lang-btn ${current === 'ht' ? 'active' : ''}" data-lang="ht">KR</button>
+            <button class="lang-btn ${current === 'fr' ? 'active' : ''}" data-lang="fr">FR</button>
+            <button class="lang-btn ${current === 'en' ? 'active' : ''}" data-lang="en">EN</button>
         `;
     },
-
     bind(container) {
         container.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const lang = btn.dataset.lang;
-
-                // 1. Update global language
-                Lang.set(lang);
-
-                // 2. Re-render entire page (simple & robust strategy)
-                this.refreshApp();
+                LangService.setLang(btn.dataset.lang);
+                this.render(container);
+                this.refreshPage();
             });
         });
     },
-
-    refreshApp() {
-        // Minimal safe refresh strategy
-        // avoids partial inconsistencies across components
-        location.reload();
+    refreshPage() {
+        // Re-apply all data-i translations without full reload
+        document.querySelectorAll('[data-i]').forEach(el => {
+            const val = LangService.get(el.getAttribute('data-i'));
+            if (val) el.textContent = val;
+        });
+        // Re-init features if present
+        if (window.FeaturesComponent) {
+            FeaturesComponent.applyLang(document.getElementById(
+                config_const.COMPONENTS.FEATURE_BLOCK.containerId
+            ));
+        }
     }
-
 };
+window.LangComponent = LangComponent;
