@@ -2,10 +2,15 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    /* Contain internal layout — must not set width/height on body */
+    width: 100%;
 }
 
 [data-slot="header-lang"] {
     align-self: flex-end;
+    /* Ensure lang bar stays in its own stacking context */
+    position: relative;
+    z-index: 10;
 }
 
 [data-slot="header-nav"] {
