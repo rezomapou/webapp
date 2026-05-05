@@ -25,22 +25,30 @@ const FooterComponent = {
             return await res.text();
         } catch (e) {
             console.error('Footer HTML load failed', e);
-            return `<footer class="footer-error">${LangService.get('footer_meta')}</footer>`;
+            return `<footer class="footer-inner"><div class="footer-copy">${LangService.get('footer_meta')}</div></footer>`;
         }
     },
     populateSlots(container) {
         const linksSlot = container.querySelector('[data-slot="footer-links"]');
         const metaSlot  = container.querySelector('[data-slot="footer-meta"]');
+
+        const actionMap = {
+            legal:   'legal.html',
+            privacy: 'privacy.html',
+            terms:   'terms.html'
+        };
+
         if (linksSlot) {
             const links = config_const.COMPONENTS.FOOTER_LINKS
-                .map(link => `<a href="#" data-action="${link.action}">${LangService.get(link.key)}</a>`)
+                .map(link => `<a href="${actionMap[link.action] || '#'}">${LangService.get(link.key)}</a>`)
                 .join('');
-            linksSlot.innerHTML = `<nav>${links}</nav>`;
+            linksSlot.innerHTML = links;
         }
+
         if (metaSlot) {
-            const metaKey = config_const.COMPONENTS.FOOTER_META.key;
-            metaSlot.innerHTML = `<p>${LangService.get(metaKey)}</p>`;
+            metaSlot.textContent = LangService.get(config_const.COMPONENTS.FOOTER_META.key);
         }
+
         console.log("Footer content populated into slots.");
     }
 };
