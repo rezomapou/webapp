@@ -19,13 +19,6 @@ const FooterComponent = {
             return `<footer class="footer-error">${LangService.get('footer_meta')}</footer>`;
         }
     },
-    async loadDependencies() {
-        const deps = config_const.COMPONENTS.FOOTER.dependencies || [];
-        for (const dep of deps) {
-            if (dep.css) await this.loadCSS(dep.css);
-            if (dep.js) await this.loadJS(dep.js);
-        }
-    },
     populateSlots(container) {
         const linksSlot = container.querySelector('[data-slot="footer-links"]');
         const metaSlot  = container.querySelector('[data-slot="footer-meta"]');
@@ -44,26 +37,6 @@ const FooterComponent = {
 
         console.log("Footer content populated into slots.");
     },
-    loadCSS(href) {
-        return new Promise(resolve => {
-            if (!href || document.querySelector(`link[href="${href}"]`)) return resolve();
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = href + '?v=' + new Date().getTime();
-            link.onload = resolve;
-            document.head.appendChild(link);
-        });
-    },
-    loadJS(src) {
-        return new Promise((resolve, reject) => {
-            if (!src || document.querySelector(`script[src^="${src}"]`)) return resolve();
-            const script = document.createElement('script');
-            script.src = src + '?v=' + new Date().getTime();
-            script.onload = resolve;
-            script.onerror = () => reject(new Error(`Footer dependency failed: ${src}`));
-            document.body.appendChild(script);
-        });
-    }
 };
 window.FooterComponent = FooterComponent;
 console.log("FooterComponent registered to window.");
