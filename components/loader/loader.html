@@ -1,4 +1,13 @@
 <div id="rmn-loader-overlay">
     <div class="spinner"></div>
-    <p data-s="loading_msg">Loading...</p>
+    <p id="loader-msg"></p>
 </div>
+<script>
+(function() {
+    const supported = config_const.SETTINGS.SUPPORTED_LANGS;
+    const browserLang = (navigator.language || 'ht').slice(0, 2);
+    const lang = supported.includes(browserLang) ? browserLang : config_const.SETTINGS.DEFAULT_LANG;
+    const msg = config_const.SETTINGS.LOADER_MESSAGES[lang] || 'Loading...';
+    document.getElementById('loader-msg').textContent = msg;
+})();
+</script>
