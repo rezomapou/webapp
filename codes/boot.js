@@ -5,39 +5,45 @@
 (async function () {
 
     try {
+        // Ensure configuration is loaded first
         if (typeof config_const === 'undefined') {
             throw new Error('config_const missing');
         }
 
         // 1. Load Lang service (from /codes/)
-        await loadScript('codes/lang.js');
+        // Renamed from lang.js to langservice.js to avoid component confusion
+        await loadScript('codes/langservice.js');
 
-        // Check for LangService (matching the object name in lang.js)
-        if (typeof LangService === 'undefined') {
-            throw new Error('Lang service failed to load');
+        // Verify the object exists on the window after script load
+        if (typeof window.LangService === 'undefined') {
+            throw new Error('LangService object failed to register');
         }
 
-        // Initialize the service (use await in case init is async)
-        await LangService.init();
+        // Await the initialization of the language service
+        await window.LangService.init();
+        console.log("Lang Service initialized successfully.");
 
         // 2. Load LoaderEngine
         await loadScript(config_const.COMPONENTS.LOADER.js);
 
         if (typeof LoaderEngine === 'undefined') {
-            throw new Error('LoaderEngine failed');
+            throw new Error('LoaderEngine failed to load');
         }
 
         // 3. Load main orchestrator (from /codes/)
         await loadScript('codes/index.js');
 
     } catch (err) {
+        // Log any failure in the boot sequence
         console.error('BOOT ERROR:', err);
     }
 
+    /**
+     * Helper to inject script tags into the document
+     */
     function loadScript(src) {
         return new Promise((resolve, reject) => {
             const s = document.createElement('script');
-            // Adding a cache-buster or ensuring pathing is correct
             s.src = src;
             s.onload = resolve;
             s.onerror = () => reject(new Error(`Failed to load ${src}`));
