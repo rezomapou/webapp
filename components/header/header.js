@@ -12,12 +12,9 @@ const HeaderComponent = {
             console.error('Header container missing after retry:', containerId);
             return;
         }
-        // 1. Load HTML from config
         const html = await this.loadHTML();
         container.innerHTML = html;
-        // 2. Load subcomponents (CSS + JS)
         await this.loadDependencies();
-        // 3. Fill the empty slots so the header has height and content
         await this.populateSlots(container);
     },
     async loadHTML() {
@@ -39,10 +36,8 @@ const HeaderComponent = {
         }
     },
     async populateSlots(container) {
-        // Logo
         const logoSlot = container.querySelector('[data-slot="header-logo"]');
         if (logoSlot) logoSlot.innerHTML = `<div class="logo">RMNE</div>`;
-        // Language bar — LangComponent already loaded by boot.js
         if (window.LangComponent) {
             await LangComponent.init('lang-container');
         }
