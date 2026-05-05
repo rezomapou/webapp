@@ -5,10 +5,9 @@
 const HeaderComponent = {
 
     async init(containerId) {
-        // Safety retry logic for fast-loading scripts
         let container = document.getElementById(containerId);
         if (!container) {
-            await new Promise(r => setTimeout(r, 100)); // Wait 100ms
+            await new Promise(r => setTimeout(r, 100));
             container = document.getElementById(containerId);
         }
 
@@ -17,15 +16,15 @@ const HeaderComponent = {
             return;
         }
 
-        // 1. Load HTML via config
+        // 1. Load HTML from config
         const html = await this.loadHTML();
         container.innerHTML = html;
 
         // 2. Load subcomponents (CSS + JS)
         await this.loadDependencies();
 
-        // 3. Initialize subcomponents
-        await this.initChildren(container);
+        // 3. NEW: Fill the empty slots so the header has height and content
+        this.populateSlots(container);
     },
 
     async loadHTML() {
@@ -36,50 +35,47 @@ const HeaderComponent = {
             return await res.text();
         } catch (e) {
             console.error('Header HTML load failed', e);
-            return `<div data-slot="header-root"></div>`;
+            return `<header class="header-error"><h1>RMNE - Fatra se Lò</h1></header>`;
         }
     },
 
     async loadDependencies() {
-        const deps = [
-            config_const.COMPONENTS.LANG,
-            config_const.COMPONENTS.NAV,
-            config_const.COMPONENTS.NAVSTATS
-        ];
-
+        const deps = config_const.COMPONENTS.HEADER.dependencies || [];
         for (const dep of deps) {
             if (dep.css) await this.loadCSS(dep.css);
             if (dep.js) await this.loadJS(dep.js);
         }
     },
 
-    async initChildren(container) {
-        // Mapping slots to our new -container naming convention
-        const langSlot = container.querySelector('[data-slot="header-lang"]');
+    /**
+     * Bridges the gap between the loaded HTML and the dynamic content
+     */
+    populateSlots(container) {
+        // Look for slots in your header.html
+        const logoSlot = container.querySelector('[data-slot="header-logo"]');
         const navSlot = container.querySelector('[data-slot="header-nav"]');
-        const statsSlot = container.querySelector('[data-slot="header-navstats"]');
 
-        if (langSlot) langSlot.id = 'lang-container';
-        if (navSlot) navSlot.id = 'nav-container';
-        if (statsSlot) statsSlot.id = 'navstats-container';
-
-        // Init components only if they registered to the window
-        if (window.LangComponent && langSlot) {
-            await window.LangComponent.init('lang-container');
+        if (logoSlot) {
+            logoSlot.innerHTML = `<div class="logo">RMNE</div>`;
         }
 
-        if (window.NavComponent && navSlot) {
-            await window.NavComponent.init('nav-container');
+        if (navSlot) {
+            navSlot.innerHTML = `
+                <nav>
+                    <ul style="display: flex; gap: 20px; list-style: none;">
+                        <li><a href="#home">Accueil</a></li>
+                        <li><a href="#about">RMNE</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>`;
         }
-
-        if (window.NavStatsComponent && statsSlot) {
-            await window.NavStatsComponent.init('navstats-container');
-        }
+        
+        console.log("Header slots populated.");
     },
 
     loadCSS(href) {
         return new Promise(resolve => {
-            if (!href || document.querySelector(`link[href="${href}"]`)) return resolve();
+            if (!href || document.querySelector(`link[href^="${href}"]`)) return resolve();
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = href + '?v=' + new Date().getTime();
