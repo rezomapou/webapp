@@ -1,6 +1,26 @@
 <div data-slot="header-root">
-    <!-- lang-container: LoaderEngine injects LangComponent here via populateSlots -->
-    <div data-slot="header-lang" id="lang-container"></div>
-    <div data-slot="header-nav" id="nav-container"></div>
-    <div data-slot="header-navstats" id="navstats-container"></div>
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="top-bar-left">
+                <span style="font-size:0.72rem; color:rgba(255,255,255,0.5);">Rezo Mapou Nasyonal</span>
+            </div>
+            <div class="lang-bar" id="lang-container">
+                <div data-slot="lang-root"></div>
+            </div>
+        </div>
+    </div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a class="nav-brand" href="/">
+                <img class="nav-logo" src="images/rezo_mapou_logo.png" alt="Rezo Mapou"
+                     onerror="this.style.display='none'">
+                <span class="nav-name">Rezo Mapou</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" data-i="nav_home"></a></li>
+                <li><a href="#" data-i="nav_about"></a></li>
+                <li><a href="#" data-i="nav_contact"></a></li>
+            </ul>
+        </div>
+    </nav>
 </div>
