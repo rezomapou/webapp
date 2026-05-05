@@ -1,7 +1,7 @@
 /**
  * langservice.js - Localization Service for Fatra se Lò
  */
-
+console.log("lang.js file has been physically loaded by the browser");
 const LangService = {
     currentLang: 'ht', // Defaulting to Kreyòl for local relevance
     
