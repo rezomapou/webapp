@@ -1,32 +1,25 @@
 /**
  * footer.js — Footer Component
  */
-
 const FooterComponent = {
-
     async init(containerId) {
         let container = document.getElementById(containerId);
         if (!container) {
             await new Promise(r => setTimeout(r, 100));
             container = document.getElementById(containerId);
         }
-
         if (!container) {
             console.error('Footer container missing after retry:', containerId);
             return;
         }
-
         // 1. Load HTML via config
         const html = await this.loadHTML();
         container.innerHTML = html;
-
         // 2. Load subcomponents (CSS + JS)
         await this.loadDependencies();
-
         // 3. Populate the empty slots with content
         this.populateSlots(container);
     },
-
     async loadHTML() {
         const path = config_const.COMPONENTS.FOOTER.html;
         try {
@@ -35,11 +28,9 @@ const FooterComponent = {
             return await res.text();
         } catch (e) {
             console.error('Footer HTML load failed', e);
-            // Fallback content if the file is missing
-            return `<footer class="footer-error">© 2026 RMNE - Fatra se Lò</footer>`;
+            return `<footer class="footer-error">${LangService.get('footer_meta')}</footer>`;
         }
     },
-
     async loadDependencies() {
         const deps = config_const.COMPONENTS.FOOTER.dependencies || [];
         for (const dep of deps) {
@@ -47,29 +38,24 @@ const FooterComponent = {
             if (dep.js) await this.loadJS(dep.js);
         }
     },
-
-    /**
-     * Fills the data-slots found in the footer HTML
-     */
     populateSlots(container) {
         const linksSlot = container.querySelector('[data-slot="footer-links"]');
-        const metaSlot = container.querySelector('[data-slot="footer-meta"]');
+        const metaSlot  = container.querySelector('[data-slot="footer-meta"]');
 
         if (linksSlot) {
-            // Adding content to give the div height
-            linksSlot.innerHTML = `
-                <nav>
-                    <a href="https://rezomapouglobal.net" target="_blank">Rezo Mapou Global</a>
-                </nav>`;
+            const links = config_const.COMPONENTS.FOOTER_LINKS
+                .map(link => `<a href="#" data-action="${link.action}">${LangService.get(link.key)}</a>`)
+                .join('');
+            linksSlot.innerHTML = `<nav>${links}</nav>`;
         }
 
         if (metaSlot) {
-            metaSlot.innerHTML = `<p>© 2026 RMNE | Fatra se Lò Initiative</p>`;
+            const metaKey = config_const.COMPONENTS.FOOTER_META.key;
+            metaSlot.innerHTML = `<p>${LangService.get(metaKey)}</p>`;
         }
-        
+
         console.log("Footer content populated into slots.");
     },
-
     loadCSS(href) {
         return new Promise(resolve => {
             if (!href || document.querySelector(`link[href="${href}"]`)) return resolve();
@@ -80,7 +66,6 @@ const FooterComponent = {
             document.head.appendChild(link);
         });
     },
-
     loadJS(src) {
         return new Promise((resolve, reject) => {
             if (!src || document.querySelector(`script[src^="${src}"]`)) return resolve();
@@ -92,6 +77,5 @@ const FooterComponent = {
         });
     }
 };
-
 window.FooterComponent = FooterComponent;
 console.log("FooterComponent registered to window.");
