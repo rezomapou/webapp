@@ -24,7 +24,7 @@ const HeaderComponent = {
         await this.loadDependencies();
 
         // 3. NEW: Fill the empty slots so the header has height and content
-        this.populateSlots(container);
+        await this.populateSlots(container);
     },
 
     async loadHTML() {
@@ -50,19 +50,17 @@ const HeaderComponent = {
     /**
      * Bridges the gap between the loaded HTML and the dynamic content
      */
-    populateSlots(container) {
-    const logoSlot = container.querySelector('[data-slot="header-logo"]');
-    const navSlot = container.querySelector('[data-slot="header-nav"]');
-    const langSlot = container.querySelector('[data-slot="header-lang"]'); // Add this line
+        async populateSlots(container) {
+        // Logo
+        const logoSlot = container.querySelector('[data-slot="header-logo"]');
+        if (logoSlot) logoSlot.innerHTML = `<div class="logo">RMNE</div>`;
 
-    if (logoSlot) logoSlot.innerHTML = `<div class="logo">RMNE</div>`;
-    
-    // Ensure the langSlot has the ID the LangComponent expects
-    if (langSlot) {
-        langSlot.id = 'lang-container'; 
-        // Trigger the LangComponent if it exists
+        // Language bar — load assets then init
+        const langCfg = config_const.COMPONENTS.LANG;
+        await this.loadCSS(langCfg.css);
+        await this.loadJS(langCfg.js);
         if (window.LangComponent) {
-            window.LangComponent.init('lang-container');
+            await LangComponent.init(langCfg.containerId);
         }
     }
 
