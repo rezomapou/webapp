@@ -26,7 +26,7 @@
         }
 
         // 3. Load main orchestrator (from /codes/)
-        await loadScript('https://fatraselo.net/codes/index.js');
+        await loadScript(config_const.PATHS.CODES/index.js');
 
     } catch (err) {
         console.error('BOOT ERROR:', err);
