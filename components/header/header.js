@@ -1,6 +1,3 @@
-/**
- * header.js — Header Component
- */
 const HeaderComponent = {
     async init(containerId) {
         let container = document.getElementById(containerId);
@@ -25,12 +22,16 @@ const HeaderComponent = {
             return await res.text();
         } catch (e) {
             console.error('Header HTML load failed', e);
-            return `<header class="header-error"><h1>RMNE - Fatra se Lò</h1></header>`;
+            return `<div class="top-bar"></div><nav class="nav"><div class="nav-inner"><span class="nav-name">Rezo Mapou</span></div></nav>`;
         }
     },
     async populateSlots(container) {
-        const logoSlot = container.querySelector('[data-slot="header-logo"]');
-        if (logoSlot) logoSlot.innerHTML = `<div class="logo">RMNE</div>`;
+        // Apply nav link translations
+        container.querySelectorAll('[data-i]').forEach(el => {
+            const val = LangService.get(el.getAttribute('data-i'));
+            if (val) el.textContent = val;
+        });
+        // Init lang bar
         if (window.LangComponent) {
             await LangComponent.init('lang-container');
         }
