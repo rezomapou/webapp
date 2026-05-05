@@ -5,9 +5,15 @@
 const HeaderComponent = {
 
     async init(containerId) {
-        const container = document.getElementById(containerId);
+        // Safety retry logic for fast-loading scripts
+        let container = document.getElementById(containerId);
         if (!container) {
-            console.warn('Header container missing:', containerId);
+            await new Promise(r => setTimeout(r, 100)); // Wait 100ms
+            container = document.getElementById(containerId);
+        }
+
+        if (!container) {
+            console.error('Header container missing after retry:', containerId);
             return;
         }
 
@@ -24,7 +30,6 @@ const HeaderComponent = {
 
     async loadHTML() {
         const path = config_const.COMPONENTS.HEADER.html;
-
         try {
             const res = await fetch(path);
             if (!res.ok) throw new Error('fetch failed');
@@ -49,36 +54,32 @@ const HeaderComponent = {
     },
 
     async initChildren(container) {
+        // Mapping slots to our new -container naming convention
         const langSlot = container.querySelector('[data-slot="header-lang"]');
         const navSlot = container.querySelector('[data-slot="header-nav"]');
         const statsSlot = container.querySelector('[data-slot="header-navstats"]');
 
-        // assign IDs dynamically (keeps HTML clean)
-        if (langSlot) langSlot.id = 'header-lang-container';
-        if (navSlot) navSlot.id = 'header-nav-container';
-        if (statsSlot) statsSlot.id = 'header-navstats-container';
+        if (langSlot) langSlot.id = 'lang-container';
+        if (navSlot) navSlot.id = 'nav-container';
+        if (statsSlot) statsSlot.id = 'navstats-container';
 
-        // init components (only if available)
-        // Check for LangComponent (usually handles the UI toggle)
+        // Init components only if they registered to the window
         if (window.LangComponent && langSlot) {
-            await window.LangComponent.init('header-lang-container');
+            await window.LangComponent.init('lang-container');
         }
 
         if (window.NavComponent && navSlot) {
-            await window.NavComponent.init('header-nav-container');
+            await window.NavComponent.init('nav-container');
         }
 
         if (window.NavStatsComponent && statsSlot) {
-            await window.NavStatsComponent.init('header-navstats-container');
+            await window.NavStatsComponent.init('navstats-container');
         }
     },
 
     loadCSS(href) {
         return new Promise(resolve => {
-            if (!href || document.querySelector(`link[href="${href}"]`)) {
-                return resolve();
-            }
-
+            if (!href || document.querySelector(`link[href="${href}"]`)) return resolve();
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = href + '?v=' + new Date().getTime();
@@ -89,10 +90,7 @@ const HeaderComponent = {
 
     loadJS(src) {
         return new Promise((resolve, reject) => {
-            if (!src || document.querySelector(`script[src^="${src}"]`)) {
-                return resolve();
-            }
-
+            if (!src || document.querySelector(`script[src^="${src}"]`)) return resolve();
             const script = document.createElement('script');
             script.src = src + '?v=' + new Date().getTime();
             script.onload = resolve;
@@ -100,9 +98,7 @@ const HeaderComponent = {
             document.body.appendChild(script);
         });
     }
-
 };
 
-// EXPLICIT GLOBAL REGISTRATION
 window.HeaderComponent = HeaderComponent;
 console.log("HeaderComponent registered to window.");
