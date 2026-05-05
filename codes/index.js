@@ -1,43 +1,40 @@
 /**
- * index.js — Main Orchestrator (TEST VERSION)
+ * index.js — Main Orchestrator
  */
 
-// Removed DOMContentLoaded listener to allow immediate execution via boot.js
 (async function initApp() {
 
     try {
         console.log("Index.js orchestrator starting...");
 
-        // 0. Safety checks
-        if (typeof config_const === 'undefined') {
-            throw new Error('config_const missing');
+        // We assume boot.js already verified these. 
+        // We do NOT re-load them here to avoid "Already Declared" errors.
+
+        // 1. Init loader (visuals)
+        if (typeof LoaderEngine !== 'undefined') {
+            await LoaderEngine.init();
         }
 
-        if (typeof LoaderEngine === 'undefined') {
-            throw new Error('LoaderEngine missing');
-        }
-
-        // 1. Init loader (visual only)
-        await LoaderEngine.init();
-
-        // 2. Load HEADER (encapsulates nav, lang, navstats)
+        // 2. Load HEADER
+        console.log("Loading Header...");
         await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
 
         // 3. Init HEADER
         if (window.HeaderComponent) {
             await HeaderComponent.init(config_const.COMPONENTS.HEADER.containerId);
         } else {
-            console.warn("HeaderComponent not found after loading.");
+            console.error("HeaderComponent failed to register in window.");
         }
 
         // 4. Load FOOTER
+        console.log("Loading Footer...");
         await LoaderEngine.loadComponent(config_const.COMPONENTS.FOOTER);
 
         // 5. Init FOOTER
         if (window.FooterComponent) {
             await FooterComponent.init(config_const.COMPONENTS.FOOTER.containerId);
         } else {
-            console.warn("FooterComponent not found after loading.");
+            console.error("FooterComponent failed to register in window.");
         }
 
         // 6. Hide loader
@@ -46,7 +43,6 @@
 
     } catch (error) {
         console.error('Assembly Error:', error);
-
         if (typeof LoaderEngine !== 'undefined') {
             LoaderEngine.hide();
         }
