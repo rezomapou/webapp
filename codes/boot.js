@@ -12,11 +12,13 @@
         // 1. Load Lang service (from /codes/)
         await loadScript('codes/lang.js');
 
-        if (typeof Lang === 'undefined') {
+        // Check for LangService (matching the object name in lang.js)
+        if (typeof LangService === 'undefined') {
             throw new Error('Lang service failed to load');
         }
 
-        Lang.init();
+        // Initialize the service (use await in case init is async)
+        await LangService.init();
 
         // 2. Load LoaderEngine
         await loadScript(config_const.COMPONENTS.LOADER.js);
@@ -35,6 +37,7 @@
     function loadScript(src) {
         return new Promise((resolve, reject) => {
             const s = document.createElement('script');
+            // Adding a cache-buster or ensuring pathing is correct
             s.src = src;
             s.onload = resolve;
             s.onerror = () => reject(new Error(`Failed to load ${src}`));
