@@ -2,58 +2,69 @@
  * LoaderEngine — Core Component Loader
  */
 
-const LoaderEngine = {
+if (typeof window.LoaderEngine === 'undefined') {
 
-    async init() {
-        await this.loadComponent(config_const.COMPONENTS.LOADER);
-    },
+    const LoaderEngine = {
 
-    async loadComponent(cfg) {
-        if (!cfg) return;
+        async init() {
+            await this.loadComponent(config_const.COMPONENTS.LOADER);
+        },
 
-        const { html, css, js, containerId } = cfg;
+        async loadComponent(cfg) {
+            if (!cfg) return;
 
-        try {
-            // HTML
-            if (html && containerId) {
-                const res = await fetch(html);
-                if (res.ok) {
-                    const content = await res.text();
-                    const el = document.getElementById(containerId);
-                    if (el) el.innerHTML = content;
+            const { html, css, js, containerId } = cfg;
+
+            try {
+                // HTML
+                if (html && containerId) {
+                    const res = await fetch(html);
+                    if (res.ok) {
+                        const content = await res.text();
+                        const el = document.getElementById(containerId);
+                        if (el) el.innerHTML = content;
+                    }
                 }
-            }
 
-            // CSS
-            if (css && !document.querySelector(`link[href="${css}"]`)) {
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = css;
-                document.head.appendChild(link);
-            }
+                // CSS
+                if (css && !document.querySelector(`link[href="${css}"]`)) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = css;
+                    document.head.appendChild(link);
+                }
 
-            // JS
-            if (js && !document.querySelector(`script[src="${js}"]`)) {
-                await this.loadScript(js);
-            }
+                // JS
+                if (js && !document.querySelector(`script[src="${js}"]`)) {
+                    await this.loadScript(js);
+                }
 
-        } catch (err) {
-            console.warn('Component failed:', cfg, err);
+            } catch (err) {
+                console.warn('Component failed:', cfg, err);
+            }
+        },
+
+        loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                // Use a cache-buster to ensure the latest version is loaded
+                s.src = src + '?v=' + new Date().getTime();
+                s.onload = resolve;
+                s.onerror = () => reject(new Error(`Failed to load ${src}`));
+                document.body.appendChild(s);
+            });
+        },
+
+        hide() {
+            const el = document.getElementById('rmn-loader-placeholder');
+            if (el) el.style.display = 'none';
         }
-    },
+    };
 
-    loadScript(src) {
-        return new Promise((resolve, reject) => {
-            const s = document.createElement('script');
-            s.src = src;
-            s.onload = resolve;
-            s.onerror = () => reject();
-            document.body.appendChild(s);
-        });
-    },
+    // Explicitly attach to window so it is globally accessible
+    window.LoaderEngine = LoaderEngine;
+    console.log("LoaderEngine defined successfully.");
 
-    hide() {
-        const el = document.getElementById('rmn-loader-placeholder');
-        if (el) el.style.display = 'none';
-    }
-};
+} else {
+    console.log("LoaderEngine already exists; skipping re-declaration.");
+}
