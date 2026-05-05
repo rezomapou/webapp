@@ -20,8 +20,11 @@ const FooterComponent = {
         const html = await this.loadHTML();
         container.innerHTML = html;
 
-        // 2. Load subcomponents (CSS + JS) if any defined in config
+        // 2. Load subcomponents (CSS + JS)
         await this.loadDependencies();
+
+        // 3. Populate the empty slots with content
+        this.populateSlots(container);
     },
 
     async loadHTML() {
@@ -32,7 +35,8 @@ const FooterComponent = {
             return await res.text();
         } catch (e) {
             console.error('Footer HTML load failed', e);
-            return `<footer class="footer-error">© 2026 Fatra se Lò</footer>`;
+            // Fallback content if the file is missing
+            return `<footer class="footer-error">© 2026 RMNE - Fatra se Lò</footer>`;
         }
     },
 
@@ -42,6 +46,28 @@ const FooterComponent = {
             if (dep.css) await this.loadCSS(dep.css);
             if (dep.js) await this.loadJS(dep.js);
         }
+    },
+
+    /**
+     * Fills the data-slots found in the footer HTML
+     */
+    populateSlots(container) {
+        const linksSlot = container.querySelector('[data-slot="footer-links"]');
+        const metaSlot = container.querySelector('[data-slot="footer-meta"]');
+
+        if (linksSlot) {
+            // Adding content to give the div height
+            linksSlot.innerHTML = `
+                <nav>
+                    <a href="https://rezomapouglobal.net" target="_blank">Rezo Mapou Global</a>
+                </nav>`;
+        }
+
+        if (metaSlot) {
+            metaSlot.innerHTML = `<p>© 2026 RMNE | Fatra se Lò Initiative</p>`;
+        }
+        
+        console.log("Footer content populated into slots.");
     },
 
     loadCSS(href) {
