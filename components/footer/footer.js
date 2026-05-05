@@ -3,7 +3,16 @@
  */
 const FooterComponent = {
     async init(containerId) {
-     const html = await this.loadHTML();
+        let container = document.getElementById(containerId);
+        if (!container) {
+            await new Promise(r => setTimeout(r, 100));
+            container = document.getElementById(containerId);
+        }
+        if (!container) {
+            console.error('Footer container missing after retry:', containerId);
+            return;
+        }
+        const html = await this.loadHTML();
         container.innerHTML = html;
         await LoaderEngine.loadComponent(config_const.COMPONENTS.FOOTER);
         this.populateSlots(container);
@@ -22,21 +31,18 @@ const FooterComponent = {
     populateSlots(container) {
         const linksSlot = container.querySelector('[data-slot="footer-links"]');
         const metaSlot  = container.querySelector('[data-slot="footer-meta"]');
-
         if (linksSlot) {
             const links = config_const.COMPONENTS.FOOTER_LINKS
                 .map(link => `<a href="#" data-action="${link.action}">${LangService.get(link.key)}</a>`)
                 .join('');
             linksSlot.innerHTML = `<nav>${links}</nav>`;
         }
-
         if (metaSlot) {
             const metaKey = config_const.COMPONENTS.FOOTER_META.key;
             metaSlot.innerHTML = `<p>${LangService.get(metaKey)}</p>`;
         }
-
         console.log("Footer content populated into slots.");
-    },
+    }
 };
 window.FooterComponent = FooterComponent;
 console.log("FooterComponent registered to window.");
