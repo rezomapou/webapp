@@ -1,8 +1,10 @@
-// lang.js - Localization Service
+/**
+ * langservice.js - Localization Service for Fatra se Lò
+ */
+
 const LangService = {
-    currentLang: 'ht', // Default to Kreyòl
+    currentLang: 'ht', // Defaulting to Kreyòl for local relevance
     
-    // Dictionary of strings
     dictionary: {
         'en': {
             'welcome': 'Welcome to Fatra se Lò',
@@ -16,19 +18,25 @@ const LangService = {
         }
     },
 
-    // Initialization method called by boot.js
+    /**
+     * Initialization method called by boot.js
+     */
     async init() {
         console.log("Initializing Language Service...");
-        // You can add logic here to detect browser language if preferred
+        // Logic for browser language detection can be added here if needed
         return true; 
     },
 
-    // Method to get a string
+    /**
+     * Retrieves a translated string by key
+     */
     get(key) {
         return this.dictionary[this.currentLang][key] || key;
     },
 
-    // Method to switch language
+    /**
+     * Switches the active language
+     */
     setLang(langCode) {
         if (this.dictionary[langCode]) {
             this.currentLang = langCode;
@@ -36,5 +44,5 @@ const LangService = {
     }
 };
 
-// Export to window so boot.js can see it
+// Export to window so boot.js can see it globally
 window.LangService = LangService;
