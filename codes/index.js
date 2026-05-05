@@ -24,7 +24,9 @@
         // 3. Load Features block (marketing campaign content)
         console.log("Loading Features...");
         await LoaderEngine.loadComponent(config_const.COMPONENTS.FEATURE_BLOCK);
-
+        if (window.FeaturesComponent) {
+            FeaturesComponent.init(config_const.COMPONENTS.FEATURE_BLOCK.containerId);
+        }
         console.log("Assembly complete. Hiding loader.");
         LoaderEngine.hide();
     } catch (error) {
