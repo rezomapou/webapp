@@ -51,28 +51,25 @@ const HeaderComponent = {
      * Bridges the gap between the loaded HTML and the dynamic content
      */
     populateSlots(container) {
-        // Look for slots in your header.html
-        const logoSlot = container.querySelector('[data-slot="header-logo"]');
-        const navSlot = container.querySelector('[data-slot="header-nav"]');
+    const logoSlot = container.querySelector('[data-slot="header-logo"]');
+    const navSlot = container.querySelector('[data-slot="header-nav"]');
+    const langSlot = container.querySelector('[data-slot="header-lang"]'); // Add this line
 
-        if (logoSlot) {
-            logoSlot.innerHTML = `<div class="logo">RMNE</div>`;
+    if (logoSlot) logoSlot.innerHTML = `<div class="logo">RMNE</div>`;
+    
+    // Ensure the langSlot has the ID the LangComponent expects
+    if (langSlot) {
+        langSlot.id = 'lang-container'; 
+        // Trigger the LangComponent if it exists
+        if (window.LangComponent) {
+            window.LangComponent.init('lang-container');
         }
+    }
 
-        if (navSlot) {
-            navSlot.innerHTML = `
-                <nav>
-                    <ul style="display: flex; gap: 20px; list-style: none;">
-                        <li><a href="#home">Accueil</a></li>
-                        <li><a href="#about">RMNE</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>`;
-        }
-        
-        console.log("Header slots populated.");
-    },
-
+    if (navSlot) {
+        // ... your nav HTML ...
+    }
+}
     loadCSS(href) {
         return new Promise(resolve => {
             if (!href || document.querySelector(`link[href^="${href}"]`)) return resolve();
