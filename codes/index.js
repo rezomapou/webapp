@@ -15,8 +15,8 @@
         }
 
         // Loading the main feature block
-        console.log("Loading Features...");
-        await LoaderEngine.loadComponent(config_const.COMPONENTS.FEATURE_BLOCK);
+        // console.log("Loading Features...");
+        //  await LoaderEngine.loadComponent(config_const.COMPONENTS.FEATURE_BLOCK);
 
         console.log("Loading Footer...");
         await LoaderEngine.loadComponent(config_const.COMPONENTS.FOOTER);
