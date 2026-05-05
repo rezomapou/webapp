@@ -1,3 +1,7 @@
+/**
+ * header.js — Header Component
+ */
+
 const HeaderComponent = {
 
     async init(containerId) {
@@ -39,8 +43,8 @@ const HeaderComponent = {
         ];
 
         for (const dep of deps) {
-            await this.loadCSS(dep.css);
-            await this.loadJS(dep.js);
+            if (dep.css) await this.loadCSS(dep.css);
+            if (dep.js) await this.loadJS(dep.js);
         }
     },
 
@@ -55,16 +59,17 @@ const HeaderComponent = {
         if (statsSlot) statsSlot.id = 'header-navstats-container';
 
         // init components (only if available)
+        // Check for LangComponent (usually handles the UI toggle)
         if (window.LangComponent && langSlot) {
-            await LangComponent.init('header-lang-container');
+            await window.LangComponent.init('header-lang-container');
         }
 
         if (window.NavComponent && navSlot) {
-            await NavComponent.init('header-nav-container');
+            await window.NavComponent.init('header-nav-container');
         }
 
         if (window.NavStatsComponent && statsSlot) {
-            await NavStatsComponent.init('header-navstats-container');
+            await window.NavStatsComponent.init('header-navstats-container');
         }
     },
 
@@ -76,7 +81,7 @@ const HeaderComponent = {
 
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = href;
+            link.href = href + '?v=' + new Date().getTime();
             link.onload = resolve;
             document.head.appendChild(link);
         });
@@ -84,16 +89,20 @@ const HeaderComponent = {
 
     loadJS(src) {
         return new Promise((resolve, reject) => {
-            if (!src || document.querySelector(`script[src="${src}"]`)) {
+            if (!src || document.querySelector(`script[src^="${src}"]`)) {
                 return resolve();
             }
 
             const script = document.createElement('script');
-            script.src = src;
+            script.src = src + '?v=' + new Date().getTime();
             script.onload = resolve;
-            script.onerror = () => reject();
+            script.onerror = () => reject(new Error(`Header dependency failed: ${src}`));
             document.body.appendChild(script);
         });
     }
 
 };
+
+// EXPLICIT GLOBAL REGISTRATION
+window.HeaderComponent = HeaderComponent;
+console.log("HeaderComponent registered to window.");
