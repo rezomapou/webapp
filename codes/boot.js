@@ -9,7 +9,7 @@
             throw new Error('config_const missing');
         }
 
-        // 1. Load Lang service (Using the NEW filename)
+        // 1. Load Lang service
         await loadScript('codes/langservice.js');
 
         if (typeof window.LangService === 'undefined') {
@@ -19,7 +19,7 @@
         await window.LangService.init();
         console.log("Lang Service initialized successfully.");
 
-        // 2. Load LoaderEngine
+        // 2. Load LoaderEngine (The ONLY time this should be loaded)
         await loadScript(config_const.COMPONENTS.LOADER.js);
 
         if (typeof LoaderEngine === 'undefined') {
@@ -36,7 +36,6 @@
     function loadScript(src) {
         return new Promise((resolve, reject) => {
             const s = document.createElement('script');
-            // Adding a timestamp to force the browser to bypass cache
             s.src = src + '?v=' + new Date().getTime();
             s.onload = resolve;
             s.onerror = () => reject(new Error(`Failed to load ${src}`));
