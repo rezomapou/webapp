@@ -27,15 +27,15 @@ if (typeof window.LoaderEngine === 'undefined') {
                 }
 
                 // CSS
-                if (css && !document.querySelector(`link[href="${css}"]`)) {
+                if (css && !document.querySelector(`link[href^="${css}"]`)) {
                     const link = document.createElement('link');
                     link.rel = 'stylesheet';
-                    link.href = css;
+                    link.href = css + '?v=' + new Date().getTime();
                     document.head.appendChild(link);
                 }
 
                 // JS
-                if (js && !document.querySelector(`script[src="${js}"]`)) {
+                if (js && !document.querySelector(`script[src^="${js}"]`)) {
                     await this.loadScript(js);
                 }
 
@@ -47,7 +47,6 @@ if (typeof window.LoaderEngine === 'undefined') {
         loadScript(src) {
             return new Promise((resolve, reject) => {
                 const s = document.createElement('script');
-                // Use a cache-buster to ensure the latest version is loaded
                 s.src = src + '?v=' + new Date().getTime();
                 s.onload = resolve;
                 s.onerror = () => reject(new Error(`Failed to load ${src}`));
@@ -55,13 +54,22 @@ if (typeof window.LoaderEngine === 'undefined') {
             });
         },
 
+        // FIXED: Now uses the config to find the right ID to hide
         hide() {
-            const el = document.getElementById('rmn-loader-placeholder');
-            if (el) el.style.display = 'none';
+            const containerId = config_const.COMPONENTS.LOADER.containerId;
+            const el = document.getElementById(containerId);
+            
+            if (el) {
+                el.style.display = 'none';
+                console.log(`Loader (${containerId}) hidden.`);
+            } else {
+                // Fallback for your old ID just in case
+                const fallback = document.getElementById('rmn-loader-placeholder');
+                if (fallback) fallback.style.display = 'none';
+            }
         }
     };
 
-    // Explicitly attach to window so it is globally accessible
     window.LoaderEngine = LoaderEngine;
     console.log("LoaderEngine defined successfully.");
 
