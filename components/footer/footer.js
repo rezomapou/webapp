@@ -1,3 +1,7 @@
+/**
+ * footer.js — Footer Component
+ */
+
 const FooterComponent = {
 
     async init(containerId) {
@@ -11,11 +15,10 @@ const FooterComponent = {
         const html = await this.loadHTML();
         container.innerHTML = html;
 
-        // 2. Render
-        this.render(container);
-
-        // 3. Bind
-        this.bind(container);
+        // 2. Load subcomponents (CSS + JS)
+        // If your footer has specific deps (like social icons or newsletters), 
+        // they should be defined in your config_const.
+        await this.loadDependencies();
     },
 
     async loadHTML() {
@@ -27,38 +30,50 @@ const FooterComponent = {
             return await res.text();
         } catch (e) {
             console.error('Footer HTML load failed', e);
-            return `<div data-slot="footer-root"></div>`;
+            return `<footer class="footer-error">© 2026 Fatra se Lò</footer>`;
         }
     },
 
-    render(container) {
-        const linksRoot = container.querySelector('[data-slot="footer-links"]');
-        const metaRoot = container.querySelector('[data-slot="footer-meta"]');
+    async loadDependencies() {
+        // Example: if the footer needs specific styles or scripts
+        const deps = config_const.COMPONENTS.FOOTER.dependencies || [];
 
-        if (linksRoot) {
-            const links = config_const.FOOTER_LINKS || [];
-
-            linksRoot.innerHTML = links.map(link => `
-                <div class="footer-link" data-action="${link.action}">
-                    ${Lang.get(link.key)}
-                </div>
-            `).join('');
-        }
-
-        if (metaRoot && config_const.FOOTER_META) {
-            metaRoot.innerHTML = Lang.get(config_const.FOOTER_META.key);
+        for (const dep of deps) {
+            if (dep.css) await this.loadCSS(dep.css);
+            if (dep.js) await this.loadJS(dep.js);
         }
     },
 
-    bind(container) {
-        container.querySelectorAll('.footer-link').forEach(el => {
-            el.addEventListener('click', () => {
-                const action = el.dataset.action;
+    loadCSS(href) {
+        return new Promise(resolve => {
+            if (!href || document.querySelector(`link[href="${href}"]`)) {
+                return resolve();
+            }
 
-                // Placeholder behavior (can evolve later)
-                console.log('Footer action:', action);
-            });
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href + '?v=' + new Date().getTime();
+            link.onload = resolve;
+            document.head.appendChild(link);
+        });
+    },
+
+    loadJS(src) {
+        return new Promise((resolve, reject) => {
+            if (!src || document.querySelector(`script[src^="${src}"]`)) {
+                return resolve();
+            }
+
+            const script = document.createElement('script');
+            script.src = src + '?v=' + new Date().getTime();
+            script.onload = resolve;
+            script.onerror = () => reject(new Error(`Footer dependency failed: ${src}`));
+            document.body.appendChild(script);
         });
     }
 
 };
+
+// EXPLICIT GLOBAL REGISTRATION
+window.FooterComponent = FooterComponent;
+console.log("FooterComponent registered to window.");
