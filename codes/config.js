@@ -23,14 +23,14 @@ const RMN_CONFIG = {
       js: 'components/loader/loader.js',
       css: 'components/loader/loader.css',
       html: 'components/loader/loader.html',
-      containerId: 'rmn-loader-placeholder'
+      containerId: 'loader-container'
     },
 
     LANG: {
       html: 'components/lang/lang.html',
       css: 'components/lang/lang.css',
       js: 'components/lang/lang.js',
-      containerId: 'lang-bar'
+      containerId: 'lang-container'
     },
 
     LANG_OPTIONS: [
@@ -43,14 +43,14 @@ const RMN_CONFIG = {
       html: 'components/header/header.html',
       css: 'components/header/header.css',
       js: 'components/header/header.js',
-      containerId: 'header-placeholder'
+      containerId: 'header-container'
     },
 
     NAV: {
       html: 'components/nav/nav.html',
       css: 'components/nav/nav.css',
       js: 'components/nav/nav.js',
-      containerId: 'nav-bar-container'
+      containerId: 'nav-container'
     },
 
     NAV_ITEMS: [
@@ -62,7 +62,7 @@ const RMN_CONFIG = {
       html: 'components/navstats/navstats.html',
       css: 'components/navstats/navstats.css',
       js: 'components/navstats/navstats.js',
-      containerId: 'nav-stats-container'
+      containerId: 'navstats-container'
     },
     
 NAVSTATS_DATA: [
@@ -74,19 +74,20 @@ NAVSTATS_DATA: [
       html: 'components/features/features.html',
       css: 'components/features/features.css',
       js: 'components/features/features.js',
-      containerId: 'features-placeholder'
+      containerId: 'features-container'
     },
 
     BLOCKSTATS: {
       html: 'components/blockstats/blockstats.html',
       css: 'components/blockstats/blockstats.css',
-      js: 'components/blockstats/blockstats.js'
+      js: 'components/blockstats/blockstats.js',
+      containerId: 'blockstats-container'
     },
 FOOTER: {
   html: 'components/footer/footer.html',
   css: 'components/footer/footer.css',
   js: 'components/footer/footer.js',
-  containerId: 'footer-placeholder'
+  containerId: 'footer-container'
 },
 
 FOOTER_LINKS: [
