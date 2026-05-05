@@ -3,21 +3,9 @@
  */
 const FooterComponent = {
     async init(containerId) {
-        let container = document.getElementById(containerId);
-        if (!container) {
-            await new Promise(r => setTimeout(r, 100));
-            container = document.getElementById(containerId);
-        }
-        if (!container) {
-            console.error('Footer container missing after retry:', containerId);
-            return;
-        }
-        // 1. Load HTML via config
-        const html = await this.loadHTML();
+     const html = await this.loadHTML();
         container.innerHTML = html;
-        // 2. Load subcomponents (CSS + JS)
-        await this.loadDependencies();
-        // 3. Populate the empty slots with content
+        await LoaderEngine.loadComponent(config_const.COMPONENTS.FOOTER);
         this.populateSlots(container);
     },
     async loadHTML() {
