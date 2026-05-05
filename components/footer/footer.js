@@ -5,9 +5,14 @@
 const FooterComponent = {
 
     async init(containerId) {
-        const container = document.getElementById(containerId);
+        let container = document.getElementById(containerId);
         if (!container) {
-            console.warn('Footer container missing:', containerId);
+            await new Promise(r => setTimeout(r, 100));
+            container = document.getElementById(containerId);
+        }
+
+        if (!container) {
+            console.error('Footer container missing after retry:', containerId);
             return;
         }
 
@@ -15,15 +20,12 @@ const FooterComponent = {
         const html = await this.loadHTML();
         container.innerHTML = html;
 
-        // 2. Load subcomponents (CSS + JS)
-        // If your footer has specific deps (like social icons or newsletters), 
-        // they should be defined in your config_const.
+        // 2. Load subcomponents (CSS + JS) if any defined in config
         await this.loadDependencies();
     },
 
     async loadHTML() {
         const path = config_const.COMPONENTS.FOOTER.html;
-
         try {
             const res = await fetch(path);
             if (!res.ok) throw new Error('fetch failed');
@@ -35,9 +37,7 @@ const FooterComponent = {
     },
 
     async loadDependencies() {
-        // Example: if the footer needs specific styles or scripts
         const deps = config_const.COMPONENTS.FOOTER.dependencies || [];
-
         for (const dep of deps) {
             if (dep.css) await this.loadCSS(dep.css);
             if (dep.js) await this.loadJS(dep.js);
@@ -46,10 +46,7 @@ const FooterComponent = {
 
     loadCSS(href) {
         return new Promise(resolve => {
-            if (!href || document.querySelector(`link[href="${href}"]`)) {
-                return resolve();
-            }
-
+            if (!href || document.querySelector(`link[href="${href}"]`)) return resolve();
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = href + '?v=' + new Date().getTime();
@@ -60,10 +57,7 @@ const FooterComponent = {
 
     loadJS(src) {
         return new Promise((resolve, reject) => {
-            if (!src || document.querySelector(`script[src^="${src}"]`)) {
-                return resolve();
-            }
-
+            if (!src || document.querySelector(`script[src^="${src}"]`)) return resolve();
             const script = document.createElement('script');
             script.src = src + '?v=' + new Date().getTime();
             script.onload = resolve;
@@ -71,9 +65,7 @@ const FooterComponent = {
             document.body.appendChild(script);
         });
     }
-
 };
 
-// EXPLICIT GLOBAL REGISTRATION
 window.FooterComponent = FooterComponent;
 console.log("FooterComponent registered to window.");
