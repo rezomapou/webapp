@@ -6,33 +6,30 @@
     try {
         console.log("Index.js orchestrator starting...");
 
-        // 1. Init loader
+        // Safety check for HTML containers
+        const containers = ['header-container', 'footer-container'];
+        containers.forEach(id => {
+            if (!document.getElementById(id)) {
+                console.error(`CRITICAL: Container #${id} is missing from index.html`);
+            }
+        });
+
         if (typeof LoaderEngine !== 'undefined') {
             await LoaderEngine.init();
         }
 
-        // 2. Load HEADER
         console.log("Loading Header...");
         await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
         if (window.HeaderComponent) {
-            await HeaderComponent.init(config_const.COMPONENTS.HEADER.containerId);
+            await HeaderComponent.init('header-container');
         }
 
-        // 3. NEW: Load MAIN CONTENT (e.g., Home Page)
-        // Ensure COMPONENTS.HOME is defined in your config_const
-        if (config_const.COMPONENTS.HOME) {
-            console.log("Loading Main Content...");
-            await LoaderEngine.loadComponent(config_const.COMPONENTS.HOME);
-        }
-
-        // 4. Load FOOTER
         console.log("Loading Footer...");
         await LoaderEngine.loadComponent(config_const.COMPONENTS.FOOTER);
         if (window.FooterComponent) {
-            await FooterComponent.init(config_const.COMPONENTS.FOOTER.containerId);
+            await FooterComponent.init('footer-container');
         }
 
-        // 5. Assembly complete
         console.log("Assembly complete. Hiding loader.");
         LoaderEngine.hide();
 
