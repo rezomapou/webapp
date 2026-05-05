@@ -1,9 +1,9 @@
 /**
- * langservice.js - Localization Service for Fatra se Lò
+ * langservice.js - Localization Service
  */
-console.log("lang.js file has been physically loaded by the browser");
+
 const LangService = {
-    currentLang: 'ht', // Defaulting to Kreyòl for local relevance
+    currentLang: 'ht', 
     
     dictionary: {
         'en': {
@@ -18,25 +18,15 @@ const LangService = {
         }
     },
 
-    /**
-     * Initialization method called by boot.js
-     */
     async init() {
         console.log("Initializing Language Service...");
-        // Logic for browser language detection can be added here if needed
         return true; 
     },
 
-    /**
-     * Retrieves a translated string by key
-     */
     get(key) {
         return this.dictionary[this.currentLang][key] || key;
     },
 
-    /**
-     * Switches the active language
-     */
     setLang(langCode) {
         if (this.dictionary[langCode]) {
             this.currentLang = langCode;
@@ -44,5 +34,4 @@ const LangService = {
     }
 };
 
-// Export to window so boot.js can see it globally
 window.LangService = LangService;
