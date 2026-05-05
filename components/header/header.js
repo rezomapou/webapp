@@ -34,26 +34,6 @@ const HeaderComponent = {
             await LangComponent.init('lang-container');
         }
     },
-    loadCSS(href) {
-        return new Promise(resolve => {
-            if (!href || document.querySelector(`link[href^="${href}"]`)) return resolve();
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = href + '?v=' + new Date().getTime();
-            link.onload = resolve;
-            document.head.appendChild(link);
-        });
-    },
-    loadJS(src) {
-        return new Promise((resolve, reject) => {
-            if (!src || document.querySelector(`script[src^="${src}"]`)) return resolve();
-            const script = document.createElement('script');
-            script.src = src + '?v=' + new Date().getTime();
-            script.onload = resolve;
-            script.onerror = () => reject(new Error(`Header dependency failed: ${src}`));
-            document.body.appendChild(script);
-        });
-    }
 };
 window.HeaderComponent = HeaderComponent;
 console.log("HeaderComponent registered to window.");
