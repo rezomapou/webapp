@@ -3,7 +3,13 @@
 // ============================================================
 
 const SITE_CONFIG = {
+BASE: {
+  js: 'components/base/base.js'
+},
 
+ANALYTICS: {
+  js: 'components/analytics/analytics.js'
+},
   // ── CORE PATHS ────────────────────────────────────────────
   PATHS: {
     COMPONENTS: 'components',
@@ -103,8 +109,4 @@ PLATFORMS: [
 // ── GLOBAL ALIAS (required by boot.js) ──────────────────────
 const config_const = SITE_CONFIG;
 
-// ── ANALYTICS (clean separation) ───────────────────────────
-const ANALYTICS = {
-  enabled: true,
-  endpoint: config_const.SCRIPT_URL
-};
+
