@@ -1,36 +1,89 @@
 /**
  * index.js — Main Orchestrator
  */
+// ============================================================
+// index.js — Dynamic Orchestrator (CONFIG-DRIVEN)
+// ============================================================
+
 (async function initApp() {
-    try {
-        console.log("Index.js orchestrator starting...");
-        // Tiny delay to ensure index.html containers are fully rendered
-        await new Promise(resolve => setTimeout(resolve, 50));
-        if (typeof LoaderEngine !== 'undefined') {
-            await LoaderEngine.init();
-        }
-        // 1. Load Header
-        console.log("Loading Header...");
-        await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
-        if (window.HeaderComponent) {
-            await HeaderComponent.init(config_const.COMPONENTS.HEADER.containerId);
-        }
-        // 2. Load Footer
-        console.log("Loading Footer...");
-        await LoaderEngine.loadComponent(config_const.COMPONENTS.FOOTER);
-        if (window.FooterComponent) {
-            await FooterComponent.init(config_const.COMPONENTS.FOOTER.containerId);
-        }
-        // 3. Load Features block (marketing campaign content)
-        console.log("Loading Features...");
-        await LoaderEngine.loadComponent(config_const.COMPONENTS.FEATURE_BLOCK);
-        if (window.FeaturesComponent) {
-            FeaturesComponent.init(config_const.COMPONENTS.FEATURE_BLOCK.containerId);
-        }
-        console.log("Assembly complete. Hiding loader.");
-        LoaderEngine.hide();
-    } catch (error) {
-        console.error('Assembly Error:', error);
-        if (typeof LoaderEngine !== 'undefined') LoaderEngine.hide();
+  try {
+    console.log("App starting...");
+
+    await new Promise(r => setTimeout(r, 50));
+
+    if (typeof LoaderEngine === 'undefined') {
+      throw new Error('LoaderEngine missing');
     }
+
+    const currentPage = getCurrentPage();
+    console.log("Current page:", currentPage);
+
+    const page = config_const.PAGES?.[currentPage];
+
+    if (!page) {
+      throw new Error(`Page config not found: ${currentPage}`);
+    }
+
+    track('page_view', { page: currentPage });
+
+    for (const componentName of page.components) {
+      const def = config_const.COMPONENTS[componentName];
+
+      if (!def) {
+        console.warn(`Component not defined: ${componentName}`);
+        continue;
+      }
+
+      console.log("Loading:", componentName);
+
+      const t0 = performance.now();
+
+      await LoaderEngine.loadComponent(def);
+
+      const globalName = toComponentGlobal(componentName);
+
+      if (window[globalName]?.init) {
+        await window[globalName].init(def.containerId);
+      }
+
+      track('component_loaded', {
+        component: componentName,
+        page: currentPage,
+        loadTime: Math.round(performance.now() - t0)
+      });
+    }
+
+    LoaderEngine.hide();
+
+    console.log("Page assembly complete.");
+
+  } catch (err) {
+    console.error('Assembly Error:', err);
+    if (typeof LoaderEngine !== 'undefined') LoaderEngine.hide();
+  }
+
+  // ── helpers ─────────────────────────
+
+  function getCurrentPage() {
+    const path = window.location.pathname
+      .split('/')
+      .pop()
+      .replace('.html', '');
+    return path || 'index';
+  }
+
+  function toComponentGlobal(name) {
+    return name
+      .toLowerCase()
+      .split('_')
+      .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+      .join('') + 'Component';
+  }
+
+  function track(event, data = {}) {
+    if (window.Analytics?.track) {
+      window.Analytics.track(event, data);
+    }
+  }
+
 })();
