@@ -1,13 +1,3 @@
-<div class="top-bar">
-    <div class="top-bar-inner">
-        <div class="top-bar-left">
-            <span style="font-size:0.72rem; color:rgba(255,255,255,0.5);">Rezo Mapou Nasyonal</span>
-        </div>
-        <div class="lang-bar" id="lang-container">
-            <div data-slot="lang-root"></div>
-        </div>
-    </div>
-</div>
 <nav class="nav">
     <div class="nav-inner">
         <a class="nav-brand" href="/">
@@ -15,10 +5,15 @@
                  onerror="this.style.display='none'">
             <span class="nav-name">Rezo Mapou</span>
         </a>
-        <ul class="nav-links">
-            <li><a href="#" data-i="nav_home"></a></li>
-            <li><a href="#" data-i="nav_about"></a></li>
-            <li><a href="#" data-i="nav_contact"></a></li>
-        </ul>
+        <div style="display:flex; align-items:center; gap:1.5rem;">
+            <ul class="nav-links">
+                <li><a href="#filozofi" data-i="nav_about"></a></li>
+                <li><a href="#program" data-i="nav_about"></a></li>
+                <li><a href="docs/contact.html" data-i="nav_contact"></a></li>
+            </ul>
+            <div class="lang-bar" id="lang-container">
+                <div data-slot="lang-root"></div>
+            </div>
+        </div>
     </div>
 </nav>
