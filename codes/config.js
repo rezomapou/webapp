@@ -158,7 +158,7 @@ FOOTER_META: {
   },
 
 // 🔑 CRITICAL FIX: alias expected by your app
-},
+};
 const config_const = SITE_CONFIG;
 
 const ANALYTICS = {
