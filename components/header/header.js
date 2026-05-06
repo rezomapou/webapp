@@ -1,5 +1,5 @@
 /**
- * header.js — Header Component
+ * header.js — Responsive Config-Driven Header
  */
 
 let HeaderComponent = {
@@ -18,81 +18,87 @@ let HeaderComponent = {
       return;
     }
 
-    const html = await this.loadHTML();
-    container.innerHTML = html;
+    container.innerHTML = await this.loadHTML();
 
     this.renderNav(container);
-    this.bindEvents(container);
+    this.bindHamburger(container);
 
   },
 
   async loadHTML() {
-    const path = config_const.COMPONENTS.HEADER.html;
 
     try {
-      const res = await fetch(path);
-      if (!res.ok) throw new Error('fetch failed');
+      const res = await fetch(
+        config_const.PATHS.COMPONENTS + '/' + config_const.COMPONENTS.HEADER.html
+      );
+
+      if (!res.ok) throw new Error('header fetch failed');
+
       return await res.text();
+
     } catch (e) {
-      console.error('Header HTML load failed', e);
-      return '<div class="header">RMN</div>';
+      console.error(e);
+      return `<header class="header">RMN</header>`;
     }
   },
 
   renderNav(container) {
 
-    const navItems = config_const.DATA.NAV_ITEMS || [];
+    const navItems = config_const.DATA?.NAV_ITEMS || [];
 
     const nav = container.querySelector('#nav');
     const overlay = container.querySelector('#navOverlayContent');
 
+    if (!nav || !overlay) return;
+
+    nav.innerHTML = '';
+    overlay.innerHTML = '';
+
     navItems.forEach(item => {
 
-      const el = this.createNavItem(item);
-      nav?.appendChild(el);
+      const link1 = this.createLink(item);
+      const link2 = this.createLink(item);
 
-      const el2 = this.createNavItem(item);
-      overlay?.appendChild(el2);
+      nav.appendChild(link1);
+      overlay.appendChild(link2);
 
     });
 
   },
 
-  createNavItem(item) {
+  createLink(item) {
 
     const a = document.createElement('a');
 
-    a.textContent = LangService.get(item.key);
+    a.textContent = item.key;
     a.href = item.tab + '.html';
-
-    // meaningful tracking (allowed)
-    a.addEventListener('click', () => {
-      window.Analytics?.track?.('nav_click', {
-        tab: item.tab
-      });
-    });
 
     return a;
   },
 
-  bindEvents(container) {
+  bindHamburger(container) {
 
-    const hamburger = container.querySelector('#hamburger');
+    const burger = container.querySelector('#hamburger');
     const overlay = container.querySelector('#navOverlay');
 
-    if (hamburger && overlay) {
-      hamburger.onclick = () => {
-        overlay.classList.toggle('open');
-      };
-    }
+    if (!burger || !overlay) return;
+
+    burger.addEventListener('click', () => {
+      overlay.classList.toggle('open');
+    });
+
+    // close on link click
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        overlay.classList.remove('open');
+      });
+    });
 
   }
 
 };
 
-// ✅ wrap (automatic analytics)
+// IMPORTANT: wrapper (if active)
 HeaderComponent = BaseComponent.wrap('HEADER', HeaderComponent);
 
 window.HeaderComponent = HeaderComponent;
-
-console.log("HeaderComponent registered.");
