@@ -18,7 +18,8 @@
 
         await window.LangService.init();
         console.log("Lang Service initialized successfully.");
-
+        await loadScript('codes/analytics.js');
+        
         // 2. Load LoaderEngine (The ONLY time this should be loaded)
         await loadScript(config_const.COMPONENTS.LOADER.js);
 
