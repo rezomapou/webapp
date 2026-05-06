@@ -27,7 +27,9 @@ window.HeaderComponent = {
   }
 
 };
-
+if (window.Analytics) {
+  Analytics.track('component_loaded', { component: 'HEADER' });
+}
 function createNavItem(item) {
   const a = document.createElement('a');
   a.textContent = item.key;
