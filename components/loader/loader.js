@@ -27,6 +27,7 @@ if (typeof window.LoaderEngine === 'undefined') {
                 console.warn('Component failed:', cfg, err);
             }
         },
+        // Public CSS loader — callable by components
         loadCSS(href) {
             return new Promise(resolve => {
                 if (!href || document.querySelector(`link[href^="${href}"]`)) return resolve();
