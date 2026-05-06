@@ -8,13 +8,20 @@ const FeaturesComponent = {
             console.warn('Features container not found:', containerId);
             return;
         }
-        // Render all data-i text via LangService
         this.applyLang(container);
-        // Wire up tab switching
         this.initTabs(container);
+        // Activate tab from URL hash if present
+        const hash = window.location.hash.replace('#ftab-', '');
+        if (hash && container.querySelector('#ftab-' + hash)) {
+            container.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+            container.querySelectorAll('.ftab-content').forEach(p => p.classList.remove('active'));
+            const matchTab = container.querySelector('.ftab[data-tab="' + hash + '"]');
+            const matchPanel = container.querySelector('#ftab-' + hash);
+            if (matchTab) matchTab.classList.add('active');
+            if (matchPanel) matchPanel.classList.add('active');
+        }
         console.log("FeaturesComponent initialized.");
     },
-
     applyLang(container) {
         container.querySelectorAll('[data-i]').forEach(el => {
             const key = el.getAttribute('data-i');
@@ -22,7 +29,6 @@ const FeaturesComponent = {
             if (val && val !== key) el.textContent = val;
         });
     },
-
     initTabs(container) {
         const tabs = container.querySelectorAll('.ftab');
         const panels = container.querySelectorAll('.ftab-content');
@@ -32,7 +38,7 @@ const FeaturesComponent = {
                 tabs.forEach(t => t.classList.remove('active'));
                 panels.forEach(p => p.classList.remove('active'));
                 tab.classList.add('active');
-                const panel = container.querySelector(`#ftab-${target}`);
+                const panel = container.querySelector('#ftab-' + target);
                 if (panel) panel.classList.add('active');
             });
         });
