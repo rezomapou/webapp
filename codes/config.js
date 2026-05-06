@@ -51,7 +51,13 @@ const SITE_CONFIG = {
 
   // ── DATA (kept separate to avoid loader conflicts) ────────
   DATA: {
-
+PLATFORMS: [
+  { key: 'facebook', url: 'https://facebook.com/rezomapou' },
+  { key: 'whatsapp', url: 'https://wa.me/50947334565' },
+  { key: 'instagram', url: '' },
+  { key: 'tiktok', url: '' },
+  { key: 'youtube', url: '' }
+],
     LANG_OPTIONS: [
       { code: 'ht', labelKey: 'lang_ht' },
       { code: 'fr', labelKey: 'lang_fr' },
