@@ -2,12 +2,23 @@
 // config.js — Rezo Mapou Nasyonal
 // ============================================================
 
-const RMN_CONFIG = {
+const SITE_CONFIG = {
+  PAGES: {
+    index: {
+        components: ['HEADER', 'FEATURE_BLOCK', 'BLOCKSTATS', 'FOOTER']
+    },
+    contact: {
+        components: ['HEADER', 'CONTACT_BLOCK', 'FOOTER']
+    },
+    terms: {
+        components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
+        content: 'docs/terms'
+    },
+    sitestats: {
+      components: ['HEADER', 'SITESTATS', 'FOOTER']
+    },
+  },
 
-  ANALYTICS: {
-    enabled: true,
-    endpoint: config_const.SCRIPT_URL  // reuses existing GSheets backend
-}
   // ── SETTINGS ──────────────────────────────────────────────
   SETTINGS: {
     LOADER_STYLE: 'ECO_SPINNER'
@@ -129,9 +140,14 @@ FOOTER_META: {
     TRUSTED: 1,
     ACTIVE: 2,
     RELIABLE: 3
-  }
-
+  },
+  
+  ANALYTICS: {
+    enabled: true,
+    endpoint: config_const.SCRIPT_URL  // reuses existing GSheets backend
+  },
 };
 
 // 🔑 CRITICAL FIX: alias expected by your app
-const config_const = RMN_CONFIG;
+const config_const = SITE_CONFIG;
+
