@@ -75,4 +75,39 @@ const LangService = {
             'hero_cta1': 'Register Now — Free', 'hero_cta2': 'How It Works',
             'map_eye': 'Our Symbol', 'map_title': 'Why Mapou?',
             'map_p1': 'The Mapou tree is Haiti\'s most resilient tree. It doesn\'t grow fast — it builds deep, strong roots before rising. Hurricanes cannot uproot it because no single root carries all the weight.',
-            'map_p2': 'This is the same logic we use for this network. Merchants themselves are the roots of the Haitian economy. Together, we form a network that cannot
+            'map_p2': 'This is the same logic we use for this network. Merchants themselves are the roots of the Haitian economy. Together, we form a network that cannot be uprooted.',
+            'map_dis_title': 'One thing important to state clearly:',
+            'map_dis1': 'Rezo Mapou has no religious affiliation — neither Catholic, Protestant, Vodou, nor any other belief. The mapou symbol is a natural, ecological symbol that belongs to all Haitian people.',
+            'map_dis2': 'Rezo Mapou has no political affiliation — no party, no candidate, no government. We work for merchants and communities.',
+            'map_dis3': 'Anyone, regardless of religion or political orientation — has a place in Rezo Mapou. One condition only: wanting Haiti to move forward.',
+            'prog_eye': 'Map Sipote Lakay Program', 'prog_title': 'The steps, clearly.',
+            'ven_call': 'Whether you sell water, food, or vegetables — you hold up the economy. Join Rezo Mapou and access real benefits.',
+            'st1t': 'Register — Free', 'st1d': 'Registration open from today. Free. Create your Sentinel profile.',
+            'st2t': 'A Coach Chooses You', 'st2d': 'Coaches browse profiles and can decide to support you by paying the enrollment fee.',
+            'st3t': 'Receive Monthly Support', 'st3d': 'Each month, you receive a portion of the Coach\'s payment — provided you complete 3 network activities.',
+            'c1t': '① Post on Rezo Mapou', 'c1d': 'Share a post on the Rezo Mapou page about your Coach and activities.',
+            'c2t': '② Community Activity', 'c2d': 'Participate in at least one meaningful community activity in the month.',
+            'c3t': '③ Monthly Report', 'c3d': 'Complete the network\'s monthly report.'
+        }
+    },
+
+    async init() {
+        console.log("Initializing Language Service...");
+        const stored = localStorage.getItem('rmn_lang');
+        if (stored && this.dictionary[stored]) this.currentLang = stored;
+        return true;
+    },
+
+    get(key) {
+        const lang = this.dictionary[this.currentLang];
+        return (lang && lang[key]) || key;
+    },
+
+    setLang(langCode) {
+        if (this.dictionary[langCode]) {
+            this.currentLang = langCode;
+            localStorage.setItem('rmn_lang', langCode);
+        }
+    }
+};
+window.LangService = LangService;
