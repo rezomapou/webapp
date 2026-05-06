@@ -14,11 +14,26 @@ const SITE_CONFIG = {
         components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
         content: 'docs/terms'
     },
+    copyright: {
+        components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
+        content: 'docs/copyright'
+    },
+    privacy: {
+        components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
+        content: 'docs/privacy'
+    },
+    register: {
+        components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER'],
+      
     sitestats: {
       components: ['HEADER', 'SITESTATS', 'FOOTER']
     },
-  },
-
+      
+  // folder names
+  codefolder: 'codes', 
+  componentfolder:'components',
+  docfolder: 'docs',
+      
   // ── SETTINGS ──────────────────────────────────────────────
   SETTINGS: {
     LOADER_STYLE: 'ECO_SPINNER'
