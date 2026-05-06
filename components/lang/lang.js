@@ -52,4 +52,7 @@ const LangComponent = {
         }
     }
 };
+if (window.Analytics) {
+  Analytics.track('component_loaded', { component: 'LANG' });
+}
 window.LangComponent = LangComponent;
