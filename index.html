@@ -1,82 +1,23 @@
-/**
- * index.js — Dynamic Page Orchestrator (CONFIG DRIVEN)
- */
-(async function initApp() {
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezo Mapou — Rezo Machann Nasyonal</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+    <div id="loader-container"></div>
+    <div id="header-container"></div>
+    <main id="main-content">
+        <div id="features-container"></div>
+        <div id="blockstats-container"></div>
+    </main>
+    <div id="footer-container"></div>
 
-    try {
-        console.log("Index orchestrator starting...");
-        await new Promise(r => setTimeout(r, 50));
-
-        if (typeof LoaderEngine === 'undefined') throw new Error('LoaderEngine missing');
-
-        const currentPage = getCurrentPage();
-        const pageConfig  = config_const.PAGES?.[currentPage];
-
-        if (!pageConfig) throw new Error(`Page not found in config: ${currentPage}`);
-
-        console.log("Loading page:", currentPage);
-        window.Analytics?.track?.('page_view', { page: currentPage });
-
-        // ── MAIN LOOP: CONFIG DRIVEN ──────────────────────
-        for (const componentName of pageConfig.components) {
-
-            const componentDef = config_const.COMPONENTS?.[componentName];
-
-            if (!componentDef) {
-                console.warn(`Component not in config: ${componentName} — skipping`);
-                continue;
-            }
-
-            console.log("Loading component:", componentName);
-            const t0 = performance.now();
-
-            try {
-                await LoaderEngine.loadComponent(componentDef);
-
-                const globalName = toGlobalComponentName(componentName);
-                const component  = window[globalName];
-
-                if (component?.init) {
-                    await component.init(componentDef.containerId);
-                }
-
-                window.Analytics?.track?.('component_loaded_manual', {
-                    component: componentName,
-                    page:      currentPage,
-                    loadTime:  Math.round(performance.now() - t0)
-                });
-
-            } catch (componentError) {
-                // One broken component must never block the rest
-                console.warn(`Component failed: ${componentName}`, componentError);
-                window.Analytics?.track?.('component_error', {
-                    component: componentName,
-                    error:     componentError.message
-                });
-            }
-        }
-
-    } catch (error) {
-        console.error("INDEX ERROR:", error);
-    } finally {
-        // Always hide loader — even if components fail
-        if (typeof LoaderEngine !== 'undefined') LoaderEngine.hide();
-        console.log("Page assembly complete.");
-    }
-
-    // ── HELPERS ──────────────────────────────────────────
-
-    function getCurrentPage() {
-        const path = window.location.pathname.split('/').pop().replace('.html', '');
-        return path || 'index';
-    }
-
-    function toGlobalComponentName(name) {
-        return name
-            .toLowerCase()
-            .split('_')
-            .map(s => s.charAt(0).toUpperCase() + s.slice(1))
-            .join('') + 'Component';
-    }
-
-})();
+    <script src="codes/config.js"></script>
+    <script src="codes/strings.js"></script>
+    <script src="codes/boot.js"></script>
+</body>
+</html>
