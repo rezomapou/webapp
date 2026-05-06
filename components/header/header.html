@@ -1,19 +1,28 @@
-<nav class="nav">
-    <div class="nav-inner">
-        <a class="nav-brand" href="/">
-            <img class="nav-logo" src="/images/rezo_mapou_logo.png" alt="Rezo Mapou"
-                 onerror="this.style.display='none'">
-            <span class="nav-name">Rezo Mapou</span>
-        </a>
-        <div style="display:flex; align-items:center; gap:1.5rem;">
-            <ul class="nav-links">
-                <li><a href="#ftab-filozofi" data-i="nav_about">Filozofi</a></li>
-                <li><a href="#ftab-program" data-i="nav_contact">Pwogram</a></li>
-                <li><a href="register.html" data-i="nav_home">Enskri</a></li>
-            </ul>
-            <div class="lang-bar" id="lang-container">
-                <div data-slot="lang-root"></div>
-            </div>
-        </div>
+<div id="header-container">
+  <div class="header">
+
+    <div class="logo">
+      RMN
     </div>
-</nav>
+
+    <!-- Desktop nav -->
+    <div class="nav" id="nav">
+      <!-- nav items rendered here -->
+    </div>
+
+    <!-- Right side -->
+    <div class="header-right">
+      <div id="lang-container"></div>
+
+      <div class="hamburger" id="hamburger">
+        ☰
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile overlay -->
+  <div class="nav-overlay" id="navOverlay">
+    <div class="nav-overlay-content" id="navOverlayContent"></div>
+  </div>
+</div>
