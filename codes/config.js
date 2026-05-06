@@ -100,9 +100,8 @@ const SITE_CONFIG = {
   SHEET_ID: '1-1C3v-hO7r_mACqQffAFUx0amXY1H9oJGbWRruz1JHw',
 
   ENV: 'production'
-
 },
-  window.SITE_CONFIG = SITE_CONFIG;
-  window.config_const = SITE_CONFIG;
 
 const config_const = SITE_CONFIG;
+  window.SITE_CONFIG = SITE_CONFIG;
+  window.config_const = SITE_CONFIG;
