@@ -4,31 +4,31 @@
 
 const SITE_CONFIG = {
   PAGES: {
-    index: {
-        components: ['HEADER', 'FEATURE_BLOCK', 'BLOCKSTATS', 'FOOTER']
-    },
-    contact: {
-        components: ['HEADER', 'CONTACT_BLOCK', 'FOOTER']
-    },
-    terms: {
-        components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
-        content: 'docs/terms'
-    },
-    copyright: {
-        components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
-        content: 'docs/copyright'
-    },
-    privacy: {
-        components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
-        content: 'docs/privacy'
-    },
-    register: {
-        components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER'],
-      
-    sitestats: {
-      components: ['HEADER', 'SITESTATS', 'FOOTER']
-    },
-      
+  index: {
+    components: ['HEADER', 'FEATURE_BLOCK', 'BLOCKSTATS', 'FOOTER']
+  },
+  contact: {
+    components: ['HEADER', 'CONTACT_BLOCK', 'FOOTER']
+  },
+  terms: {
+    components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
+    content: 'docs/terms'
+  },
+  copyright: {
+    components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
+    content: 'docs/copyright'
+  },
+  privacy: {
+    components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
+    content: 'docs/privacy'
+  },
+  register: {
+    components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER']
+  },
+  sitestats: {
+    components: ['HEADER', 'SITESTATS', 'FOOTER']
+  }
+},
   // folder names
   codefolder: 'codes', 
   componentfolder:'components',
@@ -156,13 +156,13 @@ FOOTER_META: {
     ACTIVE: 2,
     RELIABLE: 3
   },
-  
-  ANALYTICS: {
-    enabled: true,
-    endpoint: config_const.SCRIPT_URL  // reuses existing GSheets backend
-  },
-};
 
 // 🔑 CRITICAL FIX: alias expected by your app
+},
 const config_const = SITE_CONFIG;
+
+const ANALYTICS = {
+  enabled: true,
+  endpoint: config_const.SCRIPT_URL
+};
 
