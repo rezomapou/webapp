@@ -93,8 +93,7 @@ const SITE_CONFIG = {
   API: {
     STATS: 'https://api.fatraselo.net/v1/global-stats'
   },
-  window.SITE_CONFIG = SITE_CONFIG;
-  window.config_const = SITE_CONFIG;
+
   // ── BACKEND ───────────────────────────────────────────────
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwiXRt79QnrSbep4pDXfHQ-l9StJt61HVcJQeiNY3FCRXEffTF5mJOnVcO3ghECNqqiKg/exec',
 
@@ -102,6 +101,8 @@ const SITE_CONFIG = {
 
   ENV: 'production'
 
-};
+},
+  window.SITE_CONFIG = SITE_CONFIG;
+  window.config_const = SITE_CONFIG;
 
 const config_const = SITE_CONFIG;
