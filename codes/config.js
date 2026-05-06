@@ -1,107 +1,190 @@
 // ============================================================
-// config.js — System Configuration (CLEAN ARCHITECTURE)
+// config.js — Rezo Mapou Nasyonal
 // ============================================================
 
 const SITE_CONFIG = {
-  console.log("CONFIG LOADED");
 
-  // ── CORE PATHS ────────────────────────────────────────────
+  // ── PATHS ────────────────────────────────────────────────
   PATHS: {
     COMPONENTS: 'components',
-    CODES: 'codes',
-    STYLES: 'styles'
+    CODES:      'codes',
+    STYLES:     'styles',
+    DOCS:       'docs'
   },
 
-  // ── SETTINGS ──────────────────────────────────────────────
+  // ── SETTINGS ─────────────────────────────────────────────
   SETTINGS: {
-    LOADER_STYLE: 'ECO_SPINNER'
+    LOADER_STYLE:    'ECO_SPINNER',
+    DEFAULT_LANG:    'ht',
+    SUPPORTED_LANGS: ['ht', 'fr', 'en'],
+    LOADER_MESSAGES: { ht: 'Ap chaje...', fr: 'Chargement...', en: 'Loading...' }
   },
 
-  // ── COMPONENTS ────────────────────────────────────────────
+  // ── PAGES ────────────────────────────────────────────────
+  PAGES: {
+    index:     { components: ['HEADER', 'FEATURE_BLOCK', 'BLOCKSTATS', 'FOOTER'] },
+    contact:   { components: ['HEADER', 'CONTACT_BLOCK', 'FOOTER'] },
+    register:  { components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER'] },
+    terms:     { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'docs/terms' },
+    privacy:   { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'docs/privacy' },
+    copyright: { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'docs/copyright' },
+    sitestats: { components: ['HEADER', 'SITESTATS', 'FOOTER'] },
+    dashboard: { components: ['HEADER', 'FOOTER'] }
+  },
+
+  // ── CONTACT ──────────────────────────────────────────────
+  CONTACT: {
+    phone:    '+509 4733 4565',
+    whatsapp: '+509 4733 4565',
+    emails: [
+      { key: 'primary',     address: 'info@fatraselo.net',        active: true  },
+      { key: 'complaints',  address: 'complaints@fatraselo.net',  active: false },
+      { key: 'suggestions', address: 'suggestions@fatraselo.net', active: false }
+    ]
+  },
+
+  // ── ANALYTICS ────────────────────────────────────────────
+  ANALYTICS: {
+    enabled:   true,
+    sheet_tab: 'analytics'
+  },
+
+  // ── COMPONENTS ───────────────────────────────────────────
   COMPONENTS: {
 
-    BASECOMPONENT: {
-      js: 'basecomponent/basecomponent.js'
-    },
+    BASECOMPONENT: { js: 'basecomponent/basecomponent.js' },
 
     LOADER: {
-      js: 'loader/loader.js',
-      css: 'loader/loader.css',
-      html: 'loader/loader.html',
+      js:          'loader/loader.js',
+      css:         'loader/loader.css',
+      html:        'loader/loader.html',
       containerId: 'loader-container'
     },
 
+    LANG: {
+      html:        'lang/lang.html',
+      css:         'lang/lang.css',
+      js:          'lang/lang.js',
+      containerId: 'lang-container'
+    },
+
     HEADER: {
-      js: 'header/header.js',
-      css: 'header/header.css',
-      html: 'header/header.html',
+      html:        'header/header.html',
+      css:         'header/header.css',
+      js:          'header/header.js',
       containerId: 'header-container'
     },
 
-    FOOTER: {
-      js: 'footer/footer.js',
-      css: 'footer/footer.css',
-      html: 'footer/footer.html',
-      containerId: 'footer-container'
-    },
-
     FEATURE_BLOCK: {
-      js: 'features/features.js',
-      css: 'features/features.css',
-      html: 'features/features.html',
+      html:        'features/features.html',
+      css:         'features/features.css',
+      js:          'features/features.js',
       containerId: 'features-container'
     },
 
+    BLOCKSTATS: {
+      html:        'blockstats/blockstats.html',
+      css:         'blockstats/blockstats.css',
+      js:          'blockstats/blockstats.js',
+      containerId: 'blockstats-container'
+    },
+
+    CONTACT_BLOCK: {
+      html:        'contact/contact.html',
+      css:         'contact/contact.css',
+      js:          'contact/contact.js',
+      containerId: 'contact-container'
+    },
+
+    REGISTER_BLOCK: {
+      html:        'register/register.html',
+      css:         'register/register.css',
+      js:          'register/register.js',
+      containerId: 'register-container'
+    },
+
+    DOC_BLOCK: {
+      html:        'docblock/docblock.html',
+      css:         'docblock/docblock.css',
+      js:          'docblock/docblock.js',
+      containerId: 'doc-container'
+    },
+
+    SITESTATS: {
+      html:        'sitestats/sitestats.html',
+      css:         'sitestats/sitestats.css',
+      js:          'sitestats/sitestats.js',
+      containerId: 'sitestats-container'
+    },
+
     ANALYTICS: {
-      js: 'analytics/analytics.js',
-      css: 'analytics/analytics.css',
-      html: 'analytics/analytics.html',
+      js:          'analytics/analytics.js',
       containerId: 'analytics-container'
+    },
+
+    FOOTER: {
+      html:        'footer/footer.html',
+      css:         'footer/footer.css',
+      js:          'footer/footer.js',
+      containerId: 'footer-container'
     }
 
   },
 
-  // ── DATA (non-component logic only) ───────────────────────
+  // ── DATA ─────────────────────────────────────────────────
   DATA: {
 
     NAV_ITEMS: [
-      { key: 'nav_home', tab: 'index' },
-      { key: 'nav_contact', tab: 'contact' }
+      { key: 'nav_home',     href: '/'               },
+      { key: 'nav_about',    href: '/#ftab-filozofi' },
+      { key: 'nav_program',  href: '/#ftab-program'  },
+      { key: 'nav_register', href: '/register.html'  },
+      { key: 'nav_contact',  href: '/contact.html'   }
     ],
 
     FOOTER_LINKS: [
-      { key: 'footer_legal', action: 'legal' },
+      { key: 'footer_legal',   action: 'legal'   },
       { key: 'footer_privacy', action: 'privacy' },
-      { key: 'footer_terms', action: 'terms' }
+      { key: 'footer_terms',   action: 'terms'   }
     ],
 
-    FOOTER_META: {
-      key: 'footer_meta'
-    },
+    FOOTER_META: { key: 'footer_meta' },
 
     PLATFORMS: [
-      { key: 'facebook', url: 'https://facebook.com/rezomapou' },
-      { key: 'whatsapp', url: 'https://wa.me/50947334565' },
-      { key: 'instagram', url: '' },
-      { key: 'tiktok', url: '' },
-      { key: 'youtube', url: '' }
+      { key: 'facebook',  url: 'https://facebook.com/rezomapou' },
+      { key: 'whatsapp',  url: 'https://wa.me/50947334565'      },
+      { key: 'instagram', url: ''                                },
+      { key: 'tiktok',    url: ''                                },
+      { key: 'youtube',   url: ''                                },
+      { key: 'linkedin',  url: ''                                }
     ]
 
   },
 
-  // ── API ───────────────────────────────────────────────────
-  API: {
-    STATS: 'https://api.fatraselo.net/v1/global-stats'
-  },
+  // ── API ──────────────────────────────────────────────────
+  API: { STATS: 'https://api.fatraselo.net/v1/global-stats' },
 
-  // ── BACKEND ───────────────────────────────────────────────
+  // ── BACKEND ──────────────────────────────────────────────
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwiXRt79QnrSbep4pDXfHQ-l9StJt61HVcJQeiNY3FCRXEffTF5mJOnVcO3ghECNqqiKg/exec',
+  SHEET_ID:   '1-1C3v-hO7r_mACqQffAFUx0amXY1H9oJGbWRruz1JHw',
+  ENV:        'production',
 
-  SHEET_ID: '1-1C3v-hO7r_mACqQffAFUx0amXY1H9oJGbWRruz1JHw',
+  // ── TRUST ────────────────────────────────────────────────
+  LEVEL_KEYS:       ['RASIN', 'VERIFYE', 'REKONNET'],
+  LEVEL2_L1_VOTES:  5,
+  LEVEL2_L2_VOTES:  2,
+  LEVEL2_VWA_COUNT: 10,
 
-  ENV: 'production'
-},
+  // ── VALIDATION ───────────────────────────────────────────
+  VALIDATION_DAILY_LIMIT: 10,
+  VALIDATION_TYPES:       ['TRUSTED', 'ACTIVE', 'RELIABLE'],
+  VALIDATION_WEIGHTS:     { TRUSTED: 1, ACTIVE: 2, RELIABLE: 3 },
 
-const config_const = SITE_CONFIG;
-  window.SITE_CONFIG = SITE_CONFIG;
-  window.config_const = SITE_CONFIG;
+  // ── LOCALSTORAGE ─────────────────────────────────────────
+  LOCALSTORAGE_LANG_KEY: 'rmn_lang'
+
+};
+
+window.SITE_CONFIG  = SITE_CONFIG;
+window.config_const = SITE_CONFIG;
+const config_const  = SITE_CONFIG;
