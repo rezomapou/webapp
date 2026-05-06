@@ -1,67 +1,49 @@
-/**
- * footer.js — Config Driven Footer
- */
+/* Footer layout handled by style.css .footer-inner, .footer-links, .footer-copy */
 
-const FooterComponent = {
+.footer-platforms {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
 
-  async init(containerId) {
+.footer-platforms a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.2s;
+    text-decoration: none;
+}
 
-    let container = document.getElementById(containerId);
+.footer-platforms a:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    text-decoration: none;
+}
 
-    if (!container) {
-      await new Promise(r => setTimeout(r, 100));
-      container = document.getElementById(containerId);
-    }
+.footer-platforms svg {
+    width: 15px;
+    height: 15px;
+    fill: rgba(255,255,255,0.65);
+}
 
-    if (!container) return;
+.footer-platforms a:hover svg { fill: var(--earth); }
 
-    container.innerHTML = await this.loadHTML();
+.footer-legal-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
 
-    this.renderPlatforms(container);
+.footer-legal-links a {
+    font-size: 0.78rem;
+    color: var(--gold);
+    text-decoration: none;
+}
 
-  },
-
-  async loadHTML() {
-
-    try {
-      const res = await fetch(
-        config_const.PATHS.COMPONENTS + '/' + config_const.COMPONENTS.FOOTER.html
-      );
-
-      if (!res.ok) throw new Error();
-
-      return await res.text();
-
-    } catch (e) {
-      return `<footer>RMN</footer>`;
-    }
-  },
-
-  renderPlatforms(container) {
-
-    const slot = container.querySelector('[data-slot="footer-links"]');
-
-    if (!slot) return;
-
-    const platforms = config_const.DATA?.PLATFORMS || [];
-
-    slot.innerHTML = '';
-
-    platforms
-      .filter(p => p.url)
-      .forEach(p => {
-
-        const a = document.createElement('a');
-        a.href = p.url;
-        a.textContent = p.key;
-        a.target = '_blank';
-
-        slot.appendChild(a);
-      });
-  }
-
-};
-
-FooterComponent = BaseComponent.wrap('FOOTER', FooterComponent);
-
-window.FooterComponent = FooterComponent;
+.footer-legal-links a:hover { text-decoration: underline; }
