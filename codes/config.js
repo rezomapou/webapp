@@ -4,6 +4,10 @@
 
 const RMN_CONFIG = {
 
+  ANALYTICS: {
+    enabled: true,
+    endpoint: config_const.SCRIPT_URL  // reuses existing GSheets backend
+}
   // ── SETTINGS ──────────────────────────────────────────────
   SETTINGS: {
     LOADER_STYLE: 'ECO_SPINNER'
