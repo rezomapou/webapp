@@ -11,8 +11,10 @@ const HeaderComponent = {
         }
         const html = await this.loadHTML();
         container.innerHTML = html;
-        await LoaderEngine.loadComponent(config_const.COMPONENTS.HEADER);
+        // Load CSS only — do not re-inject HTML via loadComponent
+        await LoaderEngine.loadCSS(config_const.COMPONENTS.HEADER.css);
         await this.populateSlots(container);
+        console.log("HeaderComponent initialized.");
     },
     async loadHTML() {
         const path = config_const.COMPONENTS.HEADER.html;
@@ -22,16 +24,14 @@ const HeaderComponent = {
             return await res.text();
         } catch (e) {
             console.error('Header HTML load failed', e);
-            return `<div class="top-bar"></div><nav class="nav"><div class="nav-inner"><span class="nav-name">Rezo Mapou</span></div></nav>`;
+            return `<div class="top-bar"><div class="top-bar-inner"><div class="top-bar-left"></div><div class="lang-bar" id="lang-container"><div data-slot="lang-root"></div></div></div></div><nav class="nav"><div class="nav-inner"><span class="nav-name">Rezo Mapou</span></div></nav>`;
         }
     },
     async populateSlots(container) {
-        // Apply nav link translations
         container.querySelectorAll('[data-i]').forEach(el => {
             const val = LangService.get(el.getAttribute('data-i'));
             if (val) el.textContent = val;
         });
-        // Init lang bar
         if (window.LangComponent) {
             await LangComponent.init('lang-container');
         }
