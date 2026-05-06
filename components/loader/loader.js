@@ -1,24 +1,21 @@
 /**
  * loader.js — LoaderEngine
- * Paths in config are relative to PATHS.COMPONENTS
- * LoaderEngine prepends the prefix automatically
  */
 if (typeof window.LoaderEngine === 'undefined') {
 
     const LoaderEngine = {
 
-        _prefix() {
-            return (config_const.PATHS?.COMPONENTS || 'components') + '/';
+        _pre() {
+            return (config_const?.PATHS?.COMPONENTS || 'components') + '/';
         },
 
         async init() {
-            const cfg = config_const.COMPONENTS.LOADER;
-            await this.loadComponent(cfg);
+            await this.loadComponent(config_const.COMPONENTS.LOADER);
         },
 
         async loadComponent(cfg) {
             if (!cfg) return;
-            const pre = this._prefix();
+            const pre = this._pre();
             const html = cfg.html ? pre + cfg.html : null;
             const css  = cfg.css  ? pre + cfg.css  : null;
             const js   = cfg.js   ? pre + cfg.js   : null;
@@ -62,7 +59,9 @@ if (typeof window.LoaderEngine === 'undefined') {
         },
 
         hide() {
-            const el = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
+            const el = document.getElementById(
+                config_const?.COMPONENTS?.LOADER?.containerId || 'loader-container'
+            );
             if (el) {
                 el.style.display = 'none';
                 console.log('Loader hidden.');
