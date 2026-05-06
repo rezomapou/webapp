@@ -1,52 +1,22 @@
 // ============================================================
-// config.js — Rezo Mapou Nasyonal
+// config.js — Rezo Mapou Nasyonal (CLEAN BASELINE)
 // ============================================================
 
 const SITE_CONFIG = {
-  PAGES: {
-  index: {
-    components: ['HEADER', 'FEATURE_BLOCK', 'BLOCKSTATS', 'FOOTER']
+
+  // ── CORE PATHS ────────────────────────────────────────────
+  PATHS: {
+    COMPONENTS: 'components',
+    CODES: 'codes',
+    STYLES: 'styles'
   },
-  contact: {
-    components: ['HEADER', 'CONTACT_BLOCK', 'FOOTER']
-  },
-  terms: {
-    components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
-    content: 'docs/terms'
-  },
-  copyright: {
-    components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
-    content: 'docs/copyright'
-  },
-  privacy: {
-    components: ['HEADER', 'DOC_BLOCK', 'FOOTER'],
-    content: 'docs/privacy'
-  },
-  register: {
-    components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER']
-  },
-  sitestats: {
-    components: ['HEADER', 'SITESTATS', 'FOOTER']
-  }
-},
-  // folder names
-  codefolder: 'codes', 
-  componentfolder:'components',
-  docfolder: 'docs',
-      
+
   // ── SETTINGS ──────────────────────────────────────────────
   SETTINGS: {
     LOADER_STYLE: 'ECO_SPINNER'
   },
 
-  // ── PATHS ────────────────────────────────────────────────
-  PATHS: {
-    COMPONENTS: 'components',
-    STYLES: 'styles',
-    CODES: 'codes'
-  },
-
-  // ── COMPONENTS ───────────────────────────────────────────
+  // ── COMPONENT DEFINITIONS (STRICT: components only) ───────
   COMPONENTS: {
 
     LOADER: {
@@ -56,19 +26,6 @@ const SITE_CONFIG = {
       containerId: 'loader-container'
     },
 
-    LANG: {
-      html: 'components/lang/lang.html',
-      css: 'components/lang/lang.css',
-      js: 'components/lang/lang.js',
-      containerId: 'lang-container'
-    },
-
-    LANG_OPTIONS: [
-  { code: 'ht', labelKey: 'lang_ht' },
-  { code: 'fr', labelKey: 'lang_fr' },
-  { code: 'en', labelKey: 'lang_en' }
-],
-    
     HEADER: {
       html: 'components/header/header.html',
       css: 'components/header/header.css',
@@ -76,30 +33,6 @@ const SITE_CONFIG = {
       containerId: 'header-container'
     },
 
-    NAV: {
-      html: 'components/nav/nav.html',
-      css: 'components/nav/nav.css',
-      js: 'components/nav/nav.js',
-      containerId: 'nav-container'
-    },
-
-    NAV_ITEMS: [
-  { key: 'nav_home', tab: 'home' },
-  { key: 'nav_about', tab: 'about' },
-  { key: 'nav_contact', tab: 'contact' }
-],
-    NAVSTATS: {
-      html: 'components/navstats/navstats.html',
-      css: 'components/navstats/navstats.css',
-      js: 'components/navstats/navstats.js',
-      containerId: 'navstats-container'
-    },
-    
-NAVSTATS_DATA: [
-  { key: 'stat_members', value: 128 },
-  { key: 'stat_actions', value: 54 },
-  { key: 'stat_points', value: 876 }
-],
     FEATURE_BLOCK: {
       html: 'components/features/features.html',
       css: 'components/features/features.css',
@@ -107,28 +40,46 @@ NAVSTATS_DATA: [
       containerId: 'features-container'
     },
 
-    BLOCKSTATS: {
-      html: 'components/blockstats/blockstats.html',
-      css: 'components/blockstats/blockstats.css',
-      js: 'components/blockstats/blockstats.js',
-      containerId: 'blockstats-container'
-    },
-FOOTER: {
-  html: 'components/footer/footer.html',
-  css: 'components/footer/footer.css',
-  js: 'components/footer/footer.js',
-  containerId: 'footer-container'
-},
+    FOOTER: {
+      html: 'components/footer/footer.html',
+      css: 'components/footer/footer.css',
+      js: 'components/footer/footer.js',
+      containerId: 'footer-container'
+    }
 
-FOOTER_LINKS: [
-  { key: 'footer_legal', action: 'legal' },
-  { key: 'footer_privacy', action: 'privacy' },
-  { key: 'footer_terms', action: 'terms' }
-],
+  },
 
-FOOTER_META: {
-  key: 'footer_meta'
-},
+  // ── DATA (kept separate to avoid loader conflicts) ────────
+  DATA: {
+
+    LANG_OPTIONS: [
+      { code: 'ht', labelKey: 'lang_ht' },
+      { code: 'fr', labelKey: 'lang_fr' },
+      { code: 'en', labelKey: 'lang_en' }
+    ],
+
+    NAV_ITEMS: [
+      { key: 'nav_home', tab: 'home' },
+      { key: 'nav_about', tab: 'about' },
+      { key: 'nav_contact', tab: 'contact' }
+    ],
+
+    NAVSTATS_DATA: [
+      { key: 'stat_members', value: 128 },
+      { key: 'stat_actions', value: 54 },
+      { key: 'stat_points', value: 876 }
+    ],
+
+    FOOTER_LINKS: [
+      { key: 'footer_legal', action: 'legal' },
+      { key: 'footer_privacy', action: 'privacy' },
+      { key: 'footer_terms', action: 'terms' }
+    ],
+
+    FOOTER_META: {
+      key: 'footer_meta'
+    }
+
   },
 
   // ── API ──────────────────────────────────────────────────
@@ -139,30 +90,15 @@ FOOTER_META: {
   // ── BACKEND ──────────────────────────────────────────────
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwiXRt79QnrSbep4pDXfHQ-l9StJt61HVcJQeiNY3FCRXEffTF5mJOnVcO3ghECNqqiKg/exec',
   SHEET_ID: '1-1C3v-hO7r_mACqQffAFUx0amXY1H9oJGbWRruz1JHw',
-  ENV: 'production',
+  ENV: 'production'
 
-  // ── TRUST LEVELS ─────────────────────────────────────────
-  LEVEL_KEYS: ['RASIN', 'VERIFYE', 'REKONNET'],
-
-  LEVEL2_L1_VOTES: 5,
-  LEVEL2_L2_VOTES: 2,
-  LEVEL2_VWA_COUNT: 10,
-
-  // ── VALIDATION ───────────────────────────────────────────
-  VALIDATION_DAILY_LIMIT: 10,
-  VALIDATION_TYPES: ['TRUSTED', 'ACTIVE', 'RELIABLE'],
-  VALIDATION_WEIGHTS: {
-    TRUSTED: 1,
-    ACTIVE: 2,
-    RELIABLE: 3
-  },
-
-// 🔑 CRITICAL FIX: alias expected by your app
 };
+
+// ── GLOBAL ALIAS (required by boot.js) ──────────────────────
 const config_const = SITE_CONFIG;
 
+// ── ANALYTICS (clean separation) ───────────────────────────
 const ANALYTICS = {
   enabled: true,
   endpoint: config_const.SCRIPT_URL
 };
-
