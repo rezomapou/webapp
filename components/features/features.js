@@ -44,5 +44,8 @@ const FeaturesComponent = {
         });
     }
 };
+if (window.Analytics) {
+  Analytics.track('component_loaded', { component: 'FEATURES' });
+}
 window.FeaturesComponent = FeaturesComponent;
 console.log("FeaturesComponent registered to window.");
