@@ -3,7 +3,9 @@
 // ============================================================
 
 const SITE_CONFIG = {
-
+  console.log("CONFIG LOADED");
+  window.SITE_CONFIG = SITE_CONFIG;
+  window.config_const = SITE_CONFIG;
   // ── CORE PATHS ────────────────────────────────────────────
   PATHS: {
     COMPONENTS: 'components',
