@@ -1,38 +1,39 @@
 /**
- * LoaderEngine — Core Component Loader
+ * loader.js — LoaderEngine
+ * Paths in config are relative to PATHS.COMPONENTS
+ * LoaderEngine prepends the prefix automatically
  */
-
 if (typeof window.LoaderEngine === 'undefined') {
 
     const LoaderEngine = {
 
+        _prefix() {
+            return (config_const.PATHS?.COMPONENTS || 'components') + '/';
+        },
+
         async init() {
-            await this.loadComponent(config_const.COMPONENTS.LOADER);
+            const cfg = config_const.COMPONENTS.LOADER;
+            await this.loadComponent(cfg);
         },
 
         async loadComponent(cfg) {
             if (!cfg) return;
-
-            const { html, css, js, containerId } = cfg;
+            const pre = this._prefix();
+            const html = cfg.html ? pre + cfg.html : null;
+            const css  = cfg.css  ? pre + cfg.css  : null;
+            const js   = cfg.js   ? pre + cfg.js   : null;
+            const { containerId } = cfg;
 
             try {
-
-                // HTML
                 if (html && containerId) {
                     const res = await fetch(html);
                     if (res.ok) {
-                        const content = await res.text();
                         const el = document.getElementById(containerId);
-                        if (el) el.innerHTML = content;
+                        if (el) el.innerHTML = await res.text();
                     }
                 }
-
-                // CSS
                 if (css) await this.loadCSS(css);
-
-                // JS
-                if (js) await this.loadScript(js);
-
+                if (js)  await this.loadScript(js);
             } catch (err) {
                 console.warn('Component failed:', cfg, err);
             }
@@ -40,13 +41,9 @@ if (typeof window.LoaderEngine === 'undefined') {
 
         loadCSS(href) {
             return new Promise(resolve => {
-
-                if (!href || document.querySelector(`link[href^="${href}"]`)) {
-                    return resolve();
-                }
-
+                if (!href || document.querySelector(`link[href^="${href}"]`)) return resolve();
                 const link = document.createElement('link');
-                link.rel = 'stylesheet';
+                link.rel  = 'stylesheet';
                 link.href = href + '?v=' + Date.now();
                 link.onload = resolve;
                 document.head.appendChild(link);
@@ -55,26 +52,20 @@ if (typeof window.LoaderEngine === 'undefined') {
 
         loadScript(src) {
             return new Promise((resolve, reject) => {
-
-                if (!src || document.querySelector(`script[src^="${src}"]`)) {
-                    return resolve();
-                }
-
+                if (!src || document.querySelector(`script[src^="${src}"]`)) return resolve();
                 const s = document.createElement('script');
                 s.src = src + '?v=' + Date.now();
                 s.onload = resolve;
-                s.onerror = () => reject(new Error(`Failed to load ${src}`));
+                s.onerror = () => reject(new Error(`Failed: ${src}`));
                 document.body.appendChild(s);
             });
         },
 
         hide() {
-            const containerId = config_const.COMPONENTS.LOADER.containerId;
-            const el = document.getElementById(containerId);
-
+            const el = document.getElementById(config_const.COMPONENTS.LOADER.containerId);
             if (el) {
                 el.style.display = 'none';
-                console.log(`Loader (${containerId}) hidden.`);
+                console.log('Loader hidden.');
             }
         }
     };
@@ -83,5 +74,5 @@ if (typeof window.LoaderEngine === 'undefined') {
     console.log("LoaderEngine defined successfully.");
 
 } else {
-    console.log("LoaderEngine already exists; skipping re-declaration.");
+    console.log("LoaderEngine already exists.");
 }
