@@ -48,5 +48,8 @@ const FooterComponent = {
         console.log("Footer content populated into slots.");
     }
 };
+if (window.Analytics) {
+  Analytics.track('component_loaded', { component: 'FOOTER' });
+}
 window.FooterComponent = FooterComponent;
 console.log("FooterComponent registered to window.");
