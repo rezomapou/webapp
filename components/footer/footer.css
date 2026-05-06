@@ -1,1 +1,50 @@
-/* Footer layout fully handled by style.css .footer-inner, .footer-links, .footer-copy */
+/* Footer layout handled by style.css .footer-inner, .footer-links, .footer-copy */
+
+.footer-platforms {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.footer-platforms a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.footer-platforms a:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    text-decoration: none;
+}
+
+.footer-platforms svg {
+    width: 15px;
+    height: 15px;
+    fill: rgba(255,255,255,0.65);
+}
+
+.footer-platforms a:hover svg { fill: var(--earth); }
+
+.footer-legal-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.footer-legal-links a {
+    font-size: 0.78rem;
+    color: var(--gold);
+    text-decoration: none;
+}
+
+.footer-legal-links a:hover { text-decoration: underline; }
+
