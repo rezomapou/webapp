@@ -57,8 +57,12 @@ if (typeof window.LoaderEngine === 'undefined') {
             }
         }
     };
+
     window.LoaderEngine = LoaderEngine;
     console.log("LoaderEngine defined successfully.");
 } else {
     console.log("LoaderEngine already exists; skipping re-declaration.");
-}
+},
+    if (window.Analytics) {
+  Analytics.track('component_loaded', { component: 'LOADER' });
+  }
