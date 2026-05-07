@@ -1,4 +1,4 @@
-/* Footer layout handled by style.css .footer-inner, .footer-links, .footer-copy */
+/* footer.css — extends style.css .footer-inner */
 
 .footer-platforms {
     display: flex;
@@ -38,12 +38,17 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-bottom: 0.5rem;
 }
 
 .footer-legal-links a {
     font-size: 0.78rem;
     color: var(--gold);
     text-decoration: none;
+    transition: opacity 0.2s;
 }
 
-.footer-legal-links a:hover { text-decoration: underline; }
+.footer-legal-links a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
