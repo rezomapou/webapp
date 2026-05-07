@@ -22,7 +22,7 @@ const SITE_CONFIG = {
 
   // ── PAGES ────────────────────────────────────────────────
   PAGES: {
-    index:     { components: ['HEADER', 'FEATURE_BLOCK', 'BLOCKSTATS', 'FOOTER'] },
+    index:     { components: ['HEADER', 'FEATURE_BLOCK', 'FOOTER'] },
     contact:   { components: ['HEADER', 'CONTACT_BLOCK', 'FOOTER'] },
     register:  { components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER'] },
     terms:     { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'docs/terms' },
