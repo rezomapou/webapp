@@ -1,2 +1,27 @@
-/* Lang button styles handled by style.css .lang-bar and .lang-btn classes.
-   No overrides needed here. */
+.lang-bar {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.lang-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.7);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--earth);
+}
