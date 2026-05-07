@@ -1041,8 +1041,8 @@ footer_meta: "© Rezo Mapou Network",
  * Returns the current language from localStorage, defaulting to config default.
  */
 function getCurrentLang() {
-  return localStorage.getItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY)
-    || RMN_CONFIG.DEFAULT_LANG;
+  return localStorage.getItem(config_const.LOCALSTORAGE_LANG_KEY)
+    || config_const.DEFAULT_LANG;
 };
 
 /**
@@ -1055,10 +1055,10 @@ function L(lang, pageKey) {
   pageKey = pageKey || 'home';
 
   // Persist to localStorage
-  localStorage.setItem(RMN_CONFIG.LOCALSTORAGE_LANG_KEY, lang);
+  localStorage.setItem(config_const.LOCALSTORAGE_LANG_KEY, lang);
 
-  const t  = STRINGS[lang]  || STRINGS[RMN_CONFIG.DEFAULT_LANG];
-  const s  = SEO[lang]      || SEO[RMN_CONFIG.DEFAULT_LANG];
+  const t  = STRINGS[lang]  || STRINGS[config_const.DEFAULT_LANG];
+  const s  = SEO[lang]      || SEO[config_const.DEFAULT_LANG];
   const pg = s[pageKey]     || s.home;
 
   // Update all [data-s] elements
@@ -1114,7 +1114,7 @@ function _setMeta(name, content, isProperty = false) {
  */
 function s(key) {
   const lang = getCurrentLang();
-  const t = STRINGS[lang] || STRINGS[RMN_CONFIG.DEFAULT_LANG];
+  const t = STRINGS[lang] || STRINGS[config_const.DEFAULT_LANG];
   return t[key] || key;
 };
 
@@ -1281,7 +1281,7 @@ async function sendFakeMember(isCoachType) {
   const params = new URLSearchParams();
   Object.entries(data).forEach(([k, v]) => params.append(k, String(v)));
   try {
-    await fetch(RMN_CONFIG.SCRIPT_URL, {
+    await fetch(config_const.SCRIPT_URL, {
       method: 'POST',
       body:   params,
       mode:   'no-cors',
@@ -1299,7 +1299,7 @@ async function sendFakeMember(isCoachType) {
  */
 async function autoSeed() {
   if (Math.random() >= STRINGS.SEED_PROBABILITY) return;
-  const isCoach = Math.random() < RMN_CONFIG.SEED_COACH_PROBABILITY;
+  const isCoach = Math.random() < config_const.SEED_COACH_PROBABILITY;
   await sendFakeMember(isCoach);
   await new Promise(r => setTimeout(r, 1500));
 };
@@ -1324,13 +1324,13 @@ function legalRouter(page) {
  */
 function platformLabel(key) {
   const lang = getCurrentLang();
-  const t = STRINGS[lang] || STRINGS[RMN_CONFIG.DEFAULT_LANG];
+  const t = STRINGS[lang] || STRINGS[config_const.DEFAULT_LANG];
   const labelKey = 'plt_' + key.toLowerCase();
   return t[labelKey] || key;
 };
 
 /**
- * Returns the icon for a platform key from RMN_CONFIG.PLATFORMS.
+ * Returns the icon for a platform key from config_const.PLATFORMS.
  */
 function platformIcon(key) {
   const p = STRINGS.PLATFORMS.find(pl => pl.key === key);
@@ -1358,7 +1358,7 @@ function switchLang(lang) {
     L(lang, pageKey);
   }
 
-  // Use config_const instead of RMN_CONFIG to match your config.js
+  // Use config_const instead of config_const to match your config.js
   const storageKey = (typeof config_const !== 'undefined') ? config_const.LOCALSTORAGE_LANG_KEY : 'rmn_lang';
   localStorage.setItem(storageKey, lang);
 
