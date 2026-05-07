@@ -1,22 +1,14 @@
-<nav class="nav">
-    <div class="nav-inner">
-        <a class="nav-brand" href="/">
-            <img class="nav-logo" src="/images/rezo_mapou_logo.png" alt="Rezo Mapou"
-                 onerror="this.style.display='none'">
-            <span class="nav-name">Rezo Mapou</span>
-        </a>
-        <div class="header-right">
-            <div id="lang-container"></div>
-            <button id="hamburger" aria-label="Menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
+<header class="header">
+    <a class="nav-brand" href="/">
+        <img class="nav-logo" src="/images/rezo_mapou_logo.png" alt="Rezo Mapou"
+             onerror="this.style.display='none'">
+        <span class="nav-name">Rezo Mapou</span>
+    </a>
+    <nav id="nav"></nav>
+    <div class="header-right">
+        <div id="lang-container"></div>
+        <button id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
     </div>
-</nav>
-
-<!-- Overlay -->
-<div id="navOverlay" aria-hidden="true">
-    <div id="navOverlayContent"></div>
-    <div id="nav-overlay-platforms"></div>
-</div>
-<div id="nav-backdrop"></div>
+</header>
