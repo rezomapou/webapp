@@ -1,0 +1,69 @@
+.doc-block {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+}
+
+.doc-block h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+}
+
+.doc-block h2 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin: 2rem 0 0.6rem;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+}
+
+.doc-block p {
+    color: var(--muted);
+    font-weight: 300;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+.doc-block ul {
+    list-style: none;
+    margin: 0 0 1rem;
+}
+
+.doc-block ul li {
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+    padding: 4px 0 4px 1.25rem;
+    position: relative;
+    line-height: 1.7;
+}
+
+.doc-block ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+}
+
+.doc-block .doc-meta {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.doc-block a {
+    color: var(--forest);
+}
+
+.doc-loading {
+    color: var(--muted);
+    font-size: 0.9rem;
+    padding: 2rem 0;
+}
