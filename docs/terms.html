@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rezo Mapou Nasyonal</title>
-  <meta name="robots" content="noindex">
-<script src="/codes/config.js"></script>
-<script src="/codes/strings.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezo Mapou Nasyonal</title>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="/styles/style.css">
+    <script src="/codes/config.js"></script>
+    <script src="/codes/strings.js"></script>
 </head>
 <body>
-<script>
-  // Router — reads localStorage lang and redirects to monolingual file
-  document.addEventListener('DOMContentLoaded', () => {
-    legalRouter('terms');
-  });
-</script>
+    <div id="loader-container"></div>
+    <div id="header-container"></div>
+    <main id="main-content">
+        <div id="doc-container"></div>
+    </main>
+    <div id="footer-container"></div>
+    <script src="/codes/boot.js"></script>
 </body>
 </html>
