@@ -1,6 +1,6 @@
 /**
  * header.js — Header + Overlay Nav
- * Overlay injected into document.body — NOT inside header element
+ * Overlay injected into document.body, NOT inside header element
  */
 
 let HeaderComponent = {
@@ -13,26 +13,14 @@ let HeaderComponent = {
         }
         if (!container) { console.error('Header container missing'); return; }
 
-        // Load and inject header HTML
         container.innerHTML = await this.loadHTML();
-
-        // Load header CSS
         await LoaderEngine.loadCSS(
             config_const.PATHS.COMPONENTS + '/' + config_const.COMPONENTS.HEADER.css
         );
-
-        // Inject overlay into body (NOT inside header)
         this.injectOverlay();
-
-        // Render nav links from config
         this.renderNav();
-
-        // Init lang buttons
         await this.initLang();
-
-        // Bind hamburger
         this.bindHamburger();
-
         console.log("HeaderComponent initialized.");
     },
 
@@ -54,7 +42,6 @@ let HeaderComponent = {
     },
 
     injectOverlay() {
-        // Remove any existing overlay first
         document.getElementById('navOverlay')?.remove();
         document.getElementById('nav-backdrop')?.remove();
 
@@ -64,15 +51,14 @@ let HeaderComponent = {
 
         const overlay = document.createElement('div');
         overlay.id = 'navOverlay';
-        overlay.setAttribute('aria-hidden', 'true');
+        overlay.setAttribute('inert', '');
         overlay.innerHTML = `
-            <button id="nav-overlay-close" aria-label="Ferme">&#x2715;</button>
+            <button id="nav-overlay-close" aria-label="Ferme menu">&#x2715;</button>
             <div id="navOverlayContent"></div>
             <div id="nav-overlay-platforms"></div>
         `;
         document.body.appendChild(overlay);
 
-        // Render overlay nav links
         this.renderOverlayNav();
         this.renderOverlayPlatforms();
     },
@@ -108,9 +94,9 @@ let HeaderComponent = {
 
     async initLang() {
         const pre = config_const.PATHS.COMPONENTS + '/';
-        const langCfg = config_const.COMPONENTS.LANG;
-        await LoaderEngine.loadCSS(pre + langCfg.css);
-        await LoaderEngine.loadScript(pre + langCfg.js);
+        const cfg = config_const.COMPONENTS.LANG;
+        await LoaderEngine.loadCSS(pre + cfg.css);
+        await LoaderEngine.loadScript(pre + cfg.js);
         if (window.LangComponent) {
             await LangComponent.init('lang-container');
         }
@@ -124,19 +110,23 @@ let HeaderComponent = {
         if (!burger || !overlay) return;
 
         const open = () => {
+            overlay.removeAttribute('inert');
             overlay.classList.add('open');
-            overlay.setAttribute('aria-hidden', 'false');
             burger.classList.add('open');
             backdrop?.classList.add('visible');
             document.body.style.overflow = 'hidden';
+            // Move focus into overlay
+            setTimeout(() => closeBtn?.focus(), 50);
         };
 
         const close = () => {
+            overlay.setAttribute('inert', '');
             overlay.classList.remove('open');
-            overlay.setAttribute('aria-hidden', 'true');
             burger.classList.remove('open');
             backdrop?.classList.remove('visible');
             document.body.style.overflow = '';
+            // Return focus to hamburger
+            burger.focus();
         };
 
         burger.addEventListener('click', open);
