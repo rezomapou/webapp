@@ -87,7 +87,34 @@ const LangService = {
             st3t: 'Receive Monthly Support', st3d: "Each month, you receive a portion of the Coach's payment — provided you complete 3 network activities.",
             c1t: '① Post on Rezo Mapou', c1d: 'Share a post on the Rezo Mapou page about your Coach and activities.',
             c2t: '② Community Activity', c2d: 'Participate in at least one meaningful community activity in the month.',
-            c3t: '③ Monthly Report', c3d: "Complete the network's monthly report."
+            c3t: '③ Monthly Report', c3d: "Complete the network's monthly report.",
+            doc_terms_title: 'Terms of Use',
+            doc_terms_meta: 'Last updated: April 2026',
+            doc_terms_h1: '1. Acceptance', doc_terms_p1: 'By using fatraselo.net or registering with RMN, you accept these terms.',
+            doc_terms_h2: '2. Purpose', doc_terms_p2: 'This site provides information about FSL and RMN and allows registration.',
+            doc_terms_h3: '3. Registration', doc_terms_p3: 'By registering, you confirm your information is accurate and you are over 16.',
+            doc_terms_h4: '4. Conduct', doc_terms_p4: 'Members agree to respect other members and not misuse the RMN brand.',
+            doc_terms_h5: '5. Liability', doc_terms_p5: 'RMN is not liable for damages arising from use of this site.',
+            doc_terms_h6: '6. Changes', doc_terms_p6: 'We reserve the right to modify these terms at any time.',
+            doc_terms_h7: '7. Governing Law', doc_terms_p7: 'These terms are governed by the laws of the Republic of Haiti.',
+            doc_terms_h8: '8. Contact', doc_terms_p8: 'Email: info@fatraselo.net · WhatsApp: +509 4733 4565',
+            doc_privacy_title: 'Privacy Policy',
+            doc_privacy_meta: 'Last updated: April 2026',
+            doc_privacy_h1: '1. Data collected', doc_privacy_p1: 'We collect: name, email, phone, department, commune.',
+            doc_privacy_h2: '2. Purpose', doc_privacy_p2: 'We use your data to contact you about network activities.',
+            doc_privacy_h3: '3. Protection', doc_privacy_p3: 'Data is stored on secured Google Sheets.',
+            doc_privacy_h4: '4. Retention', doc_privacy_p4: 'We keep your data while the network is active.',
+            doc_privacy_h5: '5. Your rights', doc_privacy_p5: 'You may request copy, correction or deletion of your data.',
+            doc_privacy_h6: '6. Cookies', doc_privacy_p6: 'This site does not use tracking cookies.',
+            doc_privacy_h7: '7. Contact', doc_privacy_p7: 'Email: info@fatraselo.net',
+            doc_copyright_title: 'Copyright',
+            doc_copyright_meta: '© 2026 Rezo Mapou Nasyonal',
+            doc_copyright_h1: '1. Ownership', doc_copyright_p1: 'All content on fatraselo.net is the exclusive property of RMN.',
+            doc_copyright_h2: '2. Trademarks', doc_copyright_p2: 'The FSL and RMN logos are registered trademarks.',
+            doc_copyright_h3: '3. Restrictions', doc_copyright_p3: 'You may not copy or use logos without written permission.',
+            doc_copyright_h4: '4. Permitted use', doc_copyright_p4: 'You may share site links with clear attribution.',
+            doc_copyright_h5: '5. User content', doc_copyright_p5: 'By submitting content, you grant RMN a license to use it.',
+            doc_copyright_h6: '6. Contact', doc_copyright_p6: 'Email: info@fatraselo.net',
         }
     },
 
@@ -111,3 +138,7 @@ const LangService = {
     }
 };
 window.LangService = LangService;
+
+// Note: doc content keys appended below
+// These are added to the existing dictionary in langservice.js
+// Paste these into each language block manually, or replace langservice.js entirely
