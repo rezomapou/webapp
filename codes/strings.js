@@ -184,4 +184,3 @@ const SITE_CONFIG = {
 };
 
 window.config_const = SITE_CONFIG;
-const config_const  = SITE_CONFIG;
