@@ -1,13 +1,22 @@
-<section class="section stats-block">
-  <div class="container">
-    <div class="tab-nav">
-      <button class="tab-link active" onclick="openStatTab(event, 'top-countries')" data-s="tab_top_countries"></button>
-      <button class="tab-link" onclick="openStatTab(event, 'top-depts')" data-s="tab_top_depts"></button>
-      <button class="tab-link" onclick="openStatTab(event, 'top-communes')" data-s="tab_top_communes"></button>
-    </div>
-    
-    <div id="top-countries" class="tab-content active"><div class="stats-list" id="list-countries"></div></div>
-    <div id="top-depts" class="tab-content"><div class="stats-list" id="list-depts"></div></div>
-    <div id="top-communes" class="tab-content"><div class="stats-list" id="list-communes"></div></div>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezo Mapou — Blok Stat</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div id="loader-container"></div>
+    <div id="header-container"></div>
+    <div id="top-ad-container"></div>
+    <main id="main-content">
+        <div id="blockstats-container"></div>
+    </main>
+    <div id="bottom-ad-container"></div>
+    <div id="footer-container"></div>
+    <script src="codes/config.js"></script>
+    <script src="codes/strings.js"></script>
+    <script src="codes/boot.js"></script>
+</body>
+</html>
