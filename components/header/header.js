@@ -1,6 +1,7 @@
 /**
  * header.js — Header + Overlay Nav
- * Overlay injected into document.body, NOT inside header element
+ * Overlay injected into document.body, NOT inside header
+ * Uses config_const for all paths and container IDs
  */
 
 let HeaderComponent = {
@@ -11,30 +12,41 @@ let HeaderComponent = {
             await new Promise(r => setTimeout(r, 100));
             container = document.getElementById(containerId);
         }
-        if (!container) { console.error('Header container missing'); return; }
+        if (!container) { console.error('Header container missing:', containerId); return; }
 
+        // 1. Load and inject header HTML
         container.innerHTML = await this.loadHTML();
-        await LoaderEngine.loadCSS(
-            config_const.PATHS.COMPONENTS + '/' + config_const.COMPONENTS.HEADER.css
-        );
+
+        // 2. Load header CSS
+        const pre = '/' + config_const.PATHS.COMPONENTS + '/';
+        await LoaderEngine.loadCSS(pre + config_const.COMPONENTS.HEADER.css);
+
+        // 3. Inject overlay into body (outside header)
         this.injectOverlay();
+
+        // 4. Render nav links from config
         this.renderNav();
+
+        // 5. Init lang component
         await this.initLang();
+
+        // 6. Bind hamburger
         this.bindHamburger();
+
         console.log("HeaderComponent initialized.");
     },
 
     async loadHTML() {
         try {
-            const url = config_const.PATHS.COMPONENTS + '/' + config_const.COMPONENTS.HEADER.html;
-            const res = await fetch(url);
+            const pre = '/' + config_const.PATHS.COMPONENTS + '/';
+            const res = await fetch(pre + config_const.COMPONENTS.HEADER.html);
             if (!res.ok) throw new Error('fetch failed');
             return await res.text();
         } catch (e) {
             return `<header class="header">
                 <a class="nav-brand" href="/"><span class="nav-name">Rezo Mapou</span></a>
                 <div class="header-right">
-                    <div id="lang-container"></div>
+                    <div id="${config_const.COMPONENTS.LANG.containerId}"></div>
                     <button id="hamburger"><span></span><span></span><span></span></button>
                 </div>
             </header>`;
@@ -42,6 +54,7 @@ let HeaderComponent = {
     },
 
     injectOverlay() {
+        // Remove any stale overlay from previous init
         document.getElementById('navOverlay')?.remove();
         document.getElementById('nav-backdrop')?.remove();
 
@@ -68,7 +81,7 @@ let HeaderComponent = {
         if (!nav) return;
         const items = config_const.DATA?.NAV_ITEMS || [];
         nav.innerHTML = items.map(item =>
-            `<a href="${item.href}">${LangService.get(item.key)}</a>`
+            `<a href="${item.href}" data-i="${item.key}">${LangService.get(item.key)}</a>`
         ).join('');
     },
 
@@ -77,7 +90,7 @@ let HeaderComponent = {
         if (!content) return;
         const items = config_const.DATA?.NAV_ITEMS || [];
         content.innerHTML = items.map(item =>
-            `<a href="${item.href}">${LangService.get(item.key)}</a>`
+            `<a href="${item.href}" data-i="${item.key}">${LangService.get(item.key)}</a>`
         ).join('');
     },
 
@@ -93,12 +106,13 @@ let HeaderComponent = {
     },
 
     async initLang() {
-        const pre = config_const.PATHS.COMPONENTS + '/';
-        const cfg = config_const.COMPONENTS.LANG;
-        await LoaderEngine.loadCSS(pre + cfg.css);
-        await LoaderEngine.loadScript(pre + cfg.js);
+        const pre    = '/' + config_const.PATHS.COMPONENTS + '/';
+        const langCfg = config_const.COMPONENTS.LANG;
+        await LoaderEngine.loadCSS(pre + langCfg.css);
+        await LoaderEngine.loadScript(pre + langCfg.js);
         if (window.LangComponent) {
-            await LangComponent.init('lang-container');
+            // Use containerId from config — never hardcoded
+            await LangComponent.init(langCfg.containerId);
         }
     },
 
@@ -113,9 +127,9 @@ let HeaderComponent = {
             overlay.removeAttribute('inert');
             overlay.classList.add('open');
             burger.classList.add('open');
+            burger.setAttribute('aria-expanded', 'true');
             backdrop?.classList.add('visible');
             document.body.style.overflow = 'hidden';
-            // Move focus into overlay
             setTimeout(() => closeBtn?.focus(), 50);
         };
 
@@ -123,9 +137,9 @@ let HeaderComponent = {
             overlay.setAttribute('inert', '');
             overlay.classList.remove('open');
             burger.classList.remove('open');
+            burger.setAttribute('aria-expanded', 'false');
             backdrop?.classList.remove('visible');
             document.body.style.overflow = '';
-            // Return focus to hamburger
             burger.focus();
         };
 
