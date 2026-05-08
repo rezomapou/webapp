@@ -1,0 +1,30 @@
+/* lang.css — compact buttons for nav bar */
+.lang-bar {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.lang-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.6);
+    font-family: var(--font-sans);
+    font-size: 0.58rem;
+    font-weight: 700;
+    padding: 2px 5px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--earth);
+}
