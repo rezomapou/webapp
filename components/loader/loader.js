@@ -1,12 +1,13 @@
 /**
  * loader.js — LoaderEngine
+ * Uses absolute paths from root — works from any subfolder
  */
 if (typeof window.LoaderEngine === 'undefined') {
 
     const LoaderEngine = {
 
         _pre() {
-            return (config_const?.PATHS?.COMPONENTS || 'components') + '/';
+            return '/' + (config_const?.PATHS?.COMPONENTS || 'components') + '/';
         },
 
         async init() {
@@ -59,9 +60,8 @@ if (typeof window.LoaderEngine === 'undefined') {
         },
 
         hide() {
-            const el = document.getElementById(
-                config_const?.COMPONENTS?.LOADER?.containerId || 'loader-container'
-            );
+            const id = config_const?.COMPONENTS?.LOADER?.containerId || 'loader-container';
+            const el = document.getElementById(id);
             if (el) {
                 el.style.display = 'none';
                 console.log('Loader hidden.');
