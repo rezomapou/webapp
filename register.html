@@ -3,127 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-s="site_name"></title>
-    <link rel="icon" type="image/png" href="https://fatraselo.net/images/favicon-16x16.png">
-    
-    <!-- Core Radical Logic -->
-    <script src="config.js"></script>
-    <script src="strings.js"></script>
-    <script src="loader.js"></script>
-    <script src="register.js" defer></script>
-    <link rel="stylesheet" href="style.css">
+    <title>Rezo Mapou — Enskri</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
-<body id="register">
-
-<div id="header-placeholder"></div>
-
-<main class="register-container">
-    <div class="register-intro">
-        <h1 data-s="reg_title"></h1>
-    </div>
-
-    <div class="register-form-card">
-        <form id="register-form" novalidate>
-            <!-- HONEYPOT (Invisible to humans) -->
-            <div class="hp-container" style="display:none;">
-                <input type="text" name="full_name_hp" id="full_name_hp" tabindex="-1" autocomplete="off">
-            </div>
-
-            <!-- Identity Section -->
-            <div class="form-section-title" data-s="f_sect_identity"></div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label data-s="f_firstname"></label>
-                    <input type="text" name="prenom" required>
-                </div>
-                <div class="form-group">
-                    <label data-s="f_lastname"></label>
-                    <input type="text" name="nom" required>
-                </div>
-            </div>
-
-            <!-- Email with Inside Spinner -->
-            <div class="form-group">
-                <label data-s="f_email"></label>
-                <div class="input-container">
-                    <input type="email" id="email" name="email" data-s="f_email_ph" required>
-                    <div id="email-checking" class="field-spinner hidden">
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
-                <small id="email-msg" class="msg" data-s="f_email_hint"></small>
-            </div>
-
-            <!-- Country Selection -->
-            <div class="form-group">
-                <label data-s="f_country"></label>
-                <select id="country" name="country" required></select>
-            </div>
-
-            <!-- Phone with Dynamic Prefix & Spinner -->
-            <div class="form-group">
-                <label data-s="f_phone"></label>
-                <div class="input-container">
-                    <div class="pay-prefix" id="prefix-display">+509</div>
-                    <input type="tel" id="phone" name="phone" data-s="f_phone_ph" required>
-                    <div id="phone-checking" class="field-spinner hidden">
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
-                <small id="phone-msg" class="msg" data-s="f_phone_hint"></small>
-            </div>
-
-            <!-- Payment Section -->
-
-<!-- Payment Number Field -->
-<div class="form-group">
-    <label data-s="pay_section_title"></label> <!-- "Peman" -->
-    <div class="pay-row">
-        <div class="pay-prefix">+509</div>
-        <input type="text" id="payment_value" name="payment_value" data-s="f_payment_ph" maxlength="8">
-    </div>
-    <small id="pay-msg" class="msg" data-s="pay_hint"></small>
-</div>
-
-<!-- Payment Method Selection (Hidden by default) -->
-<div id="payment-method-wrapper" class="hidden-section" style="display: none; margin-top: 15px;">
-    <label data-s="pay_method_title" style="display:block; margin-bottom: 8px; font-weight: bold;"></label>
-    <div class="platform-grid">
-        <label class="platform-item">
-            <input type="radio" name="payment_type" value="moncash" id="radio-moncash"> 
-            <span data-s="plt_moncash"></span>
-        </label>
-        <label class="platform-item">
-            <input type="radio" name="payment_type" value="natcash" id="radio-natcash"> 
-            <span data-s="plt_natcash"></span>
-        </label>
-    </div>
-</div>
-            
-            <small id="pay-msg" class="msg"></small>
-
-            <!-- Social Media Grid -->
-            <div class="form-section-title" data-s="f_sect_social"></div>
-            <div class="platform-grid" id="platform-grid"></div>
-
-            <div class="submit-area">
-                <button type="submit" class="btn-primary btn-full" id="submit-btn" data-s="f_submit" disabled></button>
-            </div>
-        </form>
-    </div>
-</main>
-
-<div id="footer-placeholder"></div>
-
-<!-- Initializer Script -->
-<script src="register.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Since we are using the "Main Folder" strategy, ensure PATHS.COMPONENTS is empty in config.js
-        loadComponent('header-placeholder', 'HEADER');
-        loadComponent('footer-placeholder', 'FOOTER');
-    });
-</script>
-
+<body>
+    <div id="loader-container"></div>
+    <div id="header-container"></div>
+    <div id="top-ad-container"></div>
+    <main id="main-content">
+        <div id="register-container"></div>
+    </main>
+    <div id="bottom-ad-container"></div>
+    <div id="footer-container"></div>
+    <script src="codes/config.js"></script>
+    <script src="codes/strings.js"></script>
+    <script src="codes/boot.js"></script>
 </body>
 </html>
