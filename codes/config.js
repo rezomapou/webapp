@@ -18,7 +18,7 @@ var SITE_CONFIG = SITE_CONFIG || {
 
   // All pages follow: HEADER, TOP_AD, [content], BOTTOM_AD, FOOTER
   PAGES: {
-    index:      { components: ['HEADER', 'TOP_AD', 'FEATURE_BLOCK',   'BOTTOM_AD', 'FOOTER'] },
+    index:      { components: ['HEADER', 'FEATURE_BLOCK', 'FOOTER'] },
     register:   { components: ['HEADER', 'TOP_AD', 'REGISTER_BLOCK',  'BOTTOM_AD', 'FOOTER'] },
     contact:    { components: ['HEADER', 'TOP_AD', 'CONTACT_BLOCK',   'BOTTOM_AD', 'FOOTER'] },
     login:      { components: ['HEADER', 'TOP_AD', 'LOGIN_BLOCK',     'BOTTOM_AD', 'FOOTER'] },
