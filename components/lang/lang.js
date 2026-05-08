@@ -1,58 +1,71 @@
+/**
+ * lang.js — Language Switcher
+ * Uses event delegation so buttons work after every render()
+ */
 const LangComponent = {
+
     async init(containerId) {
         const container = document.getElementById(containerId);
-        if (!container) {
-            console.warn('Lang container missing:', containerId);
-            return;
-        }
-        const html = await this.loadHTML();
-        container.innerHTML = html;
+        if (!container) { console.warn('Lang container missing:', containerId); return; }
+
+        // Render buttons
         this.render(container);
-        this.bind(container);
-    },
-    async loadHTML() {
-        try {
-            const res = await fetch('components/lang/lang.html');
-            return await res.text();
-        } catch (e) {
-            console.error('Lang HTML load failed', e);
-            return `<div data-slot="lang-root"></div>`;
-        }
-    },
-    render(container) {
-        const root = container.querySelector('[data-slot="lang-root"]');
-        if (!root) return;
-        const current = LangService.currentLang;
-        root.innerHTML = `
-            <button class="lang-btn ${current === 'ht' ? 'active' : ''}" data-lang="ht">KR</button>
-            <button class="lang-btn ${current === 'fr' ? 'active' : ''}" data-lang="fr">FR</button>
-            <button class="lang-btn ${current === 'en' ? 'active' : ''}" data-lang="en">EN</button>
-        `;
-    },
-    bind(container) {
-        container.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                LangService.setLang(btn.dataset.lang);
-                this.render(container);
-                this.refreshPage();
-            });
+
+        // Event delegation — survives innerHTML re-renders
+        container.addEventListener('click', (e) => {
+            const btn = e.target.closest('.lang-btn');
+            if (!btn) return;
+            LangService.setLang(btn.dataset.lang);
+            this.render(container);
+            this.refreshPage();
         });
     },
+
+    render(container) {
+        const cur = LangService.currentLang;
+        container.innerHTML = `<div class="lang-bar">
+            <button class="lang-btn${cur==='ht'?' active':''}" data-lang="ht">KR</button>
+            <button class="lang-btn${cur==='fr'?' active':''}" data-lang="fr">FR</button>
+            <button class="lang-btn${cur==='en'?' active':''}" data-lang="en">EN</button>
+        </div>`;
+    },
+
     refreshPage() {
-        // Re-apply all data-i translations without full reload
+        // data-i elements
         document.querySelectorAll('[data-i]').forEach(el => {
             const val = LangService.get(el.getAttribute('data-i'));
             if (val) el.textContent = val;
         });
-        // Re-init features if present
+        // data-s elements (old system pages)
+        if (window.s) {
+            document.querySelectorAll('[data-s]').forEach(el => {
+                const val = s(el.getAttribute('data-s'));
+                if (val) el.textContent = val;
+            });
+        }
+        // Nav links in header and overlay
+        document.querySelectorAll('#nav a[data-i], #navOverlayContent a[data-i]').forEach(a => {
+            const val = LangService.get(a.getAttribute('data-i'));
+            if (val) a.textContent = val;
+        });
+        // Features
         if (window.FeaturesComponent) {
-            FeaturesComponent.applyLang(document.getElementById(
+            const fc = document.getElementById(
                 config_const.COMPONENTS.FEATURE_BLOCK.containerId
-            ));
+            );
+            if (fc) FeaturesComponent.applyLang(fc);
+        }
+        // Footer
+        if (window.FooterComponent) {
+            const fc = document.getElementById(
+                config_const.COMPONENTS.FOOTER.containerId
+            );
+            if (fc) {
+                FooterComponent.renderLegal(fc);
+                FooterComponent.renderMeta(fc);
+            }
         }
     }
 };
-if (window.Analytics) {
-  Analytics.track('component_loaded', { component: 'LANG' });
-}
+
 window.LangComponent = LangComponent;
