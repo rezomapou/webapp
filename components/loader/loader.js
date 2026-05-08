@@ -1,14 +1,8 @@
-/**
- * loader.js — LoaderEngine
- * Uses absolute paths from root — works from any subfolder
- */
 if (typeof window.LoaderEngine === 'undefined') {
-
     const LoaderEngine = {
 
-        _pre() {
-            return '/' + (config_const?.PATHS?.COMPONENTS || 'components') + '/';
-        },
+        // Always absolute from root
+        _p() { return '/components/'; },
 
         async init() {
             await this.loadComponent(config_const.COMPONENTS.LOADER);
@@ -16,24 +10,19 @@ if (typeof window.LoaderEngine === 'undefined') {
 
         async loadComponent(cfg) {
             if (!cfg) return;
-            const pre = this._pre();
-            const html = cfg.html ? pre + cfg.html : null;
-            const css  = cfg.css  ? pre + cfg.css  : null;
-            const js   = cfg.js   ? pre + cfg.js   : null;
-            const { containerId } = cfg;
-
+            const pre = this._p();
             try {
-                if (html && containerId) {
-                    const res = await fetch(html);
+                if (cfg.html && cfg.containerId) {
+                    const res = await fetch(pre + cfg.html);
                     if (res.ok) {
-                        const el = document.getElementById(containerId);
+                        const el = document.getElementById(cfg.containerId);
                         if (el) el.innerHTML = await res.text();
                     }
                 }
-                if (css) await this.loadCSS(css);
-                if (js)  await this.loadScript(js);
+                if (cfg.css) await this.loadCSS(pre + cfg.css);
+                if (cfg.js)  await this.loadScript(pre + cfg.js);
             } catch (err) {
-                console.warn('Component failed:', cfg, err);
+                console.warn('Component failed:', cfg.containerId, err.message);
             }
         },
 
@@ -41,7 +30,7 @@ if (typeof window.LoaderEngine === 'undefined') {
             return new Promise(resolve => {
                 if (!href || document.querySelector(`link[href^="${href}"]`)) return resolve();
                 const link = document.createElement('link');
-                link.rel  = 'stylesheet';
+                link.rel = 'stylesheet';
                 link.href = href + '?v=' + Date.now();
                 link.onload = resolve;
                 document.head.appendChild(link);
@@ -60,18 +49,14 @@ if (typeof window.LoaderEngine === 'undefined') {
         },
 
         hide() {
-            const id = config_const?.COMPONENTS?.LOADER?.containerId || 'loader-container';
-            const el = document.getElementById(id);
-            if (el) {
-                el.style.display = 'none';
-                console.log('Loader hidden.');
-            }
+            const el = document.getElementById(
+                config_const?.COMPONENTS?.LOADER?.containerId || 'loader-container'
+            );
+            if (el) { el.style.display = 'none'; console.log('Loader hidden.'); }
         }
     };
-
     window.LoaderEngine = LoaderEngine;
     console.log("LoaderEngine defined successfully.");
-
 } else {
     console.log("LoaderEngine already exists.");
 }
