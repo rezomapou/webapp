@@ -1,5 +1,6 @@
 /**
  * boot.js — System Bootstrapper
+ * Uses absolute paths from root so works from any subfolder (docs/, etc.)
  */
 (async function () {
     try {
@@ -17,35 +18,40 @@
             });
         }
 
-        const CODES      = config_const.PATHS.CODES;
-        const COMPONENTS = config_const.PATHS.COMPONENTS;
+        // Absolute paths from root — works from any subfolder
+        const ROOT  = '/';
+        const CODES = ROOT + config_const.PATHS.CODES + '/';
+        const COMPS = ROOT + config_const.PATHS.COMPONENTS + '/';
 
-        // 1. Analytics (non-blocking — log only, no throw)
+        // 1. Analytics (non-blocking)
         try {
-            await loadScript(COMPONENTS + '/' + config_const.COMPONENTS.ANALYTICS.js);
+            await loadScript(COMPS + config_const.COMPONENTS.ANALYTICS.js);
         } catch(e) {
             console.warn('Analytics failed to load (non-fatal):', e.message);
-            window.Analytics = { track() {} }; // silent stub
+            window.Analytics = { track() {} };
         }
 
-        // 2. BaseComponent wrapper
-        await loadScript(COMPONENTS + '/' + config_const.COMPONENTS.BASECOMPONENT.js);
+        // 2. BaseComponent
+        await loadScript(COMPS + config_const.COMPONENTS.BASECOMPONENT.js);
 
         // 3. LangService
-        await loadScript(CODES + '/langservice.js');
+        await loadScript(CODES + 'langservice.js');
         if (typeof window.LangService === 'undefined') throw new Error('LangService failed');
         await window.LangService.init();
         console.log("Lang Service initialized successfully.");
 
         // 4. LoaderEngine
-        await loadScript(COMPONENTS + '/' + config_const.COMPONENTS.LOADER.js);
+        await loadScript(COMPS + config_const.COMPONENTS.LOADER.js);
         if (typeof LoaderEngine === 'undefined') throw new Error('LoaderEngine failed');
         await LoaderEngine.init();
 
         // 5. App orchestrator
-        await loadScript(CODES + '/index.js');
+        await loadScript(CODES + 'index.js');
 
     } catch (err) {
         console.error('BOOT ERROR:', err);
+        // Always hide loader even on boot failure
+        const el = document.getElementById('loader-container');
+        if (el) el.style.display = 'none';
     }
 })();
