@@ -1,4 +1,4 @@
-// config.js — Rezo Mapou Nasyonal
+// config.js — Rezo Mapou Nasyonal — May 2025
 
 var SITE_CONFIG = SITE_CONFIG || {
 
@@ -16,20 +16,20 @@ var SITE_CONFIG = SITE_CONFIG || {
     LOADER_MESSAGES: { ht: 'Ap chaje...', fr: 'Chargement...', en: 'Loading...' }
   },
 
-  // All pages follow: HEADER, TOP_AD, [content], BOTTOM_AD, FOOTER
+  // No TOP_AD/BOTTOM_AD until ads component is built
   PAGES: {
     index:      { components: ['HEADER', 'FEATURE_BLOCK', 'FOOTER'] },
-    register:   { components: ['HEADER', 'TOP_AD', 'REGISTER_BLOCK',  'BOTTOM_AD', 'FOOTER'] },
-    contact:    { components: ['HEADER', 'TOP_AD', 'CONTACT_BLOCK',   'BOTTOM_AD', 'FOOTER'] },
-    login:      { components: ['HEADER', 'TOP_AD', 'LOGIN_BLOCK',     'BOTTOM_AD', 'FOOTER'] },
-    profile:    { components: ['HEADER', 'TOP_AD', 'PROFILE_BLOCK',   'BOTTOM_AD', 'FOOTER'] },
-    verify:     { components: ['HEADER', 'TOP_AD', 'VERIFY_BLOCK',    'BOTTOM_AD', 'FOOTER'] },
-    dashboard:  { components: ['HEADER', 'TOP_AD', 'DASHBOARD_BLOCK', 'BOTTOM_AD', 'FOOTER'] },
-    sitestats:  { components: ['HEADER', 'TOP_AD', 'SITESTATS',       'BOTTOM_AD', 'FOOTER'] },
-    blockstats: { components: ['HEADER', 'TOP_AD', 'BLOCKSTATS',      'BOTTOM_AD', 'FOOTER'] },
-    terms:      { components: ['HEADER', 'TOP_AD', 'DOC_BLOCK', 'BOTTOM_AD', 'FOOTER'], content: 'terms'     },
-    privacy:    { components: ['HEADER', 'TOP_AD', 'DOC_BLOCK', 'BOTTOM_AD', 'FOOTER'], content: 'privacy'   },
-    copyright:  { components: ['HEADER', 'TOP_AD', 'DOC_BLOCK', 'BOTTOM_AD', 'FOOTER'], content: 'copyright' }
+    register:   { components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER'] },
+    contact:    { components: ['HEADER', 'CONTACT_BLOCK',  'FOOTER'] },
+    login:      { components: ['HEADER', 'LOGIN_BLOCK',    'FOOTER'] },
+    profile:    { components: ['HEADER', 'PROFILE_BLOCK',  'FOOTER'] },
+    verify:     { components: ['HEADER', 'VERIFY_BLOCK',   'FOOTER'] },
+    dashboard:  { components: ['HEADER', 'DASHBOARD_BLOCK','FOOTER'] },
+    sitestats:  { components: ['HEADER', 'SITESTATS',      'FOOTER'] },
+    blockstats: { components: ['HEADER', 'BLOCKSTATS',     'FOOTER'] },
+    terms:      { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'terms'     },
+    privacy:    { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'privacy'   },
+    copyright:  { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'copyright' }
   },
 
   CONTACT: {
@@ -66,12 +66,6 @@ var SITE_CONFIG = SITE_CONFIG || {
     HEADER: {
       html: 'header/header.html', css: 'header/header.css',
       js: 'header/header.js', containerId: 'header-container'
-    },
-
-    TOP_AD: {
-      html: 'ad/ad.html', css: 'ad/ad.css',
-      js: 'ad/ad.js', containerId: 'top-ad-container',
-      placement: 'top'
     },
 
     FEATURE_BLOCK: {
@@ -128,10 +122,14 @@ var SITE_CONFIG = SITE_CONFIG || {
       js: 'analytics/analytics.js', containerId: 'analytics-container'
     },
 
+    TOP_AD: {
+      html: 'ads/ad.html', css: 'ads/ad.css',
+      js: 'ads/ad.js', containerId: 'top-ad-container', placement: 'top'
+    },
+
     BOTTOM_AD: {
-      html: 'ad/ad.html', css: 'ad/ad.css',
-      js: 'ad/ad.js', containerId: 'bottom-ad-container',
-      placement: 'bottom'
+      html: 'ads/ad.html', css: 'ads/ad.css',
+      js: 'ads/ad.js', containerId: 'bottom-ad-container', placement: 'bottom'
     },
 
     FOOTER: {
@@ -151,8 +149,8 @@ var SITE_CONFIG = SITE_CONFIG || {
     ],
     FOOTER_LINKS: [
       { key: 'footer_copyright', action: 'copyright' },
-      { key: 'footer_privacy', action: 'privacy' },
-      { key: 'footer_terms',   action: 'terms'   }
+      { key: 'footer_privacy',   action: 'privacy'   },
+      { key: 'footer_terms',     action: 'terms'      }
     ],
     FOOTER_META: { key: 'footer_meta' },
     PLATFORMS: [
