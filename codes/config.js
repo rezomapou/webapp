@@ -18,18 +18,18 @@ var SITE_CONFIG = SITE_CONFIG || {
 
   // All pages follow: HEADER, TOP_AD, [content], BOTTOM_AD, FOOTER
   PAGES: {
-    index:      { components: ['HEADER', 'FEATURE_BLOCK',  'FOOTER'] },
-    register:   { components: ['HEADER', 'REGISTER_BLOCK', 'FOOTER'] },
-    contact:    { components: ['HEADER', 'CONTACT_BLOCK',   'FOOTER'] },
-    login:      { components: ['HEADER', 'LOGIN_BLOCK',     'FOOTER'] },
-    profile:    { components: ['HEADER', 'PROFILE_BLOCK',   'FOOTER'] },
-    verify:     { components: ['HEADER', 'VERIFY_BLOCK',    'FOOTER'] },
-    dashboard:  { components: ['HEADER', 'DASHBOARD_BLOCK', 'FOOTER'] },
-    sitestats:  { components: ['HEADER', 'SITESTATS',       'FOOTER'] },
-    blockstats: { components: ['HEADER', 'BLOCKSTATS',      'FOOTER'] },
-    terms:      { components: ['HEADER', 'FOOTER'], content: 'terms'     },
-    privacy:    { components: ['HEADER', 'FOOTER'], content: 'privacy'   },
-    copyright:  { components: ['HEADER', 'DOC_BLOCK', 'FOOTER'], content: 'copyright' }
+    index:      { components: ['HEADER', 'FEATURE_BLOCK', 'FOOTER'] },
+    register:   { components: ['HEADER', 'TOP_AD', 'REGISTER_BLOCK',  'BOTTOM_AD', 'FOOTER'] },
+    contact:    { components: ['HEADER', 'TOP_AD', 'CONTACT_BLOCK',   'BOTTOM_AD', 'FOOTER'] },
+    login:      { components: ['HEADER', 'TOP_AD', 'LOGIN_BLOCK',     'BOTTOM_AD', 'FOOTER'] },
+    profile:    { components: ['HEADER', 'TOP_AD', 'PROFILE_BLOCK',   'BOTTOM_AD', 'FOOTER'] },
+    verify:     { components: ['HEADER', 'TOP_AD', 'VERIFY_BLOCK',    'BOTTOM_AD', 'FOOTER'] },
+    dashboard:  { components: ['HEADER', 'TOP_AD', 'DASHBOARD_BLOCK', 'BOTTOM_AD', 'FOOTER'] },
+    sitestats:  { components: ['HEADER', 'TOP_AD', 'SITESTATS',       'BOTTOM_AD', 'FOOTER'] },
+    blockstats: { components: ['HEADER', 'TOP_AD', 'BLOCKSTATS',      'BOTTOM_AD', 'FOOTER'] },
+    terms:      { components: ['HEADER', 'TOP_AD', 'DOC_BLOCK', 'BOTTOM_AD', 'FOOTER'], content: 'terms'     },
+    privacy:    { components: ['HEADER', 'TOP_AD', 'DOC_BLOCK', 'BOTTOM_AD', 'FOOTER'], content: 'privacy'   },
+    copyright:  { components: ['HEADER', 'TOP_AD', 'DOC_BLOCK', 'BOTTOM_AD', 'FOOTER'], content: 'copyright' }
   },
 
   CONTACT: {
@@ -150,7 +150,7 @@ var SITE_CONFIG = SITE_CONFIG || {
       { key: 'nav_contact',  href: '/contact.html'   }
     ],
     FOOTER_LINKS: [
-      { key: 'footer_legal',   action: 'legal'   },
+      { key: 'footer_copyright', action: 'copyright' },
       { key: 'footer_privacy', action: 'privacy' },
       { key: 'footer_terms',   action: 'terms'   }
     ],
