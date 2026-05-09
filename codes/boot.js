@@ -12,7 +12,6 @@
             });
         }
 
-        // Always absolute from root
         const C = '/codes/';
         const P = '/components/';
 
@@ -22,7 +21,16 @@
         await window.LangService.init();
         console.log("Lang Service initialized successfully.");
 
-        // 2. Analytics (non-blocking)
+        // 2. Update <title> from STRINGS — no hardcoded titles needed in HTML
+        try {
+            const lang    = LangService.currentLang;
+            const page    = window.location.pathname.split('/').pop().replace('.html','') || 'index';
+            const seoLang = window.SEO?.[lang] || window.SEO?.ht;
+            const title   = seoLang?.[page]?.title || seoLang?.home?.title;
+            if (title) document.title = title;
+        } catch(e) {}
+
+        // 3. Analytics (non-blocking)
         try {
             await loadScript(P + config_const.COMPONENTS.ANALYTICS.js);
         } catch(e) {
@@ -30,15 +38,15 @@
             window.Analytics = { track() {} };
         }
 
-        // 3. BaseComponent
+        // 4. BaseComponent
         await loadScript(P + config_const.COMPONENTS.BASECOMPONENT.js);
 
-        // 4. LoaderEngine
+        // 5. LoaderEngine
         await loadScript(P + config_const.COMPONENTS.LOADER.js);
         if (typeof LoaderEngine === 'undefined') throw new Error('LoaderEngine failed');
         await LoaderEngine.init();
 
-        // 5. Orchestrator
+        // 6. Orchestrator
         await loadScript(C + 'index.js');
 
     } catch (err) {
