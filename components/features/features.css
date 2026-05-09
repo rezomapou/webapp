@@ -1,62 +1,232 @@
-/**
- * features.js — Features Component
- */
-const FeaturesComponent = {
+.features-tabs {
+    width: 100%;
+    max-width: var(--max-width, 1100px);
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
 
-    init(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) { console.warn('Features container not found:', containerId); return; }
-        // Apply lang immediately — fills all empty data-i elements
-        this.applyLang(container);
-        this.initTabs(container);
-        // Activate tab from URL hash
-        const hash = window.location.hash.replace('#ftab-', '');
-        if (hash && container.querySelector('#ftab-' + hash)) {
-            container.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-            container.querySelectorAll('.ftab-content').forEach(p => p.classList.remove('active'));
-            const tab = container.querySelector('.ftab[data-tab="' + hash + '"]');
-            const panel = container.querySelector('#ftab-' + hash);
-            if (tab) tab.classList.add('active');
-            if (panel) panel.classList.add('active');
-        }
-        // Fix CTA button — prevent scroll, activate tab instead
-        const ctaBtn = container.querySelector('a[href="#ftab-program"]');
-        if (ctaBtn) {
-            ctaBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                container.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-                container.querySelectorAll('.ftab-content').forEach(p => p.classList.remove('active'));
-                const tab = container.querySelector('.ftab[data-tab="program"]');
-                const panel = container.querySelector('#ftab-program');
-                if (tab) tab.classList.add('active');
-                if (panel) panel.classList.add('active');
-            });
-        }
-        console.log("FeaturesComponent initialized.");
-    },
+/* Tab bar */
+.features-tab-bar {
+    display: flex;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 2rem;
+}
 
-    applyLang(container) {
-        container.querySelectorAll('[data-i]').forEach(el => {
-            const key = el.getAttribute('data-i');
-            const val = LangService.get(key);
-            // Always set — even if val equals key (single-word translations are valid)
-            if (val) el.textContent = val;
-        });
-    },
+.ftab {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.65rem 1.25rem;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+}
 
-    initTabs(container) {
-        container.querySelectorAll('.ftab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = tab.getAttribute('data-tab');
-                container.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-                container.querySelectorAll('.ftab-content').forEach(p => p.classList.remove('active'));
-                tab.classList.add('active');
-                const panel = container.querySelector('#ftab-' + target);
-                if (panel) panel.classList.add('active');
-            });
-        });
-    }
-};
+.ftab:hover { color: var(--forest); }
+.ftab.active { color: var(--forest); border-bottom: 3px solid var(--gold); }
 
-window.FeaturesComponent = FeaturesComponent;
-console.log("FeaturesComponent registered to window.");
+.ftab-content { display: none; }
+.ftab-content.active { display: block; }
+
+/* Hero section */
+.feat-hero { padding: 2.5rem 0 1.5rem; }
+
+.feat-hero-tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.feat-hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1rem;
+}
+
+.feat-hero-title em {
+    font-style: italic;
+    color: var(--forest);
+    display: block;
+}
+
+.feat-accent { color: var(--gold); display: block; }
+
+.feat-hero-lead {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 1.75rem;
+}
+
+.feat-hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.feat-btn-gold {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--earth);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.7rem 1.5rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.feat-btn-gold:hover { background: #b8943e; text-decoration: none; color: var(--earth); }
+
+.feat-btn-outline {
+    display: inline-block;
+    background: transparent;
+    color: var(--earth-mid);
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.65rem 1.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--earth-mid);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.feat-btn-outline:hover { background: var(--earth-mid); color: white; text-decoration: none; }
+
+/* Shared section styles */
+.feat-section { padding: 1.5rem 0; }
+
+.feat-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.feat-eyebrow::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+}
+
+.feat-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.feat-body {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.85;
+    max-width: 680px;
+    margin-bottom: 0.85rem;
+}
+
+.feat-disclaimer {
+    margin-top: 1.5rem;
+    background: rgba(200,168,75,0.07);
+    border: 1px solid rgba(200,168,75,0.25);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    max-width: 680px;
+}
+
+.feat-disclaimer p {
+    font-size: 0.88rem;
+    color: var(--earth-mid);
+    line-height: 1.7;
+    margin-bottom: 0.6rem;
+}
+
+.feat-disclaimer p:last-child { margin-bottom: 0; }
+
+.feat-callout {
+    background: var(--earth);
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    font-family: var(--font-serif);
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: white;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+    max-width: 820px;
+}
+
+/* Steps */
+.feat-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.feat-step {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+
+.feat-step-num {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.feat-step-title {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+}
+
+.feat-step-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+/* Conditions */
+.feat-conditions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+}
+
+.feat-cond {
+    background: white;
+    border-left: 3px solid var(--gold);
+    padding: 0.9rem 1rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.feat-cond-title { font-size: 0.82rem; font-weight: 500; color: var(--forest); margin-bottom: 3px; }
+.feat-cond-desc { font-size: 0.78rem; color: var(--muted); font-weight: 300; line-height: 1.5; }
+
+@media (max-width: 768px) {
+    .features-tabs { padding: 1rem; }
+    .feat-steps, .feat-conditions { grid-template-columns: 1fr; }
+    .ftab { padding: 0.5rem 0.9rem; font-size: 0.82rem; }
+}
