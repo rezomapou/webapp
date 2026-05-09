@@ -8,7 +8,7 @@ const LangService = {
         ht: {
             lang_ht: 'Kreyòl', lang_fr: 'Français', lang_en: 'English',
             nav_home: 'Akèy', nav_about: 'Sou nou', nav_contact: 'Kontakte nou',
-            footer_legal: 'Mentions légales', footer_privacy: 'Konfidansyalite',
+            footer_legal: 'Mentions légales', footer_copyright: 'Dwa Ote', footer_privacy: 'Konfidansyalite',
             footer_terms: 'Kondisyon itilizasyon',
             footer_meta: '© 2026 RMNE | Inisyativ Fatra se Lò',
             stat_members: 'Manm', stat_actions: 'Aksyon', stat_points: 'Pwen',
@@ -36,7 +36,7 @@ const LangService = {
         fr: {
             lang_ht: 'Kreyòl', lang_fr: 'Français', lang_en: 'English',
             nav_home: 'Accueil', nav_about: 'À propos', nav_contact: 'Contact',
-            footer_legal: 'Mentions légales', footer_privacy: 'Confidentialité',
+            footer_legal: 'Mentions légales', footer_copyright: 'Dwa Ote', footer_privacy: 'Confidentialité',
             footer_terms: "Conditions d'utilisation",
             footer_meta: "© 2026 RMNE | Initiative Fatra se Lò",
             stat_members: 'Membres', stat_actions: 'Actions', stat_points: 'Points',
@@ -64,7 +64,7 @@ const LangService = {
         en: {
             lang_ht: 'Kreyòl', lang_fr: 'Français', lang_en: 'English',
             nav_home: 'Home', nav_about: 'About', nav_contact: 'Contact',
-            footer_legal: 'Legal Notice', footer_privacy: 'Privacy Policy',
+            footer_legal: 'Legal Notice', footer_copyright: 'Copyright', footer_privacy: 'Privacy Policy',
             footer_terms: 'Terms of Use',
             footer_meta: '© 2026 RMNE | Fatra se Lò Initiative',
             stat_members: 'Members', stat_actions: 'Actions', stat_points: 'Points',
