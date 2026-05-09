@@ -1,3 +1,7 @@
+/**
+ * header.js — Header with hamburger overlay
+ * Overlay appended to body, not inside header
+ */
 let HeaderComponent = {
 
     async init(containerId) {
@@ -6,27 +10,46 @@ let HeaderComponent = {
             await new Promise(r => setTimeout(r, 100));
             container = document.getElementById(containerId);
         }
-        if (!container) { console.error('Header container missing:', containerId); return; }
+        if (!container) { console.error('Header container missing'); return; }
 
+        // Load HTML
         const res = await fetch('/components/' + config_const.COMPONENTS.HEADER.html).catch(() => null);
-        container.innerHTML = res?.ok ? await res.text()
-            : `<header class="header">
-                <a class="nav-brand" href="/"><span class="nav-name">Rezo Mapou</span></a>
-                <div class="header-right">
-                    <div id="lang-container"></div>
-                    <button id="hamburger"><span></span><span></span><span></span></button>
-                </div>
-              </header>`;
+        container.innerHTML = res?.ok ? await res.text() : this.fallbackHTML();
 
+        // Load CSS
         await LoaderEngine.loadCSS('/components/' + config_const.COMPONENTS.HEADER.css);
-        this.injectOverlay();
+
+        // Build overlay in body
+        this.buildOverlay();
+
+        // Fill nav links
         this.renderNav();
+        this.renderOverlayNav();
+        this.renderOverlayPlatforms();
+
+        // Mark current page in overlay
+        this.markCurrentPage();
+
+        // Init lang buttons
         await this.initLang();
+
+        // Wire hamburger
         this.bindHamburger();
+
         console.log("HeaderComponent initialized.");
     },
 
-    injectOverlay() {
+    fallbackHTML() {
+        return `<header class="header">
+            <a class="nav-brand" href="/"><span class="nav-name">Rezo Mapou</span></a>
+            <div class="header-right">
+                <div id="${config_const.COMPONENTS.LANG.containerId}"></div>
+                <button id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </header>`;
+    },
+
+    buildOverlay() {
         document.getElementById('navOverlay')?.remove();
         document.getElementById('nav-backdrop')?.remove();
 
@@ -42,9 +65,6 @@ let HeaderComponent = {
             <div id="navOverlayContent"></div>
             <div id="nav-overlay-platforms"></div>`;
         document.body.appendChild(ov);
-
-        this.renderOverlayNav();
-        this.renderOverlayPlatforms();
     },
 
     renderNav() {
@@ -58,9 +78,14 @@ let HeaderComponent = {
     renderOverlayNav() {
         const el = document.getElementById('navOverlayContent');
         if (!el) return;
-        el.innerHTML = (config_const.DATA?.NAV_ITEMS || []).map(item =>
-            `<a href="${item.href}" data-i="${item.key}">${LangService.get(item.key)}</a>`
-        ).join('');
+        const currentPage = window.location.pathname.split('/').pop().replace('.html','') || 'index';
+        el.innerHTML = (config_const.DATA?.NAV_ITEMS || []).map(item => {
+            // Match current page to nav item href
+            const isActive = item.href.replace('/', '').replace('.html','') === currentPage
+                || (currentPage === '' && item.href === '/');
+            return `<a href="${item.href}" data-i="${item.key}"
+                class="${isActive ? 'active' : ''}">${LangService.get(item.key)}</a>`;
+        }).join('');
     },
 
     renderOverlayPlatforms() {
@@ -71,6 +96,15 @@ let HeaderComponent = {
             `<a href="${p.url}" target="_blank" rel="noopener" aria-label="${p.key}">
                 ${this.getPlatformSVG(p.key)}</a>`
         ).join('');
+    },
+
+    markCurrentPage() {
+        // Also mark desktop nav
+        const currentPage = window.location.pathname.split('/').pop().replace('.html','') || 'index';
+        document.querySelectorAll('#nav a').forEach(a => {
+            const match = a.getAttribute('href')?.replace('/', '').replace('.html','');
+            if (match === currentPage) a.classList.add('active');
+        });
     },
 
     async initLang() {
@@ -86,7 +120,7 @@ let HeaderComponent = {
         const burger  = document.getElementById('hamburger');
         const overlay = document.getElementById('navOverlay');
         const bd      = document.getElementById('nav-backdrop');
-        const close   = document.getElementById('nav-overlay-close');
+        const closeBtn = document.getElementById('nav-overlay-close');
         if (!burger || !overlay) return;
 
         const open = () => {
@@ -96,8 +130,9 @@ let HeaderComponent = {
             burger.setAttribute('aria-expanded', 'true');
             bd?.classList.add('visible');
             document.body.style.overflow = 'hidden';
-            setTimeout(() => close?.focus(), 50);
+            setTimeout(() => closeBtn?.focus(), 50);
         };
+
         const shut = () => {
             overlay.setAttribute('inert', '');
             overlay.classList.remove('open');
@@ -109,9 +144,11 @@ let HeaderComponent = {
         };
 
         burger.addEventListener('click', open);
-        close?.addEventListener('click', shut);
+        closeBtn?.addEventListener('click', shut);
         bd?.addEventListener('click', shut);
-        overlay.querySelectorAll('#navOverlayContent a').forEach(a => a.addEventListener('click', shut));
+        overlay.querySelectorAll('#navOverlayContent a').forEach(a =>
+            a.addEventListener('click', shut)
+        );
         document.addEventListener('keydown', e => { if (e.key === 'Escape') shut(); });
     },
 
