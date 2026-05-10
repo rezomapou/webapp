@@ -1,49 +1,48 @@
 /**
- * docblock.js — Generic Document Block Component
- * Renders any content passed via pageConfig.content
- * Content keys map to langservice dictionary
+ * docblock.js — Generic Document Block
+ * Renders legal/doc content from langservice keys
+ * contentKey: 'terms' | 'privacy' | 'copyright'
  */
-
 let DocBlockComponent = {
 
     CONTENT: {
-        'docs/terms': {
+        terms: {
             titleKey: 'doc_terms_title',
             metaKey:  'doc_terms_meta',
             sections: [
-                { heading: 'doc_terms_h1', body: 'doc_terms_p1' },
-                { heading: 'doc_terms_h2', body: 'doc_terms_p2' },
-                { heading: 'doc_terms_h3', body: 'doc_terms_p3' },
-                { heading: 'doc_terms_h4', body: 'doc_terms_p4' },
-                { heading: 'doc_terms_h5', body: 'doc_terms_p5' },
-                { heading: 'doc_terms_h6', body: 'doc_terms_p6' },
-                { heading: 'doc_terms_h7', body: 'doc_terms_p7' },
-                { heading: 'doc_terms_h8', body: 'doc_terms_p8' }
+                { h: 'doc_terms_h1', p: 'doc_terms_p1' },
+                { h: 'doc_terms_h2', p: 'doc_terms_p2' },
+                { h: 'doc_terms_h3', p: 'doc_terms_p3' },
+                { h: 'doc_terms_h4', p: 'doc_terms_p4' },
+                { h: 'doc_terms_h5', p: 'doc_terms_p5' },
+                { h: 'doc_terms_h6', p: 'doc_terms_p6' },
+                { h: 'doc_terms_h7', p: 'doc_terms_p7' },
+                { h: 'doc_terms_h8', p: 'doc_terms_p8' }
             ]
         },
-        'docs/privacy': {
+        privacy: {
             titleKey: 'doc_privacy_title',
             metaKey:  'doc_privacy_meta',
             sections: [
-                { heading: 'doc_privacy_h1', body: 'doc_privacy_p1' },
-                { heading: 'doc_privacy_h2', body: 'doc_privacy_p2' },
-                { heading: 'doc_privacy_h3', body: 'doc_privacy_p3' },
-                { heading: 'doc_privacy_h4', body: 'doc_privacy_p4' },
-                { heading: 'doc_privacy_h5', body: 'doc_privacy_p5' },
-                { heading: 'doc_privacy_h6', body: 'doc_privacy_p6' },
-                { heading: 'doc_privacy_h7', body: 'doc_privacy_p7' }
+                { h: 'doc_privacy_h1', p: 'doc_privacy_p1' },
+                { h: 'doc_privacy_h2', p: 'doc_privacy_p2' },
+                { h: 'doc_privacy_h3', p: 'doc_privacy_p3' },
+                { h: 'doc_privacy_h4', p: 'doc_privacy_p4' },
+                { h: 'doc_privacy_h5', p: 'doc_privacy_p5' },
+                { h: 'doc_privacy_h6', p: 'doc_privacy_p6' },
+                { h: 'doc_privacy_h7', p: 'doc_privacy_p7' }
             ]
         },
-        'docs/copyright': {
+        copyright: {
             titleKey: 'doc_copyright_title',
             metaKey:  'doc_copyright_meta',
             sections: [
-                { heading: 'doc_copyright_h1', body: 'doc_copyright_p1' },
-                { heading: 'doc_copyright_h2', body: 'doc_copyright_p2' },
-                { heading: 'doc_copyright_h3', body: 'doc_copyright_p3' },
-                { heading: 'doc_copyright_h4', body: 'doc_copyright_p4' },
-                { heading: 'doc_copyright_h5', body: 'doc_copyright_p5' },
-                { heading: 'doc_copyright_h6', body: 'doc_copyright_p6' }
+                { h: 'doc_copyright_h1', p: 'doc_copyright_p1' },
+                { h: 'doc_copyright_h2', p: 'doc_copyright_p2' },
+                { h: 'doc_copyright_h3', p: 'doc_copyright_p3' },
+                { h: 'doc_copyright_h4', p: 'doc_copyright_p4' },
+                { h: 'doc_copyright_h5', p: 'doc_copyright_p5' },
+                { h: 'doc_copyright_h6', p: 'doc_copyright_p6' }
             ]
         }
     },
@@ -52,30 +51,31 @@ let DocBlockComponent = {
         const container = document.getElementById(containerId);
         if (!container) { console.warn('DocBlock container missing'); return; }
 
-        const def = this.CONTENT[contentKey];
+        // Strip any path prefix — accept 'terms' or 'docs/terms'
+        const key = contentKey?.split('/').pop();
+        const def = this.CONTENT[key];
+
         if (!def) {
             container.innerHTML = `<div class="doc-block container-narrow page-content">
-                <p>Document not found: ${contentKey}</p>
+                <p style="color:var(--muted);padding:3rem 0;">Document non disponible: ${key}</p>
             </div>`;
             return;
         }
 
-        const title = LangService.get(def.titleKey);
-        const meta  = LangService.get(def.metaKey);
-
-        const sections = def.sections.map(s => `
-            <h2>${LangService.get(s.heading)}</h2>
-            <p>${LangService.get(s.body)}</p>
-        `).join('');
+        const get = (k) => LangService.get(k) || k;
+        const sections = def.sections.map(s =>
+            `<h2>${get(s.h)}</h2><p>${get(s.p)}</p>`
+        ).join('');
 
         container.innerHTML = `
             <article class="doc-block container-narrow page-content">
-                <h1>${title}</h1>
-                <div class="doc-meta">${meta}</div>
+                <div class="eyebrow">Legal</div>
+                <h1>${get(def.titleKey)}</h1>
+                <div class="doc-meta">${get(def.metaKey)}</div>
                 ${sections}
             </article>`;
 
-        console.log("DocBlockComponent initialized:", contentKey);
+        console.log("DocBlockComponent initialized:", key);
     }
 };
 
