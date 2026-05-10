@@ -1,23 +1,47 @@
 <div class="contact-wrap container-narrow page-content">
     <div class="eyebrow" data-i="nav_contact"></div>
-    <h1 data-i="contact_title">Kontakte nou</h1>
+    <h1 data-i="contact_title"></h1>
     <p class="contact-lead" data-i="contact_lead"></p>
 
-    <div class="contact-grid">
-        <div class="contact-card">
-            <div class="contact-icon">📞</div>
-            <div class="contact-label" data-i="contact_phone">Telefòn</div>
-            <a class="contact-value" id="contact-phone" href="#"></a>
-        </div>
-        <div class="contact-card">
-            <div class="contact-icon">💬</div>
-            <div class="contact-label">WhatsApp</div>
-            <a class="contact-value" id="contact-whatsapp" href="#" target="_blank"></a>
-        </div>
-        <div class="contact-card">
-            <div class="contact-icon">📧</div>
-            <div class="contact-label" data-i="contact_email">Imèl</div>
-            <div id="contact-emails"></div>
-        </div>
+    <div class="contact-channels">
+        <a class="contact-channel" id="contact-phone" href="#">
+            <span class="channel-icon">📞</span>
+            <span class="channel-label" data-i="contact_phone"></span>
+            <span class="channel-value" id="phone-val"></span>
+        </a>
+        <a class="contact-channel" id="contact-whatsapp" href="#" target="_blank" rel="noopener">
+            <span class="channel-icon">💬</span>
+            <span class="channel-label">WhatsApp</span>
+            <span class="channel-value" id="wa-val"></span>
+        </a>
+    </div>
+
+    <div class="card mt-2">
+        <h2 class="card-title" data-i="contact_form_title">Voye yon mesaj</h2>
+        <form id="contact-form">
+            <div class="form-group">
+                <label data-i="f_firstname"></label>
+                <input type="text" id="ct-name" required>
+            </div>
+            <div class="form-group">
+                <label data-i="f_email"></label>
+                <input type="email" id="ct-email" required>
+            </div>
+            <div class="form-group">
+                <label data-i="contact_subject"></label>
+                <select id="ct-subject">
+                    <option value="" data-i="contact_subject_ph"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label data-i="contact_message"></label>
+                <textarea id="ct-message" rows="4" required></textarea>
+            </div>
+            <div class="alert hidden" id="ct-error"></div>
+            <div class="alert alert-success hidden" id="ct-success"></div>
+            <button type="submit" class="btn btn-gold btn-full mt-1" id="ct-submit">
+                <span data-i="contact_send"></span>
+            </button>
+        </form>
     </div>
 </div>
