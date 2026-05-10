@@ -2,22 +2,26 @@ const FeaturesComponent = {
 
     init(containerId) {
         const container = document.getElementById(containerId);
-        if (!container) { console.warn('Features container not found:', containerId); return; }
+        if (!container) { console.warn('Features container not found'); return; }
 
-        // Use requestAnimationFrame to ensure DOM is fully rendered before applying lang
-        requestAnimationFrame(() => {
-            this.applyLang(container);
-            this.initTabs(container);
-            this.bindCTA(container);
-        });
+        // Apply lang immediately — synchronous
+        this.applyLang(container);
 
+        // Also apply after a tick in case any HTML was lazy-inserted
+        setTimeout(() => this.applyLang(container), 0);
+
+        this.initTabs(container);
+        this.bindCTA(container);
         console.log("FeaturesComponent initialized.");
     },
 
     applyLang(container) {
+        const lang = LangService.currentLang;
         container.querySelectorAll('[data-i]').forEach(el => {
             const key = el.getAttribute('data-i');
-            const val = LangService.get(key);
+            // Get from dictionary directly to avoid any caching issues
+            const dict = LangService.dictionary?.[lang] || LangService.dictionary?.ht;
+            const val  = (dict && dict[key]) ? dict[key] : LangService.get(key);
             if (val) el.textContent = val;
         });
     },
@@ -43,7 +47,7 @@ const FeaturesComponent = {
                 const tab   = container.querySelector('.ftab[data-tab="program"]');
                 const panel = container.querySelector('#ftab-program');
                 if (tab)   tab.classList.add('active');
-                if (panel) { panel.classList.add('active'); panel.scrollIntoView({ behavior: 'smooth' }); }
+                if (panel) { panel.classList.add('active'); panel.scrollIntoView({behavior:'smooth'}); }
             });
         });
     }
