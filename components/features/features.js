@@ -4,26 +4,12 @@ const FeaturesComponent = {
         const container = document.getElementById(containerId);
         if (!container) { console.warn('Features container not found:', containerId); return; }
 
-        // Apply lang FIRST — fills all empty data-i elements before anything renders
-        this.applyLang(container);
-
-        // Wire tabs
-        this.initTabs(container);
-
-        // Fix CTA "How it works" button — activates program tab
-        const cta = container.querySelector('a[href="#ftab-program"], .feat-btn-outline');
-        if (cta) {
-            cta.addEventListener('click', (e) => {
-                e.preventDefault();
-                container.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-                container.querySelectorAll('.ftab-content').forEach(p => p.classList.remove('active'));
-                const tab   = container.querySelector('.ftab[data-tab="program"]');
-                const panel = container.querySelector('#ftab-program');
-                if (tab)   tab.classList.add('active');
-                if (panel) panel.classList.add('active');
-                panel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        }
+        // Use requestAnimationFrame to ensure DOM is fully rendered before applying lang
+        requestAnimationFrame(() => {
+            this.applyLang(container);
+            this.initTabs(container);
+            this.bindCTA(container);
+        });
 
         console.log("FeaturesComponent initialized.");
     },
@@ -44,6 +30,20 @@ const FeaturesComponent = {
                 tab.classList.add('active');
                 const panel = container.querySelector('#ftab-' + tab.getAttribute('data-tab'));
                 if (panel) panel.classList.add('active');
+            });
+        });
+    },
+
+    bindCTA(container) {
+        container.querySelectorAll('.feat-btn-outline').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                container.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+                container.querySelectorAll('.ftab-content').forEach(p => p.classList.remove('active'));
+                const tab   = container.querySelector('.ftab[data-tab="program"]');
+                const panel = container.querySelector('#ftab-program');
+                if (tab)   tab.classList.add('active');
+                if (panel) { panel.classList.add('active'); panel.scrollIntoView({ behavior: 'smooth' }); }
             });
         });
     }
