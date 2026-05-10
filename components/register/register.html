@@ -1,16 +1,105 @@
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rezo Mapou Nasyonal</title>
-    <link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
-    <div id="loader-container"></div>
-    <main id="main-content"></main>
-    <script src="codes/config.js"></script>
-    <script src="codes/strings.js"></script>
-    <script src="codes/boot.js"></script>
-</body>
-</html>
+<div class="register-wrap container-narrow page-content">
+    <div class="eyebrow" data-i="nav_register"></div>
+    <h1 data-i="reg_title"></h1>
+    <p class="register-lead" data-i="reg_subtitle"></p>
+
+    <div class="card mt-2">
+        <form id="register-form" novalidate>
+
+            <!-- Honeypot -->
+            <div style="position:absolute;left:-9999px;top:-9999px;">
+                <input type="text" name="full_name_hp" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="fsec" data-i="f_sect_identity"></div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label data-i="f_firstname"></label>
+                    <input type="text" name="prenom" id="reg-prenom" required>
+                </div>
+                <div class="form-group">
+                    <label data-i="f_lastname"></label>
+                    <input type="text" name="nom" id="reg-nom" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label data-i="reg_gender"></label>
+                    <select name="genre" id="reg-genre">
+                        <option value="">—</option>
+                        <option value="F" data-i="gender_f">Fanm</option>
+                        <option value="M" data-i="gender_m">Gason</option>
+                        <option value="X" data-i="gender_x">Lòt</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i="f_lang"></label>
+                    <select name="langue" id="reg-lang">
+                        <option value="ht">Kreyòl</option>
+                        <option value="fr">Français</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label data-i="f_email"></label>
+                <input type="email" name="email" id="reg-email" required>
+            </div>
+
+            <div class="form-group">
+                <label data-i="f_phone"></label>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span id="phone-prefix" style="font-size:0.9rem;color:var(--muted);white-space:nowrap;">+509</span>
+                    <input type="tel" name="phone" id="reg-phone" required style="flex:1;">
+                </div>
+                <div class="field-feedback" id="phone-msg"></div>
+            </div>
+
+            <div class="fsec" data-i="f_sect_location"></div>
+            <div class="form-group">
+                <label data-i="f_country"></label>
+                <select name="country" id="reg-country" required></select>
+            </div>
+            <div id="haiti-fields" style="display:none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-i="f_dept"></label>
+                        <select name="departement" id="reg-dept"></select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i="f_commune"></label>
+                        <select name="commune" id="reg-commune"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="diaspora-fields" style="display:none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-i="f_city"></label>
+                        <input type="text" name="city" id="reg-city">
+                    </div>
+                    <div class="form-group">
+                        <label data-i="f_state"></label>
+                        <input type="text" name="state" id="reg-state">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-2">
+                <div class="fcheck">
+                    <input type="checkbox" id="reg-terms" required>
+                    <label for="reg-terms" data-i="f_terms_consent"></label>
+                </div>
+            </div>
+
+            <div class="alert hidden mt-1" id="reg-error"></div>
+            <div class="alert alert-success hidden mt-1" id="reg-success"></div>
+
+            <button type="submit" class="btn btn-gold btn-full btn-lg mt-2" id="reg-submit" disabled>
+                <span data-i="f_submit"></span>
+            </button>
+
+        </form>
+    </div>
+</div>
