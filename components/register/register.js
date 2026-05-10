@@ -1,5 +1,4 @@
-
-         /**
+/**
  * register.js — Registration Component
  * HAITI and DIASPORA_COUNTRIES come from strings.js (already loaded)
  */
