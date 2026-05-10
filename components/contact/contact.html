@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rezo Mapou Nasyonal</title>
-    <link rel="stylesheet" href="styles/style.css">
-</head>
-<body>
-    <div id="loader-container"></div>
-    <main id="main-content"></main>
-    <script src="codes/config.js"></script>
-    <script src="codes/strings.js"></script>
-    <script src="codes/boot.js"></script>
-</body>
-</html>
+<div class="contact-wrap container-narrow page-content">
+    <div class="eyebrow" data-i="nav_contact"></div>
+    <h1 data-i="contact_title">Kontakte nou</h1>
+    <p class="contact-lead" data-i="contact_lead"></p>
+
+    <div class="contact-grid">
+        <div class="contact-card">
+            <div class="contact-icon">📞</div>
+            <div class="contact-label" data-i="contact_phone">Telefòn</div>
+            <a class="contact-value" id="contact-phone" href="#"></a>
+        </div>
+        <div class="contact-card">
+            <div class="contact-icon">💬</div>
+            <div class="contact-label">WhatsApp</div>
+            <a class="contact-value" id="contact-whatsapp" href="#" target="_blank"></a>
+        </div>
+        <div class="contact-card">
+            <div class="contact-icon">📧</div>
+            <div class="contact-label" data-i="contact_email">Imèl</div>
+            <div id="contact-emails"></div>
+        </div>
+    </div>
+</div>
