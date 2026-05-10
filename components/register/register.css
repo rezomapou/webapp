@@ -1,0 +1,15 @@
+.register-wrap { padding-top: 2.5rem; padding-bottom: 4rem; }
+.register-lead { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; font-weight: 300; }
+.fsec {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-dark, #8B6914);
+    margin: 1.5rem 0 0.65rem;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+}
+.fcheck { display: flex; gap: 10px; align-items: flex-start; }
+.fcheck input { margin-top: 3px; flex-shrink: 0; accent-color: var(--forest); }
+.fcheck label { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
