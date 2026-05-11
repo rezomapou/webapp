@@ -7,10 +7,9 @@
         <form id="register-form" novalidate>
 
             <!-- Honeypot -->
-            <div style="position:absolute;left:-9999px;top:-9999px;">
-                <input type="text" name="full_name_hp" tabindex="-1" autocomplete="off">
-            </div>
+            <div style="position:absolute;left:-9999px;"><input type="text" name="hp_name" tabindex="-1" autocomplete="off"></div>
 
+            <!-- Identity -->
             <div class="fsec" data-i="f_sect_identity"></div>
             <div class="form-row">
                 <div class="form-group">
@@ -27,9 +26,9 @@
                     <label data-i="reg_gender"></label>
                     <select name="genre" id="reg-genre">
                         <option value="">—</option>
-                        <option value="F" data-i="gender_f">Fanm</option>
-                        <option value="M" data-i="gender_m">Gason</option>
-                        <option value="X" data-i="gender_x">Lòt</option>
+                        <option value="F" data-i="gender_f"></option>
+                        <option value="M" data-i="gender_m"></option>
+                        <option value="X" data-i="gender_x"></option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -42,20 +41,24 @@
                 </div>
             </div>
 
+            <!-- Email -->
             <div class="form-group">
                 <label data-i="f_email"></label>
-                <input type="email" name="email" id="reg-email" required>
+                <input type="email" name="email" id="reg-email" required autocomplete="email">
+                <div class="field-feedback" id="email-feedback"></div>
             </div>
 
+            <!-- Phone -->
             <div class="form-group">
                 <label data-i="f_phone"></label>
                 <div style="display:flex;gap:8px;align-items:center;">
-                    <span id="phone-prefix" style="font-size:0.9rem;color:var(--muted);white-space:nowrap;">+509</span>
-                    <input type="tel" name="phone" id="reg-phone" required style="flex:1;">
+                    <span id="phone-prefix" style="font-size:0.9rem;color:var(--muted);white-space:nowrap;min-width:40px;">+509</span>
+                    <input type="tel" name="phone" id="reg-phone" required style="flex:1;" autocomplete="tel">
                 </div>
-                <div class="field-feedback" id="phone-msg"></div>
+                <div class="field-feedback" id="phone-feedback"></div>
             </div>
 
+            <!-- Location -->
             <div class="fsec" data-i="f_sect_location"></div>
             <div class="form-group">
                 <label data-i="f_country"></label>
@@ -65,11 +68,15 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label data-i="f_dept"></label>
-                        <select name="departement" id="reg-dept"></select>
+                        <select name="departement" id="reg-dept">
+                            <option value="">—</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label data-i="f_commune"></label>
-                        <select name="commune" id="reg-commune"></select>
+                        <select name="commune" id="reg-commune">
+                            <option value="">—</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -86,6 +93,51 @@
                 </div>
             </div>
 
+            <!-- Payment -->
+            <div class="fsec" data-i="f_sect_payment"></div>
+            <div class="form-group">
+                <label data-i="f_payment_hint"></label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label style="font-size:0.8rem;">
+                            <input type="radio" name="payment_type" value="moncash">
+                            <span data-i="pay_moncash"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.8rem;">
+                            <input type="radio" name="payment_type" value="natcash">
+                            <span data-i="pay_natcash"></span>
+                        </label>
+                    </div>
+                </div>
+                <input type="text" name="payment_number" id="reg-payment" placeholder="8 chif" maxlength="8" style="margin-top:0.5rem;">
+            </div>
+
+            <!-- Social -->
+            <div class="fsec" data-i="f_sect_social"></div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Facebook</label>
+                    <input type="url" name="facebook" placeholder="facebook.com/...">
+                </div>
+                <div class="form-group">
+                    <label>Instagram</label>
+                    <input type="url" name="instagram" placeholder="instagram.com/...">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>TikTok</label>
+                    <input type="url" name="tiktok" placeholder="tiktok.com/@...">
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp</label>
+                    <input type="tel" name="whatsapp" placeholder="+509...">
+                </div>
+            </div>
+
+            <!-- Terms -->
             <div class="form-group mt-2">
                 <div class="fcheck">
                     <input type="checkbox" id="reg-terms" required>
@@ -93,13 +145,12 @@
                 </div>
             </div>
 
-            <div class="alert hidden mt-1" id="reg-error"></div>
-            <div class="alert alert-success hidden mt-1" id="reg-success"></div>
+            <div class="alert hidden" id="reg-error"></div>
+            <div class="alert alert-success hidden" id="reg-success"></div>
 
             <button type="submit" class="btn btn-gold btn-full btn-lg mt-2" id="reg-submit" disabled>
                 <span data-i="f_submit"></span>
             </button>
-
         </form>
     </div>
 </div>
