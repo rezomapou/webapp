@@ -1,8 +1,9 @@
 /**
- * register.js — Registration Component
- * HAITI and DIASPORA_COUNTRIES come from strings.js (already loaded)
+ * register.js — Registration with email/phone uniqueness check
  */
 let RegisterComponent = {
+
+    _checkTimer: null,
 
     async init(containerId) {
         const container = document.getElementById(containerId);
@@ -11,8 +12,14 @@ let RegisterComponent = {
         this.applyLang(container);
         this.buildCountries(container);
 
-        const countryEl = container.querySelector('#reg-country');
-        countryEl?.addEventListener('change', () => this.onCountryChange(container));
+        container.querySelector('#reg-country')
+            ?.addEventListener('change', () => this.onCountryChange(container));
+
+        // Uniqueness checks with debounce
+        container.querySelector('#reg-email')
+            ?.addEventListener('blur', () => this.checkUnique(container, 'email'));
+        container.querySelector('#reg-phone')
+            ?.addEventListener('blur', () => this.checkUnique(container, 'phone'));
 
         this.wireValidation(container);
         container.querySelector('#register-form')
@@ -23,10 +30,11 @@ let RegisterComponent = {
 
     applyLang(container) {
         container.querySelectorAll('[data-i]').forEach(el => {
-            const val = LangService.get(el.getAttribute('data-i'));
+            const key  = el.getAttribute('data-i');
+            const dict = LangService.dictionary?.[LangService.currentLang] || {};
+            const val  = dict[key] || LangService.get(key);
             if (val) el.textContent = val;
         });
-        // Set lang select to current lang
         const langEl = container.querySelector('#reg-lang');
         if (langEl) langEl.value = LangService.currentLang;
     },
@@ -34,12 +42,9 @@ let RegisterComponent = {
     buildCountries(container) {
         const sel = container.querySelector('#reg-country');
         if (!sel) return;
-
-        // DIASPORA_COUNTRIES is defined in strings.js — always available
         const countries = (typeof DIASPORA_COUNTRIES !== 'undefined')
             ? DIASPORA_COUNTRIES
-            : ['Haïti', 'États-Unis / USA', 'Canada', 'France', 'République Dominicaine'];
-
+            : ['Haïti','États-Unis / USA','Canada','France','République Dominicaine'];
         sel.innerHTML = `<option value="">— ${LangService.get('f_country')} —</option>` +
             countries.map(c => `<option value="${c}">${c}</option>`).join('');
     },
@@ -47,10 +52,8 @@ let RegisterComponent = {
     onCountryChange(container) {
         const val     = container.querySelector('#reg-country')?.value;
         const isHaiti = val === 'Haïti';
-
         container.querySelector('#haiti-fields').style.display    = isHaiti ? 'block' : 'none';
         container.querySelector('#diaspora-fields').style.display = isHaiti ? 'none'  : 'block';
-
         const prefix = container.querySelector('#phone-prefix');
         if (prefix) prefix.textContent = isHaiti ? '+509' : '';
 
@@ -58,7 +61,6 @@ let RegisterComponent = {
             const deptSel = container.querySelector('#reg-dept');
             deptSel.innerHTML = `<option value="">— ${LangService.get('f_dept')} —</option>` +
                 Object.keys(HAITI).sort().map(d => `<option value="${d}">${d}</option>`).join('');
-
             deptSel.addEventListener('change', () => {
                 const communes = HAITI[deptSel.value] || [];
                 const commSel  = container.querySelector('#reg-commune');
@@ -68,50 +70,85 @@ let RegisterComponent = {
         }
     },
 
+    async checkUnique(container, field) {
+        const input    = container.querySelector('#reg-' + field);
+        const feedback = container.querySelector('#' + field + '-feedback');
+        if (!input || !feedback || !input.value.trim()) return;
+
+        feedback.textContent = LangService.get('f_checking');
+        feedback.className   = 'field-feedback info';
+
+        try {
+            const url = config_const.SCRIPT_URL +
+                '?action=check_unique&field=' + field +
+                '&value=' + encodeURIComponent(input.value.trim()) +
+                '&t=' + Date.now();
+            const res  = await fetch(url);
+            const data = await res.json();
+
+            if (data.exists) {
+                feedback.textContent = LangService.get('f_' + field + '_exists');
+                feedback.className   = 'field-feedback error';
+                input.classList.add('input-error');
+            } else {
+                feedback.textContent = LangService.get('f_' + field + '_ok');
+                feedback.className   = 'field-feedback ok';
+                input.classList.remove('input-error');
+            }
+        } catch(e) {
+            // Network error — allow form to proceed, GAS will validate
+            feedback.textContent = '';
+        }
+        this.wireValidation(container);
+    },
+
     wireValidation(container) {
         const submit = container.querySelector('#reg-submit');
         const terms  = container.querySelector('#reg-terms');
         if (!submit) return;
 
-        const check = () => {
-            const ok = ['#reg-prenom','#reg-nom','#reg-email','#reg-phone','#reg-country']
-                .every(sel => container.querySelector(sel)?.value.trim()) && terms?.checked;
-            submit.disabled = !ok;
-        };
-
-        container.querySelector('#register-form')
-            ?.querySelectorAll('input, select')
-            .forEach(el => el.addEventListener('input', check));
-        terms?.addEventListener('change', check);
+        const hasError = container.querySelector('#email-feedback.error, #phone-feedback.error');
+        const required = ['#reg-prenom','#reg-nom','#reg-email','#reg-phone','#reg-country']
+            .every(s => container.querySelector(s)?.value.trim());
+        submit.disabled = !(required && terms?.checked && !hasError);
     },
 
     async onSubmit(e, container) {
         e.preventDefault();
-        const submit = container.querySelector('#reg-submit span');
+        const submitBtn = container.querySelector('#reg-submit');
+        const submitSpan = submitBtn.querySelector('span');
         const errEl  = container.querySelector('#reg-error');
         const succEl = container.querySelector('#reg-success');
         const form   = container.querySelector('#register-form');
 
-        if (submit) submit.textContent = LangService.get('f_submitting');
-        container.querySelector('#reg-submit').disabled = true;
-        errEl.classList.add('hidden');
+        submitBtn.disabled = true;
+        if (submitSpan) submitSpan.textContent = LangService.get('f_submitting');
 
-        const country = container.querySelector('#reg-country')?.value;
-        const isHaiti = country === 'Haïti';
-        const phone   = (isHaiti ? '+509' : '') +
-            container.querySelector('#reg-phone')?.value.trim().replace(/\D/g,'');
+        const country  = container.querySelector('#reg-country')?.value;
+        const isHaiti  = country === 'Haïti';
+        const rawPhone = container.querySelector('#reg-phone')?.value.trim().replace(/\D/g,'');
+        const phone    = (isHaiti ? '+509' : '') + rawPhone;
+
+        const payType = container.querySelector('[name="payment_type"]:checked')?.value || '';
+        const payNum  = container.querySelector('#reg-payment')?.value.trim() || '';
 
         const data = {
-            action:  'register',
-            prenom:  container.querySelector('#reg-prenom')?.value.trim(),
-            nom:     container.querySelector('#reg-nom')?.value.trim(),
-            genre:   container.querySelector('#reg-genre')?.value,
-            email:   container.querySelector('#reg-email')?.value.trim(),
+            action:         'register',
+            prenom:         container.querySelector('#reg-prenom')?.value.trim(),
+            nom:            container.querySelector('#reg-nom')?.value.trim(),
+            genre:          container.querySelector('#reg-genre')?.value,
+            email:          container.querySelector('#reg-email')?.value.trim(),
             phone,
             country,
-            langue:  container.querySelector('#reg-lang')?.value || LangService.currentLang,
-            source:  'website',
-            is_real: 'true'
+            langue:         container.querySelector('#reg-lang')?.value || LangService.currentLang,
+            payment_type:   payType,
+            payment_number: payNum,
+            facebook:       container.querySelector('[name="facebook"]')?.value.trim(),
+            instagram:      container.querySelector('[name="instagram"]')?.value.trim(),
+            tiktok:         container.querySelector('[name="tiktok"]')?.value.trim(),
+            whatsapp:       container.querySelector('[name="whatsapp"]')?.value.trim(),
+            source:         'website',
+            is_real:        'true'
         };
 
         if (isHaiti) {
@@ -124,20 +161,21 @@ let RegisterComponent = {
 
         try {
             const params = new URLSearchParams();
-            Object.entries(data).forEach(([k,v]) => params.append(k, v || ''));
+            Object.entries(data).forEach(([k,v]) => params.append(k, v||''));
             await fetch(config_const.SCRIPT_URL, { method:'POST', body:params, mode:'no-cors' });
 
             form.style.display = 'none';
-            succEl.className   = 'alert alert-success mt-1';
+            succEl.className   = 'alert alert-success';
             succEl.textContent = LangService.get('f_success');
             succEl.classList.remove('hidden');
+            window.Analytics?.track?.('registration', { country, langue: data.langue });
 
         } catch(err) {
-            errEl.className   = 'alert alert-error mt-1';
+            errEl.className   = 'alert alert-error';
             errEl.textContent = LangService.get('f_error');
             errEl.classList.remove('hidden');
-            container.querySelector('#reg-submit').disabled = false;
-            if (submit) submit.textContent = LangService.get('f_submit');
+            submitBtn.disabled = false;
+            if (submitSpan) submitSpan.textContent = LangService.get('f_submit');
         }
     }
 };
