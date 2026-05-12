@@ -2,13 +2,10 @@ const FeaturesComponent = {
 
     init(containerId) {
         const container = document.getElementById(containerId);
-        if (!container) { console.warn('Features container not found'); return; }
+        if (!container) return;
 
-        // Apply lang immediately — synchronous
+        // Apply immediately
         this.applyLang(container);
-
-        // Also apply after a tick in case any HTML was lazy-inserted
-        setTimeout(() => this.applyLang(container), 0);
 
         this.initTabs(container);
         this.bindCTA(container);
@@ -17,12 +14,14 @@ const FeaturesComponent = {
 
     applyLang(container) {
         const lang = LangService.currentLang;
+        const dict = LangService.dictionary?.[lang]
+                  || LangService.dictionary?.ht
+                  || {};
         container.querySelectorAll('[data-i]').forEach(el => {
             const key = el.getAttribute('data-i');
-            // Get from dictionary directly to avoid any caching issues
-            const dict = LangService.dictionary?.[lang] || LangService.dictionary?.ht;
-            const val  = (dict && dict[key]) ? dict[key] : LangService.get(key);
-            if (val) el.textContent = val;
+            const val = dict[key];
+            // Only set if we have an actual value (not undefined/null/empty)
+            if (val != null && val !== '') el.textContent = val;
         });
     },
 
