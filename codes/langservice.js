@@ -47,7 +47,7 @@ const LangService = {
             f_sect_payment: 'Peman (opsyonèl)',
             f_payment_hint: 'Nimewo kont pou resevwa peman',
             pay_moncash: 'MonCash', pay_natcash: 'NatCash',
-            f_sect_social: 'Rezo Sosyal (opsyonèl)'
+            f_sect_social: 'Rezo Sosyal (opsyonèl)',
             f_website: 'Sit web', f_success_title: 'Mèsi — ou nan rezo a!', f_whatsapp_exists: 'WhatsApp sa a deja enskri.', f_whatsapp_ok: 'WhatsApp disponib.',,
             doc_terms_title: 'Tèm Itilizasyon', doc_terms_meta: 'Avril 2026 · Rezo Mapou Nasyonal',
             doc_terms_h1: '1. Akseptasyon Tèm yo', doc_terms_p1: 'Lè ou itilize sit Rezo Mapou oswa enskri kòm manm, ou aksepte tèm sa yo.',
