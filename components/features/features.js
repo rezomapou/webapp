@@ -3,26 +3,28 @@ const FeaturesComponent = {
     init(containerId) {
         const container = document.getElementById(containerId);
         if (!container) return;
-
-        // Apply immediately
         this.applyLang(container);
-
         this.initTabs(container);
         this.bindCTA(container);
         console.log("FeaturesComponent initialized.");
     },
 
     applyLang(container) {
-        const lang = LangService.currentLang;
+        // Try current lang first, fall back to ht
+        const lang = LangService.currentLang || 'ht';
         const dict = LangService.dictionary?.[lang]
-                  || LangService.dictionary?.ht
+                  || LangService.dictionary?.['ht']
                   || {};
+        let filled = 0;
         container.querySelectorAll('[data-i]').forEach(el => {
             const key = el.getAttribute('data-i');
             const val = dict[key];
-            // Only set if we have an actual value (not undefined/null/empty)
-            if (val != null && val !== '') el.textContent = val;
+            if (val != null && val !== '') {
+                el.textContent = val;
+                filled++;
+            }
         });
+        console.log("FeaturesComponent applyLang: filled", filled, "elements in", lang);
     },
 
     initTabs(container) {
