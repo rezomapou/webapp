@@ -100,14 +100,18 @@
             <div class="fsec" data-i="f_sect_payment"></div>
             <div class="form-group">
                 <small class="hint" data-i="f_payment_hint"></small>
-                <div style="display:flex;gap:1.5rem;margin:0.5rem 0;">
+                <div style="display:flex;gap:1.5rem;margin:0.5rem 0;flex-wrap:wrap;">
                     <label style="display:flex;align-items:center;gap:6px;font-size:0.88rem;cursor:pointer;">
-                        <input type="radio" name="payment_type" value="moncash">
+                        <input type="radio" name="payment_type" value="moncash" id="pay-moncash">
                         <span data-i="pay_moncash"></span>
                     </label>
                     <label style="display:flex;align-items:center;gap:6px;font-size:0.88rem;cursor:pointer;">
-                        <input type="radio" name="payment_type" value="natcash">
+                        <input type="radio" name="payment_type" value="natcash" id="pay-natcash">
                         <span data-i="pay_natcash"></span>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:6px;font-size:0.88rem;cursor:pointer;color:var(--muted);">
+                        <input type="radio" name="payment_type" value="" id="pay-none">
+                        <span data-i="pay_none"></span>
                     </label>
                 </div>
                 <input type="text" name="payment_number" id="reg-payment" maxlength="8" style="max-width:180px;">
