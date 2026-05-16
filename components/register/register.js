@@ -114,10 +114,11 @@ let RegisterComponent = {
 
             // Use correct GAS endpoint: action=check_availability&type=phone|email&value=...
             // Phone/whatsapp: normalize with +509 prefix if Haiti
-            let checkType  = field === 'whatsapp' ? 'phone' : field; // GAS treats wa as phone
+            let checkType  = field === 'whatsapp' ? 'phone' : field;
             let checkValue = val;
             if ((field === 'phone' || field === 'whatsapp') && isHaiti) {
-                checkValue = '+509' + val.replace(/\D/g,'');
+                const digits = this._stripPrefix(val);
+                checkValue = '+509' + digits;
             }
 
             const url = config_const.SCRIPT_URL +
@@ -160,6 +161,14 @@ let RegisterComponent = {
             .every(s => container.querySelector(s)?.value.trim());
         const noErrors = this._state.emailOk !== false && this._state.phoneOk !== false;
         submit.disabled = !(required && terms?.checked && noErrors);
+    },
+
+
+    // Strip any existing +509 or 509 prefix so we don't double-add it
+    _stripPrefix(val) {
+        const digits = val.replace(/\D/g, '');
+        if (digits.startsWith('509') && digits.length > 8) return digits.slice(3);
+        return digits;
     },
 
     async onSubmit(e, container) {
