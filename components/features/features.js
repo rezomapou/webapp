@@ -3,28 +3,27 @@ const FeaturesComponent = {
     init(containerId) {
         const container = document.getElementById(containerId);
         if (!container) return;
+
+        // Immediate attempt
         this.applyLang(container);
+
+        // Deferred attempt — catches cases where dict wasn't ready yet
+        setTimeout(() => this.applyLang(container), 100);
+
         this.initTabs(container);
         this.bindCTA(container);
         console.log("FeaturesComponent initialized.");
     },
 
     applyLang(container) {
-        // Try current lang first, fall back to ht
         const lang = LangService.currentLang || 'ht';
         const dict = LangService.dictionary?.[lang]
                   || LangService.dictionary?.['ht']
                   || {};
-        let filled = 0;
         container.querySelectorAll('[data-i]').forEach(el => {
-            const key = el.getAttribute('data-i');
-            const val = dict[key];
-            if (val != null && val !== '') {
-                el.textContent = val;
-                filled++;
-            }
+            const val = dict[el.getAttribute('data-i')];
+            if (val != null && val !== '') el.textContent = val;
         });
-        console.log("FeaturesComponent applyLang: filled", filled, "elements in", lang);
     },
 
     initTabs(container) {
