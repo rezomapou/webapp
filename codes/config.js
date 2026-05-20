@@ -250,3 +250,5 @@ const CONFIG = {
   HEADER_FG:     '#FFFFFF',
   HEADER_WEIGHT: 'bold',
 };
+window.SITE_CONFIG  = SITE_CONFIG;
+window.config_const = SITE_CONFIG;
