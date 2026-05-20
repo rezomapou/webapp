@@ -5,7 +5,7 @@
 // Edit ONLY this file when changing sheet structure or rules.
 // ============================================================
 
-const CONFIG = {
+var SITE_CONFIG = SITE_CONFIG || {
 
   // ── SPREADSHEET ───────────────────────────────────────────
   SS_ID: '1-1C3v-hO7r_mACqQffAFUx0amXY1H9oJGbWRruz1JHw',
